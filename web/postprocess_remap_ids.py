@@ -2,9 +2,9 @@ import json
 import os
 import re
 
-for file in os.listdir("web/data"):
+for file in os.listdir("data"):
     print(file)
-    with open("web/data/" + file) as f:
+    with open("data/" + file) as f:
         data = json.load(f)
     
     # ID map
@@ -49,5 +49,5 @@ for file in os.listdir("web/data"):
             } for d in data["edges"]
         ], key=lambda x: (id_order_dict[x["to_node_id"]], id_order_dict[x["from_node_id"]]))
     }
-    with open("web/data/" + file, "w") as f:
+    with open("data/" + file, "w") as f:
         json.dump(new_data, f, indent=4)

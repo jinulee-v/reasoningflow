@@ -3,9 +3,8 @@ from pvsvg import Network
 import networkx as nx
 import numpy as np
 import textwrap
-from copy import deepcopy
 
-with open("web/static/labels.json", 'r', encoding='utf-8') as f:
+with open("static/labels.json", 'r', encoding='utf-8') as f:
     label_config = json.load(f)
     node_color_map = label_config["node_colors"]
     edge_color_map = label_config["edge_colors"]
@@ -150,7 +149,7 @@ def draw_graph(data):
     
 #     return graph
 
-FILE = "web/data/math_0_QwQ-32B-Preview_long_correct.json"
+FILE = "data/math_0_QwQ-32B-Preview_long_correct.json"
 with open(FILE, 'r', encoding='utf-8') as f:
     data = json.load(f)
     graph = draw_graph(data)  # Call the function to draw the graph

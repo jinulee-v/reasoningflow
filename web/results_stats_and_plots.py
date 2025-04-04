@@ -33,17 +33,17 @@ def graph_merge_same_unit(graph):
     # remove same_unit edge
     graph['edges'] = [edge for edge in graph['edges'] if edge['label'] != 'same_unit']
 
-with open("web/static/labels.json", 'r', encoding='utf-8') as f:
+with open("static/labels.json", 'r', encoding='utf-8') as f:
     label_config = json.load(f)
     node_color_map = label_config["node_colors"]
     edge_color_map = label_config["edge_colors"]
 
 node_valid_data = []
 edge_valid_data = []
-for filename in os.listdir('web/data'):
+for filename in os.listdir('data'):
     if not filename.endswith('.json'):
         continue
-    with open(os.path.join('web/data', filename), 'r', encoding='utf-8') as f:
+    with open(os.path.join('data', filename), 'r', encoding='utf-8') as f:
         data = json.load(f)
         graph_merge_same_unit(data)
         node_valid = True
