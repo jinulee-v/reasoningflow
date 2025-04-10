@@ -149,7 +149,7 @@ def draw_graph(data):
     
 #     return graph
 
-FILE = "data/math_0_QwQ-32B-Preview_long_correct.json"
+FILE = "data/physics_19_QwQ-32B-Preview_long_correct.json"
 with open(FILE, 'r', encoding='utf-8') as f:
     data = json.load(f)
     graph = draw_graph(data)  # Call the function to draw the graph
