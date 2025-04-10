@@ -23,6 +23,10 @@ def reorganize_doc(doc):# reindex
             f"Mismatch in text for node {node['id']}: expected '{doc['raw_text'][node['source']][node['start']:node['end']]}' but got '{node['text']}'"
         id_order_dict[id_map[node["id"]]] = i
     
+    for source in doc["raw_text"].keys():
+        assert "".join([node["text"] for node in doc["nodes"] if node["source"] == source]) == doc["raw_text"][source], \
+            f"Mismatch in raw_text for source '{source}'"
+
     # Reorder data
     new_data = {
         "doc_id": doc["doc_id"],
