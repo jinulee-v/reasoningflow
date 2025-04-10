@@ -36,6 +36,7 @@ for filename in os.listdir('data'):
 print("-" * 20)
 print(f"Node valid data: {len(node_valid_data)}")
 print(f"Edge valid data: {len(edge_valid_data)}")
+print(Counter([data['metadata']['domain'] for data in edge_valid_data]))
 
 # Node label stats
 node_labels = {n:0 for n in node_color_map.keys()}

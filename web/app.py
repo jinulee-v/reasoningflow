@@ -50,7 +50,7 @@ def reorganize_doc(doc):# reindex
                 "to_node_id": id_map.get(d["to_node_id"], ""),
                 "label": d["label"]
             } for d in doc["edges"]
-        ], key=lambda x: (id_order_dict.get(x["to_node_id"], ""), id_order_dict.get(x["from_node_id"], "")))
+        ], key=lambda x: (id_order_dict.get(x["to_node_id"], -1), id_order_dict.get(x["from_node_id"], -1)))
     }
     return new_data
 
