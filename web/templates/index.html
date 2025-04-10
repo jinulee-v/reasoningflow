@@ -206,7 +206,81 @@
                         edgesContainer.insertBefore(edgeElement, addEdgeBtn);
                     });
                     edgesContainer.appendChild(addEdgeBtn);
+
+                    // Split button
+                    const splitBtn = document.createElement('button');
+                    splitBtn.textContent = 'Split';
+                    splitBtn.className = 'btn';
+                    splitBtn.addEventListener('click', () => {
+                        // generate a textarea with label as pre-inputted text
+                        const splitText = document.createElement('textarea');
+                        splitText.value = node.text;
+                        splitText.style.width = '100%';
+                        splitText.style.height = 'auto';
+                        splitText.style.overflowY = 'hidden';
+                        splitText.addEventListener('input', () => {
+                            splitText.style.height = 'auto';
+                            splitText.style.height = `${splitText.scrollHeight}px`;
+                        });
+                        // add a save button
+                        const saveSplitBtn = document.createElement('button');
+                        saveSplitBtn.textContent = 'Save';
+                        saveSplitBtn.className = 'btn';
+                        saveSplitBtn.addEventListener('click', () => {
+                            // call split_node API
+                            fetch('/split_node', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    doc: currentDoc,
+                                    node_id: node.id,
+                                    new_text: splitText.value
+                                })
+                            })
+                            // reload the document
+                            .then(response => response.json())
+                            .then(data => {
+                                loadDocument(currentDocId);
+                            })
+                            .catch(error => console.error('Error splitting node:', error));
+                        });
+                        const splitInstruction = document.createElement('p');
+                        splitInstruction.textContent = 'Enter | character right before where the second node starts';
+                        edgesContainer.appendChild(splitInstruction);
+                        edgesContainer.appendChild(splitText);
+                        edgesContainer.appendChild(saveSplitBtn);
+                    });
+                    edgesContainer.appendChild(splitBtn);
+                    
+                    
+                    // Split button
+                    const mergeBtn = document.createElement('button');
+                    mergeBtn.textContent = 'Merge with above';
+                    mergeBtn.className = 'btn';
+                    mergeBtn.addEventListener('click', () => {
+                        // call split_node API
+                        fetch('/merge_node', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                doc: currentDoc,
+                                node_id: node.id
+                            })
+                        })
+                        // reload the document
+                        .then(response => response.json())
+                        .then(data => {
+                            loadDocument(currentDocId);
+                        })
+                        .catch(error => console.error('Error merge node:', error))
+                    });
+                    edgesContainer.appendChild(mergeBtn);
                 }
+                
                 
                 // Add edges container to the main node element
                 nodeElement.appendChild(edgesContainer);
