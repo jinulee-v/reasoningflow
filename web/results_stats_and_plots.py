@@ -4,37 +4,7 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
-from transformers import AutoTokenizer
-
-def graph_merge_same_unit(graph):
-    # node_dict
-    node_dict = {}
-    for node in graph['nodes']:
-        node_dict[node['id']] = node
-    for edge in graph['edges']:
-        if edge['label'] == 'same_unit':
-            from_node = edge['from_node_id']
-            to_node = edge['to_node_id']
-            assert node_dict[from_node]['label'] == node_dict[to_node]['label'], f"Node {from_node} and {to_node} have different labels: {node_dict[from_node]['label']} and {node_dict[to_node]['label']}"
-            # create new node
-            new_node = {
-                'id': from_node,
-                'annotation': True,
-                'start': node_dict[from_node]['start'],
-                'end': node_dict[to_node]['end'],
-                'label': node_dict[from_node]['label'],
-                'text': graph['raw_text'][node_dict[from_node]['start']:node_dict[to_node]['end']],
-            }
-            # remove to_node from graph['nodes']
-            graph['nodes'].remove(node_dict[to_node])
-            # reconnect from graph['edges']
-            for edge in graph['edges']:
-                if edge['from_node_id'] == to_node:
-                    edge['from_node_id'] = from_node
-                if edge['to_node_id'] == to_node:
-                    edge['to_node_id'] = from_node
-    # remove same_unit edge
-    graph['edges'] = [edge for edge in graph['edges'] if edge['label'] != 'same_unit']
+from transformers import AutoTokenizer\
 
 with open("static/labels.json", 'r', encoding='utf-8') as f:
     label_config = json.load(f)
@@ -48,7 +18,6 @@ for filename in os.listdir('data'):
         continue
     with open(os.path.join('data', filename), 'r', encoding='utf-8') as f:
         data = json.load(f)
-        graph_merge_same_unit(data)
         node_valid = True
         edge_valid = True
         for node in data['nodes']:
@@ -143,7 +112,7 @@ def count_tokens(text):
     return len(tokenizer(text)["input_ids"])
 token_lengths = []
 for data in node_valid_data:
-    token_lengths.append(count_tokens(data['raw_text']))
+    token_lengths.append(count_tokens(data['raw_text']['response']))
 print("Average token length:", round(sum(token_lengths) / len(token_lengths), 2))
 # Plot token length distribution
 plt.figure(figsize=(5, 3))
