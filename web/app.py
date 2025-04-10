@@ -62,7 +62,14 @@ def index():
 @app.route('/load_file_list', methods=['GET'])
 def load_file_list():
     files = [f for f in os.listdir(DATA_DIR) if f.endswith('.json')]
-    files = sorted(files)
+    # files: chemistry_0.json, chemistry_1.json, ...
+    # sort by domain -> numbers in the filename
+    def sort_key(file_name):
+        match = re.match(r'(\D+)(\d+)', file_name)
+        if match:
+            return (match.group(1), int(match.group(2)))
+        return (file_name, 0)
+    files.sort(key=sort_key)
     return jsonify(files)
 
 @app.route('/load_document', methods=['GET'])
