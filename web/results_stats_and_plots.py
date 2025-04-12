@@ -4,7 +4,10 @@ from collections import Counter
 import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
-from transformers import AutoTokenizer\
+from transformers import AutoTokenizer
+
+# pyplot text as plain text, not vector
+plt.rcParams['svg.fonttype'] = 'none'
 
 with open("static/labels.json", 'r', encoding='utf-8') as f:
     label_config = json.load(f)
