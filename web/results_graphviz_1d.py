@@ -1,9 +1,8 @@
 import json
-# from pvsvg import Network
+from networkx import Graph
 from pyvis.network import Network
-import networkx as nx
-import numpy as np
 import textwrap
+import pvsvg
 
 with open("static/labels.json", 'r', encoding='utf-8') as f:
     label_config = json.load(f)
@@ -46,7 +45,8 @@ def draw_graph(data):
         net.add_node(
             node["id"] + "-ghost",
             label=" ",
-            shape="dot", size=1, color="transparent",
+            shape="dot", size=1,
+            color="gray",
             x=x_pos + node_width//2,
             y=y_pos,
             fixed=True,
@@ -59,8 +59,8 @@ def draw_graph(data):
             edge["from_node_id"] + "-ghost",
             edge["to_node_id"] + "-ghost",
             label=edge["label"].split(":")[-1],
-            arrows="to",
-            color="gray",
+            arrows={'to':{'enabled':True}},
+            stroke="4",
             font={
                 "background": edge_color_map[edge["label"]],
                 "strokeWidth": 0,
@@ -74,11 +74,31 @@ def draw_graph(data):
     return net
 
 # FILE = "data/math_0_QwQ-32B-Preview_long_correct.json"
-FILE = "data/physics_19_QwQ-32B-Preview_long_correct.json"
+FILE = "data/physics_24_QwQ-32B-Preview_long_correct.json"
 with open(FILE, 'r', encoding='utf-8') as f:
     data = json.load(f)
     net = draw_graph(data)  # Call the function to draw the graph
-    net.show("graph_test.html", notebook=False)  # Save the graph to an HTML file
+
+    graph= Graph()
+    for node in net.nodes:
+        graph.add_node(
+            node["id"],
+            **node
+        )
+    for edge in net.edges:
+        graph.add_edge(
+            edge["from"],
+            edge["to"],
+            **edge
+        )
+
+    new_network = pvsvg.Network(
+        graph,
+        height="1000px",
+        width="100%",
+        physics_kwargs={"enabled": False},
+    )
+    new_network.draw("graph_test.html")  # Save the graph to an HTML file
 
     # graph = draw_graph(data)  # Call the function to draw the graph
     # graph = subgraph_premise_conclusion(graph)

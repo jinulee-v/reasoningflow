@@ -43,7 +43,7 @@ print(Counter([data['metadata']['domain'] for data in edge_valid_data]))
 
 # Node label stats
 node_labels = {n:0 for n in node_color_map.keys()}
-for data in node_valid_data + edge_valid_data:
+for data in edge_valid_data:
     for node in data['nodes']:
         # if node['label'] == 'assumption':
         #     print("ASSUMPTION", data["doc_id"], node["id"])
@@ -91,9 +91,9 @@ plt.pie(
 # output as svg
 plt.savefig("edge_label_stat.svg", format='svg', bbox_inches='tight')
 
-# Estimate the number of nodes and edges over 60 data
-print("avg. nodes:", round(sum(node_labels.values()) / len(node_valid_data) * 60) / 60)
-print("avg. edges:", round(sum(edge_labels.values()) / sum([len(data['nodes']) for data in edge_valid_data]) * sum(node_labels.values()) / len(node_valid_data) * 60) / 60)
+# Estimate the number of nodes and edges over edge_valid data
+print("avg. nodes:", round(sum(node_labels.values()) / len(node_valid_data), 3))
+print("avg. edges:", round(sum(edge_labels.values()) / len(node_valid_data), 3))
 
 # Transition probability between node labels
 transition_matrix = {n: {m: 0 for m in node_color_map.keys()} for n in node_color_map.keys()}
@@ -115,7 +115,7 @@ tokenizer = AutoTokenizer.from_pretrained("Qwen/QwQ-32B-Preview")
 def count_tokens(text):
     return len(tokenizer(text)["input_ids"])
 token_lengths = []
-for data in node_valid_data:
+for data in edge_valid_data:
     token_lengths.append(count_tokens(data['raw_text']['response']))
 print("Average token length:", round(sum(token_lengths) / len(token_lengths), 2))
 # Plot token length distribution
@@ -136,26 +136,49 @@ for data in node_valid_data:
         first_two_tokens[node['label']].append((tokens[0].replace("Ġ", "_"), tokens[1].replace("Ġ", "_")))
 
 # Sunburst plot
-for label in first_two_tokens.keys():
-    # Count the first two tokens
-    counts = Counter(first_two_tokens[label])
-    # Create a dataframe
-    df = []
-    for tokens, count in counts.items():
-        df.append({"first": tokens[0], "second": tokens[1], "count": count})
-    df = pd.DataFrame(df)
-    # Create a sunburst plot
-    fig = px.sunburst(df, path=['first', 'second'], values='count', color='count', color_continuous_scale='RdBu')
-    fig.update_traces(textinfo="label+percent entry")
-    fig.update_layout(title=f"Sunburst plot of {label} tokens")
-    # fig.show()
-    # Save as svg
-    fig.write_image(f"sunburst_{label}.svg")
+# for label in first_two_tokens.keys():
+#     # Count the first two tokens
+#     counts = Counter(first_two_tokens[label])
+#     # Create a dataframe
+#     df = []
+#     for tokens, count in counts.items():
+#         df.append({"first": tokens[0], "second": tokens[1], "count": count})
+#     df = pd.DataFrame(df)
+#     # Create a sunburst plot
+#     fig = px.sunburst(df, path=['first', 'second'], values='count', color='count', color_continuous_scale='RdBu')
+#     fig.update_traces(textinfo="label+percent entry")
+#     fig.update_layout(title=f"Sunburst plot of {label} tokens")
+#     # fig.show()
+#     # Save as svg
+#     fig.write_image(f"sunburst_{label}.svg")
 
 # "Wait," label distribution
-print("**Wait,** label distribution:")
-labels = {n: first_two_tokens[n].count(("Wait", ",")) for n in node_color_map.keys()}
-print(labels)
-print("**Alternatively,** label distribution:")
-labels = {n: first_two_tokens[n].count(("Alternatively", ",")) for n in node_color_map.keys()}
-print(labels)
+for prefix in ["Wait", "Alternatively", "However"]:
+    labels = Counter()
+    planning_verify = 0
+    planning_alternative = 0
+    planning_both = 0
+    for data in edge_valid_data:
+        # Count node labels if node text starts with prefix
+        for node in data['nodes']:
+            if node['text'].startswith(prefix):
+                labels[node['label']] += 1
+                if node['label'] == "planning":
+                    # Find edges with alternative/verify
+                    both = 0
+                    for edge in data['edges']:
+                        if edge['to_node_id'] == node['id']:
+                            if edge['label'] == "plan:plan-alternative":
+                                planning_alternative += 1
+                                both += 1
+                            if edge['label'] == "plan:frontier-verify":
+                                planning_verify += 1
+                                both += 1
+                    if both == 2:
+                        planning_both += 1
+
+
+
+    print(f"**{prefix},** label distribution:")
+    print(labels)
+    print(f"Planning: {labels['planning']}, planning alternative: {planning_alternative}, planning verify: {planning_verify}, both: {planning_both}")
