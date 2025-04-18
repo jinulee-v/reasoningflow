@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
 from transformers import AutoTokenizer
+import numpy as np
 
 # pyplot text as plain text, not vector
 plt.rcParams['svg.fonttype'] = 'none'
@@ -35,6 +36,8 @@ for filename in os.listdir('data'):
             node_valid_data.append(data)
         else:
             print(f"Invalid data in {filename}")
+        if "physics" in filename:
+            print(f"{filename}, node valid: {node_valid}, edge valid: {edge_valid}")
 
 print("-" * 20)
 print(f"Node valid data: {len(node_valid_data)}")
@@ -54,7 +57,7 @@ for data in edge_valid_data:
 print(node_labels)
 del node_labels["context"]
 # Plot node label stats
-plt.figure(figsize=(4, 4))
+plt.figure(figsize=(5, 5))
 # print(plt.pie(node_labels.values()))
 plt.pie(
     node_labels.values(),
@@ -153,32 +156,68 @@ for data in node_valid_data:
 #     fig.write_image(f"sunburst_{label}.svg")
 
 # "Wait," label distribution
+yeo_keyword_data = []
 for prefix in ["Wait", "Alternatively", "However"]:
     labels = Counter()
-    planning_verify = 0
-    planning_alternative = 0
-    planning_both = 0
+    verify = 0
+    alternative = 0
+    support = 0
+    refute = 0
+    any_lrm_behavior = 0
     for data in edge_valid_data:
         # Count node labels if node text starts with prefix
         for node in data['nodes']:
             if node['text'].startswith(prefix):
                 labels[node['label']] += 1
-                if node['label'] == "planning":
-                    # Find edges with alternative/verify
-                    both = 0
-                    for edge in data['edges']:
-                        if edge['to_node_id'] == node['id']:
-                            if edge['label'] == "plan:plan-alternative":
-                                planning_alternative += 1
-                                both += 1
-                            if edge['label'] == "plan:frontier-verify":
-                                planning_verify += 1
-                                both += 1
-                    if both == 2:
-                        planning_both += 1
-
+                # Find edges with alternative/verify
+                any_lrm_behavior_flag = False
+                for edge in data['edges']:
+                    if edge['to_node_id'] == node['id']:
+                        if edge['label'] == "plan:plan-alternative":
+                            alternative += 1
+                            any_lrm_behavior_flag = True
+                        elif edge['label'] == "plan:frontier-verify":
+                            verify += 1
+                            any_lrm_behavior_flag = True
+                        elif edge['label'] == 'evaluate:support':
+                            support += 1
+                            any_lrm_behavior_flag = True
+                        elif edge['label'] == 'evaluate:refute':
+                            refute += 1
+                            any_lrm_behavior_flag = True
+                if any_lrm_behavior_flag:
+                    any_lrm_behavior += 1
+                # else:
+                #     print(node['label'], ":", node['text'])
 
 
     print(f"**{prefix},** label distribution:")
     print(labels)
-    print(f"Planning: {labels['planning']}, planning alternative: {planning_alternative}, planning verify: {planning_verify}, both: {planning_both}")
+    print(f"Verify: {verify}, Alternative: {alternative}, Support: {support}, Refute: {refute}, Any LRM behavior: {any_lrm_behavior}")
+    yeo_keyword_data.append(labels)
+
+# Labels for the bars
+labels = ['planning', 'fact', 'reasoning', 'restatement', 'reflection']
+groups = ['Wait,', 'Alternatively,', 'However,']
+
+# Positions
+x = np.arange(len(groups))  # positions for each group
+bar_width = 0.15
+
+# Create bars
+fig, ax = plt.subplots(figsize=(5, 3))
+
+for i, label in enumerate(labels):
+    heights = [group.get(label, 0) for group in yeo_keyword_data]
+    ax.bar(x + i * bar_width - bar_width*2, heights, width=bar_width, label=label, color=node_color_map.get(label))
+    # add data labels on the top of the bar
+    for j, height in enumerate(heights):
+        ax.text(x[j] + i * bar_width - bar_width*2, height + 0.1, str(height), ha='center', va='bottom')
+
+# Add labels and formatting
+ax.set_xticks(x)
+ax.set_xticklabels(groups)
+ax.set_ylabel('Count')
+# ax.set_title('Label Distribution per Utterance Type')
+# ax.legend(title='Label')
+plt.savefig('yeo_keyword_label_distribution.svg', format='svg')
