@@ -246,7 +246,6 @@ def main_train():
         id2label=dataset.id2label,
         label2id=dataset.label2id
     )
-    model.require_grad=False
     model.to(device)
     
     # Setup optimizer and scheduler
