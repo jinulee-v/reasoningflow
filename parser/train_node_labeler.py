@@ -3,41 +3,45 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 from transformers import get_linear_schedule_with_warmup
+from peft import get_peft_model, LoraConfig, TaskType
 from tqdm import tqdm
 from sklearn.metrics import classification_report
 import os
 import json
 
+torch.manual_seed(42)
+torch.cuda.manual_seed_all(42)
+torch.backends.cudnn.deterministic = True
+
 # Define constants
-MODEL_NAME = "Qwen/Qwen2.5-0.5B-Instruct"
+# MODEL_NAME = "Qwen/Qwen2.5-3B"
+MODEL_NAME = "answerdotai/ModernBERT-large"
 MAX_LENGTH = 4096
-BATCH_SIZE = 8
-EPOCHS = 5
+BATCH_SIZE = 1
+EPOCHS = 10
 LEARNING_RATE = 2e-5
 WARMUP_STEPS = 0
 WEIGHT_DECAY = 0.01
 
+index_I = 1 # index of "I" label in label2id
+
 # Define dataset class
 class NodeLabelingDataset(Dataset):
+
     def __init__(self, data, labels, tokenizer, max_length, source_order=['question', 'response']):
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.label2id = self.create_label_map(labels)
         self.id2label = {v: k for k, v in self.label2id.items()}
         self.data = self.convert_to_bi_labels(data, source_order)
+        assert self.id2label[index_I] == "I", f"Index of 'I' label should be {index_I}, but got {self.id2label[index_I]}"
         
-    def create_label_map(self, all_labels):
-        unique_labels = set()
-        for label_list in all_labels:
-            unique_labels.update(label_list)
-        
+    def create_label_map(self, labels):
         # Create B- and I- prefixes for each label
-        label_map = {'O': 0}  # Outside tag
-        i = 1
-        for label in sorted(unique_labels):
+        label_map = {'O': 0, 'I': 1}  # Outside tag
+        i = 2
+        for label in sorted(labels):
             label_map[f"B-{label}"] = i
-            i += 1
-            label_map[f"I-{label}"] = i
             i += 1
         
         return label_map
@@ -66,33 +70,31 @@ class NodeLabelingDataset(Dataset):
             token_labels = ['O'] * len(tokenized['offset_mapping'])
             
             # Skip special tokens
+            span_idx = 0
             for i, (start, end) in enumerate(tokenized['offset_mapping']):
                 if start == 0 and end == 0:  # Special token
                     token_labels[i] = -100  # Ignore in loss computation
-            
-            # Assign labels to tokens
-            for span_idx, node in enumerate(datum["nodes"]):
-                label_assigned = False
-                offset = source_offset[node["source"]]
-                start_char, end_char = node["start"] + offset, node["end"] + offset
-                label = node["label"]
-                
-                for i, (start, end) in enumerate(tokenized['offset_mapping']):
-                    # Skip special tokens
-                    if start == 0 and end == 0:
-                        continue
-                    
-                    # Check if this token overlaps with the span
-                    if end <= start_char or start >= end_char:
-                        continue
-                    
-                    # Determine if this is a beginning or inside token
-                    if start_char <= start:
-                        token_labels[i] = f"B-{label}"
-                        label_assigned = True
-                    else:
-                        token_labels[i] = f"I-{label}"
-                        label_assigned = True
+                # print(start, end, json.dumps(text[start:end]), datum["nodes"][span_idx]["start"] + source_offset[datum["nodes"][span_idx]["source"]], datum["nodes"][span_idx]["end"] + source_offset[datum["nodes"][span_idx]["source"]])
+                if end <= datum["nodes"][span_idx]["start"] + source_offset[datum["nodes"][span_idx]["source"]]:
+                    continue
+                if end > datum["nodes"][span_idx]["end"] + source_offset[datum["nodes"][span_idx]["source"]]:
+                    span_idx += 1
+                if span_idx >= len(datum["nodes"]):
+                    span_idx = len(datum["nodes"]) - 1
+
+                span_start = datum["nodes"][span_idx]["start"] + source_offset[datum["nodes"][span_idx]["source"]]
+                span_end = datum["nodes"][span_idx]["end"] + source_offset[datum["nodes"][span_idx]["source"]]
+
+                # Determine if this is a beginning or inside token
+                label = datum["nodes"][span_idx]["label"]
+                if start <= span_start:
+                    token_labels[i] = f"B-{label}"
+                    label_assigned = True
+                else:
+                    # token_labels[i] = f"I-{label}"
+                    token_labels[i] = f"I"
+                    label_assigned = True
+                # print("->", token_labels[i])
                         
             # Convert string labels to IDs, with -100 for ignored positions
             token_label_ids = []
@@ -144,13 +146,19 @@ def train_model(model, train_dataloader, optimizer, scheduler, device, epochs):
             attention_mask = batch['attention_mask'].to(device)
             labels = batch['labels'].to(device)
             
+            # Define class weights
+            class_weights = torch.tensor([1.0] * model.config.num_labels).to(device)
+            class_weights[index_I] = 0.1 # Disregard "I" labels; TODO replace hard-coded 1 to the index of "I" label
+
+            
             outputs = model(
                 input_ids=input_ids,
-                attention_mask=attention_mask,
-                labels=labels
+                attention_mask=attention_mask
             )
             
-            loss = outputs.loss
+            logits = outputs.logits
+            loss_fn = torch.nn.CrossEntropyLoss(weight=class_weights, ignore_index=-100)
+            loss = loss_fn(logits.view(-1, model.config.num_labels), labels.view(-1))
             total_loss += loss.item()
             
             loss.backward()
@@ -197,9 +205,25 @@ def evaluate_model(model, eval_dataloader, id2label, device):
     # Convert numeric labels back to text labels for reporting
     true_labels_text = [id2label[label] for label in all_true_labels]
     pred_labels_text = [id2label[label] for label in all_predictions]
+
+    # Print segmentation example
+    print("Segmentation example:")
+    for i in range(len(true_labels_text)):
+        if id2label[all_true_labels[i]].startswith("B-"):
+            print(f"True: {id2label[all_true_labels[i]]}, Pred: {id2label[all_predictions[i]]}")
     
     # Print classification report
     print(classification_report(true_labels_text, pred_labels_text))
+
+    total_mistake = 0
+    bi_mistake = 0
+    for t, p in zip(true_labels_text, pred_labels_text):
+        if t.startswith("B-") != p.startswith("B-"):
+            bi_mistake += 1 # when model predicts B- but true label is I- or O, or vice versa
+        if t != p:
+            total_mistake += 1
+    print(f"Total mistakes: {total_mistake}, B-I mistakes: {bi_mistake}")
+
     
     return all_predictions, all_true_labels
 
@@ -217,7 +241,7 @@ def main_train():
         if file.endswith(".json"):
             with open(os.path.join("web/data", file), "r") as f:
                 datum = json.load(f)
-                if len(datum["nodes"]) <= len(datum["edges"]):
+                if len(datum["nodes"]) > len(datum["edges"]):
                     continue
                 data.append(datum)
     print(f"Loaded {len(data)} data samples.")
@@ -233,6 +257,13 @@ def main_train():
     train_size = int(0.8 * len(dataset))
     val_size = len(dataset) - train_size
     train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
+    # train_dataset = val_dataset = dataset
+    # Train data label distribution
+    for i in range(len(dataset.label2id)):
+        cnt = 0
+        for j in range(len(train_dataset)):
+            cnt += sum(train_dataset[j]["labels"] == i)
+        print(f"Label {dataset.id2label[i]}: {cnt} samples")
     
     # Create dataloaders
     train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=node_collate_fn)
@@ -247,6 +278,21 @@ def main_train():
         label2id=dataset.label2id
     )
     model.to(device)
+    
+    # # Apply LoRA
+    # peft_config = LoraConfig(
+    #     task_type=TaskType.TOKEN_CLS,
+    #     inference_mode=False,
+    #     r=32,
+    #     lora_alpha=32,
+    #     lora_dropout=0.1,
+    #     target_modules=[
+    #         "q_proj", "k_proj", "v_proj",  # Attention projections
+    #         "o_proj",                      # Output projection in attention
+    #         "gate_proj", "up_proj", "down_proj"  # MLP layers
+    #     ],
+    # )
+    # model = get_peft_model(model, peft_config)
     
     # Setup optimizer and scheduler
     optimizer = optim.AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
@@ -264,6 +310,7 @@ def main_train():
     predictions, true_labels = evaluate_model(model, val_dataloader, dataset.id2label, device)
     
     # Save the model
+    model = model.merge_and_unload()  # Merge LoRA weights back into the base model
     model.save_pretrained("./qwen_sequence_labeling_model")
     tokenizer.save_pretrained("./qwen_sequence_labeling_model")
     
@@ -308,20 +355,8 @@ def predict_spans(model, tokenizer, text, id2label, device):
             start_idx = token_start
         
         # Continuation of current entity
-        elif pred_label.startswith("I-") and current_label and pred_label.replace("I-", "") == current_label.replace("B-", "").replace("I-", ""):
+        elif pred_label == "I":
             continue
-        
-        # End of sequence or different I- tag
-        else:
-            if current_label:
-                predicted_spans.append((start_idx, token_start, current_label.replace("B-", "").replace("I-", "")))
-            
-            if pred_label.startswith("I-"):
-                # This is an error case, I- without preceding B-
-                current_label = "B-" + pred_label.replace("I-", "")
-                start_idx = token_start
-            else:
-                current_label = None
     
     # Add the last span if exists
     if current_label:
