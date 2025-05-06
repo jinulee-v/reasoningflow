@@ -74,7 +74,7 @@ def draw_graph(data):
     return net
 
 # FILE = "data/math_0_QwQ-32B-Preview_long_correct.json"
-FILE = "data/physics_24_QwQ-32B-Preview_long_correct.json"
+FILE = "data/math_14_QwQ-32B-Preview_long_correct.json"
 with open(FILE, 'r', encoding='utf-8') as f:
     data = json.load(f)
     net = draw_graph(data)  # Call the function to draw the graph

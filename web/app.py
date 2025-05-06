@@ -8,6 +8,14 @@ DATA_DIR = "data"
 with open("static/labels.json", 'r', encoding='utf-8') as f:
     labels = json.load(f)
 
+def load_file(doc_id):
+    file_path = os.path.join(DATA_DIR, doc_id)
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File not found"}), 404
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data
+
 def reorganize_doc(doc):# reindex
     id_map = {}
     ctx_count = 0; trace_count = 0
@@ -58,6 +66,10 @@ def reorganize_doc(doc):# reindex
 def index():
     return render_template('index.html')
 
+@app.route('/node_examples')
+def index_node_examples():
+    return render_template('node_examples.html')
+
 
 @app.route('/load_file_list', methods=['GET'])
 def load_file_list():
@@ -75,13 +87,7 @@ def load_file_list():
 @app.route('/load_document', methods=['GET'])
 def load_document():
     doc_id = request.args.get('doc_id')
-    file_path = os.path.join(DATA_DIR, doc_id)
-    
-    if not os.path.exists(file_path):
-        return jsonify({"error": "File not found"}), 404
-    
-    with open(file_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    data = load_file(doc_id)
     return jsonify(data)
 
 @app.route('/save_annotation', methods=['POST'])
@@ -250,6 +256,27 @@ def merge_node():
         json.dump(new_data, f, indent=4)
     return jsonify(new_data)
 
+@app.route('/load_node_examples', methods=['GET'])
+def load_node_examples():
+    node_id = request.args.get('node_id')
+    file_list = load_file_list().json
+    node_examples = []
+    for file in file_list:
+        data = load_file(file)
+        for node in data['nodes']:
+            if node['label'] == node_id:
+                node_examples.append({
+                    'doc_id': file,
+                    'id': node["id"],
+                    'text': node["text"],
+                    'source': node["source"],
+                    'start': node["start"],
+                    'end': node["end"],
+                    'annotation': node["annotation"],
+                    'label': node["label"],
+                })
+    
+    return jsonify(node_examples)
 
 if __name__ == '__main__':
     os.makedirs(DATA_DIR, exist_ok=True)

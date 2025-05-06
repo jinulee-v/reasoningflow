@@ -60,6 +60,14 @@
                     nodeColors = data.node_colors
                 })
                 .catch(error => console.error('Error fetching labels:', error));
+
+            // Get doc_id from URL and fetch data from backend
+            const params = new URLSearchParams(window.location.search);
+            const docId = params.get('doc_id');
+            console.log('docId:', docId);
+            if (docId) {
+                loadDocument(docId);
+            }
         });
 
         // Load list of JSON files
