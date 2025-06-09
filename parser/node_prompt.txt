@@ -1,0 +1,42 @@
+Given a step in a reasoning trace, find the related previous step according to the taxonomy.
+
+Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clauses to sentences (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
+Each node is a JSON with following fields:
+- "planning"
+
+**Planning** introduces the content of the following nodes. It might be a coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
+
+The rule of thumb for finding a Planning node is to check (1) if it includes active verbs like find, recall, check, solve, replace with first-person subjects, and (2) if the following node is in the following categories: Fact, Restatement, Assumption, Example, Conclusion, with its contents highly related to the Planning node.
+
+- "fact"
+
+**Fact** refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
+
+1. The information should not be given in the query.
+2. It must not be deduced from other facts in a deductive/inductive manner.
+
+The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.
+
+- "reasoning"
+
+Reasoning includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.
+
+- "restatement"
+
+Restatement is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like ‘as seen previously’, ‘already stated’, ‘the problem’.
+
+[[Example 1]]
+
+<<example1>>
+
+[[Example 2]]
+
+<<example2>>
+
+[[Example 3]]
+
+<<example3>>
+
+[[Actual input]]
+
+<<input>>

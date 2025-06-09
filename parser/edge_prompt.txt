@@ -1,0 +1,34 @@
+Given a step in a reasoning trace, find the related previous step according to the taxonomy.
+Try to find all relations. Include the edge if unsure. Nodes do not need to be sorted, so feel free to add another node later.
+
+Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clauses to sentences (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
+- "reasoning:premise-conclusion" This relationship represents the basic premise-conclusion reasoning relationship. It can include deductive/inductive/abductive reasoning.
+- "reasoning:plan-step" This relationship represents the relationship between a plan and its implementation. This edge should connect the plan and the first nodes of parallel reasoning chains. For instance, if the plan reads “Let me check the first three examples”, the Plan-step edge should connect the plan to all three examples.
+- "reasoning:concept-example" This edge label applies to Example nodes, connecting the example to what it exemplifies. When both nodes are facts, it should be annotated as Fact-Detail.
+- "reasoning:fact-detail" This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact.
+- "reasoning:stmt-restatement" This edge label applies to Restatement nodes, connecting the original statement to the restatement.
+- "reasoning:stmt-correction" This edge label applies when a node corrects the previous one by reasoning, by providing an alternative conclusion. It should be distinguished from simple reflection/planning that does not correct a previous statement. This edge, along refute, implies that the model judges a specific node as incorrect.
+- "plan:frontier-plan" This edge connects facts/reasoning/restatements/examples/... to a plan, when the content of the previous node triggers the planning. Typical examples include (3) deciding high-level plans based on known facts and (2) indicating how to solve (simplify, substitute, calculate) a certain equation at a low level.
+- "plan:frontier-verify" This edge specifically labels the relationship between a reasoning node and a Planning node initiating the verification process. Typical subsequent nodes include phrases like "Let's verify this", "I should check if there is any error".
+- "plan:plan-subplan" This edge connects a plan and a subplan. Subplans decompose the high-level plan into smaller, more straightforward goals. If the plans can be executed in parallel, edges should connect the high-level plan to all subplans; if the subplans are meant to execute sequentially, edges should connect to the first plan only. 
+- "plan:plan-nextplan" This edge connects multiple plans that are executed sequentially. These nodes often start with phrases like “Next”, “Second”, “Then”.
+- "plan:plan-alternative" This edge denotes when the model is suggesting an alternative plan from the previous one. The subsequent nodes often include “Alternatively”, “Let me think in other direction”, or other similar phrases.
+- "evaluate:support" This edge connects a reasoning node (mostly Reasoning, Fact, Assumption) and a node that supports it (mostly Reflection or Reasoning). Two typical cases include (1) reflection statements such as “That looks good”, or (2) connecting the conclusion of the positive self-verification to the verification goal.
+- "evaluate:refute" This edge connects a reasoning node and a node that refutes it. This is mostly casued by reflection statements like “This seems incorrect”, or reasoning nodes that do not have reasoning:stmt-correction edge “Therefore, it is wrong” (without explicit correction).
+- "evaluate:uncertainty" This edge represents all other reflections that are not support/refute. Typical use cases are reflection of uncertainty (”I am not sure/certain”), confusion (”I am confused/lost”), lack of knowledge (”I don’t know”), lack of confidence (”I am a bit rusty”), and anomaly (”This seems weird”).
+
+[[Example 1]]
+
+<<example1>>
+
+[[Example 2]]
+
+<<example2>>
+
+[[Example 3]]
+
+<<example3>>
+
+[[Actual input]]
+
+<<input>>
