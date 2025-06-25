@@ -1,0 +1,2809 @@
+{
+    "doc_id": "mmlu_104_deepseek-ai_DeepSeek-R1",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-R1",
+        "subject": "high_school_computer_science",
+        "correct_answer": "Step 3: Repeat step 2 until the value of position is greater than n.\n Step 4: Increase the value of count by 1."
+    },
+    "raw_text": {
+        "question": "A list of numbers has n elements, indexed from 1 to n. The following algorithm is intended to display the number of elements in the list that have a value greater than 100. The algorithm uses the variables count and position. Steps 3 and 4 are missing.\n Step 1: Set count to 0 and position to 1.\n Step 2: If the value of the element at index position is greater\n than 100, increase the value of count by 1.\n Step 3: (missing step)\n Step 4: (missing step)\n Step 5: Display the value of count.\n Which of the following could be used to replace steps 3 and 4 so that the algorithm works as intended?",
+        "response": "Okay, let's see. The problem is about an algorithm that counts how many numbers in a list are greater than 100. The list has n elements, indexed from 1 to n. The algorithm given has steps 1 and 2, but steps 3 and 4 are missing. We need to figure out what steps 3 and 4 should be so that the algorithm works correctly. \n\nFirst, let me recap the existing steps. Step 1 initializes count to 0 and position to 1. Step 2 checks if the element at the current position is greater than 100; if so, it increments count by 1. Then steps 3 and 4 are missing, followed by step 5 which displays the count. \n\nSo, the algorithm needs to iterate through all elements in the list. Since position starts at 1, after checking each element, we need to move to the next position. That makes sense. So step 3 and 4 probably involve incrementing the position and then checking if we've reached the end of the list. \n\nWait, in a typical loop structure, after processing an element, you increment the position and then check if you should continue. So maybe step 3 is \"Increase position by 1\" and step 4 is \"If position is less than or equal to n, go back to step 2.\" That way, after incrementing the position, the algorithm loops back to check the next element until all elements are processed.\n\nAlternatively, maybe step 3 is the conditional check and step 4 is the increment. Let me think. Let's consider how a loop works. In a while loop, you check the condition first. But here, the algorithm starts at position 1, does step 2 (check and increment count), then steps 3 and 4. So after processing position 1, we need to move to position 2, then check if we need to continue. So perhaps step 3 is \"Increase position by 1\" and step 4 is \"If position <= n, go to step 2.\" That way, after incrementing, we check if we're still within the list bounds. If yes, repeat step 2; if not, proceed to step 5 to display the count.\n\nAlternatively, maybe step 3 is the check and step 4 is the increment. Wait, let's walk through an example. Suppose n=3. \n\nInitialization: count=0, position=1.\n\nFirst iteration:\nStep 2: Check element at position 1. If >100, increment count.\nStep 3: ?\nStep 4: ?\n\nIf step 3 is \"If position <=n, go to step 2\", but position is still 1, which is <=n, so we loop back. But then we'd check the same position again. That's not right. So that can't be. So step 3 must be the increment, then step 4 checks if we need to loop again.\n\nSo step 3: position +=1, step 4: if position <=n, go to step 2. Let's test with n=3.\n\nFirst iteration:\ncount=0, position=1.\nElement at 1: suppose it's 150. Then count becomes 1.\nStep 3: position becomes 2.\nStep 4: check if 2 <=3. Yes, go to step 2.\nSecond iteration:\nCheck element at 2. Suppose it's 50. Count remains 1.\nStep3: position becomes3.\nStep4: 3<=3, yes, go to step2.\nThird iteration:\nCheck element at3. Suppose it's 200. Count becomes2.\nStep3: position becomes4.\nStep4: 4<=3? No. Proceed to step5: display count=2.\n\nThat works. So steps 3 and 4 should be increment position and check if position is still within the list. So step3: increase position by1, step4: if position <=n, go to step2.\n\nAlternatively, if steps 3 and4 were reversed, like step3: if position <=n, go to step2, step4: increase position. Wait, but that would cause an infinite loop. Because after step2, step3 would check position <=n (still 1), go to step2 again without incrementing. So that's incorrect.\n\nTherefore, the correct order is to first increment position, then check if we need to loop again. Wait, but in programming, usually, after processing the current element, you increment and then check. Wait, but in a for loop, you increment after the body. Wait, let's think of a while loop structure.\n\nIn code, this algorithm would be something like:\n\ncount = 0\nposition = 1\nwhile position <=n:\n    if list[position] >100:\n        count +=1\n    position +=1\nprint(count)\n\nBut in the given algorithm, step2 is the body of the loop (the if statement), then steps3 and4 would be the position increment and the loop condition check. So translating the code into the algorithm steps:\n\nStep1: count=0, position=1.\n\nStep2: if element >100, increment count.\n\nThen, in code, we increment position and check if we loop again. So steps3 and4 correspond to position +=1 and checking if position <=n.\n\nTherefore, step3: increase position by1.\n\nStep4: if position <=n, go to step2.\n\nYes, that makes sense. So the correct steps would be step3 increments position, step4 checks if we need to loop again.\n\nLooking at possible answer choices, but since the user hasn't provided them, I need to think of the general structure. The missing steps should be:\n\nStep3: Increase position by1.\n\nStep4: If position is less than or equal to n, go back to step2.\n\nTherefore, replacing steps3 and4 with these two steps would make the algorithm iterate through all elements from position1 to n, checking each one and counting how many are over100.\n\nAlternatively, if the steps were reversed, like step3 checks if position <=n and step4 increments, that would not work because after step2, you check position (still 1), then increment. Wait, let's see:\n\nAlternative approach:\n\nStep3: If position <=n, go to step2.\n\nStep4: Increase position by1.\n\nBut let's test with n=1.\n\nInitialization: count=0, position=1.\n\nStep2: check element1. Suppose it's 101. count becomes1.\n\nStep3: check position=1 <=1, yes, go to step2.\n\nStep2 again: check element1 again. count becomes2.\n\nThis would loop indefinitely because position isn't incremented before the check. So that's wrong. Therefore, the correct order is increment first, then check.\n\nHence, steps3 and4 must be increment position, then check if position <=n. If yes, loop back.\n\nTherefore, the answer should be steps3: increase position by1, step4: if position <=n, go to step2."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 173,
+            "label": "context",
+            "text": "A list of numbers has n elements, indexed from 1 to n. The following algorithm is intended to display the number of elements in the list that have a value greater than 100. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 173,
+            "end": 226,
+            "label": "context",
+            "text": "The algorithm uses the variables count and position. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 226,
+            "end": 254,
+            "label": "context",
+            "text": "Steps 3 and 4 are missing.\n ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 254,
+            "end": 297,
+            "label": "context",
+            "text": "Step 1: Set count to 0 and position to 1.\n ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 297,
+            "end": 408,
+            "label": "context",
+            "text": "Step 2: If the value of the element at index position is greater\n than 100, increase the value of count by 1.\n ",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 408,
+            "end": 493,
+            "label": "context",
+            "text": "Step 3: (missing step)\n Step 4: (missing step)\n Step 5: Display the value of count.\n ",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 493,
+            "end": 595,
+            "label": "context",
+            "text": "Which of the following could be used to replace steps 3 and 4 so that the algorithm works as intended?",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 112,
+            "label": "restatement",
+            "text": "Okay, let's see. The problem is about an algorithm that counts how many numbers in a list are greater than 100. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 112,
+            "end": 158,
+            "label": "fact",
+            "text": "The list has n elements, indexed from 1 to n. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 158,
+            "end": 228,
+            "label": "restatement",
+            "text": "The algorithm given has steps 1 and 2, but steps 3 and 4 are missing. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 228,
+            "end": 320,
+            "label": "planning",
+            "text": "We need to figure out what steps 3 and 4 should be so that the algorithm works correctly. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 320,
+            "end": 360,
+            "label": "planning",
+            "text": "First, let me recap the existing steps. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 360,
+            "end": 409,
+            "label": "restatement",
+            "text": "Step 1 initializes count to 0 and position to 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 409,
+            "end": 516,
+            "label": "restatement",
+            "text": "Step 2 checks if the element at the current position is greater than 100; if so, it increments count by 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 516,
+            "end": 595,
+            "label": "restatement",
+            "text": "Then steps 3 and 4 are missing, followed by step 5 which displays the count. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 595,
+            "end": 664,
+            "label": "reasoning",
+            "text": "So, the algorithm needs to iterate through all elements in the list. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 664,
+            "end": 759,
+            "label": "reasoning",
+            "text": "Since position starts at 1, after checking each element, we need to move to the next position. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 759,
+            "end": 777,
+            "label": "reflection",
+            "text": "That makes sense. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 777,
+            "end": 894,
+            "label": "reasoning",
+            "text": "So step 3 and 4 probably involve incrementing the position and then checking if we've reached the end of the list. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 894,
+            "end": 1024,
+            "label": "reflection",
+            "text": "Wait, in a typical loop structure, after processing an element, you increment the position and then check if you should continue. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 1024,
+            "end": 1143,
+            "label": "reasoning",
+            "text": "So maybe step 3 is \"Increase position by 1\" and step 4 is \"If position is less than or equal to n, go back to step 2.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1143,
+            "end": 1272,
+            "label": "reasoning",
+            "text": "That way, after incrementing the position, the algorithm loops back to check the next element until all elements are processed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1272,
+            "end": 1354,
+            "label": "reasoning",
+            "text": "Alternatively, maybe step 3 is the conditional check and step 4 is the increment. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1354,
+            "end": 1368,
+            "label": "reflection",
+            "text": "Let me think. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1368,
+            "end": 1401,
+            "label": "planning",
+            "text": "Let's consider how a loop works. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1401,
+            "end": 1449,
+            "label": "fact",
+            "text": "In a while loop, you check the condition first. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1449,
+            "end": 1556,
+            "label": "restatement",
+            "text": "But here, the algorithm starts at position 1, does step 2 (check and increment count), then steps 3 and 4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1556,
+            "end": 1654,
+            "label": "reasoning",
+            "text": "So after processing position 1, we need to move to position 2, then check if we need to continue. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1654,
+            "end": 1748,
+            "label": "reasoning",
+            "text": "So perhaps step 3 is \"Increase position by 1\" and step 4 is \"If position <= n, go to step 2.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1748,
+            "end": 1826,
+            "label": "reasoning",
+            "text": "That way, after incrementing, we check if we're still within the list bounds. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1826,
+            "end": 1898,
+            "label": "reasoning",
+            "text": "If yes, repeat step 2; if not, proceed to step 5 to display the count.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1898,
+            "end": 1968,
+            "label": "reasoning",
+            "text": "Alternatively, maybe step 3 is the check and step 4 is the increment. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1968,
+            "end": 2005,
+            "label": "planning",
+            "text": "Wait, let's walk through an example. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 2005,
+            "end": 2020,
+            "label": "example",
+            "text": "Suppose n=3. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 2020,
+            "end": 2058,
+            "label": "example",
+            "text": "Initialization: count=0, position=1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 2058,
+            "end": 2138,
+            "label": "example",
+            "text": "First iteration:\nStep 2: Check element at position 1. If >100, increment count.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 2138,
+            "end": 2148,
+            "label": "reflection",
+            "text": "Step 3: ?\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 2148,
+            "end": 2159,
+            "label": "reflection",
+            "text": "Step 4: ?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 2159,
+            "end": 2261,
+            "label": "reasoning",
+            "text": "If step 3 is \"If position <=n, go to step 2\", but position is still 1, which is <=n, so we loop back. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 2261,
+            "end": 2306,
+            "label": "reasoning",
+            "text": "But then we'd check the same position again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 2306,
+            "end": 2324,
+            "label": "reflection",
+            "text": "That's not right. ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 2324,
+            "end": 2342,
+            "label": "reflection",
+            "text": "So that can't be. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 2342,
+            "end": 2421,
+            "label": "reasoning",
+            "text": "So step 3 must be the increment, then step 4 checks if we need to loop again.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 2421,
+            "end": 2485,
+            "label": "reasoning",
+            "text": "So step 3: position +=1, step 4: if position <=n, go to step 2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 2485,
+            "end": 2507,
+            "label": "planning",
+            "text": "Let's test with n=3.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 2507,
+            "end": 2545,
+            "label": "example",
+            "text": "First iteration:\ncount=0, position=1.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 2545,
+            "end": 2599,
+            "label": "example",
+            "text": "Element at 1: suppose it's 150. Then count becomes 1.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 2599,
+            "end": 2627,
+            "label": "example",
+            "text": "Step 3: position becomes 2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2627,
+            "end": 2670,
+            "label": "example",
+            "text": "Step 4: check if 2 <=3. Yes, go to step 2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 2670,
+            "end": 2742,
+            "label": "example",
+            "text": "Second iteration:\nCheck element at 2. Suppose it's 50. Count remains 1.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 2742,
+            "end": 2768,
+            "label": "example",
+            "text": "Step3: position becomes3.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 2768,
+            "end": 2799,
+            "label": "example",
+            "text": "Step4: 3<=3, yes, go to step2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 2799,
+            "end": 2869,
+            "label": "example",
+            "text": "Third iteration:\nCheck element at3. Suppose it's 200. Count becomes2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 2869,
+            "end": 2895,
+            "label": "example",
+            "text": "Step3: position becomes4.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 2895,
+            "end": 2948,
+            "label": "example",
+            "text": "Step4: 4<=3? No. Proceed to step5: display count=2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 2948,
+            "end": 2960,
+            "label": "reflection",
+            "text": "That works. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 2960,
+            "end": 3054,
+            "label": "reasoning",
+            "text": "So steps 3 and 4 should be increment position and check if position is still within the list. ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 3054,
+            "end": 3125,
+            "label": "reasoning",
+            "text": "So step3: increase position by1, step4: if position <=n, go to step2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 3125,
+            "end": 3239,
+            "label": "reasoning",
+            "text": "Alternatively, if steps 3 and4 were reversed, like step3: if position <=n, go to step2, step4: increase position. ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 3239,
+            "end": 3284,
+            "label": "reflection",
+            "text": "Wait, but that would cause an infinite loop. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 3284,
+            "end": 3387,
+            "label": "reasoning",
+            "text": "Because after step2, step3 would check position <=n (still 1), go to step2 again without incrementing. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 3387,
+            "end": 3409,
+            "label": "reflection",
+            "text": "So that's incorrect.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 3409,
+            "end": 3507,
+            "label": "reasoning",
+            "text": "Therefore, the correct order is to first increment position, then check if we need to loop again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 3507,
+            "end": 3610,
+            "label": "reflection",
+            "text": "Wait, but in programming, usually, after processing the current element, you increment and then check. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 3610,
+            "end": 3665,
+            "label": "reflection",
+            "text": "Wait, but in a for loop, you increment after the body. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 3665,
+            "end": 3711,
+            "label": "planning",
+            "text": "Wait, let's think of a while loop structure.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 3711,
+            "end": 3761,
+            "label": "planning",
+            "text": "In code, this algorithm would be something like:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 3761,
+            "end": 3771,
+            "label": "example",
+            "text": "count = 0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 3771,
+            "end": 3784,
+            "label": "example",
+            "text": "position = 1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 3784,
+            "end": 3808,
+            "label": "example",
+            "text": "while position <=n:\n    ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 3808,
+            "end": 3840,
+            "label": "example",
+            "text": "if list[position] >100:\n        ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 3840,
+            "end": 3854,
+            "label": "example",
+            "text": "count +=1\n    ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 3854,
+            "end": 3867,
+            "label": "example",
+            "text": "position +=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 3867,
+            "end": 3881,
+            "label": "example",
+            "text": "print(count)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 3881,
+            "end": 4038,
+            "label": "reasoning",
+            "text": "But in the given algorithm, step2 is the body of the loop (the if statement), then steps3 and4 would be the position increment and the loop condition check. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 4038,
+            "end": 4089,
+            "label": "planning",
+            "text": "So translating the code into the algorithm steps:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 4089,
+            "end": 4118,
+            "label": "restatement",
+            "text": "Step1: count=0, position=1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 4118,
+            "end": 4160,
+            "label": "restatement",
+            "text": "Step2: if element >100, increment count.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 4160,
+            "end": 4225,
+            "label": "reasoning",
+            "text": "Then, in code, we increment position and check if we loop again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 4225,
+            "end": 4298,
+            "label": "reasoning",
+            "text": "So steps3 and4 correspond to position +=1 and checking if position <=n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 4298,
+            "end": 4340,
+            "label": "reasoning",
+            "text": "Therefore, step3: increase position by1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 4340,
+            "end": 4378,
+            "label": "reasoning",
+            "text": "Step4: if position <=n, go to step2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 4378,
+            "end": 4401,
+            "label": "reflection",
+            "text": "Yes, that makes sense. ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 4401,
+            "end": 4498,
+            "label": "reasoning",
+            "text": "So the correct steps would be step3 increments position, step4 checks if we need to loop again.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 4498,
+            "end": 4617,
+            "label": "planning",
+            "text": "Looking at possible answer choices, but since the user hasn't provided them, I need to think of the general structure. ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 4617,
+            "end": 4647,
+            "label": "planning",
+            "text": "The missing steps should be:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 4647,
+            "end": 4678,
+            "label": "reasoning",
+            "text": "Step3: Increase position by1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": false,
+            "start": 4678,
+            "end": 4744,
+            "label": "reasoning",
+            "text": "Step4: If position is less than or equal to n, go back to step2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": false,
+            "start": 4744,
+            "end": 4927,
+            "label": "reasoning",
+            "text": "Therefore, replacing steps3 and4 with these two steps would make the algorithm iterate through all elements from position1 to n, checking each one and counting how many are over100.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": false,
+            "start": 4927,
+            "end": 5113,
+            "label": "reasoning",
+            "text": "Alternatively, if the steps were reversed, like step3 checks if position <=n and step4 increments, that would not work because after step2, you check position (still 1), then increment. ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": false,
+            "start": 5113,
+            "end": 5131,
+            "label": "planning",
+            "text": "Wait, let's see:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": false,
+            "start": 5131,
+            "end": 5154,
+            "label": "planning",
+            "text": "Alternative approach:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": false,
+            "start": 5154,
+            "end": 5192,
+            "label": "reasoning",
+            "text": "Step3: If position <=n, go to step2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": false,
+            "start": 5192,
+            "end": 5223,
+            "label": "reasoning",
+            "text": "Step4: Increase position by1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": false,
+            "start": 5223,
+            "end": 5249,
+            "label": "planning",
+            "text": "But let's test with n=1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": false,
+            "start": 5249,
+            "end": 5287,
+            "label": "example",
+            "text": "Initialization: count=0, position=1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": false,
+            "start": 5287,
+            "end": 5345,
+            "label": "example",
+            "text": "Step2: check element1. Suppose it's 101. count becomes1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": false,
+            "start": 5345,
+            "end": 5393,
+            "label": "example",
+            "text": "Step3: check position=1 <=1, yes, go to step2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": false,
+            "start": 5393,
+            "end": 5445,
+            "label": "example",
+            "text": "Step2 again: check element1 again. count becomes2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": false,
+            "start": 5445,
+            "end": 5527,
+            "label": "reasoning",
+            "text": "This would loop indefinitely because position isn't incremented before the check. ",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": false,
+            "start": 5527,
+            "end": 5544,
+            "label": "reflection",
+            "text": "So that's wrong. ",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": false,
+            "start": 5544,
+            "end": 5606,
+            "label": "reasoning",
+            "text": "Therefore, the correct order is increment first, then check.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": false,
+            "start": 5606,
+            "end": 5681,
+            "label": "reasoning",
+            "text": "Hence, steps3 and4 must be increment position, then check if position <=n. ",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": false,
+            "start": 5681,
+            "end": 5701,
+            "label": "reasoning",
+            "text": "If yes, loop back.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": false,
+            "start": 5701,
+            "end": 5800,
+            "label": "conclusion",
+            "text": "Therefore, the answer should be steps3: increase position by1, step4: if position <=n, go to step2.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp1",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp3",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp0",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp2",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp5",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp6",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp7",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp2",
+            "to_node_id": "resp7",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp3",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp4",
+            "to_node_id": "resp8",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp5",
+            "to_node_id": "resp8",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp6",
+            "to_node_id": "resp8",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp3",
+            "to_node_id": "resp9",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp3",
+            "to_node_id": "resp11",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp8",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp9",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp9",
+            "to_node_id": "resp12",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp9",
+            "to_node_id": "resp13",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp11",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp11",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp3",
+            "to_node_id": "resp17",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp4",
+            "to_node_id": "resp17",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp11",
+            "to_node_id": "resp17",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp13",
+            "to_node_id": "resp17",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp15",
+            "to_node_id": "resp18",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp5",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp6",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp7",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp9",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp11",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp13",
+            "to_node_id": "resp20",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp14",
+            "to_node_id": "resp20",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp15",
+            "to_node_id": "resp20",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp13",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp14",
+            "to_node_id": "resp21",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp15",
+            "to_node_id": "resp21",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp13",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp14",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp13",
+            "to_node_id": "resp23",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp14",
+            "to_node_id": "resp23",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp13",
+            "to_node_id": "resp24",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp15",
+            "to_node_id": "resp24",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp21",
+            "to_node_id": "resp24",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp17",
+            "to_node_id": "resp25",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp17",
+            "to_node_id": "resp26",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp27",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp25",
+            "to_node_id": "resp27",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp25",
+            "to_node_id": "resp28",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp26",
+            "to_node_id": "resp28",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp23",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp24",
+            "to_node_id": "resp29",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp28",
+            "to_node_id": "resp29",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp23",
+            "to_node_id": "resp30",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp24",
+            "to_node_id": "resp30",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp21",
+            "to_node_id": "resp31",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp22",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp23",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp24",
+            "to_node_id": "resp31",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp21",
+            "to_node_id": "resp32",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp24",
+            "to_node_id": "resp32",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp31",
+            "to_node_id": "resp33",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp32",
+            "to_node_id": "resp33",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp32",
+            "to_node_id": "resp34",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp13",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp21",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp24",
+            "to_node_id": "resp35",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp31",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp32",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp13",
+            "to_node_id": "resp36",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp21",
+            "to_node_id": "resp36",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp25",
+            "to_node_id": "resp37",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp26",
+            "to_node_id": "resp37",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp25",
+            "to_node_id": "resp38",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp26",
+            "to_node_id": "resp38",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp25",
+            "to_node_id": "resp39",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp26",
+            "to_node_id": "resp39",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp25",
+            "to_node_id": "resp40",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp26",
+            "to_node_id": "resp40",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp27",
+            "to_node_id": "resp40",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp28",
+            "to_node_id": "resp40",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp25",
+            "to_node_id": "resp41",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp37",
+            "to_node_id": "resp41",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp25",
+            "to_node_id": "resp42",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp37",
+            "to_node_id": "resp42",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp38",
+            "to_node_id": "resp42",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp39",
+            "to_node_id": "resp42",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp40",
+            "to_node_id": "resp42",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp25",
+            "to_node_id": "resp43",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp37",
+            "to_node_id": "resp43",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp25",
+            "to_node_id": "resp44",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp37",
+            "to_node_id": "resp44",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp25",
+            "to_node_id": "resp45",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp37",
+            "to_node_id": "resp45",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp25",
+            "to_node_id": "resp46",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp37",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp25",
+            "to_node_id": "resp47",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp37",
+            "to_node_id": "resp47",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp35",
+            "to_node_id": "resp48",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp36",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp47",
+            "to_node_id": "resp48",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp11",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp13",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp21",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp35",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp36",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp48",
+            "to_node_id": "resp50",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp49",
+            "to_node_id": "resp50",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp24",
+            "to_node_id": "resp51",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp35",
+            "to_node_id": "resp51",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp49",
+            "to_node_id": "resp51",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp50",
+            "to_node_id": "resp51",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp50",
+            "to_node_id": "resp52",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp51",
+            "to_node_id": "resp52",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp51",
+            "to_node_id": "resp53",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp52",
+            "to_node_id": "resp54",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp53",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp35",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp36",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp49",
+            "to_node_id": "resp55",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp50",
+            "to_node_id": "resp55",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp52",
+            "to_node_id": "resp56",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp53",
+            "to_node_id": "resp56",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp53",
+            "to_node_id": "resp57",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp55",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp56",
+            "to_node_id": "resp57",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp17",
+            "to_node_id": "resp58",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp25",
+            "to_node_id": "resp58",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp56",
+            "to_node_id": "resp58",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp57",
+            "to_node_id": "resp58",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp3",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp4",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e164",
+            "from_node_id": "resp17",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e165",
+            "from_node_id": "resp25",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e166",
+            "from_node_id": "resp37",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e167",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e168",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp60",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e169",
+            "from_node_id": "resp5",
+            "to_node_id": "resp60",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e170",
+            "from_node_id": "resp59",
+            "to_node_id": "resp61",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e171",
+            "from_node_id": "resp60",
+            "to_node_id": "resp61",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e172",
+            "from_node_id": "resp58",
+            "to_node_id": "resp62",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e173",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e174",
+            "from_node_id": "resp3",
+            "to_node_id": "resp63",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e175",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e176",
+            "from_node_id": "resp62",
+            "to_node_id": "resp64",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e177",
+            "from_node_id": "resp63",
+            "to_node_id": "resp64",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e178",
+            "from_node_id": "resp59",
+            "to_node_id": "resp65",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e179",
+            "from_node_id": "resp60",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e180",
+            "from_node_id": "resp61",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e181",
+            "from_node_id": "resp62",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e182",
+            "from_node_id": "resp59",
+            "to_node_id": "resp66",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e183",
+            "from_node_id": "resp60",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e184",
+            "from_node_id": "resp61",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e185",
+            "from_node_id": "resp62",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e186",
+            "from_node_id": "resp63",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e187",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e188",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e189",
+            "from_node_id": "resp55",
+            "to_node_id": "resp67",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e190",
+            "from_node_id": "resp56",
+            "to_node_id": "resp67",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e191",
+            "from_node_id": "resp57",
+            "to_node_id": "resp67",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e192",
+            "from_node_id": "resp58",
+            "to_node_id": "resp67",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e193",
+            "from_node_id": "resp59",
+            "to_node_id": "resp67",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e194",
+            "from_node_id": "resp59",
+            "to_node_id": "resp68",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e195",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e196",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp69",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e197",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp70",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e198",
+            "from_node_id": "resp6",
+            "to_node_id": "resp70",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e199",
+            "from_node_id": "resp55",
+            "to_node_id": "resp71",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e200",
+            "from_node_id": "resp56",
+            "to_node_id": "resp71",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e201",
+            "from_node_id": "resp67",
+            "to_node_id": "resp71",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e202",
+            "from_node_id": "resp68",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e203",
+            "from_node_id": "resp11",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e204",
+            "from_node_id": "resp13",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e205",
+            "from_node_id": "resp21",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e206",
+            "from_node_id": "resp36",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e207",
+            "from_node_id": "resp50",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e208",
+            "from_node_id": "resp55",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e209",
+            "from_node_id": "resp67",
+            "to_node_id": "resp72",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e210",
+            "from_node_id": "resp35",
+            "to_node_id": "resp73",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e211",
+            "from_node_id": "resp36",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e212",
+            "from_node_id": "resp50",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e213",
+            "from_node_id": "resp55",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e214",
+            "from_node_id": "resp50",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e215",
+            "from_node_id": "resp55",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e216",
+            "from_node_id": "resp72",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e217",
+            "from_node_id": "resp73",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e218",
+            "from_node_id": "resp72",
+            "to_node_id": "resp75",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e219",
+            "from_node_id": "resp73",
+            "to_node_id": "resp75",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e220",
+            "from_node_id": "resp74",
+            "to_node_id": "resp75",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e221",
+            "from_node_id": "resp35",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e222",
+            "from_node_id": "resp36",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e223",
+            "from_node_id": "resp49",
+            "to_node_id": "resp76",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e224",
+            "from_node_id": "resp55",
+            "to_node_id": "resp76",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e225",
+            "from_node_id": "resp72",
+            "to_node_id": "resp76",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e226",
+            "from_node_id": "resp3",
+            "to_node_id": "resp77",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e227",
+            "from_node_id": "resp17",
+            "to_node_id": "resp77",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e228",
+            "from_node_id": "resp25",
+            "to_node_id": "resp77",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e229",
+            "from_node_id": "resp3",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e230",
+            "from_node_id": "resp4",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e231",
+            "from_node_id": "resp17",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e232",
+            "from_node_id": "resp25",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e233",
+            "from_node_id": "resp59",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e234",
+            "from_node_id": "resp13",
+            "to_node_id": "resp79",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e235",
+            "from_node_id": "resp21",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e236",
+            "from_node_id": "resp36",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e237",
+            "from_node_id": "resp50",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e238",
+            "from_node_id": "resp55",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e239",
+            "from_node_id": "resp73",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e240",
+            "from_node_id": "resp13",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e241",
+            "from_node_id": "resp21",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e242",
+            "from_node_id": "resp35",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e243",
+            "from_node_id": "resp36",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e244",
+            "from_node_id": "resp49",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e245",
+            "from_node_id": "resp50",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e246",
+            "from_node_id": "resp55",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e247",
+            "from_node_id": "resp71",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e248",
+            "from_node_id": "resp72",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e249",
+            "from_node_id": "resp73",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e250",
+            "from_node_id": "resp74",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e251",
+            "from_node_id": "resp76",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e252",
+            "from_node_id": "resp79",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e253",
+            "from_node_id": "resp55",
+            "to_node_id": "resp81",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e254",
+            "from_node_id": "resp76",
+            "to_node_id": "resp81",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e255",
+            "from_node_id": "resp79",
+            "to_node_id": "resp81",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e256",
+            "from_node_id": "resp80",
+            "to_node_id": "resp81",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e257",
+            "from_node_id": "resp51",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e258",
+            "from_node_id": "resp53",
+            "to_node_id": "resp82",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e259",
+            "from_node_id": "resp54",
+            "to_node_id": "resp82",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e260",
+            "from_node_id": "resp77",
+            "to_node_id": "resp83",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e261",
+            "from_node_id": "resp78",
+            "to_node_id": "resp83",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e262",
+            "from_node_id": "resp81",
+            "to_node_id": "resp84",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e263",
+            "from_node_id": "resp82",
+            "to_node_id": "resp84",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e264",
+            "from_node_id": "resp13",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e265",
+            "from_node_id": "resp21",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e266",
+            "from_node_id": "resp24",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e267",
+            "from_node_id": "resp51",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e268",
+            "from_node_id": "resp82",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e269",
+            "from_node_id": "resp80",
+            "to_node_id": "resp86",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e270",
+            "from_node_id": "resp82",
+            "to_node_id": "resp86",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e271",
+            "from_node_id": "resp85",
+            "to_node_id": "resp86",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e272",
+            "from_node_id": "resp25",
+            "to_node_id": "resp87",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e273",
+            "from_node_id": "resp26",
+            "to_node_id": "resp87",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e274",
+            "from_node_id": "resp37",
+            "to_node_id": "resp87",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e275",
+            "from_node_id": "resp25",
+            "to_node_id": "resp88",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e276",
+            "from_node_id": "resp37",
+            "to_node_id": "resp88",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e277",
+            "from_node_id": "resp25",
+            "to_node_id": "resp89",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e278",
+            "from_node_id": "resp26",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e279",
+            "from_node_id": "resp3",
+            "to_node_id": "resp90",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e280",
+            "from_node_id": "resp4",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e281",
+            "from_node_id": "resp17",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e282",
+            "from_node_id": "resp25",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e283",
+            "from_node_id": "resp37",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e284",
+            "from_node_id": "resp59",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e285",
+            "from_node_id": "resp25",
+            "to_node_id": "resp91",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e286",
+            "from_node_id": "resp26",
+            "to_node_id": "resp91",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e287",
+            "from_node_id": "resp28",
+            "to_node_id": "resp91",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e288",
+            "from_node_id": "resp29",
+            "to_node_id": "resp91",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e289",
+            "from_node_id": "resp82",
+            "to_node_id": "resp92",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e290",
+            "from_node_id": "resp85",
+            "to_node_id": "resp92",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e291",
+            "from_node_id": "resp54",
+            "to_node_id": "resp93",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e292",
+            "from_node_id": "resp82",
+            "to_node_id": "resp93",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e293",
+            "from_node_id": "resp92",
+            "to_node_id": "resp93",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e294",
+            "from_node_id": "resp55",
+            "to_node_id": "resp94",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e295",
+            "from_node_id": "resp76",
+            "to_node_id": "resp94",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e296",
+            "from_node_id": "resp81",
+            "to_node_id": "resp94",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e297",
+            "from_node_id": "resp92",
+            "to_node_id": "resp94",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e298",
+            "from_node_id": "resp55",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e299",
+            "from_node_id": "resp76",
+            "to_node_id": "resp95",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e300",
+            "from_node_id": "resp94",
+            "to_node_id": "resp95",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e301",
+            "from_node_id": "resp80",
+            "to_node_id": "resp96",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e302",
+            "from_node_id": "resp81",
+            "to_node_id": "resp96",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e303",
+            "from_node_id": "resp95",
+            "to_node_id": "resp96",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e304",
+            "from_node_id": "resp36",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e305",
+            "from_node_id": "resp50",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e306",
+            "from_node_id": "resp55",
+            "to_node_id": "resp97",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e307",
+            "from_node_id": "resp95",
+            "to_node_id": "resp97",
+            "label": "reason:stmt-restatement"
+        }
+    ]
+}

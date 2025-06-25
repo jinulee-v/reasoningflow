@@ -1,0 +1,628 @@
+{
+    "doc_id": "mmlu_188_deepseek-ai_DeepSeek-V3",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-V3",
+        "subject": "machine_learning",
+        "correct_answer": "more than 1000 examples"
+    },
+    "raw_text": {
+        "question": "To achieve an 0/1 loss estimate that is less than 1 percent of the true 0/1 loss (with probability 95%), according to Hoeffding's inequality the IID test set must have how many examples?",
+        "response": "To determine the number of test set examples required to achieve a 0/1 loss estimate that is less than 1% of the true 0/1 loss with 95% confidence, we can use **Hoeffding's inequality**. Here's the step-by-step process:\n\n---\n\n### **Hoeffding's Inequality**\nHoeffding's inequality states that for a sample mean \\(\\hat{L}\\) of a bounded random variable \\(L \\in [0, 1]\\), the probability that the sample mean deviates from the true mean \\(L\\) by more than \\(\\epsilon\\) is bounded by:\n\n\\[\nP(|\\hat{L} - L| \\geq \\epsilon) \\leq 2e^{-2n\\epsilon^2}\n\\]\n\nWhere:\n- \\(n\\) is the number of samples,\n- \\(\\epsilon\\) is the maximum allowed deviation,\n- \\(\\hat{L}\\) is the empirical loss (estimated 0/1 loss),\n- \\(L\\) is the true 0/1 loss.\n\n---\n\n### **Problem Setup**\nWe want the empirical loss \\(\\hat{L}\\) to be within 1% of the true loss \\(L\\) with 95% confidence. This means:\n1. The deviation \\(\\epsilon = 0.01L\\) (1% of the true loss),\n2. The probability of deviation \\(P(|\\hat{L} - L| \\geq \\epsilon) \\leq 0.05\\) (95% confidence).\n\n---\n\n### **Solve for \\(n\\)**\nSubstitute \\(\\epsilon = 0.01L\\) and \\(P(|\\hat{L} - L| \\geq \\epsilon) \\leq 0.05\\) into Hoeffding's inequality:\n\n\\[\n2e^{-2n(0.01L)^2} \\leq 0.05\n\\]\n\nSimplify:\n\\[\ne^{-2n(0.01L)^2} \\leq 0.025\n\\]\n\nTake the natural logarithm of both sides:\n\\[\n-2n(0.01L)^2 \\leq \\ln(0.025)\n\\]\n\nSolve for \\(n\\):\n\\[\nn \\geq \\frac{-\\ln(0.025)}{2(0.01L)^2}\n\\]\n\nCalculate \\(\\ln(0.025)\\):\n\\[\n\\ln(0.025) \\approx -3.6889\n\\]\n\nSubstitute:\n\\[\nn \\geq \\frac{3.6889}{2(0.01L)^2}\n\\]\n\nSimplify:\n\\[\nn \\geq \\frac{3.6889}{0.0002L^2}\n\\]\n\n\\[\nn \\geq \\frac{18444.5}{L^2}\n\\]\n\n---\n\n### **Interpretation**\nThe required number of test examples \\(n\\) depends on the true loss \\(L\\). For example:\n- If \\(L = 0.1\\) (10% true loss), then:\n  \\[\n  n \\geq \\frac{18444.5}{(0.1)^2} = 1,844,450\n  \\]\n- If \\(L = 0.05\\) (5% true loss), then:\n  \\[\n  n \\geq \\frac{18444.5}{(0.05)^2} = 7,377,800\n  \\]\n\n---\n\n### **Conclusion**\nThe number of test examples required depends on the true loss \\(L\\). For a true loss of \\(L\\), the minimum number of test examples is:\n\n\\[\nn \\geq \\frac{18444.5}{L^2}\n\\]"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 186,
+            "label": "context",
+            "text": "To achieve an 0/1 loss estimate that is less than 1 percent of the true 0/1 loss (with probability 95%), according to Hoeffding's inequality the IID test set must have how many examples?",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 187,
+            "label": "planning",
+            "text": "To determine the number of test set examples required to achieve a 0/1 loss estimate that is less than 1% of the true 0/1 loss with 95% confidence, we can use **Hoeffding's inequality**. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 187,
+            "end": 226,
+            "label": "planning",
+            "text": "Here's the step-by-step process:\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 226,
+            "end": 257,
+            "label": "fact",
+            "text": "### **Hoeffding's Inequality**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 257,
+            "end": 482,
+            "label": "fact",
+            "text": "Hoeffding's inequality states that for a sample mean \\(\\hat{L}\\) of a bounded random variable \\(L \\in [0, 1]\\), the probability that the sample mean deviates from the true mean \\(L\\) by more than \\(\\epsilon\\) is bounded by:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 482,
+            "end": 544,
+            "label": "fact",
+            "text": "\\[\nP(|\\hat{L} - L| \\geq \\epsilon) \\leq 2e^{-2n\\epsilon^2}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 544,
+            "end": 728,
+            "label": "fact",
+            "text": "Where:\n- \\(n\\) is the number of samples,\n- \\(\\epsilon\\) is the maximum allowed deviation,\n- \\(\\hat{L}\\) is the empirical loss (estimated 0/1 loss),\n- \\(L\\) is the true 0/1 loss.\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 728,
+            "end": 750,
+            "label": "planning",
+            "text": "### **Problem Setup**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 750,
+            "end": 849,
+            "label": "planning",
+            "text": "We want the empirical loss \\(\\hat{L}\\) to be within 1% of the true loss \\(L\\) with 95% confidence. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 849,
+            "end": 1023,
+            "label": "reasoning",
+            "text": "This means:\n1. The deviation \\(\\epsilon = 0.01L\\) (1% of the true loss),\n2. The probability of deviation \\(P(|\\hat{L} - L| \\geq \\epsilon) \\leq 0.05\\) (95% confidence).\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 1023,
+            "end": 1047,
+            "label": "planning",
+            "text": "### **Solve for \\(n\\)**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 1047,
+            "end": 1158,
+            "label": "reasoning",
+            "text": "Substitute \\(\\epsilon = 0.01L\\) and \\(P(|\\hat{L} - L| \\geq \\epsilon) \\leq 0.05\\) into Hoeffding's inequality:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 1158,
+            "end": 1193,
+            "label": "reasoning",
+            "text": "\\[\n2e^{-2n(0.01L)^2} \\leq 0.05\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 1193,
+            "end": 1238,
+            "label": "reasoning",
+            "text": "Simplify:\n\\[\ne^{-2n(0.01L)^2} \\leq 0.025\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 1238,
+            "end": 1316,
+            "label": "reasoning",
+            "text": "Take the natural logarithm of both sides:\n\\[\n-2n(0.01L)^2 \\leq \\ln(0.025)\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1316,
+            "end": 1378,
+            "label": "reasoning",
+            "text": "Solve for \\(n\\):\n\\[\nn \\geq \\frac{-\\ln(0.025)}{2(0.01L)^2}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1378,
+            "end": 1438,
+            "label": "reasoning",
+            "text": "Calculate \\(\\ln(0.025)\\):\n\\[\n\\ln(0.025) \\approx -3.6889\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1438,
+            "end": 1490,
+            "label": "reasoning",
+            "text": "Substitute:\n\\[\nn \\geq \\frac{3.6889}{2(0.01L)^2}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1490,
+            "end": 1539,
+            "label": "reasoning",
+            "text": "Simplify:\n\\[\nn \\geq \\frac{3.6889}{0.0002L^2}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1539,
+            "end": 1578,
+            "label": "reasoning",
+            "text": "\\[\nn \\geq \\frac{18444.5}{L^2}\n\\]\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1578,
+            "end": 1601,
+            "label": "reflection",
+            "text": "### **Interpretation**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1601,
+            "end": 1676,
+            "label": "reasoning",
+            "text": "The required number of test examples \\(n\\) depends on the true loss \\(L\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1676,
+            "end": 1784,
+            "label": "example",
+            "text": "For example:\n- If \\(L = 0.1\\) (10% true loss), then:\n  \\[\n  n \\geq \\frac{18444.5}{(0.1)^2} = 1,844,450\n  \\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1784,
+            "end": 1886,
+            "label": "example",
+            "text": "- If \\(L = 0.05\\) (5% true loss), then:\n  \\[\n  n \\geq \\frac{18444.5}{(0.05)^2} = 7,377,800\n  \\]\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1886,
+            "end": 1905,
+            "label": "reasoning",
+            "text": "### **Conclusion**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1905,
+            "end": 1974,
+            "label": "reasoning",
+            "text": "The number of test examples required depends on the true loss \\(L\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1974,
+            "end": 2041,
+            "label": "reasoning",
+            "text": "For a true loss of \\(L\\), the minimum number of test examples is:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 2041,
+            "end": 2073,
+            "label": "conclusion",
+            "text": "\\[\nn \\geq \\frac{18444.5}{L^2}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "resp0",
+            "to_node_id": "resp2",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp1",
+            "to_node_id": "resp3",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp1",
+            "to_node_id": "resp6",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp2",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp3",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp0",
+            "to_node_id": "resp7",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp1",
+            "to_node_id": "resp7",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp2",
+            "to_node_id": "resp7",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp3",
+            "to_node_id": "resp7",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp5",
+            "to_node_id": "resp7",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp5",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp4",
+            "to_node_id": "resp10",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp5",
+            "to_node_id": "resp10",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp4",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp8",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp10",
+            "to_node_id": "resp12",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp10",
+            "to_node_id": "resp13",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp11",
+            "to_node_id": "resp13",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp11",
+            "to_node_id": "resp14",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp12",
+            "to_node_id": "resp14",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp14",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp16",
+            "to_node_id": "resp18",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp14",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp16",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp18",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp9",
+            "to_node_id": "resp21",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp10",
+            "to_node_id": "resp21",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp9",
+            "to_node_id": "resp22",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp20",
+            "to_node_id": "resp22",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp18",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp19",
+            "to_node_id": "resp23",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp20",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp20",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp18",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp20",
+            "to_node_id": "resp25",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp18",
+            "to_node_id": "resp26",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:stmt-restatement"
+        }
+    ]
+}

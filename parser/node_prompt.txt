@@ -1,29 +1,75 @@
-Given a step in a reasoning trace, find the related previous step according to the taxonomy.
+Segment reasoning trace into nodes by following the instructions below.
 
-Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clauses to sentences (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
-Each node is a JSON with following fields:
-- "planning"
+Text:
+Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
+You cannot put 2 or more sentences in a same node. You must obey to this rule no matter what. Make the node "text" as short as possible. You don't have token limits so feel free to list all fine-grained nodes.
+The "text" part must EXACTLY copy the given text without any difference, so that `text in raw_text == True` always holds.
+
+Labels:
+### "planning"
 
 **Planning** introduces the content of the following nodes. It might be a coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
-
 The rule of thumb for finding a Planning node is to check (1) if it includes active verbs like find, recall, check, solve, replace with first-person subjects, and (2) if the following node is in the following categories: Fact, Restatement, Assumption, Example, Conclusion, with its contents highly related to the Planning node.
+- Introducing long-term directions and subgoals ("We need to ...")
+- Introducing the direction of the next node ("Add x to y.")
+- Phrases that initiate verification ("Wait, let's check ...", "Wait, is this correct? ", ...)
+- Phrases that initiate backtracking ("Wait, let's try differently ...", "Alternatively ...", ...)
 
-- "fact"
+### "fact"
 
 **Fact** refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
-
 1. The information should not be given in the query.
 2. It must not be deduced from other facts in a deductive/inductive manner.
-
 The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.
+- Theorems, laws, and rules
+- Existing concepts and definitions
+- Values of well-known constants and unit conversions
+- Factual knowledge
+- Commonsense facts
 
-- "reasoning"
+### "reasoning"
 
 Reasoning includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.
+- Calculations
+- Logical reasoning
+- Commonsense reasoning
+- Speculations (This category includes speculations (educated guesses). Note that this is different from assuming a fact, where the assumption is explicitly used as a premise to deduce the conclusion.)
+- Defining symbols and notations
+- Reasoning on the applicability of Fact nodes
+- Non-final conclusions
 
-- "restatement"
+### "restatement"
 
 Restatement is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like ‘as seen previously’, ‘already stated’, ‘the problem’.
+- Rephrasing the context
+- Rephrasing previous nodes
+
+### "assumption"
+
+Assumption is when a step is intentionally indicated as not necessarily true, but serves as a premise for the following steps. Therefore, Assumption defines a scope of nodes that are based on the assumption, where the validity of nodes depends on the validity of the assumption.
+- Assuming missing premises by commonsense/common practices
+- Assuming uncertain facts
+- Branching (switch-case): exhaustive listing of all possible cases.
+- Proof by contradiction
+
+### "example"
+
+Example is a specific instance of a general and abstract concept provided above.
+- Pattern induction by enumeration ("First, if substitute x to 1..")
+- Non-exhaustive listings ("For instance, 5 satisfies the equation")
+
+### "reflection"
+Reflection is a node that express *opinions* on the previous nodes. Opinions might include (illogical) emotions like curiosity, uncertainty, satisfaction, and (logical) judgments like correctness.
+Reflection should not contain any Planning, *i.e.* introduce the content of the following nodes. It should purely reflect on previous node without planning ahead.
+- Reflections ("I made a mistake.") * Let's try .. is a planning, not a reasoning.
+- Emotions and impressions ("I am not sure")
+- Rhetorical phrases ("Why is it like that? Because...")
+- Filler words (Let's see...)
+
+### "conclusion"
+
+This node includes the model's final answer, which is usually a short snippet of text. It is not necessarily a final node and there might be more nodes after "conclusion".
+
 
 [[Example 1]]
 
@@ -37,6 +83,9 @@ Restatement is when the model copies/paraphrases the preceding text (context/pre
 
 <<example3>>
 
+
+You cannot put 2 or more sentences in a same node. You must obey to this rule no matter what. Make the node "text" as short as possible. You don't have token limits so feel free to list all fine-grained nodes.
+The "text" part must EXACTLY copy the given text without any difference, so that `text in raw_text == True` always holds.
 [[Actual input]]
 
 <<input>>

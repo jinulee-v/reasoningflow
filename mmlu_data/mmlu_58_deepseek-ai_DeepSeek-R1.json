@@ -1,0 +1,1186 @@
+{
+    "doc_id": "mmlu_58_deepseek-ai_DeepSeek-R1",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-R1",
+        "subject": "computer_security",
+        "correct_answer": "a read outside bounds of a buffer"
+    },
+    "raw_text": {
+        "question": "Exploitation of the Heartbleed bug permits",
+        "response": "Okay, so I need to explain what the Heartbleed bug allows attackers to do. Let me start by recalling what I know about Heartbleed. From what I remember, it's a security vulnerability that was discovered in 2014. It affected OpenSSL, which is a widely used encryption library. The bug's name comes from the \"heartbeat\" feature in OpenSSL, which is used to keep connections alive.\n\nSo, the Heartbleed exploit takes advantage of a buffer over-read in the TLS heartbeat extension. When a client sends a heartbeat request to a server, it includes some data and a length field. The server is supposed to send back the same data. But if the server doesn't properly check the length specified against the actual data sent, it might send back more data than it should. That extra data could be whatever was in the server's memory, which might include sensitive information like private keys, usernames, passwords, or other session data.\n\nWait, but how exactly does that work? Let me think. The client sends a heartbeat request with a payload, say, 1KB, but claims the length is 64KB. The server then prepares a response by copying the payload into a new buffer of the claimed length. If the server doesn't validate that the payload actually has 64KB of data, it will read beyond the payload's actual size into adjacent memory. That adjacent memory could contain other data that wasn't intended to be exposed. So the server sends back the 1KB payload plus 63KB of whatever was next in memory. The attacker can then read that data, which might include sensitive information.\n\nSo the exploitation of Heartbleed allows attackers to read chunks of the server's memory. This can lead to the exposure of private keys, which are crucial for SSL/TLS encryption. If an attacker gets the private key, they can decrypt past and future communications, impersonate the server, or set up a man-in-the-middle attack. Additionally, other sensitive data like user credentials, session cookies, or personal information could be leaked. Since the attack leaves no trace in logs, it's hard to detect if someone exploited it.\n\nBut I should verify if there are other implications. For example, could attackers modify memory or execute code? From what I know, Heartbleed is a read-only vulnerability. It allows reading memory contents but doesn't let the attacker write to memory or execute arbitrary code. So the main risk is information disclosure. However, once private keys are obtained, the attacker can decrypt traffic or impersonate the server, which is a significant security breach.\n\nAnother point is that the vulnerability was in OpenSSL versions 1.0.1 through 1.0.1f. So systems using those versions were vulnerable unless they patched it. The fix involved updating OpenSSL to a version that properly checks the length of the heartbeat request. Organizations had to update their servers, revoke and reissue SSL certificates, and users had to change their passwords since they might have been compromised.\n\nWait, but how does changing passwords help? If the private key is compromised, even changing passwords wouldn't help because the attacker can decrypt the traffic. Unless the server's certificate is reissued with a new private key, the old one is still vulnerable. So both steps are necessary: patching the server, replacing the certificate, and informing users to change their passwords in case the credentials were leaked via memory dumps.\n\nAre there any other aspects? Maybe the scale of the impact. Since OpenSSL is used by many websites and services, Heartbleed affected a large portion of the internet. Major companies had to patch their systems. Also, because the bug was present for a couple of years before being discovered, there's a window where attacks could have happened without detection.\n\nIn summary, exploiting Heartbleed allows attackers to read sensitive data from a server's memory, leading to potential compromise of encryption keys, user credentials, and other confidential information. The attack is stealthy, doesn't leave logs, and requires patching, certificate replacement, and password resets to mitigate fully."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 42,
+            "label": "context",
+            "text": "Exploitation of the Heartbleed bug permits",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 75,
+            "label": "restatement",
+            "text": "Okay, so I need to explain what the Heartbleed bug allows attackers to do. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 75,
+            "end": 131,
+            "label": "planning",
+            "text": "Let me start by recalling what I know about Heartbleed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 131,
+            "end": 212,
+            "label": "fact",
+            "text": "From what I remember, it's a security vulnerability that was discovered in 2014. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 212,
+            "end": 276,
+            "label": "fact",
+            "text": "It affected OpenSSL, which is a widely used encryption library. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 276,
+            "end": 380,
+            "label": "fact",
+            "text": "The bug's name comes from the \"heartbeat\" feature in OpenSSL, which is used to keep connections alive.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 380,
+            "end": 477,
+            "label": "reasoning",
+            "text": "So, the Heartbleed exploit takes advantage of a buffer over-read in the TLS heartbeat extension. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 477,
+            "end": 572,
+            "label": "fact",
+            "text": "When a client sends a heartbeat request to a server, it includes some data and a length field. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 572,
+            "end": 623,
+            "label": "fact",
+            "text": "The server is supposed to send back the same data. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 623,
+            "end": 760,
+            "label": "reasoning",
+            "text": "But if the server doesn't properly check the length specified against the actual data sent, it might send back more data than it should. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 760,
+            "end": 929,
+            "label": "reasoning",
+            "text": "That extra data could be whatever was in the server's memory, which might include sensitive information like private keys, usernames, passwords, or other session data.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 929,
+            "end": 967,
+            "label": "reflection",
+            "text": "Wait, but how exactly does that work? ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 967,
+            "end": 981,
+            "label": "reflection",
+            "text": "Let me think. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 981,
+            "end": 1075,
+            "label": "example",
+            "text": "The client sends a heartbeat request with a payload, say, 1KB, but claims the length is 64KB. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 1075,
+            "end": 1175,
+            "label": "reasoning",
+            "text": "The server then prepares a response by copying the payload into a new buffer of the claimed length. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1175,
+            "end": 1318,
+            "label": "reasoning",
+            "text": "If the server doesn't validate that the payload actually has 64KB of data, it will read beyond the payload's actual size into adjacent memory. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1318,
+            "end": 1400,
+            "label": "reasoning",
+            "text": "That adjacent memory could contain other data that wasn't intended to be exposed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1400,
+            "end": 1483,
+            "label": "reasoning",
+            "text": "So the server sends back the 1KB payload plus 63KB of whatever was next in memory. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1483,
+            "end": 1565,
+            "label": "reasoning",
+            "text": "The attacker can then read that data, which might include sensitive information.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1565,
+            "end": 1655,
+            "label": "reasoning",
+            "text": "So the exploitation of Heartbleed allows attackers to read chunks of the server's memory. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1655,
+            "end": 1744,
+            "label": "reasoning",
+            "text": "This can lead to the exposure of private keys, which are crucial for SSL/TLS encryption. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1744,
+            "end": 1892,
+            "label": "reasoning",
+            "text": "If an attacker gets the private key, they can decrypt past and future communications, impersonate the server, or set up a man-in-the-middle attack. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1892,
+            "end": 2008,
+            "label": "reasoning",
+            "text": "Additionally, other sensitive data like user credentials, session cookies, or personal information could be leaked. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 2008,
+            "end": 2096,
+            "label": "reasoning",
+            "text": "Since the attack leaves no trace in logs, it's hard to detect if someone exploited it.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 2096,
+            "end": 2149,
+            "label": "planning",
+            "text": "But I should verify if there are other implications. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 2149,
+            "end": 2209,
+            "label": "reflection",
+            "text": "For example, could attackers modify memory or execute code? ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 2209,
+            "end": 2268,
+            "label": "fact",
+            "text": "From what I know, Heartbleed is a read-only vulnerability. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 2268,
+            "end": 2374,
+            "label": "fact",
+            "text": "It allows reading memory contents but doesn't let the attacker write to memory or execute arbitrary code. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 2374,
+            "end": 2418,
+            "label": "reasoning",
+            "text": "So the main risk is information disclosure. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 2418,
+            "end": 2560,
+            "label": "reasoning",
+            "text": "However, once private keys are obtained, the attacker can decrypt traffic or impersonate the server, which is a significant security breach.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 2560,
+            "end": 2646,
+            "label": "fact",
+            "text": "Another point is that the vulnerability was in OpenSSL versions 1.0.1 through 1.0.1f. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 2646,
+            "end": 2718,
+            "label": "reasoning",
+            "text": "So systems using those versions were vulnerable unless they patched it. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 2718,
+            "end": 2823,
+            "label": "reasoning",
+            "text": "The fix involved updating OpenSSL to a version that properly checks the length of the heartbeat request. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 2823,
+            "end": 2984,
+            "label": "reasoning",
+            "text": "Organizations had to update their servers, revoke and reissue SSL certificates, and users had to change their passwords since they might have been compromised.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 2984,
+            "end": 3028,
+            "label": "reflection",
+            "text": "Wait, but how does changing passwords help? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 3028,
+            "end": 3147,
+            "label": "reasoning",
+            "text": "If the private key is compromised, even changing passwords wouldn't help because the attacker can decrypt the traffic. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 3147,
+            "end": 3248,
+            "label": "reasoning",
+            "text": "Unless the server's certificate is reissued with a new private key, the old one is still vulnerable. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 3248,
+            "end": 3426,
+            "label": "reasoning",
+            "text": "So both steps are necessary: patching the server, replacing the certificate, and informing users to change their passwords in case the credentials were leaked via memory dumps.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 3426,
+            "end": 3455,
+            "label": "reflection",
+            "text": "Are there any other aspects? ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 3455,
+            "end": 3486,
+            "label": "reflection",
+            "text": "Maybe the scale of the impact. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 3486,
+            "end": 3592,
+            "label": "fact",
+            "text": "Since OpenSSL is used by many websites and services, Heartbleed affected a large portion of the internet. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 3592,
+            "end": 3636,
+            "label": "reasoning",
+            "text": "Major companies had to patch their systems. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 3636,
+            "end": 3788,
+            "label": "reasoning",
+            "text": "Also, because the bug was present for a couple of years before being discovered, there's a window where attacks could have happened without detection.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 3788,
+            "end": 3886,
+            "label": "reasoning",
+            "text": "In summary, exploiting Heartbleed allows attackers to read sensitive data from a server's memory, ",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 3886,
+            "end": 3992,
+            "label": "reasoning",
+            "text": "leading to potential compromise of encryption keys, user credentials, and other confidential information. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 3992,
+            "end": 4122,
+            "label": "conclusion",
+            "text": "The attack is stealthy, doesn't leave logs, and requires patching, certificate replacement, and password resets to mitigate fully.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp1",
+            "to_node_id": "resp4",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp2",
+            "to_node_id": "resp5",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp3",
+            "to_node_id": "resp5",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp5",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp6",
+            "to_node_id": "resp8",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp5",
+            "to_node_id": "resp9",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp6",
+            "to_node_id": "resp9",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp5",
+            "to_node_id": "resp12",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp8",
+            "to_node_id": "resp12",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp8",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp8",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp9",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp12",
+            "to_node_id": "resp14",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp9",
+            "to_node_id": "resp15",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp12",
+            "to_node_id": "resp16",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp13",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp9",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp9",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp15",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp16",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp9",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp17",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp9",
+            "to_node_id": "resp20",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp17",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp18",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp9",
+            "to_node_id": "resp21",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp17",
+            "to_node_id": "resp21",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp18",
+            "to_node_id": "resp21",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp17",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp18",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp19",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp20",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp20",
+            "to_node_id": "resp23",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp22",
+            "to_node_id": "resp24",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp23",
+            "to_node_id": "resp25",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp23",
+            "to_node_id": "resp26",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp18",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp19",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp20",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp21",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp22",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp25",
+            "to_node_id": "resp27",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp26",
+            "to_node_id": "resp27",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp18",
+            "to_node_id": "resp28",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp19",
+            "to_node_id": "resp28",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp20",
+            "to_node_id": "resp28",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp3",
+            "to_node_id": "resp29",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp4",
+            "to_node_id": "resp29",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp5",
+            "to_node_id": "resp31",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp29",
+            "to_node_id": "resp31",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp30",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp28",
+            "to_node_id": "resp32",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp30",
+            "to_node_id": "resp32",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp30",
+            "to_node_id": "resp33",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp32",
+            "to_node_id": "resp33",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp28",
+            "to_node_id": "resp34",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp31",
+            "to_node_id": "resp35",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp32",
+            "to_node_id": "resp35",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp34",
+            "to_node_id": "resp35",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp32",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp34",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp34",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp36",
+            "to_node_id": "resp37",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp37",
+            "to_node_id": "resp38",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp29",
+            "to_node_id": "resp39",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp30",
+            "to_node_id": "resp39",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp30",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp32",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp39",
+            "to_node_id": "resp40",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp22",
+            "to_node_id": "resp41",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp39",
+            "to_node_id": "resp41",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp40",
+            "to_node_id": "resp41",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp18",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp19",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp20",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp21",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp22",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp27",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp28",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp19",
+            "to_node_id": "resp43",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp21",
+            "to_node_id": "resp43",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp28",
+            "to_node_id": "resp43",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp22",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp30",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp31",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp32",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp36",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp41",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        }
+    ]
+}

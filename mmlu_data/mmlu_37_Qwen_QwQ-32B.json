@@ -1,0 +1,2350 @@
+{
+    "doc_id": "mmlu_37_Qwen_QwQ-32B",
+    "metadata": {
+        "model_id": "Qwen/QwQ-32B",
+        "subject": "college_computer_science",
+        "correct_answer": "I, II, and III"
+    },
+    "raw_text": {
+        "question": "The Singleton design pattern is used to guarantee that only a single instance of a class may be instantiated. Which of the following is (are) true of this design pattern?\nI. The Singleton class has a static factory method to provide its instance.\nII. The Singleton class can be a subclass of another class.\nIII. The Singleton class has a private constructor.",
+        "response": "Okay, so I need to figure out which of the statements I, II, and III about the Singleton design pattern are true. Let me start by recalling what I know about the Singleton pattern. \n\nFirst, the Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance. From what I remember, the key aspects are controlling the instantiation so that only one object is created and providing a static method to get that instance.\n\nLooking at statement I: \"The Singleton class has a static factory method to provide its instance.\" That sounds familiar. In most implementations, the Singleton class uses a static method, often called getInstance(), which returns the single instance. So I think I is true. But wait, could there be any cases where it's not a static method? Hmm, maybe not. The whole point is that you can't create a new instance, so the method to get the instance has to be static because you can't call it on an instance that doesn't exist yet. So I think I is correct.\n\nStatement II: \"The Singleton class can be a subclass of another class.\" Well, the Singleton pattern is a class's own responsibility, right? So the class can inherit from another class. For example, if I have a class Singleton that extends SomeOtherClass, that should be possible. The Singleton behavior is about how instances are created, not about inheritance. So II should be true. Unless there's some restriction I'm forgetting. Maybe in some strict implementations, but generally, I don't see why not. So II is probably true.\n\nStatement III: \"The Singleton class has a private constructor.\" Yes, that's a key part. If the constructor were public, then anyone could call new Singleton() and create multiple instances. By making the constructor private, the class prevents external instantiation. The class itself can still create the single instance internally. So III is definitely true.\n\nWait, let me double-check each point. \n\nFor I: The static factory method is the standard approach. The getInstance() method is static so that you can call it without having an instance. So yes, I is correct.\n\nFor II: Subclassing. Suppose Singleton is a subclass. If a subclass tried to create an instance, would that bypass the Singleton? Hmm, actually, if someone subclasses a Singleton, they might be able to create a new instance of the subclass, which could be a problem. Wait, but the Singleton's constructor is private, so the subclass can't access it. Unless the subclass is in the same package and the constructor is package-private. Wait, but in standard Singleton implementations, the constructor is private, so even subclasses can't instantiate the superclass. However, the subclass itself could have its own instance. But the question is whether the Singleton class can be a subclass. The question isn't about whether the subclass would also be a Singleton, but whether the Singleton class can inherit from another class. So yes, the Singleton class can be a subclass. For example:\n\nclass Parent {}\nclass Singleton extends Parent {\n    private static Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() { ... }\n}\n\nThat should work. So II is true.\n\nStatement III: Private constructor is essential. Without that, you can't prevent others from creating instances. So III is true.\n\nTherefore all three statements I, II, and III are true. Wait, but I thought sometimes people might have different implementations. Let me think again. Are there any cases where the Singleton class might not have a private constructor? Maybe if it's using some other method like enum in Java (since Java 5, enum-based Singleton is recommended), but even then, the enum constants are controlled. Alternatively, if using a static block to initialize, but the constructor is still private. So yes, the constructor must be private. So III is definitely true.\n\nSo all three statements are correct. But wait, the question says \"which of the following is (are) true\". The options are I, II, III. So the answer should be all three? Let me check again.\n\nWait, maybe statement II is tricky. If the Singleton class is a subclass, then can the subclass have its own instance? That might not violate the Singleton's own instance count, but the subclass could have its own instances. However, the question is about the Singleton class itself being a subclass. The Singleton class can be a subclass, but the subclass of Singleton might not be a Singleton. But the question is about the Singleton class being a subclass, not the other way around. So yes, the Singleton class can be a subclass. So II is true.\n\nTherefore all three statements are correct. But I need to confirm if there's any reason any of them might not be. Let me think of possible exceptions.\n\nAnother point: In some languages, like Java, the Singleton can have a private constructor, static method, and be a subclass. So II holds. In C++, similar. So I think all three are correct. Therefore the answer is I, II, and III.\n</think>\n\nThe Singleton design pattern ensures that a class has only one instance and provides a global access point to it. Let's evaluate each statement:\n\n**I. The Singleton class has a static factory method to provide its instance.**  \nThis is true. The Singleton typically uses a **static factory method** (e.g., `getInstance()`) to return the single instance. Since the constructor is private, this static method is the only way to access the instance.  \n\n**II. The Singleton class can be a subclass of another class.**  \nThis is also true. The Singleton pattern does not restrict inheritance. A Singleton class can inherit from another class (i.e., be a subclass), as the pattern focuses on controlling instantiation rather than inheritance. For example:  \n```java\nclass Parent {}\nclass Singleton extends Parent {\n    private static Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() { ... }\n}\n```  \n\n**III. The Singleton class has a private constructor.**  \nThis is true. A private constructor prevents external instantiation via `new Singleton()`, ensuring that only the class itself can create the single instance.  \n\n**Conclusion:** All three statements (I, II, and III) are correct.  \n\n**Answer:** I, II, and III."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 110,
+            "label": "context",
+            "text": "The Singleton design pattern is used to guarantee that only a single instance of a class may be instantiated. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 110,
+            "end": 171,
+            "label": "context",
+            "text": "Which of the following is (are) true of this design pattern?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 171,
+            "end": 174,
+            "label": "context",
+            "text": "I. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 174,
+            "end": 247,
+            "label": "context",
+            "text": "The Singleton class has a static factory method to provide its instance.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 247,
+            "end": 251,
+            "label": "context",
+            "text": "II. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 251,
+            "end": 307,
+            "label": "context",
+            "text": "The Singleton class can be a subclass of another class.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 307,
+            "end": 312,
+            "label": "context",
+            "text": "III. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 312,
+            "end": 358,
+            "label": "context",
+            "text": "The Singleton class has a private constructor.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 114,
+            "label": "restatement",
+            "text": "Okay, so I need to figure out which of the statements I, II, and III about the Singleton design pattern are true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 114,
+            "end": 183,
+            "label": "planning",
+            "text": "Let me start by recalling what I know about the Singleton pattern. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 183,
+            "end": 311,
+            "label": "fact",
+            "text": "First, the Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 311,
+            "end": 471,
+            "label": "fact",
+            "text": "From what I remember, the key aspects are controlling the instantiation so that only one object is created and providing a static method to get that instance.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 471,
+            "end": 570,
+            "label": "restatement",
+            "text": "Looking at statement I: \"The Singleton class has a static factory method to provide its instance.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 570,
+            "end": 592,
+            "label": "reflection",
+            "text": "That sounds familiar. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 592,
+            "end": 722,
+            "label": "fact",
+            "text": "In most implementations, the Singleton class uses a static method, often called getInstance(), which returns the single instance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 722,
+            "end": 744,
+            "label": "reasoning",
+            "text": "So I think I is true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 744,
+            "end": 811,
+            "label": "reflection",
+            "text": "But wait, could there be any cases where it's not a static method? ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 811,
+            "end": 827,
+            "label": "reflection",
+            "text": "Hmm, maybe not. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 827,
+            "end": 1000,
+            "label": "reasoning",
+            "text": "The whole point is that you can't create a new instance, so the method to get the instance has to be static because you can't call it on an instance that doesn't exist yet. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 1000,
+            "end": 1026,
+            "label": "reasoning",
+            "text": "So I think I is correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 1026,
+            "end": 1098,
+            "label": "restatement",
+            "text": "Statement II: \"The Singleton class can be a subclass of another class.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 1098,
+            "end": 1166,
+            "label": "reflection",
+            "text": "Well, the Singleton pattern is a class's own responsibility, right? ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1166,
+            "end": 1211,
+            "label": "reasoning",
+            "text": "So the class can inherit from another class. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1211,
+            "end": 1306,
+            "label": "example",
+            "text": "For example, if I have a class Singleton that extends SomeOtherClass, that should be possible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1306,
+            "end": 1388,
+            "label": "fact",
+            "text": "The Singleton behavior is about how instances are created, not about inheritance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1388,
+            "end": 1410,
+            "label": "reasoning",
+            "text": "So II should be true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1410,
+            "end": 1458,
+            "label": "reflection",
+            "text": "Unless there's some restriction I'm forgetting. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1458,
+            "end": 1532,
+            "label": "reflection",
+            "text": "Maybe in some strict implementations, but generally, I don't see why not. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1532,
+            "end": 1557,
+            "label": "reasoning",
+            "text": "So II is probably true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1557,
+            "end": 1621,
+            "label": "restatement",
+            "text": "Statement III: \"The Singleton class has a private constructor.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1621,
+            "end": 1645,
+            "label": "reflection",
+            "text": "Yes, that's a key part. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1645,
+            "end": 1747,
+            "label": "reasoning",
+            "text": "If the constructor were public, then anyone could call new Singleton() and create multiple instances. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1747,
+            "end": 1825,
+            "label": "reasoning",
+            "text": "By making the constructor private, the class prevents external instantiation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1825,
+            "end": 1891,
+            "label": "reasoning",
+            "text": "The class itself can still create the single instance internally. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 1891,
+            "end": 1919,
+            "label": "reasoning",
+            "text": "So III is definitely true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 1919,
+            "end": 1959,
+            "label": "planning",
+            "text": "Wait, let me double-check each point. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 1959,
+            "end": 2018,
+            "label": "restatement",
+            "text": "For I: The static factory method is the standard approach. ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 2018,
+            "end": 2105,
+            "label": "reasoning",
+            "text": "The getInstance() method is static so that you can call it without having an instance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 2105,
+            "end": 2128,
+            "label": "reasoning",
+            "text": "So yes, I is correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 2128,
+            "end": 2149,
+            "label": "restatement",
+            "text": "For II: Subclassing. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 2149,
+            "end": 2182,
+            "label": "example",
+            "text": "Suppose Singleton is a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 2182,
+            "end": 2258,
+            "label": "reflection",
+            "text": "If a subclass tried to create an instance, would that bypass the Singleton? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 2258,
+            "end": 2395,
+            "label": "reasoning",
+            "text": "Hmm, actually, if someone subclasses a Singleton, they might be able to create a new instance of the subclass, which could be a problem. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 2395,
+            "end": 2478,
+            "label": "reasoning",
+            "text": "Wait, but the Singleton's constructor is private, so the subclass can't access it. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 2478,
+            "end": 2561,
+            "label": "reasoning",
+            "text": "Unless the subclass is in the same package and the constructor is package-private. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 2561,
+            "end": 2691,
+            "label": "reasoning",
+            "text": "Wait, but in standard Singleton implementations, the constructor is private, so even subclasses can't instantiate the superclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 2691,
+            "end": 2749,
+            "label": "reasoning",
+            "text": "However, the subclass itself could have its own instance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 2749,
+            "end": 2816,
+            "label": "restatement",
+            "text": "But the question is whether the Singleton class can be a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 2816,
+            "end": 2953,
+            "label": "reasoning",
+            "text": "The question isn't about whether the subclass would also be a Singleton, but whether the Singleton class can inherit from another class. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2953,
+            "end": 3000,
+            "label": "reasoning",
+            "text": "So yes, the Singleton class can be a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 3000,
+            "end": 3182,
+            "label": "example",
+            "text": "For example:\n\nclass Parent {}\nclass Singleton extends Parent {\n    private static Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() { ... }\n}\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 3182,
+            "end": 3200,
+            "label": "reasoning",
+            "text": "That should work. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 3200,
+            "end": 3216,
+            "label": "reasoning",
+            "text": "So II is true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 3216,
+            "end": 3265,
+            "label": "restatement",
+            "text": "Statement III: Private constructor is essential. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 3265,
+            "end": 3329,
+            "label": "reasoning",
+            "text": "Without that, you can't prevent others from creating instances. ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 3329,
+            "end": 3346,
+            "label": "reasoning",
+            "text": "So III is true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 3346,
+            "end": 3402,
+            "label": "reasoning",
+            "text": "Therefore all three statements I, II, and III are true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 3402,
+            "end": 3477,
+            "label": "reflection",
+            "text": "Wait, but I thought sometimes people might have different implementations. ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 3477,
+            "end": 3497,
+            "label": "planning",
+            "text": "Let me think again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 3497,
+            "end": 3581,
+            "label": "reflection",
+            "text": "Are there any cases where the Singleton class might not have a private constructor? ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 3581,
+            "end": 3740,
+            "label": "reasoning",
+            "text": "Maybe if it's using some other method like enum in Java (since Java 5, enum-based Singleton is recommended), but even then, the enum constants are controlled. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 3740,
+            "end": 3832,
+            "label": "reasoning",
+            "text": "Alternatively, if using a static block to initialize, but the constructor is still private. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 3832,
+            "end": 3873,
+            "label": "reasoning",
+            "text": "So yes, the constructor must be private. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 3873,
+            "end": 3901,
+            "label": "reasoning",
+            "text": "So III is definitely true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 3901,
+            "end": 3938,
+            "label": "reasoning",
+            "text": "So all three statements are correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 3938,
+            "end": 4006,
+            "label": "restatement",
+            "text": "But wait, the question says \"which of the following is (are) true\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 4006,
+            "end": 4034,
+            "label": "restatement",
+            "text": "The options are I, II, III. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 4034,
+            "end": 4069,
+            "label": "reflection",
+            "text": "So the answer should be all three? ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 4069,
+            "end": 4090,
+            "label": "planning",
+            "text": "Let me check again.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 4090,
+            "end": 4126,
+            "label": "reflection",
+            "text": "Wait, maybe statement II is tricky. ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 4126,
+            "end": 4209,
+            "label": "reflection",
+            "text": "If the Singleton class is a subclass, then can the subclass have its own instance? ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 4209,
+            "end": 4315,
+            "label": "reasoning",
+            "text": "That might not violate the Singleton's own instance count, but the subclass could have its own instances. ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 4315,
+            "end": 4391,
+            "label": "restatement",
+            "text": "However, the question is about the Singleton class itself being a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 4391,
+            "end": 4486,
+            "label": "reasoning",
+            "text": "The Singleton class can be a subclass, but the subclass of Singleton might not be a Singleton. ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 4486,
+            "end": 4576,
+            "label": "restatement",
+            "text": "But the question is about the Singleton class being a subclass, not the other way around. ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 4576,
+            "end": 4623,
+            "label": "reasoning",
+            "text": "So yes, the Singleton class can be a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 4623,
+            "end": 4639,
+            "label": "reasoning",
+            "text": "So II is true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 4639,
+            "end": 4683,
+            "label": "reasoning",
+            "text": "Therefore all three statements are correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 4683,
+            "end": 4753,
+            "label": "planning",
+            "text": "But I need to confirm if there's any reason any of them might not be. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 4753,
+            "end": 4791,
+            "label": "planning",
+            "text": "Let me think of possible exceptions.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 4791,
+            "end": 4916,
+            "label": "fact",
+            "text": "Another point: In some languages, like Java, the Singleton can have a private constructor, static method, and be a subclass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 4916,
+            "end": 4929,
+            "label": "reasoning",
+            "text": "So II holds. ",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 4929,
+            "end": 4946,
+            "label": "fact",
+            "text": "In C++, similar. ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 4946,
+            "end": 4980,
+            "label": "reasoning",
+            "text": "So I think all three are correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 4980,
+            "end": 5030,
+            "label": "reasoning",
+            "text": "Therefore the answer is I, II, and III.\n</think>\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 5030,
+            "end": 5144,
+            "label": "fact",
+            "text": "The Singleton design pattern ensures that a class has only one instance and provides a global access point to it. ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 5144,
+            "end": 5176,
+            "label": "planning",
+            "text": "Let's evaluate each statement:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 5176,
+            "end": 5272,
+            "label": "restatement",
+            "text": "**I. The Singleton class has a static factory method to provide its instance.**  \nThis is true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": false,
+            "start": 5272,
+            "end": 5384,
+            "label": "fact",
+            "text": "The Singleton typically uses a **static factory method** (e.g., `getInstance()`) to return the single instance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": false,
+            "start": 5384,
+            "end": 5480,
+            "label": "reasoning",
+            "text": "Since the constructor is private, this static method is the only way to access the instance.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": false,
+            "start": 5480,
+            "end": 5565,
+            "label": "restatement",
+            "text": "**II. The Singleton class can be a subclass of another class.**  \nThis is also true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": false,
+            "start": 5565,
+            "end": 5618,
+            "label": "fact",
+            "text": "The Singleton pattern does not restrict inheritance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": false,
+            "start": 5618,
+            "end": 5767,
+            "label": "reasoning",
+            "text": "A Singleton class can inherit from another class (i.e., be a subclass), as the pattern focuses on controlling instantiation rather than inheritance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": false,
+            "start": 5767,
+            "end": 5964,
+            "label": "example",
+            "text": "For example:  \n```java\nclass Parent {}\nclass Singleton extends Parent {\n    private static Singleton instance;\n    private Singleton() {}\n    public static Singleton getInstance() { ... }\n}\n```  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": false,
+            "start": 5964,
+            "end": 6036,
+            "label": "restatement",
+            "text": "**III. The Singleton class has a private constructor.**  \nThis is true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": false,
+            "start": 6036,
+            "end": 6184,
+            "label": "reasoning",
+            "text": "A private constructor prevents external instantiation via `new Singleton()`, ensuring that only the class itself can create the single instance.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": false,
+            "start": 6184,
+            "end": 6254,
+            "label": "reasoning",
+            "text": "**Conclusion:** All three statements (I, II, and III) are correct.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": false,
+            "start": 6254,
+            "end": 6281,
+            "label": "conclusion",
+            "text": "**Answer:** I, II, and III.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "ctx6",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp1",
+            "to_node_id": "resp3",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp2",
+            "to_node_id": "resp4",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp3",
+            "to_node_id": "resp5",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp3",
+            "to_node_id": "resp6",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp4",
+            "to_node_id": "resp6",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp4",
+            "to_node_id": "resp7",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp5",
+            "to_node_id": "resp7",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp6",
+            "to_node_id": "resp8",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp6",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp7",
+            "to_node_id": "resp10",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp7",
+            "to_node_id": "resp11",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp12",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp12",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp12",
+            "to_node_id": "resp15",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp13",
+            "to_node_id": "resp16",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp14",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp14",
+            "to_node_id": "resp18",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp17",
+            "to_node_id": "resp19",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp14",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp16",
+            "to_node_id": "resp20",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp17",
+            "to_node_id": "resp20",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "ctx6",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp3",
+            "to_node_id": "resp22",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp21",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp22",
+            "to_node_id": "resp25",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp23",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp22",
+            "to_node_id": "resp26",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp23",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp24",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp1",
+            "to_node_id": "resp27",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp8",
+            "to_node_id": "resp27",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp18",
+            "to_node_id": "resp27",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp28",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp4",
+            "to_node_id": "resp28",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp6",
+            "to_node_id": "resp28",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp6",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp10",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp11",
+            "to_node_id": "resp29",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp28",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp11",
+            "to_node_id": "resp30",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp31",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp12",
+            "to_node_id": "resp31",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp12",
+            "to_node_id": "resp32",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp14",
+            "to_node_id": "resp32",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp15",
+            "to_node_id": "resp32",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp20",
+            "to_node_id": "resp33",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp31",
+            "to_node_id": "resp33",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp20",
+            "to_node_id": "resp34",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp24",
+            "to_node_id": "resp35",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp34",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp34",
+            "to_node_id": "resp36",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp35",
+            "to_node_id": "resp37",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp36",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp34",
+            "to_node_id": "resp38",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp35",
+            "to_node_id": "resp38",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp36",
+            "to_node_id": "resp38",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp37",
+            "to_node_id": "resp38",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp12",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp31",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp31",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp34",
+            "to_node_id": "resp40",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp37",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp39",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp17",
+            "to_node_id": "resp41",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp20",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp40",
+            "to_node_id": "resp41",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp14",
+            "to_node_id": "resp42",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp32",
+            "to_node_id": "resp42",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp40",
+            "to_node_id": "resp43",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp41",
+            "to_node_id": "resp43",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp20",
+            "to_node_id": "resp44",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp41",
+            "to_node_id": "resp44",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp43",
+            "to_node_id": "resp44",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp45",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp21",
+            "to_node_id": "resp45",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp23",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp24",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp25",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp26",
+            "to_node_id": "resp46",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp26",
+            "to_node_id": "resp47",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp45",
+            "to_node_id": "resp47",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp46",
+            "to_node_id": "resp47",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp11",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp20",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp26",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp30",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp44",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp47",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp48",
+            "to_node_id": "resp49",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp27",
+            "to_node_id": "resp50",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp49",
+            "to_node_id": "resp50",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp24",
+            "to_node_id": "resp51",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp25",
+            "to_node_id": "resp51",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp47",
+            "to_node_id": "resp51",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp49",
+            "to_node_id": "resp52",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp50",
+            "to_node_id": "resp52",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp51",
+            "to_node_id": "resp52",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp50",
+            "to_node_id": "resp53",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp51",
+            "to_node_id": "resp53",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp22",
+            "to_node_id": "resp54",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp23",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp24",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp46",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp47",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp21",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp22",
+            "to_node_id": "resp55",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp23",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp24",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp25",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp45",
+            "to_node_id": "resp55",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp46",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp48",
+            "to_node_id": "resp56",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp0",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp58",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp58",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp58",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "ctx6",
+            "to_node_id": "resp58",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp56",
+            "to_node_id": "resp59",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp50",
+            "to_node_id": "resp60",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp57",
+            "to_node_id": "resp60",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp20",
+            "to_node_id": "resp61",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp44",
+            "to_node_id": "resp61",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e164",
+            "from_node_id": "resp59",
+            "to_node_id": "resp61",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e165",
+            "from_node_id": "resp38",
+            "to_node_id": "resp62",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e166",
+            "from_node_id": "resp40",
+            "to_node_id": "resp62",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e167",
+            "from_node_id": "resp41",
+            "to_node_id": "resp62",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e168",
+            "from_node_id": "resp34",
+            "to_node_id": "resp63",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e169",
+            "from_node_id": "resp38",
+            "to_node_id": "resp63",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e170",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e171",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp64",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e172",
+            "from_node_id": "resp12",
+            "to_node_id": "resp64",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e173",
+            "from_node_id": "resp39",
+            "to_node_id": "resp64",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e174",
+            "from_node_id": "resp61",
+            "to_node_id": "resp65",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e175",
+            "from_node_id": "resp62",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e176",
+            "from_node_id": "resp63",
+            "to_node_id": "resp65",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e177",
+            "from_node_id": "resp64",
+            "to_node_id": "resp65",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e178",
+            "from_node_id": "resp39",
+            "to_node_id": "resp66",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e179",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e180",
+            "from_node_id": "resp41",
+            "to_node_id": "resp67",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e181",
+            "from_node_id": "resp64",
+            "to_node_id": "resp67",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e182",
+            "from_node_id": "resp66",
+            "to_node_id": "resp67",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e183",
+            "from_node_id": "resp20",
+            "to_node_id": "resp68",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e184",
+            "from_node_id": "resp44",
+            "to_node_id": "resp68",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e185",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e186",
+            "from_node_id": "resp50",
+            "to_node_id": "resp70",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e187",
+            "from_node_id": "resp60",
+            "to_node_id": "resp70",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e188",
+            "from_node_id": "resp61",
+            "to_node_id": "resp70",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e189",
+            "from_node_id": "resp50",
+            "to_node_id": "resp71",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e190",
+            "from_node_id": "resp70",
+            "to_node_id": "resp71",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e191",
+            "from_node_id": "resp41",
+            "to_node_id": "resp72",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e192",
+            "from_node_id": "resp44",
+            "to_node_id": "resp72",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e193",
+            "from_node_id": "resp67",
+            "to_node_id": "resp72",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e194",
+            "from_node_id": "resp64",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e195",
+            "from_node_id": "resp65",
+            "to_node_id": "resp73",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e196",
+            "from_node_id": "resp66",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e197",
+            "from_node_id": "resp67",
+            "to_node_id": "resp73",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e198",
+            "from_node_id": "resp68",
+            "to_node_id": "resp73",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e199",
+            "from_node_id": "resp72",
+            "to_node_id": "resp74",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e200",
+            "from_node_id": "resp56",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e201",
+            "from_node_id": "resp69",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e202",
+            "from_node_id": "resp73",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e203",
+            "from_node_id": "resp56",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e204",
+            "from_node_id": "resp69",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e205",
+            "from_node_id": "resp75",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e206",
+            "from_node_id": "resp2",
+            "to_node_id": "resp77",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e207",
+            "from_node_id": "resp3",
+            "to_node_id": "resp77",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e208",
+            "from_node_id": "resp27",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e209",
+            "from_node_id": "resp50",
+            "to_node_id": "resp78",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e210",
+            "from_node_id": "resp70",
+            "to_node_id": "resp78",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e211",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e212",
+            "from_node_id": "resp4",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e213",
+            "from_node_id": "resp6",
+            "to_node_id": "resp79",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e214",
+            "from_node_id": "resp78",
+            "to_node_id": "resp80",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e215",
+            "from_node_id": "resp79",
+            "to_node_id": "resp80",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e216",
+            "from_node_id": "resp6",
+            "to_node_id": "resp81",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e217",
+            "from_node_id": "resp10",
+            "to_node_id": "resp81",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e218",
+            "from_node_id": "resp24",
+            "to_node_id": "resp81",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e219",
+            "from_node_id": "resp80",
+            "to_node_id": "resp81",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e220",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e221",
+            "from_node_id": "resp12",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e222",
+            "from_node_id": "resp31",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e223",
+            "from_node_id": "resp81",
+            "to_node_id": "resp83",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e224",
+            "from_node_id": "resp82",
+            "to_node_id": "resp83",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e225",
+            "from_node_id": "resp82",
+            "to_node_id": "resp84",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e226",
+            "from_node_id": "resp83",
+            "to_node_id": "resp84",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e227",
+            "from_node_id": "resp82",
+            "to_node_id": "resp85",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e228",
+            "from_node_id": "resp84",
+            "to_node_id": "resp85",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e229",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp86",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e230",
+            "from_node_id": "resp45",
+            "to_node_id": "resp86",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e231",
+            "from_node_id": "resp24",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e232",
+            "from_node_id": "resp25",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e233",
+            "from_node_id": "resp26",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e234",
+            "from_node_id": "resp46",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e235",
+            "from_node_id": "resp54",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e236",
+            "from_node_id": "resp56",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e237",
+            "from_node_id": "resp69",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e238",
+            "from_node_id": "resp75",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e239",
+            "from_node_id": "resp76",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e240",
+            "from_node_id": "resp76",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e241",
+            "from_node_id": "resp88",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        }
+    ]
+}
