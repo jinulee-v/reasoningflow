@@ -104,7 +104,17 @@ def annotate_edges(node_idx, nodes, EDGE_PROMPT, EDGE_EXAMPLES):
         "label": edge["label"]
     } for i, edge in enumerate(response)]
 
-def main_predict():
+def model_id_map(file):
+    if "DeepSeek-R1" in file:
+        return "deepseek-ai/DeepSeek-R1"
+    elif "DeepSeek-V3" in file:
+        return "deepseek-ai/DeepSeek-V3"
+    elif "Qwen2.5-32B-Instruct" in file:
+        return "Qwen/Qwen2.5-32B-Instruct"
+    elif "QwQ-32B" in file:
+        return "Qwen/QwQ-32B"
+
+def main_predict(file):
     with open("parser/node_prompt.txt", "r") as f:
         NODE_PROMPT = f.read()
     with open("parser/edge_prompt.txt", "r") as f:
@@ -117,28 +127,28 @@ def main_predict():
     # Load the data
     print("<Load data...>")
     data = []
-    with open("mmlu_responses.json", "r") as f:
-        raw_data = json.load(f)
-    for model_id, model_data in raw_data["responses"].items():
-        for datum in model_data:
-            response = datum["response"]
-            if "<think>" in response and "</think>" in response:
-                # Deepseek-R1
-                response = response.split("<think>")[-1].split("</think>")[0].strip()
-            data.append({
-                "doc_id": f"mmlu_{datum['question_index']}_{model_id.replace('/', '_')}",
-                "metadata": {
-                    "model_id": model_id,
-                    "subject": datum["subject"],
-                    "correct_answer": datum["correct_answer"],
-                },
-                "raw_text": {
-                    "question": datum["question"],
-                    "response": response
-                },
-                "nodes": [],
-                "edges": []
-            })
+    with open(file, "r") as f:
+        raw_data = []
+        for line in f:
+            raw_data.append(json.loads(line))
+    for i, datum in enumerate(raw_data):
+        response = datum["response"]
+        if "<think>" in response and "</think>" in response:
+            # Deepseek-R1
+            response = response.split("<think>")[-1].split("</think>")[0].strip()
+        data.append({
+            "doc_id": file.replace(".jsonl", f"_{i}.json").replace("v1_data_raw", "v1_data"),
+            "metadata": {
+                "model_id": model_id_map(file),
+                "correct_answer": datum["correct_answer"],
+            },
+            "raw_text": {
+                "question": datum["question"],
+                "response": response
+            },
+            "nodes": [],
+            "edges": []
+        })
     print(f"Loaded {len(data)} data samples.")
 
     # test
@@ -147,13 +157,13 @@ def main_predict():
         try:
             continue_flag = False
             # If data exists, skip
-            if os.path.exists(f"mmlu_data/{datum['doc_id']}.json"):
+            if os.path.exists(f"{datum['doc_id']}"):
                 print(f"Data for {datum['doc_id']} already exists, skipping.")
                 continue
 
             print(f"Processing document: {datum['doc_id']}")
-            with open(f"mmlu_data/{datum['doc_id']}.json", "w") as f:
-                json.dump(datum, f, indent=4)
+            # with open(f"{datum['doc_id']}", "w") as f:
+            #     json.dump(datum, f, indent=4)
             response = datum["raw_text"]["response"]
             response = call_llm(
                 NODE_PROMPT
@@ -172,14 +182,12 @@ def main_predict():
             sentence_indices = []
             for sent in sentences:
                 try:
-                    idx = datum["raw_text"]["question"].index(sent, last_idx)
+                    idx = datum["raw_text"]["question"].index(sent[:15], last_idx)
                 except ValueError:
-                    # Find idx with regex. Replace all whitespace/tabs/newlines/... with \s* wildcard.
-                    pattern = re.escape(sent).replace(r'\ ', r'\s*').replace(r'\t', r'\s*').replace(r'\n', r'\s*')
-                    match = re.search(pattern, datum["raw_text"]["question"][last_idx:], re.DOTALL)
-                    if match:
-                        idx = last_idx + match.start()
-                    else:
+                    # Find idx with regex. Replace all non-alphanumeric characters with \s* wildcard.
+                    try:
+                        idx = datum["raw_text"]["question"].index(sent[:5], last_idx)
+                    except ValueError:
                         print(f"Warning: Sentence '{sent}' not found in the question text.")
                         raise ValueError(f"Sentence '{sent}' not found in the question text.")
                 last_idx = idx + len(sent)
@@ -204,17 +212,19 @@ def main_predict():
             sentence_indices = []
             for sent in response: # concatenating the "text" field should be the original response text
                 try:
-                    idx = datum["raw_text"]["response"].index(sent["text"], last_idx)
+                    idx = datum["raw_text"]["response"].index(sent["text"][:10], last_idx)
                 except ValueError:
                     # Find idx with regex. Replace all whitespace/tabs/newlines/... with \s* wildcard.
-                    pattern = re.escape(sent["text"]).replace(r'\ ', r'\s*').replace(r'\t', r'\s*').replace(r'\n', r'\s*')
-                    match = re.search(pattern, datum["raw_text"]["response"][last_idx:], re.DOTALL)
-                    if match:
-                        idx = last_idx + match.start()
-                    else:
-                        print(f"Warning: Sentence '{sent['text']}' not found in the response text.")
-                        # raise ValueError(f"Sentence '{sent['text']}' not found in the response text.")
-                        continue_flag = True; break
+                    # pattern = re.escape(sent["text"])
+                    # pattern = re.sub(r'[^a-zA-Z0-9]', r'.?', pattern, re.DOTALL)
+                    # pattern = re.sub(r'[^a-zA-Z0-9\\]', r'\\s*', pattern, re.DOTALL)
+                    # match = re.search(pattern, datum["raw_text"]["response"], re.DOTALL)
+                    # if match and match.start() >= last_idx:
+                    #     idx = match.start()
+                    # else:
+                    print(f"Warning: Sentence '{sent['text']}' not found in the response text.")
+                    # raise ValueError(f"Sentence '{sent['text']}' not found in the response text.")
+                    continue_flag = True; break
                 last_idx = idx + len(sent["text"])
                 sentence_indices.append(idx)
             if continue_flag:
@@ -250,14 +260,14 @@ def main_predict():
                     "source": "response"
                 })
 
-            with open(f"mmlu_data/{datum['doc_id']}.json", "w") as f:
-                json.dump(datum, f, indent=4)
+            # with open(f"{datum['doc_id']}", "w") as f:
+            #     json.dump(datum, f, indent=4)
 
             # For each node that are from "source: response", annotate edges
             edges = datum["edges"]
             # Process nodes in parallel to generate edges
             edge_results = []
-            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor: # rate limit control
+            with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor: # rate limit control
                 # Create a partial function with fixed parameters
                 process_func = partial(annotate_edges, 
                                     nodes=nodes, 
@@ -288,16 +298,22 @@ def main_predict():
             for i, edge in enumerate(edges):
                 edge["id"] = f"e{i}"
 
-            with open(f"mmlu_data/{datum['doc_id']}.json", "w") as f:
+            with open(f"{datum['doc_id']}", "w") as f:
                 json.dump(datum, f, indent=4)
         except Exception as e:
+            # raise e
             print(f"Error processing document {datum['doc_id']}: {e}")
             continue
     metadata = get_metadata()
     print(f"Total input tokens: {metadata['in_token']}, output tokens: {metadata['out_token']}, price: ${metadata['price']:.6f}")
 
 if __name__ == "__main__":
-    main_predict()
+    import argparse
+    parser = argparse.ArgumentParser(description="LLM Labeler for data")
+    parser.add_argument("--file", type=str, required=True, help="Path to the input JSONL file")
+    args = parser.parse_args()
+
+    main_predict(args.file)
     # response = client.models.generate_content(
     #     model="gemini-2.0-flash",
     #     response=SEGMENTATION_PROMPT,
