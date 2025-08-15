@@ -1,0 +1,408 @@
+{
+    "doc_id": "v1_data/Qwen2.5-32B-Instruct_aime2024_responses_14.json",
+    "metadata": {
+        "model_id": "Qwen/Qwen2.5-32B-Instruct",
+        "correct_answer": "294"
+    },
+    "raw_text": {
+        "question": "Consider the paths of length $16$ that follow the lines from the lower left corner to the upper right corner on an $8\\times 8$ grid. Find the number of such paths that change direction exactly four times, as in the examples shown below.",
+        "response": "To solve this problem, we need to consider the nature of the paths and how they can change direction. A path from the lower left corner to the upper right corner on an \\(8 \\times 8\\) grid consists of 8 right (R) moves and 8 up (U) moves, making a total of 16 moves. The path changes direction whenever it switches from R to U or from U to R.\n\nA path that changes direction exactly four times must have five segments of consecutive R's or U's. This is because each change of direction creates a new segment, and starting with one initial segment, four changes create five segments in total. For example, a path might look like RRRUUURRUUUURRRU, which has five segments: RRR, UUU, RR, UUUU, and RRU.\n\nWe need to determine how many ways we can distribute 8 R's and 8 U's into these five segments. Let's denote the lengths of the segments of R's and U's as \\(a_1, a_2, a_3, a_4, a_5\\), where \\(a_1 + a_3 + a_5 = 8\\) (the total number of R's) and \\(a_2 + a_4 = 8\\) (the total number of U's). Each \\(a_i\\) must be a positive integer because each segment must contain at least one move.\n\nThe number of solutions to \\(a_1 + a_3 + a_5 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(b_1 + b_3 + b_5 = 5\\) where each \\(b_i \\geq 0\\) (by setting \\(b_i = a_i - 1\\)). This is given by the stars and bars method:\n\\[\n\\binom{5+2}{2} = \\binom{7}{2} = 21.\n\\]\nSimilarly, the number of solutions to \\(a_2 + a_4 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(c_2 + c_4 = 6\\) where each \\(c_i \\geq 0\\) (by setting \\(c_i = a_i - 1\\)). This is also given by the stars and bars method:\n\\[\n\\binom{6+1}{1} = \\binom{7}{1} = 7.\n\\]\nSince the choices for the R segments and the U segments are independent, the total number of paths is the product of these two results:\n\\[\n21 \\times 7 = 147.\n\\]\nHowever, we must also consider the different ways to arrange the segments of R's and U's. There are two possible patterns for the segments: RURURU... or URURUR.... Each pattern can be arranged in exactly one way given the segment lengths. Therefore, we do not need to multiply by any additional factor for the arrangement of the segments.\n\nThus, the number of such paths is:\n\\[\n\\boxed{147}.\n\\]"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 133,
+            "label": "context",
+            "text": "Consider the paths of length $16$ that follow the lines from the lower left corner to the upper right corner on an $8\\times 8$ grid. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 133,
+            "end": 236,
+            "label": "context",
+            "text": "Find the number of such paths that change direction exactly four times, as in the examples shown below.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 102,
+            "label": "planning",
+            "text": "To solve this problem, we need to consider the nature of the paths and how they can change direction. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 102,
+            "end": 266,
+            "label": "fact",
+            "text": "A path from the lower left corner to the upper right corner on an \\(8 \\times 8\\) grid consists of 8 right (R) moves and 8 up (U) moves, making a total of 16 moves. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 266,
+            "end": 343,
+            "label": "fact",
+            "text": "The path changes direction whenever it switches from R to U or from U to R.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 343,
+            "end": 443,
+            "label": "reasoning",
+            "text": "A path that changes direction exactly four times must have five segments of consecutive R's or U's. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 443,
+            "end": 590,
+            "label": "reasoning",
+            "text": "This is because each change of direction creates a new segment, and starting with one initial segment, four changes create five segments in total. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 590,
+            "end": 699,
+            "label": "example",
+            "text": "For example, a path might look like RRRUUURRUUUURRRU, which has five segments: RRR, UUU, RR, UUUU, and RRU.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 699,
+            "end": 794,
+            "label": "planning",
+            "text": "We need to determine how many ways we can distribute 8 R's and 8 U's into these five segments. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 794,
+            "end": 987,
+            "label": "reasoning",
+            "text": "Let's denote the lengths of the segments of R's and U's as \\(a_1, a_2, a_3, a_4, a_5\\), where \\(a_1 + a_3 + a_5 = 8\\) (the total number of R's) and \\(a_2 + a_4 = 8\\) (the total number of U's). ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 987,
+            "end": 1081,
+            "label": "assumption",
+            "text": "Each \\(a_i\\) must be a positive integer because each segment must contain at least one move.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 1081,
+            "end": 1284,
+            "label": "reasoning",
+            "text": "The number of solutions to \\(a_1 + a_3 + a_5 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(b_1 + b_3 + b_5 = 5\\) where each \\(b_i \\geq 0\\) (by setting \\(b_i = a_i - 1\\)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 1284,
+            "end": 1370,
+            "label": "fact",
+            "text": "This is given by the stars and bars method:\n\\[\n\\binom{5+2}{2} = \\binom{7}{2} = 21.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 1370,
+            "end": 1572,
+            "label": "reasoning",
+            "text": "Similarly, the number of solutions to \\(a_2 + a_4 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(c_2 + c_4 = 6\\) where each \\(c_i \\geq 0\\) (by setting \\(c_i = a_i - 1\\)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 1572,
+            "end": 1662,
+            "label": "fact",
+            "text": "This is also given by the stars and bars method:\n\\[\n\\binom{6+1}{1} = \\binom{7}{1} = 7.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 1662,
+            "end": 1823,
+            "label": "reasoning",
+            "text": "Since the choices for the R segments and the U segments are independent, the total number of paths is the product of these two results:\n\\[\n21 \\times 7 = 147.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1823,
+            "end": 1913,
+            "label": "planning",
+            "text": "However, we must also consider the different ways to arrange the segments of R's and U's. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1913,
+            "end": 1987,
+            "label": "fact",
+            "text": "There are two possible patterns for the segments: RURURU... or URURUR.... ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1987,
+            "end": 2062,
+            "label": "reasoning",
+            "text": "Each pattern can be arranged in exactly one way given the segment lengths. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 2062,
+            "end": 2163,
+            "label": "reasoning",
+            "text": "Therefore, we do not need to multiply by any additional factor for the arrangement of the segments.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 2163,
+            "end": 2216,
+            "label": "conclusion",
+            "text": "Thus, the number of such paths is:\n\\[\n\\boxed{147}.\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "resp0",
+            "to_node_id": "resp2",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp1",
+            "to_node_id": "resp3",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp3",
+            "to_node_id": "resp5",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp3",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp4",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp3",
+            "to_node_id": "resp7",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp4",
+            "to_node_id": "resp7",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp9",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp10",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp11",
+            "to_node_id": "resp13",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp6",
+            "to_node_id": "resp14",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp13",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp14",
+            "to_node_id": "resp18",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp15",
+            "to_node_id": "resp18",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        }
+    ]
+}

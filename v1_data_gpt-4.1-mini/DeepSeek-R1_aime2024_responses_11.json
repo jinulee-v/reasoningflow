@@ -1,0 +1,6045 @@
+{
+    "doc_id": "v1_data/DeepSeek-R1_aime2024_responses_11.json",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-R1",
+        "correct_answer": "45"
+    },
+    "raw_text": {
+        "question": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+        "response": "Okay, so I need to figure out how many ways there are to place digits in a 2x3 grid such that two conditions are met:\n\n1. The sum of the two numbers formed by reading left to right (i.e., the two rows) is 999.\n2. The sum of the three numbers formed by reading top to bottom (i.e., the three columns) is 99.\n\nThe example given is:\n\n```\n0 0 8\n9 9 1\n```\n\nHere, the first row is 008, which is 8, and the second row is 991. Their sum is 8 + 991 = 999. For the columns, the numbers are 09 (which is 9), 09 (which is 9), and 81. Their sum is 9 + 9 + 81 = 99. So this example works.\n\nFirst, let me parse the problem again to make sure I understand it correctly. The grid is 2 rows by 3 columns. Each cell must contain a digit (0-9). When reading left to right, each row forms a 3-digit number. The sum of these two numbers must be 999. When reading top to bottom, each column forms a 2-digit number, and the sum of these three numbers must be 99.\n\nWait, hold on. The example given has the first row as 0 0 8, which is 008, but leading zeros are allowed here? Because normally, numbers don't have leading zeros, but in the problem statement, it's mentioned that each cell is a digit, so maybe leading zeros are allowed. The example includes them, so I think leading zeros are permitted here. So, rows can have leading zeros, making them 3-digit numbers (even if they start with zeros), and columns can have leading zeros, making them 2-digit numbers. So, for example, a column with digits 0 and 9 is the number 09, which is 9. So, leading zeros are allowed. That's important.\n\nSo, the problem allows leading zeros in both rows and columns. Therefore, each row is a 3-digit number (possibly with leading zeros), and each column is a 2-digit number (also possibly with leading zeros). The sum of the two rows is 999, and the sum of the three columns is 99.\n\nSo, I need to count all possible 2x3 grids of digits satisfying these two sum conditions.\n\nLet me start by analyzing the row sums. Let's denote the two rows as ABC and DEF, where each letter represents a digit. Then, ABC + DEF = 999. Since ABC and DEF are 3-digit numbers (with possible leading zeros), their sum is 999. Let me think about what this implies for each digit.\n\nAdding two 3-digit numbers to get 999. So, each corresponding pair of digits must add up to 9 or 19, considering possible carries. Let's break it down digit by digit:\n\nStarting from the rightmost digit (units place):\n\nC + F = 9 or 19 (if there's a carryover from the tens place). But since the maximum sum of two digits is 9 + 9 = 18, so actually, C + F can only be 9 or 19. Wait, 9 + 9 = 18, so 19 is not possible. Wait, hold on. Wait, 9 is the maximum digit. So, if C + F = 9, then there's no carryover. If C + F = 9 + 10 = 19, but since digits are at most 9, C + F can't exceed 18. Therefore, actually, the maximum possible sum is 18, which would be a carryover of 1. Wait, but 18 is 8 with a carryover of 1. Wait, perhaps I need to correct this.\n\nWait, when adding two digits, the possible sums are from 0 + 0 = 0 to 9 + 9 = 18. So, the sum can be between 0 and 18. Therefore, when adding two digits, the sum modulo 10 is the digit in the result, and the carryover is floor(sum / 10). So, for the units place: C + F must result in 9 with a possible carryover. Wait, but the total sum is 999. So, starting from the rightmost digit:\n\n1. Units place: C + F = 9 or 19 (if there's a carryover from the tens place). But since C and F are digits (0-9), their sum can be at most 18. So, 19 is impossible. Therefore, C + F must be 9, and there is no carryover from the units place.\n\n2. Tens place: B + E + carryover (which is 0) = 9 or 19. Again, since B and E are digits, their sum can be at most 18. So, B + E must be 9, with no carryover.\n\n3. Hundreds place: A + D + carryover (still 0) = 9 or 19. Similarly, A and D are digits, so their maximum sum is 18. Therefore, A + D must be 9, with no carryover.\n\nTherefore, all three digit pairs must add up to 9, with no carryover in any place. Therefore, for the rows:\n\nA + D = 9\n\nB + E = 9\n\nC + F = 9\n\nSo, each corresponding pair of digits in the rows must add up to 9. Therefore, the first row is ABC, the second row is DEF, and A + D = 9, B + E = 9, C + F = 9.\n\nTherefore, each digit in the first row determines the digit below it in the second row. For example, if A is 1, then D must be 8; if B is 5, E must be 4, etc.\n\nSo, this gives us that the second row is entirely determined by the first row. Each digit in the second row is 9 minus the corresponding digit in the first row.\n\nWait, but hold on: A + D = 9, so D = 9 - A. Similarly, E = 9 - B, F = 9 - C.\n\nTherefore, once we choose the first row ABC, the second row is determined as (9 - A)(9 - B)(9 - C). Therefore, the second row is uniquely determined by the first row.\n\nTherefore, the number of possible row configurations is equal to the number of possible first rows ABC, where each digit A, B, C is between 0 and 9, and then D = 9 - A, E = 9 - B, F = 9 - C. However, we also need to ensure that when we add ABC and DEF, the sum is 999. But given that each digit pair adds to 9, the sum will automatically be 999. So, as long as each corresponding digit pair adds to 9, the total sum will be 999. Therefore, the first condition is equivalent to the second row being the 9's complement of the first row digit-wise.\n\nTherefore, the first part of the problem reduces to: how many possible first rows ABC are there such that when you take DEF as (9 - A)(9 - B)(9 - C), the column sums (top to bottom) add up to 99.\n\nWait, but columns are read top to bottom, so each column is a 2-digit number formed by the two digits in that column. So, column 1 is AD, which is a 2-digit number (A followed by D), column 2 is BE, column 3 is CF. Then, the sum of these three 2-digit numbers is 99.\n\nSo, the second condition is: AD + BE + CF = 99.\n\nBut AD is the number 10*A + D, BE is 10*B + E, CF is 10*C + F.\n\nBut since D = 9 - A, E = 9 - B, F = 9 - C, substituting these into the column sums:\n\nAD = 10*A + (9 - A) = 9*A + 9\n\nBE = 10*B + (9 - B) = 9*B + 9\n\nCF = 10*C + (9 - C) = 9*C + 9\n\nTherefore, the sum of the columns is:\n\n(9*A + 9) + (9*B + 9) + (9*C + 9) = 9*(A + B + C) + 27 = 99\n\nTherefore:\n\n9*(A + B + C) + 27 = 99\n\nSubtract 27 from both sides:\n\n9*(A + B + C) = 72\n\nDivide both sides by 9:\n\nA + B + C = 8\n\nTherefore, the sum of the digits in the first row must be 8.\n\nSo, combining both conditions:\n\n1. Each digit in the second row is 9 minus the corresponding digit in the first row.\n\n2. The sum of the digits in the first row is 8.\n\nTherefore, the problem reduces to finding the number of triples (A, B, C) where A, B, C are digits (0-9), such that A + B + C = 8.\n\nBut wait, is that all? Wait, but columns are formed by AD, BE, CF, which are 2-digit numbers. However, in the example given, the first column is 0 and 9, which is 09 = 9. Similarly, the second column is 0 and 9, which is 09 = 9, and the third column is 8 and 1, which is 81. So, columns can have leading zeros, which are allowed here. Therefore, even if A is 0, AD is 0 followed by D = 9 - 0 = 9, which is 09 = 9. So, leading zeros are allowed in columns as well.\n\nTherefore, the only constraints are:\n\n- A, B, C are digits (0-9)\n\n- A + B + C = 8\n\nThen, D = 9 - A, E = 9 - B, F = 9 - C\n\nBut we need to ensure that D, E, F are digits as well. Since A, B, C are digits (0-9), then D = 9 - A will be between 0 and 9, same for E and F. So, since A can be from 0 to 9, D = 9 - A will be from 0 to 9 as well. Therefore, as long as A, B, C are digits, D, E, F will automatically be digits. Therefore, the only constraint is A + B + C = 8, with A, B, C \u2208 {0,1,...,9}.\n\nTherefore, the problem reduces to finding the number of non-negative integer solutions to A + B + C = 8 where each variable is between 0 and 9 inclusive. Since 8 is less than 3*9 = 27, but since the sum is only 8, the upper bounds of 9 are automatically satisfied because each variable can be at most 8 (since 8 + 0 + 0 = 8). Therefore, all solutions A, B, C \u2265 0 with A + B + C = 8 are valid, and there's no need to worry about the upper limit.\n\nThe number of non-negative integer solutions to A + B + C = 8 is C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. So, 45 possible triples (A, B, C). Therefore, the answer should be 45?\n\nWait, but hold on. Wait, in the example given, A = 0, B = 0, C = 8. Then D = 9, E = 9, F = 1. So, the second row is 9, 9, 1. So, DEF is 991, which is correct. Then, columns are 09, 09, 81, which sum to 99. So, in this case, A + B + C = 0 + 0 + 8 = 8, which fits the equation.\n\nBut wait, is there any other constraint? For example, in the problem statement, the example has leading zeros in the first row, but maybe there are other constraints. Wait, but according to the problem statement, digits can be placed in each cell, so leading zeros are allowed. Therefore, A, B, C can be zero. So, the only constraint is A + B + C = 8, with each digit from 0 to 9. Therefore, the number of solutions is indeed C(10, 2) = 45. Therefore, the answer is 45.\n\nBut wait, let me check again. Wait, the formula for the number of non-negative integer solutions to A + B + C = 8 is C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. So, yes, 45. Therefore, the answer should be 45.\n\nBut wait, let me verify with the example. In the example, A=0, B=0, C=8. So, that's one solution. Another example: A=1, B=1, C=6. Then D=8, E=8, F=3. Then, columns would be 18, 18, 63. Sum: 18 + 18 + 63 = 99. Correct. So, that works. Similarly, A=2, B=2, C=4: D=7, E=7, F=5. Columns: 27, 27, 45. Sum: 27 + 27 + 45 = 99. Correct.\n\nTherefore, each triple (A, B, C) with A + B + C = 8 gives a valid grid. Therefore, the number of such grids is equal to the number of triples (A, B, C), which is 45.\n\nBut wait, hold on. Wait, but in the problem statement, the grid is 2x3, so each cell is a digit. So, each grid is determined by the first row (A, B, C) and the second row (D, E, F). But since D, E, F are determined by A, B, C, the entire grid is determined by A, B, C. Therefore, each solution (A, B, C) corresponds to exactly one grid. Therefore, the number of grids is equal to the number of solutions (A, B, C), which is 45.\n\nBut wait, let me check if there's any other constraints. For example, in the columns, the numbers AD, BE, CF are 2-digit numbers. But since leading zeros are allowed, even if A=0, AD is 09, which is allowed. Similarly, if B=0, BE is 09, etc. So, no problem with leading zeros. Therefore, all 45 solutions are valid.\n\nTherefore, the answer is 45. Therefore, \\boxed{45}\n\nWait, but hold on. Wait, let me check again. Wait, in the example, the first row is 0 0 8, which sums to 8, and the second row is 9 9 1. So, columns are 09, 09, 81. So, sum is 9 + 9 + 81 = 99. Correct.\n\nAnother example: Let's take A=8, B=0, C=0. Then D=1, E=9, F=9. Then, columns would be 81, 09, 09. Sum: 81 + 9 + 9 = 99. Correct. So, that's another valid grid.\n\nSimilarly, A=5, B=3, C=0. Then D=4, E=6, F=9. Columns: 54, 36, 09. Sum: 54 + 36 + 9 = 99. Correct.\n\nTherefore, all combinations where A + B + C = 8 work, and there are 45 such combinations.\n\nBut wait, let me check if there's a case where even though A + B + C = 8, the column sums might not add up. Wait, but according to the earlier derivation, substituting D=9 - A, E=9 - B, F=9 - C into the column sums gives:\n\nAD + BE + CF = 9*(A + B + C) + 27 = 9*8 + 27 = 72 + 27 = 99. So, as long as A + B + C = 8, the column sums will automatically be 99. Therefore, there's no need for any further constraints. Therefore, the only condition is A + B + C = 8, and the number of triples (A, B, C) is 45.\n\nTherefore, the answer is 45. Therefore, \\boxed{45}\n\nBut wait, hold on. Wait, let me check if there's a mistake in the calculation. The formula for the number of non-negative integer solutions to A + B + C = 8 is indeed C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. So, that's correct.\n\nAlternatively, we can think of it as stars and bars. We have 8 stars (the sum) and 2 bars to separate into 3 variables. The number of ways is C(8 + 2, 2) = C(10, 2) = 45. Correct.\n\nTherefore, unless there's a hidden constraint I'm missing, the answer should be 45.\n\nWait, but let me check another example. Suppose A=9, but wait, A can't be 9 because then D=0, but A + B + C =8. If A=9, then B + C = -1, which is impossible. Therefore, A, B, C can't exceed 8. Wait, but since A + B + C =8, each variable is at most 8. Therefore, all variables are between 0 and 8 inclusive, so digits are valid (0-9). Therefore, no problem.\n\nTherefore, all solutions A, B, C >=0, A + B + C =8, correspond to valid digits (0-8 for each), and D, E, F =9 - A, 9 - B, 9 - C, which would be between 1 and 9 (since A, B, C <=8). Wait, D=9 - A. If A=0, D=9; if A=8, D=1. So, D ranges from 1 to 9. Similarly, E and F also range from 1 to 9. Wait, but digits can be 0-9. Wait, D=9 - A. If A=0, D=9; if A=9, D=0. But since A can't be 9 (because A + B + C =8), D can't be 0. Wait, hold on. Wait, A can be from 0 to 8 (since A + B + C =8). Therefore, D=9 - A ranges from 1 to 9. Similarly, E=9 - B, where B can be from 0 to 8, so E ranges from 1 to 9. Similarly, F=9 - C, C from 0 to 8, so F ranges from 1 to 9. Therefore, D, E, F are digits from 1 to 9. Therefore, the second row cannot have any zeros. Wait, but in the example given, the second row is 9,9,1. So, D=9, E=9, F=1. All are non-zero. So, in this case, the second row has no zeros. So, in general, the second row will have digits from 1 to 9. Therefore, columns AD, BE, CF: A can be 0, D is from 1-9; B can be 0, E is from 1-9; C can be 0, F is from 1-9. Therefore, columns can have leading zeros (if A, B, C are 0) but trailing digits (D, E, F) are non-zero. So, columns can be numbers like 09 (which is 9), 18, 27, etc., up to 90 (if A=9, but A can't be 9). Wait, A can be up to 8, so D is at least 1. Therefore, columns AD can be from 09 (if A=0) up to 89 (if A=8). Similarly for BE and CF.\n\nBut since leading zeros are allowed, all these are valid. Therefore, there's no issue. Therefore, all 45 solutions are valid. Therefore, the answer is 45.\n\nTherefore, I think the answer is \\boxed{45}.\n\n**Final Answer**\n\\boxed{45}"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 219,
+            "label": "context",
+            "text": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 219,
+            "end": 309,
+            "label": "context",
+            "text": "The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 309,
+            "end": 394,
+            "label": "context",
+            "text": "\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 119,
+            "label": "restatement",
+            "text": "Okay, so I need to figure out how many ways there are to place digits in a 2x3 grid such that two conditions are met:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 119,
+            "end": 210,
+            "label": "restatement",
+            "text": "1. The sum of the two numbers formed by reading left to right (i.e., the two rows) is 999.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 210,
+            "end": 308,
+            "label": "restatement",
+            "text": "2. The sum of the three numbers formed by reading top to bottom (i.e., the three columns) is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 308,
+            "end": 331,
+            "label": "restatement",
+            "text": "The example given is:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 331,
+            "end": 352,
+            "label": "restatement",
+            "text": "```\n0 0 8\n9 9 1\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 352,
+            "end": 447,
+            "label": "reasoning",
+            "text": "Here, the first row is 008, which is 8, and the second row is 991. Their sum is 8 + 991 = 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 447,
+            "end": 552,
+            "label": "reasoning",
+            "text": "For the columns, the numbers are 09 (which is 9), 09 (which is 9), and 81. Their sum is 9 + 9 + 81 = 99. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 552,
+            "end": 576,
+            "label": "restatement",
+            "text": "So this example works.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 576,
+            "end": 654,
+            "label": "planning",
+            "text": "First, let me parse the problem again to make sure I understand it correctly. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 654,
+            "end": 687,
+            "label": "fact",
+            "text": "The grid is 2 rows by 3 columns. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 687,
+            "end": 725,
+            "label": "fact",
+            "text": "Each cell must contain a digit (0-9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 725,
+            "end": 786,
+            "label": "fact",
+            "text": "When reading left to right, each row forms a 3-digit number. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 786,
+            "end": 828,
+            "label": "fact",
+            "text": "The sum of these two numbers must be 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 828,
+            "end": 940,
+            "label": "fact",
+            "text": "When reading top to bottom, each column forms a 2-digit number, and the sum of these three numbers must be 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 940,
+            "end": 1051,
+            "label": "planning",
+            "text": "Wait, hold on. The example given has the first row as 0 0 8, which is 008, but leading zeros are allowed here? ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1051,
+            "end": 1211,
+            "label": "reasoning",
+            "text": "Because normally, numbers don't have leading zeros, but in the problem statement, it's mentioned that each cell is a digit, so maybe leading zeros are allowed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1211,
+            "end": 1283,
+            "label": "reflection",
+            "text": "The example includes them, so I think leading zeros are permitted here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1283,
+            "end": 1442,
+            "label": "restatement",
+            "text": "So, rows can have leading zeros, making them 3-digit numbers (even if they start with zeros), and columns can have leading zeros, making them 2-digit numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1442,
+            "end": 1518,
+            "label": "restatement",
+            "text": "So, for example, a column with digits 0 and 9 is the number 09, which is 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1518,
+            "end": 1568,
+            "label": "reflection",
+            "text": "So, leading zeros are allowed. That's important.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1568,
+            "end": 1631,
+            "label": "restatement",
+            "text": "So, the problem allows leading zeros in both rows and columns. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1631,
+            "end": 1774,
+            "label": "restatement",
+            "text": "Therefore, each row is a 3-digit number (possibly with leading zeros), and each column is a 2-digit number (also possibly with leading zeros). ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1774,
+            "end": 1847,
+            "label": "restatement",
+            "text": "The sum of the two rows is 999, and the sum of the three columns is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1847,
+            "end": 1938,
+            "label": "planning",
+            "text": "So, I need to count all possible 2x3 grids of digits satisfying these two sum conditions.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1938,
+            "end": 1978,
+            "label": "planning",
+            "text": "Let me start by analyzing the row sums. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1978,
+            "end": 2058,
+            "label": "assumption",
+            "text": "Let's denote the two rows as ABC and DEF, where each letter represents a digit. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 2058,
+            "end": 2081,
+            "label": "fact",
+            "text": "Then, ABC + DEF = 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 2081,
+            "end": 2168,
+            "label": "restatement",
+            "text": "Since ABC and DEF are 3-digit numbers (with possible leading zeros), their sum is 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 2168,
+            "end": 2222,
+            "label": "planning",
+            "text": "Let me think about what this implies for each digit.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 2222,
+            "end": 2261,
+            "label": "restatement",
+            "text": "Adding two 3-digit numbers to get 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 2261,
+            "end": 2353,
+            "label": "reasoning",
+            "text": "So, each corresponding pair of digits must add up to 9 or 19, considering possible carries. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 2353,
+            "end": 2390,
+            "label": "planning",
+            "text": "Let's break it down digit by digit:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 2390,
+            "end": 2440,
+            "label": "planning",
+            "text": "Starting from the rightmost digit (units place):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 2440,
+            "end": 2502,
+            "label": "reasoning",
+            "text": "C + F = 9 or 19 (if there's a carryover from the tens place). ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 2502,
+            "end": 2597,
+            "label": "reasoning",
+            "text": "But since the maximum sum of two digits is 9 + 9 = 18, so actually, C + F can only be 9 or 19. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 2597,
+            "end": 2638,
+            "label": "reflection",
+            "text": "Wait, 9 + 9 = 18, so 19 is not possible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 2638,
+            "end": 2653,
+            "label": "reflection",
+            "text": "Wait, hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 2653,
+            "end": 2683,
+            "label": "fact",
+            "text": "Wait, 9 is the maximum digit. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 2683,
+            "end": 2728,
+            "label": "reasoning",
+            "text": "So, if C + F = 9, then there's no carryover. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 2728,
+            "end": 2807,
+            "label": "reasoning",
+            "text": "If C + F = 9 + 10 = 19, but since digits are at most 9, C + F can't exceed 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 2807,
+            "end": 2893,
+            "label": "reasoning",
+            "text": "Therefore, actually, the maximum possible sum is 18, which would be a carryover of 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2893,
+            "end": 2934,
+            "label": "reasoning",
+            "text": "Wait, but 18 is 8 with a carryover of 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 2934,
+            "end": 2973,
+            "label": "reflection",
+            "text": "Wait, perhaps I need to correct this.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 2973,
+            "end": 3055,
+            "label": "fact",
+            "text": "Wait, when adding two digits, the possible sums are from 0 + 0 = 0 to 9 + 9 = 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 3055,
+            "end": 3092,
+            "label": "fact",
+            "text": "So, the sum can be between 0 and 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 3092,
+            "end": 3211,
+            "label": "fact",
+            "text": "Therefore, when adding two digits, the sum modulo 10 is the digit in the result, and the carryover is floor(sum / 10). ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 3211,
+            "end": 3286,
+            "label": "reasoning",
+            "text": "So, for the units place: C + F must result in 9 with a possible carryover. ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 3286,
+            "end": 3318,
+            "label": "restatement",
+            "text": "Wait, but the total sum is 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 3318,
+            "end": 3358,
+            "label": "planning",
+            "text": "So, starting from the rightmost digit:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 3358,
+            "end": 3436,
+            "label": "reasoning",
+            "text": "1. Units place: C + F = 9 or 19 (if there's a carryover from the tens place). ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 3436,
+            "end": 3501,
+            "label": "fact",
+            "text": "But since C and F are digits (0-9), their sum can be at most 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 3501,
+            "end": 3523,
+            "label": "reflection",
+            "text": "So, 19 is impossible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 3523,
+            "end": 3600,
+            "label": "reasoning",
+            "text": "Therefore, C + F must be 9, and there is no carryover from the units place.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 3600,
+            "end": 3657,
+            "label": "reasoning",
+            "text": "2. Tens place: B + E + carryover (which is 0) = 9 or 19. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 3657,
+            "end": 3719,
+            "label": "fact",
+            "text": "Again, since B and E are digits, their sum can be at most 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 3719,
+            "end": 3760,
+            "label": "reasoning",
+            "text": "So, B + E must be 9, with no carryover.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 3760,
+            "end": 3818,
+            "label": "reasoning",
+            "text": "3. Hundreds place: A + D + carryover (still 0) = 9 or 19. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 3818,
+            "end": 3877,
+            "label": "fact",
+            "text": "Similarly, A and D are digits, so their maximum sum is 18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 3877,
+            "end": 3925,
+            "label": "reasoning",
+            "text": "Therefore, A + D must be 9, with no carryover.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 3925,
+            "end": 4008,
+            "label": "reasoning",
+            "text": "Therefore, all three digit pairs must add up to 9, with no carryover in any place. ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 4008,
+            "end": 4034,
+            "label": "restatement",
+            "text": "Therefore, for the rows:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 4034,
+            "end": 4045,
+            "label": "fact",
+            "text": "A + D = 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 4045,
+            "end": 4056,
+            "label": "fact",
+            "text": "B + E = 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 4056,
+            "end": 4067,
+            "label": "fact",
+            "text": "C + F = 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 4067,
+            "end": 4135,
+            "label": "reasoning",
+            "text": "So, each corresponding pair of digits in the rows must add up to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 4135,
+            "end": 4229,
+            "label": "restatement",
+            "text": "Therefore, the first row is ABC, the second row is DEF, and A + D = 9, B + E = 9, C + F = 9.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 4229,
+            "end": 4317,
+            "label": "reasoning",
+            "text": "Therefore, each digit in the first row determines the digit below it in the second row. ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 4317,
+            "end": 4389,
+            "label": "example",
+            "text": "For example, if A is 1, then D must be 8; if B is 5, E must be 4, etc.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 4389,
+            "end": 4468,
+            "label": "reasoning",
+            "text": "So, this gives us that the second row is entirely determined by the first row. ",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 4468,
+            "end": 4551,
+            "label": "restatement",
+            "text": "Each digit in the second row is 9 minus the corresponding digit in the first row.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 4551,
+            "end": 4595,
+            "label": "reasoning",
+            "text": "Wait, but hold on: A + D = 9, so D = 9 - A. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 4595,
+            "end": 4629,
+            "label": "reasoning",
+            "text": "Similarly, E = 9 - B, F = 9 - C.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 4629,
+            "end": 4729,
+            "label": "reasoning",
+            "text": "Therefore, once we choose the first row ABC, the second row is determined as (9 - A)(9 - B)(9 - C). ",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 4729,
+            "end": 4797,
+            "label": "restatement",
+            "text": "Therefore, the second row is uniquely determined by the first row.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 4797,
+            "end": 4988,
+            "label": "reasoning",
+            "text": "Therefore, the number of possible row configurations is equal to the number of possible first rows ABC, where each digit A, B, C is between 0 and 9, and then D = 9 - A, E = 9 - B, F = 9 - C. ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 4988,
+            "end": 5066,
+            "label": "planning",
+            "text": "However, we also need to ensure that when we add ABC and DEF, the sum is 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 5066,
+            "end": 5143,
+            "label": "reasoning",
+            "text": "But given that each digit pair adds to 9, the sum will automatically be 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 5143,
+            "end": 5226,
+            "label": "restatement",
+            "text": "So, as long as each corresponding digit pair adds to 9, the total sum will be 999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 5226,
+            "end": 5344,
+            "label": "reasoning",
+            "text": "Therefore, the first condition is equivalent to the second row being the 9's complement of the first row digit-wise.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 5344,
+            "end": 5541,
+            "label": "planning",
+            "text": "Therefore, the first part of the problem reduces to: how many possible first rows ABC are there such that when you take DEF as (9 - A)(9 - B)(9 - C), the column sums (top to bottom) add up to 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": false,
+            "start": 5541,
+            "end": 5659,
+            "label": "restatement",
+            "text": "Wait, but columns are read top to bottom, so each column is a 2-digit number formed by the two digits in that column. ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": false,
+            "start": 5659,
+            "end": 5756,
+            "label": "restatement",
+            "text": "So, column 1 is AD, which is a 2-digit number (A followed by D), column 2 is BE, column 3 is CF. ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": false,
+            "start": 5756,
+            "end": 5809,
+            "label": "restatement",
+            "text": "Then, the sum of these three 2-digit numbers is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": false,
+            "start": 5809,
+            "end": 5858,
+            "label": "fact",
+            "text": "So, the second condition is: AD + BE + CF = 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": false,
+            "start": 5858,
+            "end": 5922,
+            "label": "fact",
+            "text": "But AD is the number 10*A + D, BE is 10*B + E, CF is 10*C + F.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": false,
+            "start": 5922,
+            "end": 6007,
+            "label": "reasoning",
+            "text": "But since D = 9 - A, E = 9 - B, F = 9 - C, substituting these into the column sums:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": false,
+            "start": 6007,
+            "end": 6038,
+            "label": "reasoning",
+            "text": "AD = 10*A + (9 - A) = 9*A + 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": false,
+            "start": 6038,
+            "end": 6069,
+            "label": "reasoning",
+            "text": "BE = 10*B + (9 - B) = 9*B + 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": false,
+            "start": 6069,
+            "end": 6100,
+            "label": "reasoning",
+            "text": "CF = 10*C + (9 - C) = 9*C + 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": false,
+            "start": 6100,
+            "end": 6139,
+            "label": "restatement",
+            "text": "Therefore, the sum of the columns is:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": false,
+            "start": 6139,
+            "end": 6200,
+            "label": "reasoning",
+            "text": "(9*A + 9) + (9*B + 9) + (9*C + 9) = 9*(A + B + C) + 27 = 99\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": false,
+            "start": 6200,
+            "end": 6212,
+            "label": "restatement",
+            "text": "Therefore:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": false,
+            "start": 6212,
+            "end": 6237,
+            "label": "fact",
+            "text": "9*(A + B + C) + 27 = 99\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": false,
+            "start": 6237,
+            "end": 6267,
+            "label": "reasoning",
+            "text": "Subtract 27 from both sides:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": false,
+            "start": 6267,
+            "end": 6287,
+            "label": "reasoning",
+            "text": "9*(A + B + C) = 72\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": false,
+            "start": 6287,
+            "end": 6312,
+            "label": "reasoning",
+            "text": "Divide both sides by 9:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": false,
+            "start": 6312,
+            "end": 6327,
+            "label": "fact",
+            "text": "A + B + C = 8\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": false,
+            "start": 6327,
+            "end": 6389,
+            "label": "reasoning",
+            "text": "Therefore, the sum of the digits in the first row must be 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": false,
+            "start": 6389,
+            "end": 6421,
+            "label": "restatement",
+            "text": "So, combining both conditions:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": false,
+            "start": 6421,
+            "end": 6507,
+            "label": "restatement",
+            "text": "1. Each digit in the second row is 9 minus the corresponding digit in the first row.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": false,
+            "start": 6507,
+            "end": 6556,
+            "label": "restatement",
+            "text": "2. The sum of the digits in the first row is 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": false,
+            "start": 6556,
+            "end": 6688,
+            "label": "reasoning",
+            "text": "Therefore, the problem reduces to finding the number of triples (A, B, C) where A, B, C are digits (0-9), such that A + B + C = 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": false,
+            "start": 6688,
+            "end": 6711,
+            "label": "reflection",
+            "text": "But wait, is that all? ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": false,
+            "start": 6711,
+            "end": 6782,
+            "label": "restatement",
+            "text": "Wait, but columns are formed by AD, BE, CF, which are 2-digit numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": false,
+            "start": 6782,
+            "end": 6859,
+            "label": "example",
+            "text": "However, in the example given, the first column is 0 and 9, which is 09 = 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": false,
+            "start": 6859,
+            "end": 6963,
+            "label": "example",
+            "text": "Similarly, the second column is 0 and 9, which is 09 = 9, and the third column is 8 and 1, which is 81. ",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": false,
+            "start": 6963,
+            "end": 7023,
+            "label": "fact",
+            "text": "So, columns can have leading zeros, which are allowed here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": false,
+            "start": 7023,
+            "end": 7102,
+            "label": "reasoning",
+            "text": "Therefore, even if A is 0, AD is 0 followed by D = 9 - 0 = 9, which is 09 = 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": false,
+            "start": 7102,
+            "end": 7153,
+            "label": "reasoning",
+            "text": "So, leading zeros are allowed in columns as well.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": false,
+            "start": 7153,
+            "end": 7191,
+            "label": "restatement",
+            "text": "Therefore, the only constraints are:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": false,
+            "start": 7191,
+            "end": 7219,
+            "label": "fact",
+            "text": "- A, B, C are digits (0-9)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": false,
+            "start": 7219,
+            "end": 7236,
+            "label": "fact",
+            "text": "- A + B + C = 8\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": false,
+            "start": 7236,
+            "end": 7275,
+            "label": "restatement",
+            "text": "Then, D = 9 - A, E = 9 - B, F = 9 - C\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": false,
+            "start": 7275,
+            "end": 7330,
+            "label": "planning",
+            "text": "But we need to ensure that D, E, F are digits as well. ",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": false,
+            "start": 7330,
+            "end": 7420,
+            "label": "reasoning",
+            "text": "Since A, B, C are digits (0-9), then D = 9 - A will be between 0 and 9, same for E and F. ",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": false,
+            "start": 7420,
+            "end": 7491,
+            "label": "reasoning",
+            "text": "So, since A can be from 0 to 9, D = 9 - A will be from 0 to 9 as well. ",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": false,
+            "start": 7491,
+            "end": 7571,
+            "label": "reasoning",
+            "text": "Therefore, as long as A, B, C are digits, D, E, F will automatically be digits. ",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": false,
+            "start": 7571,
+            "end": 7649,
+            "label": "reasoning",
+            "text": "Therefore, the only constraint is A + B + C = 8, with A, B, C \u2208 {0,1,...,9}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": false,
+            "start": 7649,
+            "end": 7803,
+            "label": "restatement",
+            "text": "Therefore, the problem reduces to finding the number of non-negative integer solutions to A + B + C = 8 where each variable is between 0 and 9 inclusive. ",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": false,
+            "start": 7803,
+            "end": 7975,
+            "label": "reasoning",
+            "text": "Since 8 is less than 3*9 = 27, but since the sum is only 8, the upper bounds of 9 are automatically satisfied because each variable can be at most 8 (since 8 + 0 + 0 = 8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": false,
+            "start": 7975,
+            "end": 8095,
+            "label": "reasoning",
+            "text": "Therefore, all solutions A, B, C \u2265 0 with A + B + C = 8 are valid, and there's no need to worry about the upper limit.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": false,
+            "start": 8095,
+            "end": 8197,
+            "label": "fact",
+            "text": "The number of non-negative integer solutions to A + B + C = 8 is C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": false,
+            "start": 8197,
+            "end": 8232,
+            "label": "restatement",
+            "text": "So, 45 possible triples (A, B, C). ",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": false,
+            "start": 8232,
+            "end": 8269,
+            "label": "reflection",
+            "text": "Therefore, the answer should be 45?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": false,
+            "start": 8269,
+            "end": 8288,
+            "label": "reflection",
+            "text": "Wait, but hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": false,
+            "start": 8288,
+            "end": 8337,
+            "label": "example",
+            "text": "Wait, in the example given, A = 0, B = 0, C = 8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": false,
+            "start": 8337,
+            "end": 8363,
+            "label": "reasoning",
+            "text": "Then D = 9, E = 9, F = 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": false,
+            "start": 8363,
+            "end": 8394,
+            "label": "restatement",
+            "text": "So, the second row is 9, 9, 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": false,
+            "start": 8394,
+            "end": 8428,
+            "label": "restatement",
+            "text": "So, DEF is 991, which is correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": false,
+            "start": 8428,
+            "end": 8475,
+            "label": "restatement",
+            "text": "Then, columns are 09, 09, 81, which sum to 99. ",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": false,
+            "start": 8475,
+            "end": 8546,
+            "label": "reflection",
+            "text": "So, in this case, A + B + C = 0 + 0 + 8 = 8, which fits the equation.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": false,
+            "start": 8546,
+            "end": 8587,
+            "label": "reflection",
+            "text": "But wait, is there any other constraint? ",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": false,
+            "start": 8587,
+            "end": 8713,
+            "label": "reflection",
+            "text": "For example, in the problem statement, the example has leading zeros in the first row, but maybe there are other constraints. ",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": false,
+            "start": 8713,
+            "end": 8824,
+            "label": "restatement",
+            "text": "Wait, but according to the problem statement, digits can be placed in each cell, so leading zeros are allowed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp134",
+            "annotation": false,
+            "start": 8824,
+            "end": 8856,
+            "label": "restatement",
+            "text": "Therefore, A, B, C can be zero. ",
+            "source": "response"
+        },
+        {
+            "id": "resp135",
+            "annotation": false,
+            "start": 8856,
+            "end": 8927,
+            "label": "restatement",
+            "text": "So, the only constraint is A + B + C = 8, with each digit from 0 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp136",
+            "annotation": false,
+            "start": 8927,
+            "end": 8987,
+            "label": "reasoning",
+            "text": "Therefore, the number of solutions is indeed C(10, 2) = 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp137",
+            "annotation": false,
+            "start": 8987,
+            "end": 9017,
+            "label": "reasoning",
+            "text": "Therefore, the answer is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp138",
+            "annotation": false,
+            "start": 9017,
+            "end": 9047,
+            "label": "reflection",
+            "text": "But wait, let me check again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp139",
+            "annotation": false,
+            "start": 9047,
+            "end": 9171,
+            "label": "fact",
+            "text": "Wait, the formula for the number of non-negative integer solutions to A + B + C = 8 is C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp140",
+            "annotation": false,
+            "start": 9171,
+            "end": 9184,
+            "label": "restatement",
+            "text": "So, yes, 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp141",
+            "annotation": false,
+            "start": 9184,
+            "end": 9221,
+            "label": "reasoning",
+            "text": "Therefore, the answer should be 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp142",
+            "annotation": false,
+            "start": 9221,
+            "end": 9263,
+            "label": "planning",
+            "text": "But wait, let me verify with the example. ",
+            "source": "response"
+        },
+        {
+            "id": "resp143",
+            "annotation": false,
+            "start": 9263,
+            "end": 9294,
+            "label": "example",
+            "text": "In the example, A=0, B=0, C=8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp144",
+            "annotation": false,
+            "start": 9294,
+            "end": 9319,
+            "label": "restatement",
+            "text": "So, that's one solution. ",
+            "source": "response"
+        },
+        {
+            "id": "resp145",
+            "annotation": false,
+            "start": 9319,
+            "end": 9351,
+            "label": "example",
+            "text": "Another example: A=1, B=1, C=6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp146",
+            "annotation": false,
+            "start": 9351,
+            "end": 9371,
+            "label": "reasoning",
+            "text": "Then D=8, E=8, F=3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp147",
+            "annotation": false,
+            "start": 9371,
+            "end": 9439,
+            "label": "reasoning",
+            "text": "Then, columns would be 18, 18, 63. Sum: 18 + 18 + 63 = 99. Correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp148",
+            "annotation": false,
+            "start": 9439,
+            "end": 9455,
+            "label": "reflection",
+            "text": "So, that works. ",
+            "source": "response"
+        },
+        {
+            "id": "resp149",
+            "annotation": false,
+            "start": 9455,
+            "end": 9496,
+            "label": "example",
+            "text": "Similarly, A=2, B=2, C=4: D=7, E=7, F=5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp150",
+            "annotation": false,
+            "start": 9496,
+            "end": 9551,
+            "label": "reasoning",
+            "text": "Columns: 27, 27, 45. Sum: 27 + 27 + 45 = 99. Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp151",
+            "annotation": false,
+            "start": 9551,
+            "end": 9623,
+            "label": "reasoning",
+            "text": "Therefore, each triple (A, B, C) with A + B + C = 8 gives a valid grid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp152",
+            "annotation": false,
+            "start": 9623,
+            "end": 9718,
+            "label": "reasoning",
+            "text": "Therefore, the number of such grids is equal to the number of triples (A, B, C), which is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp153",
+            "annotation": false,
+            "start": 9718,
+            "end": 9737,
+            "label": "reflection",
+            "text": "But wait, hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp154",
+            "annotation": false,
+            "start": 9737,
+            "end": 9815,
+            "label": "restatement",
+            "text": "Wait, but in the problem statement, the grid is 2x3, so each cell is a digit. ",
+            "source": "response"
+        },
+        {
+            "id": "resp155",
+            "annotation": false,
+            "start": 9815,
+            "end": 9900,
+            "label": "restatement",
+            "text": "So, each grid is determined by the first row (A, B, C) and the second row (D, E, F). ",
+            "source": "response"
+        },
+        {
+            "id": "resp156",
+            "annotation": false,
+            "start": 9900,
+            "end": 9987,
+            "label": "restatement",
+            "text": "But since D, E, F are determined by A, B, C, the entire grid is determined by A, B, C. ",
+            "source": "response"
+        },
+        {
+            "id": "resp157",
+            "annotation": false,
+            "start": 9987,
+            "end": 10055,
+            "label": "reasoning",
+            "text": "Therefore, each solution (A, B, C) corresponds to exactly one grid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp158",
+            "annotation": false,
+            "start": 10055,
+            "end": 10147,
+            "label": "reasoning",
+            "text": "Therefore, the number of grids is equal to the number of solutions (A, B, C), which is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp159",
+            "annotation": false,
+            "start": 10147,
+            "end": 10204,
+            "label": "reflection",
+            "text": "But wait, let me check if there's any other constraints. ",
+            "source": "response"
+        },
+        {
+            "id": "resp160",
+            "annotation": false,
+            "start": 10204,
+            "end": 10277,
+            "label": "restatement",
+            "text": "For example, in the columns, the numbers AD, BE, CF are 2-digit numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp161",
+            "annotation": false,
+            "start": 10277,
+            "end": 10355,
+            "label": "reasoning",
+            "text": "But since leading zeros are allowed, even if A=0, AD is 09, which is allowed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp162",
+            "annotation": false,
+            "start": 10355,
+            "end": 10389,
+            "label": "restatement",
+            "text": "Similarly, if B=0, BE is 09, etc. ",
+            "source": "response"
+        },
+        {
+            "id": "resp163",
+            "annotation": false,
+            "start": 10389,
+            "end": 10424,
+            "label": "reasoning",
+            "text": "So, no problem with leading zeros. ",
+            "source": "response"
+        },
+        {
+            "id": "resp164",
+            "annotation": false,
+            "start": 10424,
+            "end": 10464,
+            "label": "reasoning",
+            "text": "Therefore, all 45 solutions are valid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp165",
+            "annotation": false,
+            "start": 10464,
+            "end": 10493,
+            "label": "reasoning",
+            "text": "Therefore, the answer is 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp166",
+            "annotation": false,
+            "start": 10493,
+            "end": 10516,
+            "label": "reasoning",
+            "text": "Therefore, \\boxed{45}\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp167",
+            "annotation": false,
+            "start": 10516,
+            "end": 10535,
+            "label": "reflection",
+            "text": "Wait, but hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp168",
+            "annotation": false,
+            "start": 10535,
+            "end": 10561,
+            "label": "reflection",
+            "text": "Wait, let me check again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp169",
+            "annotation": false,
+            "start": 10561,
+            "end": 10653,
+            "label": "example",
+            "text": "Wait, in the example, the first row is 0 0 8, which sums to 8, and the second row is 9 9 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp170",
+            "annotation": false,
+            "start": 10653,
+            "end": 10719,
+            "label": "reasoning",
+            "text": "So, columns are 09, 09, 81. So, sum is 9 + 9 + 81 = 99. Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp171",
+            "annotation": false,
+            "start": 10719,
+            "end": 10762,
+            "label": "example",
+            "text": "Another example: Let's take A=8, B=0, C=0. ",
+            "source": "response"
+        },
+        {
+            "id": "resp172",
+            "annotation": false,
+            "start": 10762,
+            "end": 10782,
+            "label": "reasoning",
+            "text": "Then D=1, E=9, F=9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp173",
+            "annotation": false,
+            "start": 10782,
+            "end": 10848,
+            "label": "reasoning",
+            "text": "Then, columns would be 81, 09, 09. Sum: 81 + 9 + 9 = 99. Correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp174",
+            "annotation": false,
+            "start": 10848,
+            "end": 10880,
+            "label": "reflection",
+            "text": "So, that's another valid grid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp175",
+            "annotation": false,
+            "start": 10880,
+            "end": 10906,
+            "label": "example",
+            "text": "Similarly, A=5, B=3, C=0. ",
+            "source": "response"
+        },
+        {
+            "id": "resp176",
+            "annotation": false,
+            "start": 10906,
+            "end": 10926,
+            "label": "reasoning",
+            "text": "Then D=4, E=6, F=9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp177",
+            "annotation": false,
+            "start": 10926,
+            "end": 10980,
+            "label": "reasoning",
+            "text": "Columns: 54, 36, 09. Sum: 54 + 36 + 9 = 99. Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp178",
+            "annotation": false,
+            "start": 10980,
+            "end": 11071,
+            "label": "reasoning",
+            "text": "Therefore, all combinations where A + B + C = 8 work, and there are 45 such combinations.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp179",
+            "annotation": false,
+            "start": 11071,
+            "end": 11179,
+            "label": "reflection",
+            "text": "But wait, let me check if there's a case where even though A + B + C = 8, the column sums might not add up. ",
+            "source": "response"
+        },
+        {
+            "id": "resp180",
+            "annotation": false,
+            "start": 11179,
+            "end": 11294,
+            "label": "restatement",
+            "text": "Wait, but according to the earlier derivation, substituting D=9 - A, E=9 - B, F=9 - C into the column sums gives:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp181",
+            "annotation": false,
+            "start": 11294,
+            "end": 11355,
+            "label": "reasoning",
+            "text": "AD + BE + CF = 9*(A + B + C) + 27 = 9*8 + 27 = 72 + 27 = 99. ",
+            "source": "response"
+        },
+        {
+            "id": "resp182",
+            "annotation": false,
+            "start": 11355,
+            "end": 11427,
+            "label": "reasoning",
+            "text": "So, as long as A + B + C = 8, the column sums will automatically be 99. ",
+            "source": "response"
+        },
+        {
+            "id": "resp183",
+            "annotation": false,
+            "start": 11427,
+            "end": 11483,
+            "label": "reasoning",
+            "text": "Therefore, there's no need for any further constraints. ",
+            "source": "response"
+        },
+        {
+            "id": "resp184",
+            "annotation": false,
+            "start": 11483,
+            "end": 11575,
+            "label": "reasoning",
+            "text": "Therefore, the only condition is A + B + C = 8, and the number of triples (A, B, C) is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp185",
+            "annotation": false,
+            "start": 11575,
+            "end": 11604,
+            "label": "reasoning",
+            "text": "Therefore, the answer is 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp186",
+            "annotation": false,
+            "start": 11604,
+            "end": 11627,
+            "label": "reasoning",
+            "text": "Therefore, \\boxed{45}\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp187",
+            "annotation": false,
+            "start": 11627,
+            "end": 11646,
+            "label": "reflection",
+            "text": "But wait, hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp188",
+            "annotation": false,
+            "start": 11646,
+            "end": 11706,
+            "label": "reflection",
+            "text": "Wait, let me check if there's a mistake in the calculation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp189",
+            "annotation": false,
+            "start": 11706,
+            "end": 11831,
+            "label": "fact",
+            "text": "The formula for the number of non-negative integer solutions to A + B + C = 8 is indeed C(8 + 3 - 1, 3 - 1) = C(10, 2) = 45. ",
+            "source": "response"
+        },
+        {
+            "id": "resp190",
+            "annotation": false,
+            "start": 11831,
+            "end": 11852,
+            "label": "reflection",
+            "text": "So, that's correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp191",
+            "annotation": false,
+            "start": 11852,
+            "end": 11905,
+            "label": "restatement",
+            "text": "Alternatively, we can think of it as stars and bars. ",
+            "source": "response"
+        },
+        {
+            "id": "resp192",
+            "annotation": false,
+            "start": 11905,
+            "end": 11972,
+            "label": "fact",
+            "text": "We have 8 stars (the sum) and 2 bars to separate into 3 variables. ",
+            "source": "response"
+        },
+        {
+            "id": "resp193",
+            "annotation": false,
+            "start": 11972,
+            "end": 12033,
+            "label": "reasoning",
+            "text": "The number of ways is C(8 + 2, 2) = C(10, 2) = 45. Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp194",
+            "annotation": false,
+            "start": 12033,
+            "end": 12118,
+            "label": "reasoning",
+            "text": "Therefore, unless there's a hidden constraint I'm missing, the answer should be 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp195",
+            "annotation": false,
+            "start": 12118,
+            "end": 12158,
+            "label": "planning",
+            "text": "Wait, but let me check another example. ",
+            "source": "response"
+        },
+        {
+            "id": "resp196",
+            "annotation": false,
+            "start": 12158,
+            "end": 12230,
+            "label": "reasoning",
+            "text": "Suppose A=9, but wait, A can't be 9 because then D=0, but A + B + C =8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp197",
+            "annotation": false,
+            "start": 12230,
+            "end": 12276,
+            "label": "reasoning",
+            "text": "If A=9, then B + C = -1, which is impossible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp198",
+            "annotation": false,
+            "start": 12276,
+            "end": 12311,
+            "label": "reasoning",
+            "text": "Therefore, A, B, C can't exceed 8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp199",
+            "annotation": false,
+            "start": 12311,
+            "end": 12369,
+            "label": "restatement",
+            "text": "Wait, but since A + B + C =8, each variable is at most 8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp200",
+            "annotation": false,
+            "start": 12369,
+            "end": 12452,
+            "label": "reasoning",
+            "text": "Therefore, all variables are between 0 and 8 inclusive, so digits are valid (0-9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp201",
+            "annotation": false,
+            "start": 12452,
+            "end": 12476,
+            "label": "reasoning",
+            "text": "Therefore, no problem.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp202",
+            "annotation": false,
+            "start": 12476,
+            "end": 12657,
+            "label": "reasoning",
+            "text": "Therefore, all solutions A, B, C >=0, A + B + C =8, correspond to valid digits (0-8 for each), and D, E, F =9 - A, 9 - B, 9 - C, which would be between 1 and 9 (since A, B, C <=8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp203",
+            "annotation": false,
+            "start": 12657,
+            "end": 12724,
+            "label": "reasoning",
+            "text": "Wait, D=9 - A. If A=0, D=9; if A=8, D=1. So, D ranges from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp204",
+            "annotation": false,
+            "start": 12724,
+            "end": 12767,
+            "label": "reasoning",
+            "text": "Similarly, E and F also range from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp205",
+            "annotation": false,
+            "start": 12767,
+            "end": 12796,
+            "label": "fact",
+            "text": "Wait, but digits can be 0-9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp206",
+            "annotation": false,
+            "start": 12796,
+            "end": 12898,
+            "label": "reasoning",
+            "text": "Wait, D=9 - A. If A=0, D=9; if A=9, D=0. But since A can't be 9 (because A + B + C =8), D can't be 0. ",
+            "source": "response"
+        },
+        {
+            "id": "resp207",
+            "annotation": false,
+            "start": 12898,
+            "end": 12913,
+            "label": "reflection",
+            "text": "Wait, hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp208",
+            "annotation": false,
+            "start": 12913,
+            "end": 12962,
+            "label": "restatement",
+            "text": "Wait, A can be from 0 to 8 (since A + B + C =8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp209",
+            "annotation": false,
+            "start": 12962,
+            "end": 13001,
+            "label": "reasoning",
+            "text": "Therefore, D=9 - A ranges from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp210",
+            "annotation": false,
+            "start": 13001,
+            "end": 13074,
+            "label": "reasoning",
+            "text": "Similarly, E=9 - B, where B can be from 0 to 8, so E ranges from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp211",
+            "annotation": false,
+            "start": 13074,
+            "end": 13134,
+            "label": "reasoning",
+            "text": "Similarly, F=9 - C, C from 0 to 8, so F ranges from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp212",
+            "annotation": false,
+            "start": 13134,
+            "end": 13177,
+            "label": "reasoning",
+            "text": "Therefore, D, E, F are digits from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp213",
+            "annotation": false,
+            "start": 13177,
+            "end": 13226,
+            "label": "reasoning",
+            "text": "Therefore, the second row cannot have any zeros. ",
+            "source": "response"
+        },
+        {
+            "id": "resp214",
+            "annotation": false,
+            "start": 13226,
+            "end": 13320,
+            "label": "restatement",
+            "text": "Wait, but in the example given, the second row is 9,9,1. So, D=9, E=9, F=1. All are non-zero. ",
+            "source": "response"
+        },
+        {
+            "id": "resp215",
+            "annotation": false,
+            "start": 13320,
+            "end": 13367,
+            "label": "restatement",
+            "text": "So, in this case, the second row has no zeros. ",
+            "source": "response"
+        },
+        {
+            "id": "resp216",
+            "annotation": false,
+            "start": 13367,
+            "end": 13428,
+            "label": "reasoning",
+            "text": "So, in general, the second row will have digits from 1 to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp217",
+            "annotation": false,
+            "start": 13428,
+            "end": 13540,
+            "label": "reasoning",
+            "text": "Therefore, columns AD, BE, CF: A can be 0, D is from 1-9; B can be 0, E is from 1-9; C can be 0, F is from 1-9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp218",
+            "annotation": false,
+            "start": 13540,
+            "end": 13645,
+            "label": "restatement",
+            "text": "Therefore, columns can have leading zeros (if A, B, C are 0) but trailing digits (D, E, F) are non-zero. ",
+            "source": "response"
+        },
+        {
+            "id": "resp219",
+            "annotation": false,
+            "start": 13645,
+            "end": 13745,
+            "label": "reasoning",
+            "text": "So, columns can be numbers like 09 (which is 9), 18, 27, etc., up to 90 (if A=9, but A can't be 9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp220",
+            "annotation": false,
+            "start": 13745,
+            "end": 13789,
+            "label": "restatement",
+            "text": "Wait, A can be up to 8, so D is at least 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp221",
+            "annotation": false,
+            "start": 13789,
+            "end": 13854,
+            "label": "reasoning",
+            "text": "Therefore, columns AD can be from 09 (if A=0) up to 89 (if A=8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp222",
+            "annotation": false,
+            "start": 13854,
+            "end": 13880,
+            "label": "restatement",
+            "text": "Similarly for BE and CF.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp223",
+            "annotation": false,
+            "start": 13880,
+            "end": 13938,
+            "label": "reasoning",
+            "text": "But since leading zeros are allowed, all these are valid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp224",
+            "annotation": false,
+            "start": 13938,
+            "end": 13967,
+            "label": "reasoning",
+            "text": "Therefore, there's no issue. ",
+            "source": "response"
+        },
+        {
+            "id": "resp225",
+            "annotation": false,
+            "start": 13967,
+            "end": 14006,
+            "label": "reasoning",
+            "text": "Therefore, all 45 solutions are valid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp226",
+            "annotation": false,
+            "start": 14006,
+            "end": 14036,
+            "label": "reasoning",
+            "text": "Therefore, the answer is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp227",
+            "annotation": false,
+            "start": 14036,
+            "end": 14082,
+            "label": "reasoning",
+            "text": "Therefore, I think the answer is \\boxed{45}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp228",
+            "annotation": false,
+            "start": 14082,
+            "end": 14109,
+            "label": "conclusion",
+            "text": "**Final Answer**\n\\boxed{45}",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp0",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp0",
+            "to_node_id": "resp8",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp1",
+            "to_node_id": "resp8",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp2",
+            "to_node_id": "resp8",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp9",
+            "to_node_id": "resp11",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp7",
+            "to_node_id": "resp14",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp11",
+            "to_node_id": "resp14",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp14",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp16",
+            "to_node_id": "resp19",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp17",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp17",
+            "to_node_id": "resp20",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp17",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp20",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp1",
+            "to_node_id": "resp22",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp2",
+            "to_node_id": "resp22",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp20",
+            "to_node_id": "resp22",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp25",
+            "to_node_id": "resp27",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp26",
+            "to_node_id": "resp27",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp26",
+            "to_node_id": "resp28",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp26",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp27",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp28",
+            "to_node_id": "resp29",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp28",
+            "to_node_id": "resp30",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp28",
+            "to_node_id": "resp31",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp30",
+            "to_node_id": "resp31",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp30",
+            "to_node_id": "resp33",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp31",
+            "to_node_id": "resp33",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp32",
+            "to_node_id": "resp33",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp34",
+            "to_node_id": "resp35",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp34",
+            "to_node_id": "resp36",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp35",
+            "to_node_id": "resp37",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp36",
+            "to_node_id": "resp37",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp33",
+            "to_node_id": "resp38",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp35",
+            "to_node_id": "resp38",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp37",
+            "to_node_id": "resp38",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp34",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp35",
+            "to_node_id": "resp39",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp37",
+            "to_node_id": "resp39",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp35",
+            "to_node_id": "resp40",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp39",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp35",
+            "to_node_id": "resp41",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp39",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp40",
+            "to_node_id": "resp41",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp35",
+            "to_node_id": "resp42",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp36",
+            "to_node_id": "resp42",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp43",
+            "to_node_id": "resp44",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp42",
+            "to_node_id": "resp45",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp44",
+            "to_node_id": "resp45",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp33",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp34",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp38",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp39",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp40",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp41",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp42",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp43",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp44",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp45",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp26",
+            "to_node_id": "resp47",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp27",
+            "to_node_id": "resp47",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp46",
+            "to_node_id": "resp47",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp31",
+            "to_node_id": "resp48",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp32",
+            "to_node_id": "resp48",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp33",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp34",
+            "to_node_id": "resp49",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp35",
+            "to_node_id": "resp49",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp36",
+            "to_node_id": "resp49",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp38",
+            "to_node_id": "resp49",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp39",
+            "to_node_id": "resp49",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp40",
+            "to_node_id": "resp49",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp41",
+            "to_node_id": "resp49",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp42",
+            "to_node_id": "resp49",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp43",
+            "to_node_id": "resp49",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp44",
+            "to_node_id": "resp49",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp45",
+            "to_node_id": "resp49",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp46",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp47",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp49",
+            "to_node_id": "resp50",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp35",
+            "to_node_id": "resp51",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp39",
+            "to_node_id": "resp51",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp49",
+            "to_node_id": "resp51",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp49",
+            "to_node_id": "resp52",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp51",
+            "to_node_id": "resp52",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp48",
+            "to_node_id": "resp53",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp53",
+            "to_node_id": "resp54",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp53",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp54",
+            "to_node_id": "resp55",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp54",
+            "to_node_id": "resp56",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp56",
+            "to_node_id": "resp57",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp56",
+            "to_node_id": "resp58",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp57",
+            "to_node_id": "resp58",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp52",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp55",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp59",
+            "to_node_id": "resp60",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp58",
+            "to_node_id": "resp61",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp59",
+            "to_node_id": "resp63",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp59",
+            "to_node_id": "resp64",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp61",
+            "to_node_id": "resp64",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp62",
+            "to_node_id": "resp64",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp63",
+            "to_node_id": "resp64",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp60",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp61",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp62",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp63",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp64",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp64",
+            "to_node_id": "resp67",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp65",
+            "to_node_id": "resp67",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp65",
+            "to_node_id": "resp68",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp66",
+            "to_node_id": "resp68",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp65",
+            "to_node_id": "resp69",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp66",
+            "to_node_id": "resp69",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp68",
+            "to_node_id": "resp69",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp61",
+            "to_node_id": "resp70",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp65",
+            "to_node_id": "resp70",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp66",
+            "to_node_id": "resp70",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp69",
+            "to_node_id": "resp70",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp69",
+            "to_node_id": "resp71",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp70",
+            "to_node_id": "resp71",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp65",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e164",
+            "from_node_id": "resp66",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e165",
+            "from_node_id": "resp70",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e166",
+            "from_node_id": "resp71",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e167",
+            "from_node_id": "resp68",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e168",
+            "from_node_id": "resp69",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e169",
+            "from_node_id": "resp72",
+            "to_node_id": "resp73",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e170",
+            "from_node_id": "resp72",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e171",
+            "from_node_id": "resp73",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e172",
+            "from_node_id": "resp26",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e173",
+            "from_node_id": "resp27",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e174",
+            "from_node_id": "resp28",
+            "to_node_id": "resp75",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e175",
+            "from_node_id": "resp29",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e176",
+            "from_node_id": "resp30",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e177",
+            "from_node_id": "resp31",
+            "to_node_id": "resp75",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e178",
+            "from_node_id": "resp32",
+            "to_node_id": "resp75",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e179",
+            "from_node_id": "resp33",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e180",
+            "from_node_id": "resp34",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e181",
+            "from_node_id": "resp35",
+            "to_node_id": "resp75",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e182",
+            "from_node_id": "resp38",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e183",
+            "from_node_id": "resp39",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e184",
+            "from_node_id": "resp40",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e185",
+            "from_node_id": "resp41",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e186",
+            "from_node_id": "resp42",
+            "to_node_id": "resp75",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e187",
+            "from_node_id": "resp43",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e188",
+            "from_node_id": "resp44",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e189",
+            "from_node_id": "resp45",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e190",
+            "from_node_id": "resp46",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e191",
+            "from_node_id": "resp47",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e192",
+            "from_node_id": "resp48",
+            "to_node_id": "resp75",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e193",
+            "from_node_id": "resp49",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e194",
+            "from_node_id": "resp50",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e195",
+            "from_node_id": "resp51",
+            "to_node_id": "resp75",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e196",
+            "from_node_id": "resp52",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e197",
+            "from_node_id": "resp53",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e198",
+            "from_node_id": "resp54",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e199",
+            "from_node_id": "resp55",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e200",
+            "from_node_id": "resp56",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e201",
+            "from_node_id": "resp57",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e202",
+            "from_node_id": "resp58",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e203",
+            "from_node_id": "resp59",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e204",
+            "from_node_id": "resp60",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e205",
+            "from_node_id": "resp61",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e206",
+            "from_node_id": "resp62",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e207",
+            "from_node_id": "resp63",
+            "to_node_id": "resp75",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e208",
+            "from_node_id": "resp64",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e209",
+            "from_node_id": "resp65",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e210",
+            "from_node_id": "resp66",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e211",
+            "from_node_id": "resp67",
+            "to_node_id": "resp75",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e212",
+            "from_node_id": "resp68",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e213",
+            "from_node_id": "resp69",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e214",
+            "from_node_id": "resp70",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e215",
+            "from_node_id": "resp71",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e216",
+            "from_node_id": "resp72",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e217",
+            "from_node_id": "resp73",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e218",
+            "from_node_id": "resp74",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e219",
+            "from_node_id": "resp59",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e220",
+            "from_node_id": "resp74",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e221",
+            "from_node_id": "resp59",
+            "to_node_id": "resp77",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e222",
+            "from_node_id": "resp76",
+            "to_node_id": "resp77",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e223",
+            "from_node_id": "resp73",
+            "to_node_id": "resp78",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e224",
+            "from_node_id": "resp74",
+            "to_node_id": "resp78",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e225",
+            "from_node_id": "resp76",
+            "to_node_id": "resp78",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e226",
+            "from_node_id": "resp74",
+            "to_node_id": "resp79",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e227",
+            "from_node_id": "resp75",
+            "to_node_id": "resp79",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e228",
+            "from_node_id": "resp78",
+            "to_node_id": "resp79",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e229",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e230",
+            "from_node_id": "resp13",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e231",
+            "from_node_id": "resp17",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e232",
+            "from_node_id": "resp18",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e233",
+            "from_node_id": "resp21",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e234",
+            "from_node_id": "resp22",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e235",
+            "from_node_id": "resp79",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e236",
+            "from_node_id": "resp79",
+            "to_node_id": "resp81",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e237",
+            "from_node_id": "resp80",
+            "to_node_id": "resp81",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e238",
+            "from_node_id": "resp80",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e239",
+            "from_node_id": "resp81",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e240",
+            "from_node_id": "resp82",
+            "to_node_id": "resp83",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e241",
+            "from_node_id": "resp83",
+            "to_node_id": "resp84",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e242",
+            "from_node_id": "resp70",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e243",
+            "from_node_id": "resp71",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e244",
+            "from_node_id": "resp72",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e245",
+            "from_node_id": "resp81",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e246",
+            "from_node_id": "resp82",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e247",
+            "from_node_id": "resp83",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e248",
+            "from_node_id": "resp84",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e249",
+            "from_node_id": "resp85",
+            "to_node_id": "resp86",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e250",
+            "from_node_id": "resp84",
+            "to_node_id": "resp87",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e251",
+            "from_node_id": "resp85",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e252",
+            "from_node_id": "resp85",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e253",
+            "from_node_id": "resp86",
+            "to_node_id": "resp88",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e254",
+            "from_node_id": "resp87",
+            "to_node_id": "resp88",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e255",
+            "from_node_id": "resp82",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e256",
+            "from_node_id": "resp83",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e257",
+            "from_node_id": "resp84",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e258",
+            "from_node_id": "resp85",
+            "to_node_id": "resp89",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e259",
+            "from_node_id": "resp85",
+            "to_node_id": "resp90",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e260",
+            "from_node_id": "resp86",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e261",
+            "from_node_id": "resp87",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e262",
+            "from_node_id": "resp88",
+            "to_node_id": "resp90",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e263",
+            "from_node_id": "resp89",
+            "to_node_id": "resp90",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e264",
+            "from_node_id": "resp89",
+            "to_node_id": "resp91",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e265",
+            "from_node_id": "resp90",
+            "to_node_id": "resp92",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e266",
+            "from_node_id": "resp92",
+            "to_node_id": "resp93",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e267",
+            "from_node_id": "resp90",
+            "to_node_id": "resp94",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e268",
+            "from_node_id": "resp92",
+            "to_node_id": "resp94",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e269",
+            "from_node_id": "resp93",
+            "to_node_id": "resp94",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e270",
+            "from_node_id": "resp94",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e271",
+            "from_node_id": "resp94",
+            "to_node_id": "resp96",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e272",
+            "from_node_id": "resp90",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e273",
+            "from_node_id": "resp91",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e274",
+            "from_node_id": "resp96",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e275",
+            "from_node_id": "resp79",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e276",
+            "from_node_id": "resp97",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e277",
+            "from_node_id": "resp65",
+            "to_node_id": "resp99",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e278",
+            "from_node_id": "resp69",
+            "to_node_id": "resp99",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e279",
+            "from_node_id": "resp70",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e280",
+            "from_node_id": "resp71",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e281",
+            "from_node_id": "resp72",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e282",
+            "from_node_id": "resp73",
+            "to_node_id": "resp99",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e283",
+            "from_node_id": "resp96",
+            "to_node_id": "resp100",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e284",
+            "from_node_id": "resp98",
+            "to_node_id": "resp100",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e285",
+            "from_node_id": "resp96",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e286",
+            "from_node_id": "resp97",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e287",
+            "from_node_id": "resp98",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e288",
+            "from_node_id": "resp100",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e289",
+            "from_node_id": "resp101",
+            "to_node_id": "resp102",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e290",
+            "from_node_id": "resp81",
+            "to_node_id": "resp103",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e291",
+            "from_node_id": "resp82",
+            "to_node_id": "resp103",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e292",
+            "from_node_id": "resp80",
+            "to_node_id": "resp104",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e293",
+            "from_node_id": "resp83",
+            "to_node_id": "resp104",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e294",
+            "from_node_id": "resp103",
+            "to_node_id": "resp105",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e295",
+            "from_node_id": "resp104",
+            "to_node_id": "resp105",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e296",
+            "from_node_id": "resp104",
+            "to_node_id": "resp106",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e297",
+            "from_node_id": "resp105",
+            "to_node_id": "resp106",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e298",
+            "from_node_id": "resp86",
+            "to_node_id": "resp107",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e299",
+            "from_node_id": "resp104",
+            "to_node_id": "resp107",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e300",
+            "from_node_id": "resp106",
+            "to_node_id": "resp107",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e301",
+            "from_node_id": "resp104",
+            "to_node_id": "resp108",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e302",
+            "from_node_id": "resp105",
+            "to_node_id": "resp108",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e303",
+            "from_node_id": "resp106",
+            "to_node_id": "resp108",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e304",
+            "from_node_id": "resp98",
+            "to_node_id": "resp109",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e305",
+            "from_node_id": "resp99",
+            "to_node_id": "resp109",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e306",
+            "from_node_id": "resp100",
+            "to_node_id": "resp109",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e307",
+            "from_node_id": "resp109",
+            "to_node_id": "resp110",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e308",
+            "from_node_id": "resp110",
+            "to_node_id": "resp111",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e309",
+            "from_node_id": "resp65",
+            "to_node_id": "resp112",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e310",
+            "from_node_id": "resp70",
+            "to_node_id": "resp112",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e311",
+            "from_node_id": "resp71",
+            "to_node_id": "resp112",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e312",
+            "from_node_id": "resp110",
+            "to_node_id": "resp113",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e313",
+            "from_node_id": "resp111",
+            "to_node_id": "resp113",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e314",
+            "from_node_id": "resp112",
+            "to_node_id": "resp113",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e315",
+            "from_node_id": "resp110",
+            "to_node_id": "resp114",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e316",
+            "from_node_id": "resp112",
+            "to_node_id": "resp114",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e317",
+            "from_node_id": "resp113",
+            "to_node_id": "resp114",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e318",
+            "from_node_id": "resp110",
+            "to_node_id": "resp115",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e319",
+            "from_node_id": "resp113",
+            "to_node_id": "resp115",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e320",
+            "from_node_id": "resp114",
+            "to_node_id": "resp115",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e321",
+            "from_node_id": "resp114",
+            "to_node_id": "resp116",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e322",
+            "from_node_id": "resp115",
+            "to_node_id": "resp116",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e323",
+            "from_node_id": "resp110",
+            "to_node_id": "resp117",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e324",
+            "from_node_id": "resp111",
+            "to_node_id": "resp117",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e325",
+            "from_node_id": "resp114",
+            "to_node_id": "resp117",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e326",
+            "from_node_id": "resp115",
+            "to_node_id": "resp117",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e327",
+            "from_node_id": "resp116",
+            "to_node_id": "resp117",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e328",
+            "from_node_id": "resp101",
+            "to_node_id": "resp118",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e329",
+            "from_node_id": "resp117",
+            "to_node_id": "resp118",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e330",
+            "from_node_id": "resp117",
+            "to_node_id": "resp119",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e331",
+            "from_node_id": "resp118",
+            "to_node_id": "resp119",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e332",
+            "from_node_id": "resp119",
+            "to_node_id": "resp120",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e333",
+            "from_node_id": "resp118",
+            "to_node_id": "resp121",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e334",
+            "from_node_id": "resp120",
+            "to_node_id": "resp121",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e335",
+            "from_node_id": "resp121",
+            "to_node_id": "resp122",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e336",
+            "from_node_id": "resp121",
+            "to_node_id": "resp123",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e337",
+            "from_node_id": "resp122",
+            "to_node_id": "resp123",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e338",
+            "from_node_id": "resp102",
+            "to_node_id": "resp124",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e339",
+            "from_node_id": "resp123",
+            "to_node_id": "resp124",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e340",
+            "from_node_id": "resp104",
+            "to_node_id": "resp125",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e341",
+            "from_node_id": "resp105",
+            "to_node_id": "resp125",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e342",
+            "from_node_id": "resp112",
+            "to_node_id": "resp126",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e343",
+            "from_node_id": "resp125",
+            "to_node_id": "resp126",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e344",
+            "from_node_id": "resp125",
+            "to_node_id": "resp127",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e345",
+            "from_node_id": "resp126",
+            "to_node_id": "resp127",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e346",
+            "from_node_id": "resp126",
+            "to_node_id": "resp128",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e347",
+            "from_node_id": "resp127",
+            "to_node_id": "resp128",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e348",
+            "from_node_id": "resp104",
+            "to_node_id": "resp129",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e349",
+            "from_node_id": "resp105",
+            "to_node_id": "resp129",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e350",
+            "from_node_id": "resp106",
+            "to_node_id": "resp129",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e351",
+            "from_node_id": "resp107",
+            "to_node_id": "resp129",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e352",
+            "from_node_id": "resp108",
+            "to_node_id": "resp129",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e353",
+            "from_node_id": "resp129",
+            "to_node_id": "resp129",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e354",
+            "from_node_id": "resp125",
+            "to_node_id": "resp130",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e355",
+            "from_node_id": "resp126",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e356",
+            "from_node_id": "resp127",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e357",
+            "from_node_id": "resp128",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e358",
+            "from_node_id": "resp129",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e359",
+            "from_node_id": "resp102",
+            "to_node_id": "resp131",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e360",
+            "from_node_id": "resp130",
+            "to_node_id": "resp131",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e361",
+            "from_node_id": "resp130",
+            "to_node_id": "resp132",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e362",
+            "from_node_id": "resp131",
+            "to_node_id": "resp132",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e363",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e364",
+            "from_node_id": "resp14",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e365",
+            "from_node_id": "resp16",
+            "to_node_id": "resp133",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e366",
+            "from_node_id": "resp18",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e367",
+            "from_node_id": "resp19",
+            "to_node_id": "resp133",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e368",
+            "from_node_id": "resp20",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e369",
+            "from_node_id": "resp21",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e370",
+            "from_node_id": "resp22",
+            "to_node_id": "resp133",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e371",
+            "from_node_id": "resp118",
+            "to_node_id": "resp134",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e372",
+            "from_node_id": "resp119",
+            "to_node_id": "resp134",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e373",
+            "from_node_id": "resp120",
+            "to_node_id": "resp134",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e374",
+            "from_node_id": "resp133",
+            "to_node_id": "resp134",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e375",
+            "from_node_id": "resp110",
+            "to_node_id": "resp135",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e376",
+            "from_node_id": "resp111",
+            "to_node_id": "resp135",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e377",
+            "from_node_id": "resp117",
+            "to_node_id": "resp135",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e378",
+            "from_node_id": "resp120",
+            "to_node_id": "resp136",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e379",
+            "from_node_id": "resp121",
+            "to_node_id": "resp136",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e380",
+            "from_node_id": "resp121",
+            "to_node_id": "resp137",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e381",
+            "from_node_id": "resp122",
+            "to_node_id": "resp137",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e382",
+            "from_node_id": "resp136",
+            "to_node_id": "resp137",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e383",
+            "from_node_id": "resp136",
+            "to_node_id": "resp138",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e384",
+            "from_node_id": "resp137",
+            "to_node_id": "resp138",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e385",
+            "from_node_id": "resp120",
+            "to_node_id": "resp139",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e386",
+            "from_node_id": "resp121",
+            "to_node_id": "resp139",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e387",
+            "from_node_id": "resp121",
+            "to_node_id": "resp140",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e388",
+            "from_node_id": "resp136",
+            "to_node_id": "resp140",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e389",
+            "from_node_id": "resp137",
+            "to_node_id": "resp140",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e390",
+            "from_node_id": "resp122",
+            "to_node_id": "resp141",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e391",
+            "from_node_id": "resp136",
+            "to_node_id": "resp141",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e392",
+            "from_node_id": "resp137",
+            "to_node_id": "resp141",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e393",
+            "from_node_id": "resp123",
+            "to_node_id": "resp142",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e394",
+            "from_node_id": "resp138",
+            "to_node_id": "resp142",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e395",
+            "from_node_id": "resp141",
+            "to_node_id": "resp142",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e396",
+            "from_node_id": "resp125",
+            "to_node_id": "resp143",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e397",
+            "from_node_id": "resp126",
+            "to_node_id": "resp143",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e398",
+            "from_node_id": "resp143",
+            "to_node_id": "resp144",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e399",
+            "from_node_id": "resp79",
+            "to_node_id": "resp145",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e400",
+            "from_node_id": "resp101",
+            "to_node_id": "resp145",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e401",
+            "from_node_id": "resp71",
+            "to_node_id": "resp146",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e402",
+            "from_node_id": "resp72",
+            "to_node_id": "resp146",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e403",
+            "from_node_id": "resp126",
+            "to_node_id": "resp146",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e404",
+            "from_node_id": "resp143",
+            "to_node_id": "resp147",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e405",
+            "from_node_id": "resp145",
+            "to_node_id": "resp147",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e406",
+            "from_node_id": "resp146",
+            "to_node_id": "resp147",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e407",
+            "from_node_id": "resp147",
+            "to_node_id": "resp148",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e408",
+            "from_node_id": "resp67",
+            "to_node_id": "resp149",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e409",
+            "from_node_id": "resp79",
+            "to_node_id": "resp149",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e410",
+            "from_node_id": "resp145",
+            "to_node_id": "resp149",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e411",
+            "from_node_id": "resp147",
+            "to_node_id": "resp150",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e412",
+            "from_node_id": "resp149",
+            "to_node_id": "resp150",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e413",
+            "from_node_id": "resp101",
+            "to_node_id": "resp151",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e414",
+            "from_node_id": "resp117",
+            "to_node_id": "resp151",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e415",
+            "from_node_id": "resp120",
+            "to_node_id": "resp151",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e416",
+            "from_node_id": "resp136",
+            "to_node_id": "resp151",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e417",
+            "from_node_id": "resp121",
+            "to_node_id": "resp152",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e418",
+            "from_node_id": "resp151",
+            "to_node_id": "resp152",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e419",
+            "from_node_id": "resp138",
+            "to_node_id": "resp153",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e420",
+            "from_node_id": "resp152",
+            "to_node_id": "resp153",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e421",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp154",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e422",
+            "from_node_id": "resp0",
+            "to_node_id": "resp154",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e423",
+            "from_node_id": "resp65",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e424",
+            "from_node_id": "resp72",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e425",
+            "from_node_id": "resp73",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e426",
+            "from_node_id": "resp74",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e427",
+            "from_node_id": "resp151",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e428",
+            "from_node_id": "resp112",
+            "to_node_id": "resp156",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e429",
+            "from_node_id": "resp116",
+            "to_node_id": "resp156",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e430",
+            "from_node_id": "resp155",
+            "to_node_id": "resp156",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e431",
+            "from_node_id": "resp152",
+            "to_node_id": "resp157",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e432",
+            "from_node_id": "resp156",
+            "to_node_id": "resp157",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e433",
+            "from_node_id": "resp152",
+            "to_node_id": "resp158",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e434",
+            "from_node_id": "resp157",
+            "to_node_id": "resp158",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e435",
+            "from_node_id": "resp131",
+            "to_node_id": "resp159",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e436",
+            "from_node_id": "resp132",
+            "to_node_id": "resp159",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e437",
+            "from_node_id": "resp153",
+            "to_node_id": "resp159",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e438",
+            "from_node_id": "resp80",
+            "to_node_id": "resp160",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e439",
+            "from_node_id": "resp81",
+            "to_node_id": "resp160",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e440",
+            "from_node_id": "resp82",
+            "to_node_id": "resp160",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e441",
+            "from_node_id": "resp106",
+            "to_node_id": "resp161",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e442",
+            "from_node_id": "resp107",
+            "to_node_id": "resp161",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e443",
+            "from_node_id": "resp108",
+            "to_node_id": "resp161",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e444",
+            "from_node_id": "resp160",
+            "to_node_id": "resp161",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e445",
+            "from_node_id": "resp160",
+            "to_node_id": "resp162",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e446",
+            "from_node_id": "resp161",
+            "to_node_id": "resp162",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e447",
+            "from_node_id": "resp161",
+            "to_node_id": "resp163",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e448",
+            "from_node_id": "resp162",
+            "to_node_id": "resp163",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e449",
+            "from_node_id": "resp120",
+            "to_node_id": "resp164",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e450",
+            "from_node_id": "resp121",
+            "to_node_id": "resp164",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e451",
+            "from_node_id": "resp136",
+            "to_node_id": "resp164",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e452",
+            "from_node_id": "resp138",
+            "to_node_id": "resp164",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e453",
+            "from_node_id": "resp153",
+            "to_node_id": "resp164",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e454",
+            "from_node_id": "resp121",
+            "to_node_id": "resp165",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e455",
+            "from_node_id": "resp136",
+            "to_node_id": "resp165",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e456",
+            "from_node_id": "resp158",
+            "to_node_id": "resp165",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e457",
+            "from_node_id": "resp121",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e458",
+            "from_node_id": "resp136",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e459",
+            "from_node_id": "resp141",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e460",
+            "from_node_id": "resp165",
+            "to_node_id": "resp166",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e461",
+            "from_node_id": "resp139",
+            "to_node_id": "resp167",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e462",
+            "from_node_id": "resp153",
+            "to_node_id": "resp167",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e463",
+            "from_node_id": "resp166",
+            "to_node_id": "resp167",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e464",
+            "from_node_id": "resp167",
+            "to_node_id": "resp168",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e465",
+            "from_node_id": "resp101",
+            "to_node_id": "resp169",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e466",
+            "from_node_id": "resp125",
+            "to_node_id": "resp169",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e467",
+            "from_node_id": "resp143",
+            "to_node_id": "resp169",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e468",
+            "from_node_id": "resp83",
+            "to_node_id": "resp170",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e469",
+            "from_node_id": "resp104",
+            "to_node_id": "resp170",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e470",
+            "from_node_id": "resp105",
+            "to_node_id": "resp170",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e471",
+            "from_node_id": "resp129",
+            "to_node_id": "resp170",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e472",
+            "from_node_id": "resp79",
+            "to_node_id": "resp171",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e473",
+            "from_node_id": "resp101",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e474",
+            "from_node_id": "resp143",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e475",
+            "from_node_id": "resp145",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e476",
+            "from_node_id": "resp149",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e477",
+            "from_node_id": "resp169",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e478",
+            "from_node_id": "resp70",
+            "to_node_id": "resp172",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e479",
+            "from_node_id": "resp71",
+            "to_node_id": "resp172",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e480",
+            "from_node_id": "resp72",
+            "to_node_id": "resp172",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e481",
+            "from_node_id": "resp171",
+            "to_node_id": "resp172",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e482",
+            "from_node_id": "resp171",
+            "to_node_id": "resp173",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e483",
+            "from_node_id": "resp172",
+            "to_node_id": "resp173",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e484",
+            "from_node_id": "resp171",
+            "to_node_id": "resp174",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e485",
+            "from_node_id": "resp172",
+            "to_node_id": "resp174",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e486",
+            "from_node_id": "resp173",
+            "to_node_id": "resp174",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e487",
+            "from_node_id": "resp79",
+            "to_node_id": "resp175",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e488",
+            "from_node_id": "resp101",
+            "to_node_id": "resp175",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e489",
+            "from_node_id": "resp143",
+            "to_node_id": "resp175",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e490",
+            "from_node_id": "resp145",
+            "to_node_id": "resp175",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e491",
+            "from_node_id": "resp149",
+            "to_node_id": "resp175",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e492",
+            "from_node_id": "resp171",
+            "to_node_id": "resp175",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e493",
+            "from_node_id": "resp175",
+            "to_node_id": "resp176",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e494",
+            "from_node_id": "resp174",
+            "to_node_id": "resp177",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e495",
+            "from_node_id": "resp175",
+            "to_node_id": "resp177",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e496",
+            "from_node_id": "resp176",
+            "to_node_id": "resp177",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e497",
+            "from_node_id": "resp117",
+            "to_node_id": "resp178",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e498",
+            "from_node_id": "resp121",
+            "to_node_id": "resp178",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e499",
+            "from_node_id": "resp164",
+            "to_node_id": "resp178",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e500",
+            "from_node_id": "resp165",
+            "to_node_id": "resp178",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e501",
+            "from_node_id": "resp166",
+            "to_node_id": "resp178",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e502",
+            "from_node_id": "resp178",
+            "to_node_id": "resp179",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e503",
+            "from_node_id": "resp179",
+            "to_node_id": "resp179",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e504",
+            "from_node_id": "resp85",
+            "to_node_id": "resp180",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e505",
+            "from_node_id": "resp89",
+            "to_node_id": "resp180",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e506",
+            "from_node_id": "resp85",
+            "to_node_id": "resp181",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e507",
+            "from_node_id": "resp86",
+            "to_node_id": "resp181",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e508",
+            "from_node_id": "resp87",
+            "to_node_id": "resp181",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e509",
+            "from_node_id": "resp88",
+            "to_node_id": "resp181",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e510",
+            "from_node_id": "resp90",
+            "to_node_id": "resp181",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e511",
+            "from_node_id": "resp94",
+            "to_node_id": "resp181",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e512",
+            "from_node_id": "resp96",
+            "to_node_id": "resp181",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e513",
+            "from_node_id": "resp90",
+            "to_node_id": "resp182",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e514",
+            "from_node_id": "resp96",
+            "to_node_id": "resp182",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e515",
+            "from_node_id": "resp181",
+            "to_node_id": "resp182",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e516",
+            "from_node_id": "resp179",
+            "to_node_id": "resp183",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e517",
+            "from_node_id": "resp180",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e518",
+            "from_node_id": "resp182",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e519",
+            "from_node_id": "resp101",
+            "to_node_id": "resp184",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e520",
+            "from_node_id": "resp117",
+            "to_node_id": "resp184",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e521",
+            "from_node_id": "resp121",
+            "to_node_id": "resp184",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e522",
+            "from_node_id": "resp136",
+            "to_node_id": "resp184",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e523",
+            "from_node_id": "resp152",
+            "to_node_id": "resp184",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e524",
+            "from_node_id": "resp136",
+            "to_node_id": "resp185",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e525",
+            "from_node_id": "resp165",
+            "to_node_id": "resp185",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e526",
+            "from_node_id": "resp184",
+            "to_node_id": "resp185",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e527",
+            "from_node_id": "resp121",
+            "to_node_id": "resp186",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e528",
+            "from_node_id": "resp136",
+            "to_node_id": "resp186",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e529",
+            "from_node_id": "resp152",
+            "to_node_id": "resp186",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e530",
+            "from_node_id": "resp185",
+            "to_node_id": "resp186",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e531",
+            "from_node_id": "resp185",
+            "to_node_id": "resp187",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e532",
+            "from_node_id": "resp186",
+            "to_node_id": "resp187",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e533",
+            "from_node_id": "resp186",
+            "to_node_id": "resp188",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e534",
+            "from_node_id": "resp187",
+            "to_node_id": "resp188",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e535",
+            "from_node_id": "resp121",
+            "to_node_id": "resp189",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e536",
+            "from_node_id": "resp139",
+            "to_node_id": "resp189",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e537",
+            "from_node_id": "resp187",
+            "to_node_id": "resp190",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e538",
+            "from_node_id": "resp188",
+            "to_node_id": "resp190",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e539",
+            "from_node_id": "resp189",
+            "to_node_id": "resp190",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e540",
+            "from_node_id": "resp118",
+            "to_node_id": "resp191",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e541",
+            "from_node_id": "resp119",
+            "to_node_id": "resp191",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e542",
+            "from_node_id": "resp120",
+            "to_node_id": "resp191",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e543",
+            "from_node_id": "resp121",
+            "to_node_id": "resp191",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e544",
+            "from_node_id": "resp189",
+            "to_node_id": "resp192",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e545",
+            "from_node_id": "resp191",
+            "to_node_id": "resp192",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e546",
+            "from_node_id": "resp121",
+            "to_node_id": "resp193",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e547",
+            "from_node_id": "resp189",
+            "to_node_id": "resp193",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e548",
+            "from_node_id": "resp192",
+            "to_node_id": "resp193",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e549",
+            "from_node_id": "resp121",
+            "to_node_id": "resp194",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e550",
+            "from_node_id": "resp123",
+            "to_node_id": "resp194",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e551",
+            "from_node_id": "resp130",
+            "to_node_id": "resp194",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e552",
+            "from_node_id": "resp131",
+            "to_node_id": "resp194",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e553",
+            "from_node_id": "resp136",
+            "to_node_id": "resp194",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e554",
+            "from_node_id": "resp137",
+            "to_node_id": "resp194",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e555",
+            "from_node_id": "resp179",
+            "to_node_id": "resp194",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e556",
+            "from_node_id": "resp187",
+            "to_node_id": "resp195",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e557",
+            "from_node_id": "resp188",
+            "to_node_id": "resp195",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e558",
+            "from_node_id": "resp189",
+            "to_node_id": "resp195",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e559",
+            "from_node_id": "resp193",
+            "to_node_id": "resp195",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e560",
+            "from_node_id": "resp194",
+            "to_node_id": "resp195",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e561",
+            "from_node_id": "resp113",
+            "to_node_id": "resp196",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e562",
+            "from_node_id": "resp119",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e563",
+            "from_node_id": "resp120",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e564",
+            "from_node_id": "resp195",
+            "to_node_id": "resp196",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e565",
+            "from_node_id": "resp195",
+            "to_node_id": "resp197",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e566",
+            "from_node_id": "resp196",
+            "to_node_id": "resp197",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e567",
+            "from_node_id": "resp119",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e568",
+            "from_node_id": "resp120",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e569",
+            "from_node_id": "resp196",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e570",
+            "from_node_id": "resp197",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e571",
+            "from_node_id": "resp118",
+            "to_node_id": "resp199",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e572",
+            "from_node_id": "resp119",
+            "to_node_id": "resp199",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e573",
+            "from_node_id": "resp196",
+            "to_node_id": "resp199",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e574",
+            "from_node_id": "resp197",
+            "to_node_id": "resp199",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e575",
+            "from_node_id": "resp198",
+            "to_node_id": "resp199",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e576",
+            "from_node_id": "resp198",
+            "to_node_id": "resp200",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e577",
+            "from_node_id": "resp199",
+            "to_node_id": "resp200",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e578",
+            "from_node_id": "resp199",
+            "to_node_id": "resp201",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e579",
+            "from_node_id": "resp200",
+            "to_node_id": "resp201",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e580",
+            "from_node_id": "resp120",
+            "to_node_id": "resp202",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e581",
+            "from_node_id": "resp200",
+            "to_node_id": "resp202",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e582",
+            "from_node_id": "resp199",
+            "to_node_id": "resp203",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e583",
+            "from_node_id": "resp202",
+            "to_node_id": "resp203",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e584",
+            "from_node_id": "resp202",
+            "to_node_id": "resp204",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e585",
+            "from_node_id": "resp203",
+            "to_node_id": "resp204",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e586",
+            "from_node_id": "resp202",
+            "to_node_id": "resp205",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e587",
+            "from_node_id": "resp203",
+            "to_node_id": "resp205",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e588",
+            "from_node_id": "resp204",
+            "to_node_id": "resp205",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e589",
+            "from_node_id": "resp202",
+            "to_node_id": "resp206",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e590",
+            "from_node_id": "resp203",
+            "to_node_id": "resp206",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e591",
+            "from_node_id": "resp204",
+            "to_node_id": "resp206",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e592",
+            "from_node_id": "resp205",
+            "to_node_id": "resp206",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e593",
+            "from_node_id": "resp205",
+            "to_node_id": "resp207",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e594",
+            "from_node_id": "resp206",
+            "to_node_id": "resp207",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e595",
+            "from_node_id": "resp199",
+            "to_node_id": "resp208",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e596",
+            "from_node_id": "resp200",
+            "to_node_id": "resp208",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e597",
+            "from_node_id": "resp202",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e598",
+            "from_node_id": "resp203",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e599",
+            "from_node_id": "resp206",
+            "to_node_id": "resp209",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e600",
+            "from_node_id": "resp208",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e601",
+            "from_node_id": "resp209",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e602",
+            "from_node_id": "resp208",
+            "to_node_id": "resp211",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e603",
+            "from_node_id": "resp210",
+            "to_node_id": "resp211",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e604",
+            "from_node_id": "resp209",
+            "to_node_id": "resp212",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e605",
+            "from_node_id": "resp210",
+            "to_node_id": "resp212",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e606",
+            "from_node_id": "resp211",
+            "to_node_id": "resp212",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e607",
+            "from_node_id": "resp209",
+            "to_node_id": "resp213",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e608",
+            "from_node_id": "resp210",
+            "to_node_id": "resp213",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e609",
+            "from_node_id": "resp211",
+            "to_node_id": "resp213",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e610",
+            "from_node_id": "resp212",
+            "to_node_id": "resp213",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e611",
+            "from_node_id": "resp203",
+            "to_node_id": "resp214",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e612",
+            "from_node_id": "resp204",
+            "to_node_id": "resp214",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e613",
+            "from_node_id": "resp212",
+            "to_node_id": "resp214",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e614",
+            "from_node_id": "resp213",
+            "to_node_id": "resp214",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e615",
+            "from_node_id": "resp212",
+            "to_node_id": "resp215",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e616",
+            "from_node_id": "resp213",
+            "to_node_id": "resp215",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e617",
+            "from_node_id": "resp214",
+            "to_node_id": "resp215",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e618",
+            "from_node_id": "resp209",
+            "to_node_id": "resp216",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e619",
+            "from_node_id": "resp210",
+            "to_node_id": "resp216",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e620",
+            "from_node_id": "resp211",
+            "to_node_id": "resp216",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e621",
+            "from_node_id": "resp212",
+            "to_node_id": "resp216",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e622",
+            "from_node_id": "resp214",
+            "to_node_id": "resp216",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e623",
+            "from_node_id": "resp215",
+            "to_node_id": "resp216",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e624",
+            "from_node_id": "resp209",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e625",
+            "from_node_id": "resp210",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e626",
+            "from_node_id": "resp211",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e627",
+            "from_node_id": "resp212",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e628",
+            "from_node_id": "resp213",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e629",
+            "from_node_id": "resp217",
+            "to_node_id": "resp218",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e630",
+            "from_node_id": "resp217",
+            "to_node_id": "resp219",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e631",
+            "from_node_id": "resp218",
+            "to_node_id": "resp219",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e632",
+            "from_node_id": "resp208",
+            "to_node_id": "resp220",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e633",
+            "from_node_id": "resp209",
+            "to_node_id": "resp220",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e634",
+            "from_node_id": "resp217",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e635",
+            "from_node_id": "resp218",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e636",
+            "from_node_id": "resp219",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e637",
+            "from_node_id": "resp220",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e638",
+            "from_node_id": "resp217",
+            "to_node_id": "resp222",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e639",
+            "from_node_id": "resp218",
+            "to_node_id": "resp222",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e640",
+            "from_node_id": "resp218",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e641",
+            "from_node_id": "resp222",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e642",
+            "from_node_id": "resp223",
+            "to_node_id": "resp224",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e643",
+            "from_node_id": "resp164",
+            "to_node_id": "resp225",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e644",
+            "from_node_id": "resp178",
+            "to_node_id": "resp225",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e645",
+            "from_node_id": "resp184",
+            "to_node_id": "resp225",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e646",
+            "from_node_id": "resp185",
+            "to_node_id": "resp225",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e647",
+            "from_node_id": "resp121",
+            "to_node_id": "resp226",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e648",
+            "from_node_id": "resp136",
+            "to_node_id": "resp226",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e649",
+            "from_node_id": "resp194",
+            "to_node_id": "resp226",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e650",
+            "from_node_id": "resp225",
+            "to_node_id": "resp226",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e651",
+            "from_node_id": "resp136",
+            "to_node_id": "resp227",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e652",
+            "from_node_id": "resp152",
+            "to_node_id": "resp227",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e653",
+            "from_node_id": "resp226",
+            "to_node_id": "resp227",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e654",
+            "from_node_id": "resp226",
+            "to_node_id": "resp228",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e655",
+            "from_node_id": "resp227",
+            "to_node_id": "resp228",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e656",
+            "from_node_id": "resp228",
+            "to_node_id": "resp228",
+            "label": "reason:stmt-restatement"
+        }
+    ]
+}

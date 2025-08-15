@@ -1,0 +1,1737 @@
+{
+    "doc_id": "v1_data/Qwen2.5-32B-Instruct_aime2024_responses_20.json",
+    "metadata": {
+        "model_id": "Qwen/Qwen2.5-32B-Instruct",
+        "correct_answer": "211"
+    },
+    "raw_text": {
+        "question": "Let $b \\geq 2$ be an integer. Call a positive integer $n$ $b$\\textit{-eautiful} if it has exactly two digits when expressed in base $b$, and these two digits sum to $\\sqrt{n}$. For example, $81$ is $13$-eautiful because $81=\\underline{6}\\underline{3}_{13}$ and $6+3=\\sqrt{81}$. Find the least integer $b \\geq 2$ for which there are more than ten $b$-eautiful integers.",
+        "response": "To solve the problem, we first need to understand the conditions under which a number ( n ) is considered ( b )-beautiful. We'll start by expressing ( n ) in base ( b ):\n\nGiven ( n ) has exactly two digits in base ( b ), we can write:\n[ n = x b + y ]\nwhere ( x ) and ( y ) are its digits and satisfy ( 0 \\leq x < b ) and ( 0 \\leq y < b ).\n\nWe know that ( n ) must also have the property that the sum of these digits equals ( \\sqrt{n} ):\n[ x + y = \\sqrt{n} ]\n\nLet's rewrite this in terms of ( x, y, ) and ( b ):\n[ n = (x + y)^2 ]\nSince ( n = xb + y ), equating these:\n[ x b + y = (x + y)^2 ]\n\nNext, let\u2019s isolate one variable by solving for ( y ):\n[ y = (x + y)^2 - xb ]\n\nFor simplicity, reframe this as:\n[ y = bx + y^2 + 2xy - xb ]\n\nThus, collecting like terms:\n[ y + xb = bx + xy^2 + 2xy ]\n[ y - y^2 - 2xy = 0 ]\n[ y(1 - y - 2x) = 0 ]\n\nThis implies either ( y = 0 ) or ( 1 - y - 2x = 0 ).\nBecause ( y = 0 ) trivially reduces the problem to single-digit numbers, we consider:\n[ y + 2x = 1 ]\n\nHowever, given ( 0 \\leq y, x < b ), we can conclude that ( y \\neq 0 ). Therefore,\n[ x + y = k ]\nand therefore we have:\n[ n = k^2 ]\nwhere ( k = \\sqrt{n} ).\n\nWe want ( k ) such that:\n[ n = (k - y)b + y ]\n\nWe need to find integer values for ( k ), ( x ), and ( y ). To ensure our values work for the digits in base ( b ), both ( x ) and ( y ) should be in the range ( 0 \\leq x, y < b ).\nLet's iterate over possible values for ( b ) to identify the smallest one where there are over ten ( b )-beautiful integers.\n\nStep-by-step Analysis:\nConsider ( n ):\n[ n = k^2 ]\nwith:\n[ k = x + y ]\n\nWe need ( n ) values where:\n[ 0 \\leq x, y < b ]\nand:\n[ x+y=k=\\sqrt{n}]\n\nRewriting:\n[ n = bx + y ]\n[ k^2 = bx + y ]\n\nNow, solve:\n[ bx + y = (x + y)^2 ]\nfor pairs ( (x, y) ) with integer solutions and count them for different ( b ).\n\nTesting ( b = 14 ):\nFor each ( k ):\n[ k^2 = 14x + y ]\n[\n0 \\leq x, y < 14 ]\n\nFor ( k = 1 ):\n[ 1 = 14x + y ]\nNo valid ( x, y ) pair satisfies this because ( y < 14 ).\nFor ( k = 2 ):\n[ 4 = 14x + y ]\nNo valid solution.\nContinue similar testing through:\n( k=3 \\rightarrow n=9 )\n( k=4 \\rightarrow n=16 )\n( k=5 \\rightarrow n=25 )\netc.\nWhen ( b = 15 ):\n\n( k=4 \\rightarrow 16 = 152 +1 ) valid: ( 16 = 615 + 1 )\nContinue for higher ( k ):\n( k=9 \\rightarrow n = 81 = 5*15 + 6 )\n( k=10 \\rightarrow n = 100 = 6*15 + 10 )\n( k=11 \\rightarrow n = 121 \\neq 15*x + y )\netc.\nCounting up ( b )-beautiful integers from ( k ):\nFrom ( k = 3 ) to ( k = 17 ), it gives valid solutions for multiple ( k ) up to count > 10 integers, which appears for:\n\n( b = 15):\n[ 9, 16, 25, 36, 64, 81, 100, 121, ... etc. ]\nThe base ( b ):\n[ least b ] needs verifying more explicitly until counting exceeds ten.\n\nThus, upon careful checking:\n[ \\boxed{15} ] is the least integer ( b \\geq 2 ) with more than ten ( b )-beautiful integers."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 30,
+            "label": "context",
+            "text": "Let $b \\geq 2$ be an integer. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 30,
+            "end": 177,
+            "label": "context",
+            "text": "Call a positive integer $n$ $b$\\textit{-eautiful} if it has exactly two digits when expressed in base $b$, and these two digits sum to $\\sqrt{n}$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 177,
+            "end": 278,
+            "label": "context",
+            "text": "For example, $81$ is $13$-eautiful because $81=\\underline{6}\\underline{3}_{13}$ and $6+3=\\sqrt{81}$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 278,
+            "end": 368,
+            "label": "context",
+            "text": "Find the least integer $b \\geq 2$ for which there are more than ten $b$-eautiful integers.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 123,
+            "label": "planning",
+            "text": "To solve the problem, we first need to understand the conditions under which a number ( n ) is considered ( b )-beautiful. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 123,
+            "end": 171,
+            "label": "planning",
+            "text": "We'll start by expressing ( n ) in base ( b ):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 171,
+            "end": 235,
+            "label": "planning",
+            "text": "Given ( n ) has exactly two digits in base ( b ), we can write:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 235,
+            "end": 251,
+            "label": "reasoning",
+            "text": "[ n = x b + y ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 251,
+            "end": 340,
+            "label": "reasoning",
+            "text": "where ( x ) and ( y ) are its digits and satisfy ( 0 \\leq x < b ) and ( 0 \\leq y < b ).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 340,
+            "end": 437,
+            "label": "planning",
+            "text": "We know that ( n ) must also have the property that the sum of these digits equals ( \\sqrt{n} ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 437,
+            "end": 459,
+            "label": "reasoning",
+            "text": "[ x + y = \\sqrt{n} ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 459,
+            "end": 511,
+            "label": "planning",
+            "text": "Let's rewrite this in terms of ( x, y, ) and ( b ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 511,
+            "end": 529,
+            "label": "reasoning",
+            "text": "[ n = (x + y)^2 ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 529,
+            "end": 567,
+            "label": "planning",
+            "text": "Since ( n = xb + y ), equating these:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 567,
+            "end": 592,
+            "label": "reasoning",
+            "text": "[ x b + y = (x + y)^2 ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 592,
+            "end": 647,
+            "label": "planning",
+            "text": "Next, let\u2019s isolate one variable by solving for ( y ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 647,
+            "end": 671,
+            "label": "reasoning",
+            "text": "[ y = (x + y)^2 - xb ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 671,
+            "end": 704,
+            "label": "planning",
+            "text": "For simplicity, reframe this as:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 704,
+            "end": 733,
+            "label": "reasoning",
+            "text": "[ y = bx + y^2 + 2xy - xb ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 733,
+            "end": 762,
+            "label": "planning",
+            "text": "Thus, collecting like terms:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 762,
+            "end": 791,
+            "label": "reasoning",
+            "text": "[ y + xb = bx + xy^2 + 2xy ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 791,
+            "end": 813,
+            "label": "reasoning",
+            "text": "[ y - y^2 - 2xy = 0 ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 813,
+            "end": 836,
+            "label": "reasoning",
+            "text": "[ y(1 - y - 2x) = 0 ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 836,
+            "end": 889,
+            "label": "reasoning",
+            "text": "This implies either ( y = 0 ) or ( 1 - y - 2x = 0 ).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 889,
+            "end": 975,
+            "label": "reasoning",
+            "text": "Because ( y = 0 ) trivially reduces the problem to single-digit numbers, we consider:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 975,
+            "end": 991,
+            "label": "reasoning",
+            "text": "[ y + 2x = 1 ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 991,
+            "end": 1062,
+            "label": "reasoning",
+            "text": "However, given ( 0 \\leq y, x < b ), we can conclude that ( y \\neq 0 ). ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1062,
+            "end": 1073,
+            "label": "reasoning",
+            "text": "Therefore,\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1073,
+            "end": 1087,
+            "label": "reasoning",
+            "text": "[ x + y = k ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1087,
+            "end": 1110,
+            "label": "reasoning",
+            "text": "and therefore we have:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 1110,
+            "end": 1122,
+            "label": "reasoning",
+            "text": "[ n = k^2 ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 1122,
+            "end": 1147,
+            "label": "reasoning",
+            "text": "where ( k = \\sqrt{n} ).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 1147,
+            "end": 1172,
+            "label": "planning",
+            "text": "We want ( k ) such that:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 1172,
+            "end": 1194,
+            "label": "reasoning",
+            "text": "[ n = (k - y)b + y ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 1194,
+            "end": 1254,
+            "label": "planning",
+            "text": "We need to find integer values for ( k ), ( x ), and ( y ). ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 1254,
+            "end": 1375,
+            "label": "reasoning",
+            "text": "To ensure our values work for the digits in base ( b ), both ( x ) and ( y ) should be in the range ( 0 \\leq x, y < b ).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 1375,
+            "end": 1501,
+            "label": "planning",
+            "text": "Let's iterate over possible values for ( b ) to identify the smallest one where there are over ten ( b )-beautiful integers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 1501,
+            "end": 1524,
+            "label": "planning",
+            "text": "Step-by-step Analysis:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 1524,
+            "end": 1540,
+            "label": "planning",
+            "text": "Consider ( n ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 1540,
+            "end": 1552,
+            "label": "reasoning",
+            "text": "[ n = k^2 ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 1552,
+            "end": 1558,
+            "label": "reasoning",
+            "text": "with:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 1558,
+            "end": 1573,
+            "label": "reasoning",
+            "text": "[ k = x + y ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 1573,
+            "end": 1601,
+            "label": "planning",
+            "text": "We need ( n ) values where:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 1601,
+            "end": 1621,
+            "label": "reasoning",
+            "text": "[ 0 \\leq x, y < b ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 1621,
+            "end": 1626,
+            "label": "reasoning",
+            "text": "and:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 1626,
+            "end": 1645,
+            "label": "reasoning",
+            "text": "[ x+y=k=\\sqrt{n}]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 1645,
+            "end": 1656,
+            "label": "planning",
+            "text": "Rewriting:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 1656,
+            "end": 1671,
+            "label": "reasoning",
+            "text": "[ n = bx + y ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 1671,
+            "end": 1689,
+            "label": "reasoning",
+            "text": "[ k^2 = bx + y ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 1689,
+            "end": 1701,
+            "label": "planning",
+            "text": "Now, solve:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 1701,
+            "end": 1724,
+            "label": "reasoning",
+            "text": "[ bx + y = (x + y)^2 ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 1724,
+            "end": 1805,
+            "label": "planning",
+            "text": "for pairs ( (x, y) ) with integer solutions and count them for different ( b ).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 1805,
+            "end": 1825,
+            "label": "planning",
+            "text": "Testing ( b = 14 ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 1825,
+            "end": 1841,
+            "label": "planning",
+            "text": "For each ( k ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 1841,
+            "end": 1859,
+            "label": "reasoning",
+            "text": "[ k^2 = 14x + y ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 1859,
+            "end": 1881,
+            "label": "reasoning",
+            "text": "[\n0 \\leq x, y < 14 ]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 1881,
+            "end": 1896,
+            "label": "planning",
+            "text": "For ( k = 1 ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 1896,
+            "end": 1912,
+            "label": "reasoning",
+            "text": "[ 1 = 14x + y ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 1912,
+            "end": 1970,
+            "label": "reasoning",
+            "text": "No valid ( x, y ) pair satisfies this because ( y < 14 ).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 1970,
+            "end": 1985,
+            "label": "planning",
+            "text": "For ( k = 2 ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 1985,
+            "end": 2001,
+            "label": "reasoning",
+            "text": "[ 4 = 14x + y ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 2001,
+            "end": 2020,
+            "label": "reasoning",
+            "text": "No valid solution.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 2020,
+            "end": 2054,
+            "label": "planning",
+            "text": "Continue similar testing through:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 2054,
+            "end": 2078,
+            "label": "example",
+            "text": "( k=3 \\rightarrow n=9 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 2078,
+            "end": 2103,
+            "label": "example",
+            "text": "( k=4 \\rightarrow n=16 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 2103,
+            "end": 2128,
+            "label": "example",
+            "text": "( k=5 \\rightarrow n=25 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 2128,
+            "end": 2133,
+            "label": "planning",
+            "text": "etc.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 2133,
+            "end": 2151,
+            "label": "planning",
+            "text": "When ( b = 15 ):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 2151,
+            "end": 2207,
+            "label": "example",
+            "text": "( k=4 \\rightarrow 16 = 152 +1 ) valid: ( 16 = 615 + 1 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 2207,
+            "end": 2234,
+            "label": "planning",
+            "text": "Continue for higher ( k ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 2234,
+            "end": 2272,
+            "label": "example",
+            "text": "( k=9 \\rightarrow n = 81 = 5*15 + 6 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 2272,
+            "end": 2313,
+            "label": "example",
+            "text": "( k=10 \\rightarrow n = 100 = 6*15 + 10 )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 2313,
+            "end": 2356,
+            "label": "example",
+            "text": "( k=11 \\rightarrow n = 121 \\neq 15*x + y )\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 2356,
+            "end": 2361,
+            "label": "planning",
+            "text": "etc.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 2361,
+            "end": 2410,
+            "label": "planning",
+            "text": "Counting up ( b )-beautiful integers from ( k ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 2410,
+            "end": 2531,
+            "label": "reasoning",
+            "text": "From ( k = 3 ) to ( k = 17 ), it gives valid solutions for multiple ( k ) up to count > 10 integers, which appears for:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 2531,
+            "end": 2542,
+            "label": "reasoning",
+            "text": "( b = 15):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 2542,
+            "end": 2588,
+            "label": "example",
+            "text": "[ 9, 16, 25, 36, 64, 81, 100, 121, ... etc. ]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 2588,
+            "end": 2604,
+            "label": "restatement",
+            "text": "The base ( b ):\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 2604,
+            "end": 2677,
+            "label": "planning",
+            "text": "[ least b ] needs verifying more explicitly until counting exceeds ten.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 2677,
+            "end": 2706,
+            "label": "planning",
+            "text": "Thus, upon careful checking:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 2706,
+            "end": 2799,
+            "label": "conclusion",
+            "text": "[ \\boxed{15} ] is the least integer ( b \\geq 2 ) with more than ten ( b )-beautiful integers.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp0",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp3",
+            "to_node_id": "resp5",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp3",
+            "to_node_id": "resp6",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp4",
+            "to_node_id": "resp6",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp2",
+            "to_node_id": "resp7",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp3",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp6",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp3",
+            "to_node_id": "resp9",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp3",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp6",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp10",
+            "to_node_id": "resp12",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp11",
+            "to_node_id": "resp13",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp10",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp12",
+            "to_node_id": "resp14",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp13",
+            "to_node_id": "resp15",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp14",
+            "to_node_id": "resp16",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp16",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp18",
+            "to_node_id": "resp21",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp19",
+            "to_node_id": "resp21",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp19",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp20",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp19",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp6",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp8",
+            "to_node_id": "resp24",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp23",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp8",
+            "to_node_id": "resp26",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp24",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp26",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp3",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp8",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp26",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp27",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp28",
+            "to_node_id": "resp30",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp4",
+            "to_node_id": "resp31",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp29",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp30",
+            "to_node_id": "resp32",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp32",
+            "to_node_id": "resp33",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp24",
+            "to_node_id": "resp35",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp26",
+            "to_node_id": "resp35",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp6",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp24",
+            "to_node_id": "resp37",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp31",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp32",
+            "to_node_id": "resp38",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp33",
+            "to_node_id": "resp38",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp34",
+            "to_node_id": "resp38",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp31",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp39",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp24",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp37",
+            "to_node_id": "resp41",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp3",
+            "to_node_id": "resp43",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp29",
+            "to_node_id": "resp44",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp35",
+            "to_node_id": "resp44",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp43",
+            "to_node_id": "resp44",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp42",
+            "to_node_id": "resp45",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp44",
+            "to_node_id": "resp45",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp3",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp6",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp10",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp44",
+            "to_node_id": "resp46",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp32",
+            "to_node_id": "resp47",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp33",
+            "to_node_id": "resp47",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp45",
+            "to_node_id": "resp47",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp32",
+            "to_node_id": "resp48",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp47",
+            "to_node_id": "resp48",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp47",
+            "to_node_id": "resp49",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp48",
+            "to_node_id": "resp49",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp44",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp48",
+            "to_node_id": "resp50",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp49",
+            "to_node_id": "resp50",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp50",
+            "to_node_id": "resp51",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp49",
+            "to_node_id": "resp52",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp50",
+            "to_node_id": "resp53",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp51",
+            "to_node_id": "resp53",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp53",
+            "to_node_id": "resp54",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp52",
+            "to_node_id": "resp55",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp50",
+            "to_node_id": "resp56",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp51",
+            "to_node_id": "resp56",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp54",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp56",
+            "to_node_id": "resp57",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp47",
+            "to_node_id": "resp58",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp48",
+            "to_node_id": "resp58",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp49",
+            "to_node_id": "resp58",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp48",
+            "to_node_id": "resp59",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp49",
+            "to_node_id": "resp59",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp50",
+            "to_node_id": "resp59",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp48",
+            "to_node_id": "resp60",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp58",
+            "to_node_id": "resp60",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp50",
+            "to_node_id": "resp61",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp58",
+            "to_node_id": "resp61",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp58",
+            "to_node_id": "resp62",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp60",
+            "to_node_id": "resp62",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp61",
+            "to_node_id": "resp62",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp48",
+            "to_node_id": "resp63",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp48",
+            "to_node_id": "resp64",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp58",
+            "to_node_id": "resp64",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp58",
+            "to_node_id": "resp65",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp62",
+            "to_node_id": "resp65",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp63",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp63",
+            "to_node_id": "resp67",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp65",
+            "to_node_id": "resp67",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp63",
+            "to_node_id": "resp68",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp65",
+            "to_node_id": "resp68",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp58",
+            "to_node_id": "resp69",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp65",
+            "to_node_id": "resp69",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp47",
+            "to_node_id": "resp70",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp65",
+            "to_node_id": "resp70",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp69",
+            "to_node_id": "resp70",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp63",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp65",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp69",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp70",
+            "to_node_id": "resp71",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp63",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp70",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp71",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp70",
+            "to_node_id": "resp73",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp71",
+            "to_node_id": "resp73",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp63",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp70",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp72",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp70",
+            "to_node_id": "resp75",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp71",
+            "to_node_id": "resp75",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp72",
+            "to_node_id": "resp75",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp74",
+            "to_node_id": "resp75",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp71",
+            "to_node_id": "resp76",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp72",
+            "to_node_id": "resp76",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp75",
+            "to_node_id": "resp76",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp72",
+            "to_node_id": "resp77",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp73",
+            "to_node_id": "resp77",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp74",
+            "to_node_id": "resp77",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp76",
+            "to_node_id": "resp77",
+            "label": "reason:premise-conclusion"
+        }
+    ]
+}

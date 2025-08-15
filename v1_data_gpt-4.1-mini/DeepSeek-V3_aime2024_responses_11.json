@@ -1,0 +1,1722 @@
+{
+    "doc_id": "v1_data/DeepSeek-V3_aime2024_responses_11.json",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-V3",
+        "correct_answer": "45"
+    },
+    "raw_text": {
+        "question": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+        "response": "Alright, let's tackle this problem step by step. We have a 2x3 grid, and we need to place digits in each cell such that:\n\n1. The sum of the two numbers formed by reading left to right is 999.\n2. The sum of the three numbers formed by reading top to bottom is 99.\n\nLet's denote the grid as follows:\n\n```\n| A | B | C |\n| D | E | F |\n```\n\nHere, A, B, C, D, E, F are digits (0-9) that we need to determine.\n\n### Understanding the Constraints\n\n**First Constraint:** The sum of the two numbers formed by reading left to right is 999.\n\nThis means:\n```\nABC + DEF = 999\n```\nWhere ABC is a three-digit number formed by digits A, B, C, and DEF is a three-digit number formed by digits D, E, F.\n\n**Second Constraint:** The sum of the three numbers formed by reading top to bottom is 99.\n\nThis means:\n```\nAD + BE + CF = 99\n```\nWhere AD, BE, and CF are two-digit numbers formed by digits A&D, B&E, C&F respectively.\n\n### Breaking Down the First Constraint: ABC + DEF = 999\n\nLet's express ABC and DEF in terms of their digits:\n\n```\nABC = 100A + 10B + C\nDEF = 100D + 10E + F\n```\n\nSo,\n```\n100A + 10B + C + 100D + 10E + F = 999\n```\n\nThis simplifies to:\n```\n100(A + D) + 10(B + E) + (C + F) = 999\n```\n\nSince A, B, C, D, E, F are digits (0-9), the sums A+D, B+E, C+F must satisfy:\n\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nThis is because:\n\n- 100(A + D) must be 900 (since 100 * 9 = 900)\n- 10(B + E) must be 90 (since 10 * 9 = 90)\n- (C + F) must be 9\n\nSo, we have:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n### Breaking Down the Second Constraint: AD + BE + CF = 99\n\nLet's express AD, BE, and CF in terms of their digits:\n\n```\nAD = 10A + D\nBE = 10B + E\nCF = 10C + F\n```\n\nSo,\n```\n10A + D + 10B + E + 10C + F = 99\n```\n\nThis simplifies to:\n```\n10(A + B + C) + (D + E + F) = 99\n```\n\nFrom the first constraint, we know:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nAdding these three equations:\n```\n(A + D) + (B + E) + (C + F) = 9 + 9 + 9\nA + B + C + D + E + F = 27\n```\n\nLet's denote:\n```\nS = A + B + C\nT = D + E + F\n```\n\nSo,\n```\nS + T = 27\n```\n\nFrom the second constraint:\n```\n10S + T = 99\n```\n\nNow we have a system of two equations:\n```\nS + T = 27\n10S + T = 99\n```\n\nSubtract the first equation from the second:\n```\n(10S + T) - (S + T) = 99 - 27\n9S = 72\nS = 8\n```\n\nThen,\n```\nT = 27 - S = 27 - 8 = 19\n```\n\nSo,\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n### Summarizing the Equations\n\nFrom the first constraint:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nFrom the second constraint:\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n### Solving the Equations\n\nLet's express D, E, F in terms of A, B, C:\n\nFrom A + D = 9 \u21d2 D = 9 - A\n\nFrom B + E = 9 \u21d2 E = 9 - B\n\nFrom C + F = 9 \u21d2 F = 9 - C\n\nNow, substitute D, E, F into D + E + F = 19:\n\n```\n(9 - A) + (9 - B) + (9 - C) = 19\n27 - (A + B + C) = 19\n```\n\nBut we know A + B + C = 8:\n\n```\n27 - 8 = 19\n19 = 19\n```\n\nThis confirms our equations are consistent.\n\n### Finding Possible Values for A, B, C\n\nWe have:\n```\nA + B + C = 8\n```\n\nAnd A, B, C are digits (0-9).\n\nWe need to find all possible combinations of (A, B, C) that satisfy A + B + C = 8.\n\nLet's list them:\n\n1. A=0, B=0, C=8\n2. A=0, B=1, C=7\n3. A=0, B=2, C=6\n4. A=0, B=3, C=5\n5. A=0, B=4, C=4\n6. A=0, B=5, C=3\n7. A=0, B=6, C=2\n8. A=0, B=7, C=1\n9. A=0, B=8, C=0\n10. A=1, B=0, C=7\n11. A=1, B=1, C=6\n12. A=1, B=2, C=5\n13. A=1, B=3, C=4\n14. A=1, B=4, C=3\n15. A=1, B=5, C=2\n16. A=1, B=6, C=1\n17. A=1, B=7, C=0\n18. A=2, B=0, C=6\n19. A=2, B=1, C=5\n20. A=2, B=2, C=4\n21. A=2, B=3, C=3\n22. A=2, B=4, C=2\n23. A=2, B=5, C=1\n24. A=2, B=6, C=0\n25. A=3, B=0, C=5\n26. A=3, B=1, C=4\n27. A=3, B=2, C=3\n28. A=3, B=3, C=2\n29. A=3, B=4, C=1\n30. A=3, B=5, C=0\n31. A=4, B=0, C=4\n32. A=4, B=1, C=3\n33. A=4, B=2, C=2\n34. A=4, B=3, C=1\n35. A=4, B=4, C=0\n36. A=5, B=0, C=3\n37. A=5, B=1, C=2\n38. A=5, B=2, C=1\n39. A=5, B=3, C=0\n40. A=6, B=0, C=2\n41. A=6, B=1, C=1\n42. A=6, B=2, C=0\n43. A=7, B=0, C=1\n44. A=7, B=1, C=0\n45. A=8, B=0, C=0\n```\n\nThere are 45 possible combinations for (A, B, C).\n\n### Determining D, E, F for Each Combination\n\nFor each combination of (A, B, C), we can find D, E, F using:\n\n```\nD = 9 - A\nE = 9 - B\nF = 9 - C\n```\n\nSince A, B, C are digits (0-9), D, E, F will also be digits (0-9).\n\n### Verifying All Combinations\n\nWe need to ensure that for each combination, D, E, F are valid digits (0-9). Given that A, B, C are between 0 and 8 (since A + B + C = 8), D, E, F will be between 1 and 9. Therefore, all combinations are valid.\n\n### Calculating the Total Number of Valid Arrangements\n\nSince there are 45 valid combinations for (A, B, C), and for each combination, there's exactly one corresponding (D, E, F), the total number of valid arrangements is 45.\n\n### Conclusion\n\nAfter systematically analyzing the constraints and enumerating all possible combinations, we find that there are **45** valid ways to place digits in the 2x3 grid to satisfy both conditions."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 219,
+            "label": "context",
+            "text": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 219,
+            "end": 309,
+            "label": "context",
+            "text": "The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 309,
+            "end": 394,
+            "label": "context",
+            "text": "\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 49,
+            "label": "restatement",
+            "text": "Alright, let's tackle this problem step by step. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 49,
+            "end": 122,
+            "label": "restatement",
+            "text": "We have a 2x3 grid, and we need to place digits in each cell such that:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 122,
+            "end": 192,
+            "label": "restatement",
+            "text": "1. The sum of the two numbers formed by reading left to right is 999.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 192,
+            "end": 264,
+            "label": "restatement",
+            "text": "2. The sum of the three numbers formed by reading top to bottom is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 264,
+            "end": 303,
+            "label": "planning",
+            "text": "Let's denote the grid as follows:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 303,
+            "end": 336,
+            "label": "restatement",
+            "text": "| A | B | C |\n| D | E | F |\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 336,
+            "end": 404,
+            "label": "restatement",
+            "text": "Here, A, B, C, D, E, F are digits (0-9) that we need to determine.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 404,
+            "end": 529,
+            "label": "planning",
+            "text": "### Understanding the Constraints\n\n**First Constraint:** The sum of the two numbers formed by reading left to right is 999.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 529,
+            "end": 545,
+            "label": "planning",
+            "text": "This means:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 545,
+            "end": 565,
+            "label": "restatement",
+            "text": "ABC + DEF = 999\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 565,
+            "end": 684,
+            "label": "restatement",
+            "text": "Where ABC is a three-digit number formed by digits A, B, C, and DEF is a three-digit number formed by digits D, E, F.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 684,
+            "end": 776,
+            "label": "planning",
+            "text": "**Second Constraint:** The sum of the three numbers formed by reading top to bottom is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 776,
+            "end": 792,
+            "label": "planning",
+            "text": "This means:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 792,
+            "end": 814,
+            "label": "restatement",
+            "text": "AD + BE + CF = 99\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 814,
+            "end": 903,
+            "label": "restatement",
+            "text": "Where AD, BE, and CF are two-digit numbers formed by digits A&D, B&E, C&F respectively.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 903,
+            "end": 960,
+            "label": "planning",
+            "text": "### Breaking Down the First Constraint: ABC + DEF = 999\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 960,
+            "end": 1017,
+            "label": "planning",
+            "text": "Let's express ABC and DEF in terms of their digits:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1017,
+            "end": 1064,
+            "label": "restatement",
+            "text": "ABC = 100A + 10B + C\nDEF = 100D + 10E + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1064,
+            "end": 1072,
+            "label": "planning",
+            "text": "So,\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1072,
+            "end": 1115,
+            "label": "restatement",
+            "text": "100A + 10B + C + 100D + 10E + F = 999\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1115,
+            "end": 1139,
+            "label": "planning",
+            "text": "This simplifies to:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1139,
+            "end": 1183,
+            "label": "restatement",
+            "text": "100(A + D) + 10(B + E) + (C + F) = 999\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1183,
+            "end": 1266,
+            "label": "reasoning",
+            "text": "Since A, B, C, D, E, F are digits (0-9), the sums A+D, B+E, C+F must satisfy:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1266,
+            "end": 1301,
+            "label": "restatement",
+            "text": "A + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1301,
+            "end": 1447,
+            "label": "reasoning",
+            "text": "This is because:\n\n- 100(A + D) must be 900 (since 100 * 9 = 900)\n- 10(B + E) must be 90 (since 10 * 9 = 90)\n- (C + F) must be 9\n\nSo, we have:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1447,
+            "end": 1482,
+            "label": "restatement",
+            "text": "A + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 1482,
+            "end": 1542,
+            "label": "planning",
+            "text": "### Breaking Down the Second Constraint: AD + BE + CF = 99\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 1542,
+            "end": 1602,
+            "label": "planning",
+            "text": "Let's express AD, BE, and CF in terms of their digits:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 1602,
+            "end": 1646,
+            "label": "restatement",
+            "text": "AD = 10A + D\nBE = 10B + E\nCF = 10C + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 1646,
+            "end": 1654,
+            "label": "planning",
+            "text": "So,\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 1654,
+            "end": 1692,
+            "label": "restatement",
+            "text": "10A + D + 10B + E + 10C + F = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 1692,
+            "end": 1716,
+            "label": "planning",
+            "text": "This simplifies to:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 1716,
+            "end": 1754,
+            "label": "restatement",
+            "text": "10(A + B + C) + (D + E + F) = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 1754,
+            "end": 1794,
+            "label": "planning",
+            "text": "From the first constraint, we know:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 1794,
+            "end": 1829,
+            "label": "restatement",
+            "text": "A + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 1829,
+            "end": 1863,
+            "label": "planning",
+            "text": "Adding these three equations:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 1863,
+            "end": 1935,
+            "label": "reasoning",
+            "text": "(A + D) + (B + E) + (C + F) = 9 + 9 + 9\nA + B + C + D + E + F = 27\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 1935,
+            "end": 1953,
+            "label": "planning",
+            "text": "Let's denote:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 1953,
+            "end": 1986,
+            "label": "restatement",
+            "text": "S = A + B + C\nT = D + E + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 1986,
+            "end": 1994,
+            "label": "planning",
+            "text": "So,\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 1994,
+            "end": 2010,
+            "label": "restatement",
+            "text": "S + T = 27\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2010,
+            "end": 2042,
+            "label": "planning",
+            "text": "From the second constraint:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 2042,
+            "end": 2060,
+            "label": "restatement",
+            "text": "10S + T = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 2060,
+            "end": 2103,
+            "label": "planning",
+            "text": "Now we have a system of two equations:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 2103,
+            "end": 2132,
+            "label": "restatement",
+            "text": "S + T = 27\n10S + T = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 2132,
+            "end": 2181,
+            "label": "planning",
+            "text": "Subtract the first equation from the second:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 2181,
+            "end": 2230,
+            "label": "reasoning",
+            "text": "(10S + T) - (S + T) = 99 - 27\n9S = 72\nS = 8\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 2230,
+            "end": 2240,
+            "label": "planning",
+            "text": "Then,\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 2240,
+            "end": 2270,
+            "label": "reasoning",
+            "text": "T = 27 - S = 27 - 8 = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 2270,
+            "end": 2278,
+            "label": "planning",
+            "text": "So,\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 2278,
+            "end": 2312,
+            "label": "restatement",
+            "text": "A + B + C = 8\nD + E + F = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 2312,
+            "end": 2343,
+            "label": "planning",
+            "text": "### Summarizing the Equations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 2343,
+            "end": 2374,
+            "label": "planning",
+            "text": "From the first constraint:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 2374,
+            "end": 2409,
+            "label": "restatement",
+            "text": "A + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 2409,
+            "end": 2441,
+            "label": "planning",
+            "text": "From the second constraint:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 2441,
+            "end": 2475,
+            "label": "restatement",
+            "text": "A + B + C = 8\nD + E + F = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 2475,
+            "end": 2502,
+            "label": "planning",
+            "text": "### Solving the Equations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 2502,
+            "end": 2630,
+            "label": "reasoning",
+            "text": "Let's express D, E, F in terms of A, B, C:\n\nFrom A + D = 9 \u21d2 D = 9 - A\n\nFrom B + E = 9 \u21d2 E = 9 - B\n\nFrom C + F = 9 \u21d2 F = 9 - C\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 2630,
+            "end": 2680,
+            "label": "planning",
+            "text": "Now, substitute D, E, F into D + E + F = 19:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 2680,
+            "end": 2740,
+            "label": "reasoning",
+            "text": "(9 - A) + (9 - B) + (9 - C) = 19\n27 - (A + B + C) = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 2740,
+            "end": 2772,
+            "label": "planning",
+            "text": "But we know A + B + C = 8:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 2772,
+            "end": 2797,
+            "label": "reasoning",
+            "text": "27 - 8 = 19\n19 = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 2797,
+            "end": 2842,
+            "label": "reasoning",
+            "text": "This confirms our equations are consistent.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 2842,
+            "end": 2883,
+            "label": "planning",
+            "text": "### Finding Possible Values for A, B, C\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 2883,
+            "end": 2896,
+            "label": "planning",
+            "text": "We have:\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 2896,
+            "end": 2915,
+            "label": "restatement",
+            "text": "A + B + C = 8\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 2915,
+            "end": 3030,
+            "label": "planning",
+            "text": "And A, B, C are digits (0-9).\n\nWe need to find all possible combinations of (A, B, C) that satisfy A + B + C = 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 3030,
+            "end": 3854,
+            "label": "example",
+            "text": "Let's list them:\n\n1. A=0, B=0, C=8\n2. A=0, B=1, C=7\n3. A=0, B=2, C=6\n4. A=0, B=3, C=5\n5. A=0, B=4, C=4\n6. A=0, B=5, C=3\n7. A=0, B=6, C=2\n8. A=0, B=7, C=1\n9. A=0, B=8, C=0\n10. A=1, B=0, C=7\n11. A=1, B=1, C=6\n12. A=1, B=2, C=5\n13. A=1, B=3, C=4\n14. A=1, B=4, C=3\n15. A=1, B=5, C=2\n16. A=1, B=6, C=1\n17. A=1, B=7, C=0\n18. A=2, B=0, C=6\n19. A=2, B=1, C=5\n20. A=2, B=2, C=4\n21. A=2, B=3, C=3\n22. A=2, B=4, C=2\n23. A=2, B=5, C=1\n24. A=2, B=6, C=0\n25. A=3, B=0, C=5\n26. A=3, B=1, C=4\n27. A=3, B=2, C=3\n28. A=3, B=3, C=2\n29. A=3, B=4, C=1\n30. A=3, B=5, C=0\n31. A=4, B=0, C=4\n32. A=4, B=1, C=3\n33. A=4, B=2, C=2\n34. A=4, B=3, C=1\n35. A=4, B=4, C=0\n36. A=5, B=0, C=3\n37. A=5, B=1, C=2\n38. A=5, B=2, C=1\n39. A=5, B=3, C=0\n40. A=6, B=0, C=2\n41. A=6, B=1, C=1\n42. A=6, B=2, C=0\n43. A=7, B=0, C=1\n44. A=7, B=1, C=0\n45. A=8, B=0, C=0\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 3854,
+            "end": 3905,
+            "label": "reasoning",
+            "text": "There are 45 possible combinations for (A, B, C).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 3905,
+            "end": 3951,
+            "label": "planning",
+            "text": "### Determining D, E, F for Each Combination\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 3951,
+            "end": 4018,
+            "label": "planning",
+            "text": "For each combination of (A, B, C), we can find D, E, F using:\n\n```\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 4018,
+            "end": 4053,
+            "label": "restatement",
+            "text": "D = 9 - A\nE = 9 - B\nF = 9 - C\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 4053,
+            "end": 4121,
+            "label": "reasoning",
+            "text": "Since A, B, C are digits (0-9), D, E, F will also be digits (0-9).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 4121,
+            "end": 4153,
+            "label": "planning",
+            "text": "### Verifying All Combinations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 4153,
+            "end": 4325,
+            "label": "reasoning",
+            "text": "We need to ensure that for each combination, D, E, F are valid digits (0-9). Given that A, B, C are between 0 and 8 (since A + B + C = 8), D, E, F will be between 1 and 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 4325,
+            "end": 4365,
+            "label": "reasoning",
+            "text": "Therefore, all combinations are valid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 4365,
+            "end": 4421,
+            "label": "planning",
+            "text": "### Calculating the Total Number of Valid Arrangements\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 4421,
+            "end": 4592,
+            "label": "reasoning",
+            "text": "Since there are 45 valid combinations for (A, B, C), and for each combination, there's exactly one corresponding (D, E, F), the total number of valid arrangements is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 4592,
+            "end": 4608,
+            "label": "planning",
+            "text": "### Conclusion\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 4608,
+            "end": 4798,
+            "label": "conclusion",
+            "text": "After systematically analyzing the constraints and enumerating all possible combinations, we find that there are **45** valid ways to place digits in the 2x3 grid to satisfy both conditions.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp0",
+            "to_node_id": "resp1",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "resp1",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp3",
+            "to_node_id": "resp7",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp7",
+            "to_node_id": "resp11",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp8",
+            "to_node_id": "resp11",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp11",
+            "to_node_id": "resp13",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp13",
+            "to_node_id": "resp14",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp7",
+            "to_node_id": "resp15",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp8",
+            "to_node_id": "resp15",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp9",
+            "to_node_id": "resp15",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp16",
+            "to_node_id": "resp18",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp17",
+            "to_node_id": "resp19",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp19",
+            "to_node_id": "resp21",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp6",
+            "to_node_id": "resp22",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp21",
+            "to_node_id": "resp24",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp22",
+            "to_node_id": "resp25",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp23",
+            "to_node_id": "resp25",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp11",
+            "to_node_id": "resp26",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp12",
+            "to_node_id": "resp26",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp26",
+            "to_node_id": "resp27",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp27",
+            "to_node_id": "resp29",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp28",
+            "to_node_id": "resp30",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp30",
+            "to_node_id": "resp31",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp30",
+            "to_node_id": "resp32",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp23",
+            "to_node_id": "resp33",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp25",
+            "to_node_id": "resp33",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp23",
+            "to_node_id": "resp34",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp25",
+            "to_node_id": "resp34",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp23",
+            "to_node_id": "resp35",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp25",
+            "to_node_id": "resp35",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp34",
+            "to_node_id": "resp35",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp34",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp35",
+            "to_node_id": "resp37",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp36",
+            "to_node_id": "resp37",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp37",
+            "to_node_id": "resp38",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp36",
+            "to_node_id": "resp39",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp38",
+            "to_node_id": "resp39",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp36",
+            "to_node_id": "resp40",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp38",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp26",
+            "to_node_id": "resp41",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp27",
+            "to_node_id": "resp41",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp29",
+            "to_node_id": "resp41",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp31",
+            "to_node_id": "resp41",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp33",
+            "to_node_id": "resp41",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp40",
+            "to_node_id": "resp42",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp40",
+            "to_node_id": "resp43",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp40",
+            "to_node_id": "resp44",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp42",
+            "to_node_id": "resp44",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp44",
+            "to_node_id": "resp45",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp41",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp44",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp45",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp46",
+            "to_node_id": "resp47",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp44",
+            "to_node_id": "resp48",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp45",
+            "to_node_id": "resp48",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp46",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp46",
+            "to_node_id": "resp49",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp48",
+            "to_node_id": "resp49",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp38",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp40",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp48",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp50",
+            "to_node_id": "resp51",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp15",
+            "to_node_id": "resp52",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp26",
+            "to_node_id": "resp52",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp51",
+            "to_node_id": "resp52",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp23",
+            "to_node_id": "resp53",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp25",
+            "to_node_id": "resp53",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp26",
+            "to_node_id": "resp54",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp27",
+            "to_node_id": "resp54",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp29",
+            "to_node_id": "resp54",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp31",
+            "to_node_id": "resp54",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp33",
+            "to_node_id": "resp54",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp50",
+            "to_node_id": "resp55",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp51",
+            "to_node_id": "resp56",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp52",
+            "to_node_id": "resp56",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp54",
+            "to_node_id": "resp56",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp53",
+            "to_node_id": "resp57",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp57",
+            "to_node_id": "resp57",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp56",
+            "to_node_id": "resp58",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp57",
+            "to_node_id": "resp58",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp57",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp58",
+            "to_node_id": "resp60",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp59",
+            "to_node_id": "resp60",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp59",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp60",
+            "to_node_id": "resp61",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp60",
+            "to_node_id": "resp62",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp61",
+            "to_node_id": "resp62",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp56",
+            "to_node_id": "resp63",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp63",
+            "to_node_id": "resp64",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp50",
+            "to_node_id": "resp65",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp64",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp65",
+            "to_node_id": "resp67",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp66",
+            "to_node_id": "resp67",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp66",
+            "to_node_id": "resp68",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp67",
+            "to_node_id": "resp69",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp68",
+            "to_node_id": "resp69",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp57",
+            "to_node_id": "resp70",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp67",
+            "to_node_id": "resp70",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp57",
+            "to_node_id": "resp71",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp70",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp66",
+            "to_node_id": "resp72",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp71",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp69",
+            "to_node_id": "resp73",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp70",
+            "to_node_id": "resp73",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp71",
+            "to_node_id": "resp73",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp72",
+            "to_node_id": "resp73",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp67",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp68",
+            "to_node_id": "resp74",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp71",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp72",
+            "to_node_id": "resp74",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp74",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp73",
+            "to_node_id": "resp76",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp74",
+            "to_node_id": "resp76",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp75",
+            "to_node_id": "resp76",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp68",
+            "to_node_id": "resp77",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp71",
+            "to_node_id": "resp77",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp72",
+            "to_node_id": "resp77",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp74",
+            "to_node_id": "resp77",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp75",
+            "to_node_id": "resp77",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp76",
+            "to_node_id": "resp77",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp77",
+            "to_node_id": "resp78",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp77",
+            "to_node_id": "resp79",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp78",
+            "to_node_id": "resp79",
+            "label": "reason:plan-step"
+        }
+    ]
+}

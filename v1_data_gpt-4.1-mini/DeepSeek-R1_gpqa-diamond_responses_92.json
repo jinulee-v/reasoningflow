@@ -1,0 +1,3372 @@
+{
+    "doc_id": "v1_data/DeepSeek-R1_gpqa-diamond_responses_92.json",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-R1",
+        "correct_answer": "B"
+    },
+    "raw_text": {
+        "question": "\"Scientist aims to run quantitative polymerase chain reaction (qPCR) on some samples. He first wants to make a calibration curve so he took positive control with known copy numbers and run qPCR on serially diluted positive control three technical replicates. The efficiency of qPCR was 100%. The R2 was 1, and the slope was -3.3. His results were as follows:\nAt the concentration of 100000 copies per \u00b5l, ct of triplicate results were 33.9, 34.2, 34.5.\nAt the concentration of 10000 copies per \u00b5l, ct of triplicate results were 30.6, 30.9, 31.2.\nAt the concentration of 1000 copies per \u00b5l, ct of triplicate results were 27.3, 27.6, 27.9.\nAt the concentration of 100 copies per \u00b5l, ct of triplicate results were 24, 24.3, 24.6.\nAt the concentration of 10 copies per \u00b5l, ct of triplicate results were 20.7, 21, 21.3\nWhich of the following explains the discrepancies in his results?\nA. Ten-fold dilution is more than 3.3 cycles\nB. Ct values are not in agreement with the amount of target nucleic acid in samples\nC. The deviation is more than 0.3 between technical replicates\nD. qPCR cannot be used for the quantification of nucleic acid in samples",
+        "response": "Okay, let's try to figure out this qPCR question. So, the scientist made a calibration curve with serial dilutions, each done in triplicate. The efficiency is 100%, R\u00b2 is 1, slope is -3.3. The results for each concentration show Ct values increasing by about 0.3 each dilution. The question is asking why there are discrepancies in his results, and the options are A to D.\n\nFirst, I need to recall what these parameters mean. qPCR efficiency relates to how well the reaction amplifies the target. 100% efficiency means that the amount of DNA doubles every cycle. The slope of the calibration curve is related to efficiency. The formula for efficiency is Efficiency = 10^(-1/slope) - 1. If the slope is -3.3, then Efficiency = 10^(-1/-3.3) - 1 \u2248 10^(0.303) -1 \u2248 2 -1 = 1, so 100% efficiency. That checks out with the given info.\n\nR\u00b2 of 1 means the data points fit perfectly on the line, which is strange because in reality, technical replicates usually have some variation. But in this case, maybe the question is pointing out something else.\n\nLooking at the Ct values: For each ten-fold dilution, the Ct increases by 3.3 cycles. Wait, let's check. For example, 10 copies/\u00b5l has Ct around 20.7-21.3, average say 21. Then 100 copies is 24 average, which is 3 cycles higher. Then 1000 is 27.3-27.9, average 27.6, which is 3.6 cycles higher than 24. Then 10,000 is 30.6-31.2, average 30.9, which is 3.3 cycles higher than 27.6. Then 100,000 is 34.2 average, which is 3.3 cycles higher than 30.9. Hmm, so between 10 to 100 copies, the Ct increases by 3 cycles, which is a bit less than 3.3. Then between 100 to 1000, it's 3.6 cycles. Then the others are 3.3. But the question says there are discrepancies. The technical replicates for each concentration have a range of 0.3 cycles. For example, 100,000 copies: 33.9, 34.2, 34.5. The difference between highest and lowest is 0.6, so each replicate is 0.3 apart. Similarly, all the triplicates have a spread of 0.6 (from 0.3 increments). So the deviation between technical replicates is 0.3. Wait, but the options mention deviation more than 0.3. Option C says \"The deviation is more than 0.3 between technical replicates.\" But in the data, the maximum difference between replicates is 0.6 (e.g., 33.9 to 34.5 is 0.6), which is a range of 0.6, but the deviation between individual replicates is 0.3 each step. Wait, maybe they're considering the standard deviation? Let's calculate the standard deviation for each triplicate.\n\nFor 100,000: Ct values 33.9, 34.2, 34.5. The mean is (33.9 +34.2 +34.5)/3 = 34.2. The deviations from mean are -0.3, 0, +0.3. The standard deviation would be sqrt[ (0.3\u00b2 +0 +0.3\u00b2)/2 ] = sqrt[ (0.09 +0.09)/2 ] = sqrt[0.18/2] = sqrt(0.09) = 0.3. Similarly, for 10,000: 30.6,30.9,31.2. Mean 30.9. Deviations -0.3,0,+0.3. SD is 0.3. Same for all concentrations. So the standard deviation is exactly 0.3 for each triplicate. The question states \"the deviation is more than 0.3 between technical replicates.\" But the SD here is 0.3. So if the answer is C, then maybe the problem is that the deviation is more than 0.3? But according to the data, the SD is 0.3. Hmm. Maybe the acceptable variation is less than 0.3? Some sources say technical replicates should have a standard deviation less than 0.3 cycles. If that's the case, then 0.3 is the upper limit. So if the SD is exactly 0.3, maybe that's acceptable? Or maybe the question considers the range (max - min) as 0.6, which is more than 0.3. But the option says \"deviation is more than 0.3 between technical replicates.\" Deviation could refer to the difference between replicates. For example, between the first and second replicate, the difference is 0.3, same for second and third. So each adjacent replicate differs by 0.3. If the acceptable difference is less than 0.3, then this would be a problem. But I'm not sure. Alternatively, maybe the problem is that the ten-fold dilution should correspond to a Ct difference of 3.3 cycles (since efficiency is 100%, which means a 10-fold dilution should result in a Ct increase of log2(10)/log2(E) ? Wait, efficiency is 100%, so each cycle doubles the DNA. So a 10-fold dilution would require log2(10) cycles to catch up, which is approximately 3.32 cycles. Hence, a 10-fold dilution should result in a Ct difference of about 3.32 cycles. But looking at the data, between 10 and 100 copies, the Ct goes from ~21 to ~24, which is 3 cycles. That's a difference of 3 cycles instead of 3.3. Similarly, between 100 and 1000, it's 3.6 cycles. So some dilutions have a Ct difference less than 3.3, some more. But the calibration curve has a slope of -3.3, which would correspond to a 10-fold change per 3.3 cycles. So if the actual Ct differences between dilutions are varying (sometimes 3, sometimes 3.3, sometimes 3.6), but the R\u00b2 is 1, meaning all points lie perfectly on the line. Wait, how is that possible? If each dilution's average Ct is exactly 3.3 cycles apart, then R\u00b2 would be 1. But in the data given, the averages are:\n\n10 copies: average (20.7+21+21.3)/3 = 21.0\n\n100: (24+24.3+24.6)/3 = 24.3\n\n1000: (27.3+27.6+27.9)/3 = 27.6\n\n10,000: (30.6+30.9+31.2)/3 = 30.9\n\n100,000: (33.9+34.2+34.5)/3 = 34.2\n\nSo the differences between each dilution are:\n\nFrom 10 to 100: 24.3 -21.0 = 3.3 cycles\n\n100 to 1000: 27.6 -24.3 = 3.3\n\n1000 to 10,000: 30.9 -27.6 = 3.3\n\n10,000 to 100,000: 34.2 -30.9 = 3.3\n\nOh wait! So each 10-fold dilution results in exactly a 3.3 cycle difference in Ct. So the averages are perfectly spaced. But the individual triplicates at each concentration have a spread of 0.3 cycles each. So when you plot the average Ct against log10(copy number), you get a perfect line with R\u00b2=1 and slope -3.3. But the individual replicates have a standard deviation of 0.3 cycles. So the question is asking what explains the discrepancies in his results. The discrepancies might refer to the variation between technical replicates (the 0.3 cycles SD). But option C says the deviation is more than 0.3. But here, the SD is exactly 0.3. So if the acceptable limit is 0.3, then this is borderline. However, some guidelines might consider a standard deviation of 0.3 as acceptable, while others might want it lower. Alternatively, maybe the problem is that the technical replicates have a range (max - min) of 0.6 cycles, which is more than 0.3. But the option says \"deviation is more than 0.3 between technical replicates.\" If deviation refers to the range, then 0.6 is more than 0.3. But usually, deviation in this context refers to standard deviation or maybe the difference between replicates. If the replicates are supposed to have a standard deviation under 0.3, then 0.3 is acceptable, but if the question is considering that even 0.3 is too much, then C could be the answer. Alternatively, maybe the issue is something else.\n\nLooking at the options again:\n\nA. Ten-fold dilution is more than 3.3 cycles.\n\nBut in the data, each ten-fold dilution corresponds to exactly 3.3 cycles, since the average Ct increases by 3.3 each time. So A is incorrect because ten-fold dilution is exactly 3.3 cycles here.\n\nB. Ct values are not in agreement with the amount of target nucleic acid in samples.\n\nBut the calibration curve is perfect (R\u00b2=1), so Ct values do agree with the copy numbers. Unless there's some other issue, but B seems incorrect.\n\nC. The deviation is more than 0.3 between technical replicates.\n\nAs discussed, the SD is 0.3, and the range is 0.6. If the acceptable deviation is less than 0.3, then this is a problem. But I need to recall common qPCR standards. Typically, technical replicates should have a low variation, often a standard deviation of less than 0.5 cycles is acceptable, but some stricter guidelines might say less than 0.3. If the question is from a source that considers 0.3 as the cutoff, then having SD=0.3 might be acceptable. However, the problem states there are discrepancies, so maybe the answer is C because the deviation between replicates is 0.3, which is considered too high. Or perhaps the maximum difference between any two replicates is 0.6, which is more than 0.3. The wording of option C is a bit ambiguous. It says \"the deviation is more than 0.3 between technical replicates.\" If \"deviation\" refers to the difference between any two replicates, then 0.6 is more than 0.3, so C is correct. But if deviation refers to standard deviation, then 0.3 is not more than 0.3. The question is tricky here.\n\nD. qPCR cannot be used for quantification.\n\nNo, qPCR is used for quantification, so D is incorrect.\n\nSo between A, B, C, D. A is incorrect because the ten-fold dilution is exactly 3.3 cycles. B is incorrect because the calibration curve is perfect. D is wrong. So the answer must be C. The discrepancy is that the technical replicates have more than 0.3 deviation. Even though the SD is 0.3, maybe the maximum difference (0.6) is considered. Alternatively, the question might consider that a standard deviation of 0.3 is more than acceptable, but given the options, C is the best choice."
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 86,
+            "label": "context",
+            "text": "\"Scientist aims to run quantitative polymerase chain reaction (qPCR) on some samples. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 86,
+            "end": 259,
+            "label": "context",
+            "text": "He first wants to make a calibration curve so he took positive control with known copy numbers and run qPCR on serially diluted positive control three technical replicates. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 259,
+            "end": 292,
+            "label": "context",
+            "text": "The efficiency of qPCR was 100%. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 292,
+            "end": 330,
+            "label": "context",
+            "text": "The R2 was 1, and the slope was -3.3. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 330,
+            "end": 453,
+            "label": "context",
+            "text": "His results were as follows:\nAt the concentration of 100000 copies per \u00b5l, ct of triplicate results were 33.9, 34.2, 34.5.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 453,
+            "end": 546,
+            "label": "context",
+            "text": "At the concentration of 10000 copies per \u00b5l, ct of triplicate results were 30.6, 30.9, 31.2.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 546,
+            "end": 638,
+            "label": "context",
+            "text": "At the concentration of 1000 copies per \u00b5l, ct of triplicate results were 27.3, 27.6, 27.9.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 638,
+            "end": 727,
+            "label": "context",
+            "text": "At the concentration of 100 copies per \u00b5l, ct of triplicate results were 24, 24.3, 24.6.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 727,
+            "end": 880,
+            "label": "context",
+            "text": "At the concentration of 10 copies per \u00b5l, ct of triplicate results were 20.7, 21, 21.3\nWhich of the following explains the discrepancies in his results?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 880,
+            "end": 1144,
+            "label": "context",
+            "text": "A. Ten-fold dilution is more than 3.3 cycles\nB. Ct values are not in agreement with the amount of target nucleic acid in samples\nC. The deviation is more than 0.3 between technical replicates\nD. qPCR cannot be used for the quantification of nucleic acid in samples",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 50,
+            "label": "restatement",
+            "text": "Okay, let's try to figure out this qPCR question. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 50,
+            "end": 141,
+            "label": "restatement",
+            "text": "So, the scientist made a calibration curve with serial dilutions, each done in triplicate. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 141,
+            "end": 189,
+            "label": "restatement",
+            "text": "The efficiency is 100%, R\u00b2 is 1, slope is -3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 189,
+            "end": 278,
+            "label": "restatement",
+            "text": "The results for each concentration show Ct values increasing by about 0.3 each dilution. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 278,
+            "end": 374,
+            "label": "restatement",
+            "text": "The question is asking why there are discrepancies in his results, and the options are A to D.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 374,
+            "end": 426,
+            "label": "planning",
+            "text": "First, I need to recall what these parameters mean. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 426,
+            "end": 497,
+            "label": "fact",
+            "text": "qPCR efficiency relates to how well the reaction amplifies the target. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 497,
+            "end": 563,
+            "label": "fact",
+            "text": "100% efficiency means that the amount of DNA doubles every cycle. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 563,
+            "end": 624,
+            "label": "fact",
+            "text": "The slope of the calibration curve is related to efficiency. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 624,
+            "end": 686,
+            "label": "fact",
+            "text": "The formula for efficiency is Efficiency = 10^(-1/slope) - 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 686,
+            "end": 791,
+            "label": "reasoning",
+            "text": "If the slope is -3.3, then Efficiency = 10^(-1/-3.3) - 1 \u2248 10^(0.303) -1 \u2248 2 -1 = 1, so 100% efficiency. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 791,
+            "end": 829,
+            "label": "reasoning",
+            "text": "That checks out with the given info.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 829,
+            "end": 973,
+            "label": "reasoning",
+            "text": "R\u00b2 of 1 means the data points fit perfectly on the line, which is strange because in reality, technical replicates usually have some variation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 973,
+            "end": 1043,
+            "label": "reflection",
+            "text": "But in this case, maybe the question is pointing out something else.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 1043,
+            "end": 1129,
+            "label": "fact",
+            "text": "Looking at the Ct values: For each ten-fold dilution, the Ct increases by 3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1129,
+            "end": 1148,
+            "label": "planning",
+            "text": "Wait, let's check. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1148,
+            "end": 1215,
+            "label": "fact",
+            "text": "For example, 10 copies/\u00b5l has Ct around 20.7-21.3, average say 21. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1215,
+            "end": 1272,
+            "label": "fact",
+            "text": "Then 100 copies is 24 average, which is 3 cycles higher. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1272,
+            "end": 1346,
+            "label": "fact",
+            "text": "Then 1000 is 27.3-27.9, average 27.6, which is 3.6 cycles higher than 24. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1346,
+            "end": 1424,
+            "label": "fact",
+            "text": "Then 10,000 is 30.6-31.2, average 30.9, which is 3.3 cycles higher than 27.6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1424,
+            "end": 1492,
+            "label": "fact",
+            "text": "Then 100,000 is 34.2 average, which is 3.3 cycles higher than 30.9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1492,
+            "end": 1586,
+            "label": "reasoning",
+            "text": "Hmm, so between 10 to 100 copies, the Ct increases by 3 cycles, which is a bit less than 3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1586,
+            "end": 1629,
+            "label": "reasoning",
+            "text": "Then between 100 to 1000, it's 3.6 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1629,
+            "end": 1654,
+            "label": "reasoning",
+            "text": "Then the others are 3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1654,
+            "end": 1701,
+            "label": "restatement",
+            "text": "But the question says there are discrepancies. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1701,
+            "end": 1777,
+            "label": "fact",
+            "text": "The technical replicates for each concentration have a range of 0.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 1777,
+            "end": 1824,
+            "label": "fact",
+            "text": "For example, 100,000 copies: 33.9, 34.2, 34.5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 1824,
+            "end": 1906,
+            "label": "reasoning",
+            "text": "The difference between highest and lowest is 0.6, so each replicate is 0.3 apart. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 1906,
+            "end": 1981,
+            "label": "fact",
+            "text": "Similarly, all the triplicates have a spread of 0.6 (from 0.3 increments). ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 1981,
+            "end": 2035,
+            "label": "restatement",
+            "text": "So the deviation between technical replicates is 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 2035,
+            "end": 2090,
+            "label": "planning",
+            "text": "Wait, but the options mention deviation more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 2090,
+            "end": 2167,
+            "label": "restatement",
+            "text": "Option C says \"The deviation is more than 0.3 between technical replicates.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 2167,
+            "end": 2353,
+            "label": "reasoning",
+            "text": "But in the data, the maximum difference between replicates is 0.6 (e.g., 33.9 to 34.5 is 0.6), which is a range of 0.6, but the deviation between individual replicates is 0.3 each step. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 2353,
+            "end": 2409,
+            "label": "planning",
+            "text": "Wait, maybe they're considering the standard deviation? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 2409,
+            "end": 2470,
+            "label": "planning",
+            "text": "Let's calculate the standard deviation for each triplicate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 2470,
+            "end": 2511,
+            "label": "fact",
+            "text": "For 100,000: Ct values 33.9, 34.2, 34.5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 2511,
+            "end": 2552,
+            "label": "reasoning",
+            "text": "The mean is (33.9 +34.2 +34.5)/3 = 34.2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 2552,
+            "end": 2596,
+            "label": "reasoning",
+            "text": "The deviations from mean are -0.3, 0, +0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 2596,
+            "end": 2714,
+            "label": "reasoning",
+            "text": "The standard deviation would be sqrt[ (0.3\u00b2 +0 +0.3\u00b2)/2 ] = sqrt[ (0.09 +0.09)/2 ] = sqrt[0.18/2] = sqrt(0.09) = 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 2714,
+            "end": 2799,
+            "label": "reasoning",
+            "text": "Similarly, for 10,000: 30.6,30.9,31.2. Mean 30.9. Deviations -0.3,0,+0.3. SD is 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 2799,
+            "end": 2828,
+            "label": "restatement",
+            "text": "Same for all concentrations. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2828,
+            "end": 2890,
+            "label": "restatement",
+            "text": "So the standard deviation is exactly 0.3 for each triplicate. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 2890,
+            "end": 2973,
+            "label": "restatement",
+            "text": "The question states \"the deviation is more than 0.3 between technical replicates.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 2973,
+            "end": 2997,
+            "label": "restatement",
+            "text": "But the SD here is 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 2997,
+            "end": 3083,
+            "label": "reflection",
+            "text": "So if the answer is C, then maybe the problem is that the deviation is more than 0.3? ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 3083,
+            "end": 3125,
+            "label": "restatement",
+            "text": "But according to the data, the SD is 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 3125,
+            "end": 3179,
+            "label": "reflection",
+            "text": "Hmm. Maybe the acceptable variation is less than 0.3? ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 3179,
+            "end": 3272,
+            "label": "fact",
+            "text": "Some sources say technical replicates should have a standard deviation less than 0.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 3272,
+            "end": 3321,
+            "label": "reasoning",
+            "text": "If that's the case, then 0.3 is the upper limit. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 3321,
+            "end": 3375,
+            "label": "reflection",
+            "text": "So if the SD is exactly 0.3, maybe that's acceptable? ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 3375,
+            "end": 3461,
+            "label": "reasoning",
+            "text": "Or maybe the question considers the range (max - min) as 0.6, which is more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 3461,
+            "end": 3540,
+            "label": "restatement",
+            "text": "But the option says \"deviation is more than 0.3 between technical replicates.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 3540,
+            "end": 3600,
+            "label": "assumption",
+            "text": "Deviation could refer to the difference between replicates. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 3600,
+            "end": 3703,
+            "label": "fact",
+            "text": "For example, between the first and second replicate, the difference is 0.3, same for second and third. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 3703,
+            "end": 3746,
+            "label": "restatement",
+            "text": "So each adjacent replicate differs by 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 3746,
+            "end": 3823,
+            "label": "reasoning",
+            "text": "If the acceptable difference is less than 0.3, then this would be a problem. ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 3823,
+            "end": 3841,
+            "label": "reflection",
+            "text": "But I'm not sure. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 3841,
+            "end": 4066,
+            "label": "planning",
+            "text": "Alternatively, maybe the problem is that the ten-fold dilution should correspond to a Ct difference of 3.3 cycles (since efficiency is 100%, which means a 10-fold dilution should result in a Ct increase of log2(10)/log2(E) ? ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 4066,
+            "end": 4123,
+            "label": "fact",
+            "text": "Wait, efficiency is 100%, so each cycle doubles the DNA. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 4123,
+            "end": 4224,
+            "label": "reasoning",
+            "text": "So a 10-fold dilution would require log2(10) cycles to catch up, which is approximately 3.32 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 4224,
+            "end": 4305,
+            "label": "reasoning",
+            "text": "Hence, a 10-fold dilution should result in a Ct difference of about 3.32 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 4305,
+            "end": 4405,
+            "label": "fact",
+            "text": "But looking at the data, between 10 and 100 copies, the Ct goes from ~21 to ~24, which is 3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 4405,
+            "end": 4453,
+            "label": "reasoning",
+            "text": "That's a difference of 3 cycles instead of 3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 4453,
+            "end": 4503,
+            "label": "fact",
+            "text": "Similarly, between 100 and 1000, it's 3.6 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 4503,
+            "end": 4568,
+            "label": "reasoning",
+            "text": "So some dilutions have a Ct difference less than 3.3, some more. ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 4568,
+            "end": 4674,
+            "label": "fact",
+            "text": "But the calibration curve has a slope of -3.3, which would correspond to a 10-fold change per 3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 4674,
+            "end": 4844,
+            "label": "reasoning",
+            "text": "So if the actual Ct differences between dilutions are varying (sometimes 3, sometimes 3.3, sometimes 3.6), but the R\u00b2 is 1, meaning all points lie perfectly on the line. ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 4844,
+            "end": 4872,
+            "label": "reflection",
+            "text": "Wait, how is that possible? ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 4872,
+            "end": 4951,
+            "label": "reasoning",
+            "text": "If each dilution's average Ct is exactly 3.3 cycles apart, then R\u00b2 would be 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 4951,
+            "end": 4993,
+            "label": "restatement",
+            "text": "But in the data given, the averages are:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 4993,
+            "end": 5037,
+            "label": "fact",
+            "text": "10 copies: average (20.7+21+21.3)/3 = 21.0\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 5037,
+            "end": 5067,
+            "label": "fact",
+            "text": "100: (24+24.3+24.6)/3 = 24.3\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 5067,
+            "end": 5100,
+            "label": "fact",
+            "text": "1000: (27.3+27.6+27.9)/3 = 27.6\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 5100,
+            "end": 5135,
+            "label": "fact",
+            "text": "10,000: (30.6+30.9+31.2)/3 = 30.9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 5135,
+            "end": 5171,
+            "label": "fact",
+            "text": "100,000: (33.9+34.2+34.5)/3 = 34.2\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 5171,
+            "end": 5218,
+            "label": "restatement",
+            "text": "So the differences between each dilution are:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 5218,
+            "end": 5259,
+            "label": "reasoning",
+            "text": "From 10 to 100: 24.3 -21.0 = 3.3 cycles\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 5259,
+            "end": 5290,
+            "label": "reasoning",
+            "text": "100 to 1000: 27.6 -24.3 = 3.3\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 5290,
+            "end": 5324,
+            "label": "reasoning",
+            "text": "1000 to 10,000: 30.9 -27.6 = 3.3\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 5324,
+            "end": 5361,
+            "label": "reasoning",
+            "text": "10,000 to 100,000: 34.2 -30.9 = 3.3\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": false,
+            "start": 5361,
+            "end": 5444,
+            "label": "reasoning",
+            "text": "Oh wait! So each 10-fold dilution results in exactly a 3.3 cycle difference in Ct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": false,
+            "start": 5444,
+            "end": 5482,
+            "label": "restatement",
+            "text": "So the averages are perfectly spaced. ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": false,
+            "start": 5482,
+            "end": 5569,
+            "label": "fact",
+            "text": "But the individual triplicates at each concentration have a spread of 0.3 cycles each. ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": false,
+            "start": 5569,
+            "end": 5678,
+            "label": "reasoning",
+            "text": "So when you plot the average Ct against log10(copy number), you get a perfect line with R\u00b2=1 and slope -3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": false,
+            "start": 5678,
+            "end": 5749,
+            "label": "fact",
+            "text": "But the individual replicates have a standard deviation of 0.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": false,
+            "start": 5749,
+            "end": 5823,
+            "label": "restatement",
+            "text": "So the question is asking what explains the discrepancies in his results. ",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": false,
+            "start": 5823,
+            "end": 5920,
+            "label": "reasoning",
+            "text": "The discrepancies might refer to the variation between technical replicates (the 0.3 cycles SD). ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": false,
+            "start": 5920,
+            "end": 5970,
+            "label": "restatement",
+            "text": "But option C says the deviation is more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": false,
+            "start": 5970,
+            "end": 6003,
+            "label": "restatement",
+            "text": "But here, the SD is exactly 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": false,
+            "start": 6003,
+            "end": 6063,
+            "label": "reasoning",
+            "text": "So if the acceptable limit is 0.3, then this is borderline. ",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": false,
+            "start": 6063,
+            "end": 6180,
+            "label": "fact",
+            "text": "However, some guidelines might consider a standard deviation of 0.3 as acceptable, while others might want it lower. ",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": false,
+            "start": 6180,
+            "end": 6310,
+            "label": "reasoning",
+            "text": "Alternatively, maybe the problem is that the technical replicates have a range (max - min) of 0.6 cycles, which is more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": false,
+            "start": 6310,
+            "end": 6389,
+            "label": "restatement",
+            "text": "But the option says \"deviation is more than 0.3 between technical replicates.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": false,
+            "start": 6389,
+            "end": 6450,
+            "label": "reasoning",
+            "text": "If deviation refers to the range, then 0.6 is more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": false,
+            "start": 6450,
+            "end": 6562,
+            "label": "restatement",
+            "text": "But usually, deviation in this context refers to standard deviation or maybe the difference between replicates. ",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": false,
+            "start": 6562,
+            "end": 6747,
+            "label": "reasoning",
+            "text": "If the replicates are supposed to have a standard deviation under 0.3, then 0.3 is acceptable, but if the question is considering that even 0.3 is too much, then C could be the answer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": false,
+            "start": 6747,
+            "end": 6798,
+            "label": "reflection",
+            "text": "Alternatively, maybe the issue is something else.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": false,
+            "start": 6798,
+            "end": 6829,
+            "label": "restatement",
+            "text": "Looking at the options again:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": false,
+            "start": 6829,
+            "end": 6876,
+            "label": "restatement",
+            "text": "A. Ten-fold dilution is more than 3.3 cycles.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": false,
+            "start": 6876,
+            "end": 7000,
+            "label": "reasoning",
+            "text": "But in the data, each ten-fold dilution corresponds to exactly 3.3 cycles, since the average Ct increases by 3.3 each time. ",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": false,
+            "start": 7000,
+            "end": 7073,
+            "label": "reasoning",
+            "text": "So A is incorrect because ten-fold dilution is exactly 3.3 cycles here.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": false,
+            "start": 7073,
+            "end": 7159,
+            "label": "restatement",
+            "text": "B. Ct values are not in agreement with the amount of target nucleic acid in samples.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": false,
+            "start": 7159,
+            "end": 7249,
+            "label": "reasoning",
+            "text": "But the calibration curve is perfect (R\u00b2=1), so Ct values do agree with the copy numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": false,
+            "start": 7249,
+            "end": 7306,
+            "label": "reasoning",
+            "text": "Unless there's some other issue, but B seems incorrect.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": false,
+            "start": 7306,
+            "end": 7371,
+            "label": "restatement",
+            "text": "C. The deviation is more than 0.3 between technical replicates.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": false,
+            "start": 7371,
+            "end": 7422,
+            "label": "reasoning",
+            "text": "As discussed, the SD is 0.3, and the range is 0.6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": false,
+            "start": 7422,
+            "end": 7492,
+            "label": "reasoning",
+            "text": "If the acceptable deviation is less than 0.3, then this is a problem. ",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": false,
+            "start": 7492,
+            "end": 7536,
+            "label": "planning",
+            "text": "But I need to recall common qPCR standards. ",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": false,
+            "start": 7536,
+            "end": 7717,
+            "label": "fact",
+            "text": "Typically, technical replicates should have a low variation, often a standard deviation of less than 0.5 cycles is acceptable, but some stricter guidelines might say less than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": false,
+            "start": 7717,
+            "end": 7824,
+            "label": "reasoning",
+            "text": "If the question is from a source that considers 0.3 as the cutoff, then having SD=0.3 might be acceptable. ",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": false,
+            "start": 7824,
+            "end": 7981,
+            "label": "reasoning",
+            "text": "However, the problem states there are discrepancies, so maybe the answer is C because the deviation between replicates is 0.3, which is considered too high. ",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": false,
+            "start": 7981,
+            "end": 8074,
+            "label": "reasoning",
+            "text": "Or perhaps the maximum difference between any two replicates is 0.6, which is more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": false,
+            "start": 8074,
+            "end": 8118,
+            "label": "reflection",
+            "text": "The wording of option C is a bit ambiguous. ",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": false,
+            "start": 8118,
+            "end": 8189,
+            "label": "restatement",
+            "text": "It says \"the deviation is more than 0.3 between technical replicates.\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": false,
+            "start": 8189,
+            "end": 8301,
+            "label": "reasoning",
+            "text": "If \"deviation\" refers to the difference between any two replicates, then 0.6 is more than 0.3, so C is correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": false,
+            "start": 8301,
+            "end": 8379,
+            "label": "reasoning",
+            "text": "But if deviation refers to standard deviation, then 0.3 is not more than 0.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": false,
+            "start": 8379,
+            "end": 8409,
+            "label": "reflection",
+            "text": "The question is tricky here.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": false,
+            "start": 8409,
+            "end": 8453,
+            "label": "restatement",
+            "text": "D. qPCR cannot be used for quantification.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": false,
+            "start": 8453,
+            "end": 8510,
+            "label": "reasoning",
+            "text": "No, qPCR is used for quantification, so D is incorrect.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": false,
+            "start": 8510,
+            "end": 8533,
+            "label": "restatement",
+            "text": "So between A, B, C, D. ",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": false,
+            "start": 8533,
+            "end": 8601,
+            "label": "reasoning",
+            "text": "A is incorrect because the ten-fold dilution is exactly 3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": false,
+            "start": 8601,
+            "end": 8658,
+            "label": "reasoning",
+            "text": "B is incorrect because the calibration curve is perfect. ",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": false,
+            "start": 8658,
+            "end": 8670,
+            "label": "reasoning",
+            "text": "D is wrong. ",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": false,
+            "start": 8670,
+            "end": 8695,
+            "label": "reasoning",
+            "text": "So the answer must be C. ",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": false,
+            "start": 8695,
+            "end": 8774,
+            "label": "reasoning",
+            "text": "The discrepancy is that the technical replicates have more than 0.3 deviation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": false,
+            "start": 8774,
+            "end": 8851,
+            "label": "reasoning",
+            "text": "Even though the SD is 0.3, maybe the maximum difference (0.6) is considered. ",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": false,
+            "start": 8851,
+            "end": 8996,
+            "label": "conclusion",
+            "text": "Alternatively, the question might consider that a standard deviation of 0.3 is more than acceptable, but given the options, C is the best choice.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp1",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp2",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "ctx6",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp2",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp5",
+            "to_node_id": "resp6",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp5",
+            "to_node_id": "resp7",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp5",
+            "to_node_id": "resp8",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp5",
+            "to_node_id": "resp9",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp8",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp3",
+            "to_node_id": "resp12",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp11",
+            "to_node_id": "resp12",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp12",
+            "to_node_id": "resp13",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp3",
+            "to_node_id": "resp14",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp10",
+            "to_node_id": "resp14",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp14",
+            "to_node_id": "resp15",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp16",
+            "to_node_id": "resp21",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp18",
+            "to_node_id": "resp21",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp19",
+            "to_node_id": "resp21",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp20",
+            "to_node_id": "resp21",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp21",
+            "to_node_id": "resp21",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp4",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp21",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp22",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp25",
+            "to_node_id": "resp27",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp26",
+            "to_node_id": "resp27",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp25",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp27",
+            "to_node_id": "resp29",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp27",
+            "to_node_id": "resp30",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp29",
+            "to_node_id": "resp30",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp29",
+            "to_node_id": "resp31",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp30",
+            "to_node_id": "resp31",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp27",
+            "to_node_id": "resp32",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp28",
+            "to_node_id": "resp32",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp29",
+            "to_node_id": "resp32",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp30",
+            "to_node_id": "resp32",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp31",
+            "to_node_id": "resp32",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp30",
+            "to_node_id": "resp33",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp32",
+            "to_node_id": "resp33",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp34",
+            "to_node_id": "resp35",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp34",
+            "to_node_id": "resp36",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp35",
+            "to_node_id": "resp37",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp36",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp36",
+            "to_node_id": "resp38",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp37",
+            "to_node_id": "resp38",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp36",
+            "to_node_id": "resp39",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp37",
+            "to_node_id": "resp39",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp38",
+            "to_node_id": "resp39",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp39",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp38",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp39",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp40",
+            "to_node_id": "resp41",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp31",
+            "to_node_id": "resp42",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp40",
+            "to_node_id": "resp42",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp38",
+            "to_node_id": "resp43",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp41",
+            "to_node_id": "resp43",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp32",
+            "to_node_id": "resp44",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp42",
+            "to_node_id": "resp44",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp43",
+            "to_node_id": "resp44",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp41",
+            "to_node_id": "resp45",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp43",
+            "to_node_id": "resp45",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp44",
+            "to_node_id": "resp46",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp45",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp45",
+            "to_node_id": "resp47",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp46",
+            "to_node_id": "resp47",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp46",
+            "to_node_id": "resp48",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp47",
+            "to_node_id": "resp48",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp43",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp48",
+            "to_node_id": "resp49",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp32",
+            "to_node_id": "resp50",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp44",
+            "to_node_id": "resp50",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp45",
+            "to_node_id": "resp50",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp49",
+            "to_node_id": "resp50",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp30",
+            "to_node_id": "resp51",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp31",
+            "to_node_id": "resp51",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp42",
+            "to_node_id": "resp51",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp50",
+            "to_node_id": "resp52",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp51",
+            "to_node_id": "resp52",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp52",
+            "to_node_id": "resp53",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp53",
+            "to_node_id": "resp54",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp46",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp47",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp48",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp50",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp54",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp21",
+            "to_node_id": "resp57",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp55",
+            "to_node_id": "resp57",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp7",
+            "to_node_id": "resp58",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp10",
+            "to_node_id": "resp58",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp55",
+            "to_node_id": "resp58",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp57",
+            "to_node_id": "resp58",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp57",
+            "to_node_id": "resp59",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp57",
+            "to_node_id": "resp60",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp58",
+            "to_node_id": "resp60",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp59",
+            "to_node_id": "resp60",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp21",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp60",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp60",
+            "to_node_id": "resp62",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp61",
+            "to_node_id": "resp62",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp61",
+            "to_node_id": "resp64",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp62",
+            "to_node_id": "resp64",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp63",
+            "to_node_id": "resp64",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp8",
+            "to_node_id": "resp65",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp59",
+            "to_node_id": "resp65",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp60",
+            "to_node_id": "resp65",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp12",
+            "to_node_id": "resp66",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp21",
+            "to_node_id": "resp66",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp22",
+            "to_node_id": "resp66",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp23",
+            "to_node_id": "resp66",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp64",
+            "to_node_id": "resp67",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp66",
+            "to_node_id": "resp67",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp66",
+            "to_node_id": "resp68",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp66",
+            "to_node_id": "resp69",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp68",
+            "to_node_id": "resp69",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp15",
+            "to_node_id": "resp70",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp69",
+            "to_node_id": "resp70",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp69",
+            "to_node_id": "resp71",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp71",
+            "to_node_id": "resp72",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp71",
+            "to_node_id": "resp73",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp72",
+            "to_node_id": "resp73",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp73",
+            "to_node_id": "resp74",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp69",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp70",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp71",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp72",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp73",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e164",
+            "from_node_id": "resp74",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e165",
+            "from_node_id": "resp70",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e166",
+            "from_node_id": "resp71",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e167",
+            "from_node_id": "resp75",
+            "to_node_id": "resp76",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e168",
+            "from_node_id": "resp72",
+            "to_node_id": "resp77",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e169",
+            "from_node_id": "resp73",
+            "to_node_id": "resp77",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e170",
+            "from_node_id": "resp75",
+            "to_node_id": "resp77",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e171",
+            "from_node_id": "resp72",
+            "to_node_id": "resp78",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e172",
+            "from_node_id": "resp73",
+            "to_node_id": "resp78",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e173",
+            "from_node_id": "resp75",
+            "to_node_id": "resp78",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e174",
+            "from_node_id": "resp73",
+            "to_node_id": "resp79",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e175",
+            "from_node_id": "resp74",
+            "to_node_id": "resp79",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e176",
+            "from_node_id": "resp75",
+            "to_node_id": "resp79",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e177",
+            "from_node_id": "resp21",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e178",
+            "from_node_id": "resp22",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e179",
+            "from_node_id": "resp23",
+            "to_node_id": "resp80",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e180",
+            "from_node_id": "resp76",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e181",
+            "from_node_id": "resp77",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e182",
+            "from_node_id": "resp78",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e183",
+            "from_node_id": "resp79",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e184",
+            "from_node_id": "resp79",
+            "to_node_id": "resp81",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e185",
+            "from_node_id": "resp80",
+            "to_node_id": "resp81",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e186",
+            "from_node_id": "resp26",
+            "to_node_id": "resp82",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e187",
+            "from_node_id": "resp28",
+            "to_node_id": "resp82",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e188",
+            "from_node_id": "resp29",
+            "to_node_id": "resp82",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e189",
+            "from_node_id": "resp80",
+            "to_node_id": "resp83",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e190",
+            "from_node_id": "resp81",
+            "to_node_id": "resp83",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e191",
+            "from_node_id": "resp82",
+            "to_node_id": "resp83",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e192",
+            "from_node_id": "resp82",
+            "to_node_id": "resp84",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e193",
+            "from_node_id": "resp83",
+            "to_node_id": "resp84",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e194",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e195",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e196",
+            "from_node_id": "resp24",
+            "to_node_id": "resp85",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e197",
+            "from_node_id": "resp82",
+            "to_node_id": "resp86",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e198",
+            "from_node_id": "resp84",
+            "to_node_id": "resp86",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e199",
+            "from_node_id": "resp85",
+            "to_node_id": "resp86",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e200",
+            "from_node_id": "resp31",
+            "to_node_id": "resp87",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e201",
+            "from_node_id": "resp42",
+            "to_node_id": "resp87",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e202",
+            "from_node_id": "resp51",
+            "to_node_id": "resp87",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e203",
+            "from_node_id": "resp43",
+            "to_node_id": "resp88",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e204",
+            "from_node_id": "resp84",
+            "to_node_id": "resp88",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e205",
+            "from_node_id": "resp47",
+            "to_node_id": "resp89",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e206",
+            "from_node_id": "resp48",
+            "to_node_id": "resp89",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e207",
+            "from_node_id": "resp49",
+            "to_node_id": "resp89",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e208",
+            "from_node_id": "resp88",
+            "to_node_id": "resp89",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e209",
+            "from_node_id": "resp86",
+            "to_node_id": "resp90",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e210",
+            "from_node_id": "resp89",
+            "to_node_id": "resp90",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e211",
+            "from_node_id": "resp27",
+            "to_node_id": "resp91",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e212",
+            "from_node_id": "resp28",
+            "to_node_id": "resp91",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e213",
+            "from_node_id": "resp29",
+            "to_node_id": "resp91",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e214",
+            "from_node_id": "resp30",
+            "to_node_id": "resp91",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e215",
+            "from_node_id": "resp31",
+            "to_node_id": "resp91",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e216",
+            "from_node_id": "resp32",
+            "to_node_id": "resp91",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e217",
+            "from_node_id": "resp50",
+            "to_node_id": "resp91",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e218",
+            "from_node_id": "resp51",
+            "to_node_id": "resp91",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e219",
+            "from_node_id": "resp51",
+            "to_node_id": "resp92",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e220",
+            "from_node_id": "resp87",
+            "to_node_id": "resp92",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e221",
+            "from_node_id": "resp89",
+            "to_node_id": "resp93",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e222",
+            "from_node_id": "resp91",
+            "to_node_id": "resp93",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e223",
+            "from_node_id": "resp92",
+            "to_node_id": "resp93",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e224",
+            "from_node_id": "resp52",
+            "to_node_id": "resp94",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e225",
+            "from_node_id": "resp92",
+            "to_node_id": "resp94",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e226",
+            "from_node_id": "resp44",
+            "to_node_id": "resp95",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e227",
+            "from_node_id": "resp89",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e228",
+            "from_node_id": "resp90",
+            "to_node_id": "resp95",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e229",
+            "from_node_id": "resp95",
+            "to_node_id": "resp96",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e230",
+            "from_node_id": "resp24",
+            "to_node_id": "resp97",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e231",
+            "from_node_id": "resp85",
+            "to_node_id": "resp97",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e232",
+            "from_node_id": "resp96",
+            "to_node_id": "resp97",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e233",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e234",
+            "from_node_id": "resp4",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e235",
+            "from_node_id": "resp97",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e236",
+            "from_node_id": "resp76",
+            "to_node_id": "resp99",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e237",
+            "from_node_id": "resp77",
+            "to_node_id": "resp99",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e238",
+            "from_node_id": "resp78",
+            "to_node_id": "resp99",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e239",
+            "from_node_id": "resp79",
+            "to_node_id": "resp99",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e240",
+            "from_node_id": "resp80",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e241",
+            "from_node_id": "resp81",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e242",
+            "from_node_id": "resp98",
+            "to_node_id": "resp100",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e243",
+            "from_node_id": "resp99",
+            "to_node_id": "resp100",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e244",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp101",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e245",
+            "from_node_id": "resp24",
+            "to_node_id": "resp101",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e246",
+            "from_node_id": "resp85",
+            "to_node_id": "resp101",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e247",
+            "from_node_id": "resp97",
+            "to_node_id": "resp101",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e248",
+            "from_node_id": "resp100",
+            "to_node_id": "resp102",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e249",
+            "from_node_id": "resp101",
+            "to_node_id": "resp102",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e250",
+            "from_node_id": "resp101",
+            "to_node_id": "resp103",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e251",
+            "from_node_id": "resp102",
+            "to_node_id": "resp103",
+            "label": "evaluate:refute"
+        },
+        {
+            "id": "e252",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp104",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e253",
+            "from_node_id": "resp31",
+            "to_node_id": "resp104",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e254",
+            "from_node_id": "resp87",
+            "to_node_id": "resp104",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e255",
+            "from_node_id": "resp92",
+            "to_node_id": "resp104",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e256",
+            "from_node_id": "resp38",
+            "to_node_id": "resp105",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e257",
+            "from_node_id": "resp84",
+            "to_node_id": "resp105",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e258",
+            "from_node_id": "resp91",
+            "to_node_id": "resp105",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e259",
+            "from_node_id": "resp93",
+            "to_node_id": "resp105",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e260",
+            "from_node_id": "resp90",
+            "to_node_id": "resp106",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e261",
+            "from_node_id": "resp95",
+            "to_node_id": "resp106",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e262",
+            "from_node_id": "resp104",
+            "to_node_id": "resp106",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e263",
+            "from_node_id": "resp96",
+            "to_node_id": "resp107",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e264",
+            "from_node_id": "resp106",
+            "to_node_id": "resp107",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e265",
+            "from_node_id": "resp106",
+            "to_node_id": "resp108",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e266",
+            "from_node_id": "resp107",
+            "to_node_id": "resp108",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e267",
+            "from_node_id": "resp108",
+            "to_node_id": "resp109",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e268",
+            "from_node_id": "resp109",
+            "to_node_id": "resp109",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e269",
+            "from_node_id": "resp44",
+            "to_node_id": "resp110",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e270",
+            "from_node_id": "resp86",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e271",
+            "from_node_id": "resp87",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e272",
+            "from_node_id": "resp88",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e273",
+            "from_node_id": "resp89",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e274",
+            "from_node_id": "resp90",
+            "to_node_id": "resp110",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e275",
+            "from_node_id": "resp105",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e276",
+            "from_node_id": "resp106",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e277",
+            "from_node_id": "resp108",
+            "to_node_id": "resp110",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e278",
+            "from_node_id": "resp109",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e279",
+            "from_node_id": "resp91",
+            "to_node_id": "resp111",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e280",
+            "from_node_id": "resp92",
+            "to_node_id": "resp111",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e281",
+            "from_node_id": "resp93",
+            "to_node_id": "resp111",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e282",
+            "from_node_id": "resp94",
+            "to_node_id": "resp111",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e283",
+            "from_node_id": "resp95",
+            "to_node_id": "resp111",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e284",
+            "from_node_id": "resp110",
+            "to_node_id": "resp112",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e285",
+            "from_node_id": "resp111",
+            "to_node_id": "resp112",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e286",
+            "from_node_id": "resp92",
+            "to_node_id": "resp113",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e287",
+            "from_node_id": "resp104",
+            "to_node_id": "resp113",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e288",
+            "from_node_id": "resp111",
+            "to_node_id": "resp114",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e289",
+            "from_node_id": "resp112",
+            "to_node_id": "resp114",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e290",
+            "from_node_id": "resp113",
+            "to_node_id": "resp114",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e291",
+            "from_node_id": "resp112",
+            "to_node_id": "resp115",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e292",
+            "from_node_id": "resp113",
+            "to_node_id": "resp115",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e293",
+            "from_node_id": "resp114",
+            "to_node_id": "resp115",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e294",
+            "from_node_id": "resp114",
+            "to_node_id": "resp116",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e295",
+            "from_node_id": "resp115",
+            "to_node_id": "resp116",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e296",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e297",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e298",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e299",
+            "from_node_id": "ctx3",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e300",
+            "from_node_id": "ctx4",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e301",
+            "from_node_id": "ctx5",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e302",
+            "from_node_id": "ctx6",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e303",
+            "from_node_id": "ctx7",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e304",
+            "from_node_id": "ctx8",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e305",
+            "from_node_id": "ctx9",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e306",
+            "from_node_id": "resp85",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e307",
+            "from_node_id": "resp86",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e308",
+            "from_node_id": "resp87",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e309",
+            "from_node_id": "resp88",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e310",
+            "from_node_id": "resp89",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e311",
+            "from_node_id": "resp90",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e312",
+            "from_node_id": "resp91",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e313",
+            "from_node_id": "resp92",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e314",
+            "from_node_id": "resp93",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e315",
+            "from_node_id": "resp94",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e316",
+            "from_node_id": "resp95",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e317",
+            "from_node_id": "resp96",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e318",
+            "from_node_id": "resp97",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e319",
+            "from_node_id": "resp98",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e320",
+            "from_node_id": "resp101",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e321",
+            "from_node_id": "resp104",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e322",
+            "from_node_id": "resp113",
+            "to_node_id": "resp117",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e323",
+            "from_node_id": "resp117",
+            "to_node_id": "resp118",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e324",
+            "from_node_id": "resp118",
+            "to_node_id": "resp118",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e325",
+            "from_node_id": "resp98",
+            "to_node_id": "resp119",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e326",
+            "from_node_id": "resp101",
+            "to_node_id": "resp119",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e327",
+            "from_node_id": "resp104",
+            "to_node_id": "resp119",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e328",
+            "from_node_id": "resp117",
+            "to_node_id": "resp119",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e329",
+            "from_node_id": "resp99",
+            "to_node_id": "resp120",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e330",
+            "from_node_id": "resp100",
+            "to_node_id": "resp120",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e331",
+            "from_node_id": "resp102",
+            "to_node_id": "resp121",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e332",
+            "from_node_id": "resp103",
+            "to_node_id": "resp121",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e333",
+            "from_node_id": "resp118",
+            "to_node_id": "resp122",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e334",
+            "from_node_id": "resp119",
+            "to_node_id": "resp122",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e335",
+            "from_node_id": "resp110",
+            "to_node_id": "resp123",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e336",
+            "from_node_id": "resp111",
+            "to_node_id": "resp123",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e337",
+            "from_node_id": "resp112",
+            "to_node_id": "resp123",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e338",
+            "from_node_id": "resp114",
+            "to_node_id": "resp123",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e339",
+            "from_node_id": "resp115",
+            "to_node_id": "resp123",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e340",
+            "from_node_id": "resp110",
+            "to_node_id": "resp124",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e341",
+            "from_node_id": "resp111",
+            "to_node_id": "resp124",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e342",
+            "from_node_id": "resp112",
+            "to_node_id": "resp124",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e343",
+            "from_node_id": "resp113",
+            "to_node_id": "resp124",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e344",
+            "from_node_id": "resp114",
+            "to_node_id": "resp124",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e345",
+            "from_node_id": "resp110",
+            "to_node_id": "resp125",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e346",
+            "from_node_id": "resp111",
+            "to_node_id": "resp125",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e347",
+            "from_node_id": "resp114",
+            "to_node_id": "resp125",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e348",
+            "from_node_id": "resp115",
+            "to_node_id": "resp125",
+            "label": "reason:stmt-correction"
+        },
+        {
+            "id": "e349",
+            "from_node_id": "resp88",
+            "to_node_id": "resp126",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e350",
+            "from_node_id": "resp110",
+            "to_node_id": "resp126",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e351",
+            "from_node_id": "resp114",
+            "to_node_id": "resp126",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e352",
+            "from_node_id": "resp124",
+            "to_node_id": "resp126",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e353",
+            "from_node_id": "resp125",
+            "to_node_id": "resp126",
+            "label": "reason:premise-conclusion"
+        }
+    ]
+}

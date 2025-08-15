@@ -1,0 +1,5691 @@
+{
+    "doc_id": "v1_data/DeepSeek-R1_aime2024_responses_13.json",
+    "metadata": {
+        "model_id": "deepseek-ai/DeepSeek-R1",
+        "correct_answer": "699"
+    },
+    "raw_text": {
+        "question": "Let $N$ be the greatest four-digit positive integer with the property that whenever one of its digits is changed to $1$, the resulting number is divisible by $7$. Let $Q$ and $R$ be the quotient and remainder, respectively, when $N$ is divided by $1000$. Find $Q+R$.",
+        "response": "Okay, so I need to find the greatest four-digit number N such that changing any single digit to 1 results in a number divisible by 7. Then, after finding N, I divide it by 1000 to get Q (the quotient) and R (the remainder) and add them together for the final answer. Hmm, let's break this down step by step.\n\nFirst, N is a four-digit number. Let's denote its digits as d1, d2, d3, d4, where d1 is the thousands place, d2 the hundreds, d3 the tens, and d4 the ones. So N = 1000d1 + 100d2 + 10d3 + d4.\n\nThe key property here is that changing any one digit to 1 makes the number divisible by 7. So, if I change d1 to 1, the new number is 1000*1 + 100d2 + 10d3 + d4. Similarly, changing d2 to 1 gives 1000d1 + 100*1 + 10d3 + d4, and so on for d3 and d4. Each of these modified numbers must be divisible by 7.\n\nSo, there are four conditions here:\n\n1. 1000*1 + 100d2 + 10d3 + d4 \u2261 0 mod 7\n2. 1000d1 + 100*1 + 10d3 + d4 \u2261 0 mod 7\n3. 1000d1 + 100d2 + 10*1 + d4 \u2261 0 mod 7\n4. 1000d1 + 100d2 + 10d3 + 1 \u2261 0 mod 7\n\nOur goal is to find the maximum N = 1000d1 + 100d2 + 10d3 + d4 satisfying all four congruences.\n\nSince we want the greatest possible N, we should start with the largest four-digit number, 9999, and check if it meets the conditions. If not, decrement by 1 until we find such a number. But this brute-force approach might take too long. Instead, let's try to find a smarter way by analyzing the congruences.\n\nLet me rewrite each condition modulo 7. First, note that 10 \u2261 3 mod 7, 100 \u2261 2 mod 7, 1000 \u2261 6 mod 7. Let me verify:\n\n10^1 \u2261 3 mod 7\n\n10^2 \u2261 3*3 = 9 \u2261 2 mod 7\n\n10^3 \u2261 2*3 = 6 mod 7\n\n10^4 \u2261 6*3 = 18 \u2261 4 mod 7\n\nWait, but 1000 is 10^3, which is 6 mod 7. So:\n\nOriginal number N = 1000d1 + 100d2 + 10d3 + d4 \u2261 6d1 + 2d2 + 3d3 + d4 mod 7.\n\nSimilarly, changing each digit to 1:\n\n1. Changing d1 to 1: 1000*1 + 100d2 + 10d3 + d4 \u2261 6*1 + 2d2 + 3d3 + d4 \u2261 6 + 2d2 + 3d3 + d4 \u2261 0 mod 7\n2. Changing d2 to 1: 1000d1 + 100*1 + 10d3 + d4 \u2261 6d1 + 2*1 + 3d3 + d4 \u2261 6d1 + 2 + 3d3 + d4 \u2261 0 mod 7\n3. Changing d3 to 1: 1000d1 + 100d2 + 10*1 + d4 \u2261 6d1 + 2d2 + 3*1 + d4 \u2261 6d1 + 2d2 + 3 + d4 \u2261 0 mod 7\n4. Changing d4 to 1: 1000d1 + 100d2 + 10d3 + 1 \u2261 6d1 + 2d2 + 3d3 + 1 \u2261 0 mod 7\n\nSo, we have four equations:\n\n1. 6 + 2d2 + 3d3 + d4 \u2261 0 mod 7\n2. 6d1 + 2 + 3d3 + d4 \u2261 0 mod 7\n3. 6d1 + 2d2 + 3 + d4 \u2261 0 mod 7\n4. 6d1 + 2d2 + 3d3 + 1 \u2261 0 mod 7\n\nOur variables are d1, d2, d3, d4, each digits from 0-9, except d1 which is from 1-9.\n\nWe need to solve this system of congruences. Let's denote equations 1 to 4 as Eq1, Eq2, Eq3, Eq4.\n\nLet me try to express some variables in terms of others.\n\nFrom Eq1: 2d2 + 3d3 + d4 \u2261 -6 mod 7 \u21d2 2d2 + 3d3 + d4 \u2261 1 mod 7 (since -6 \u2261 1 mod 7)\n\nFrom Eq2: 6d1 + 3d3 + d4 \u2261 -2 mod 7 \u21d2 6d1 + 3d3 + d4 \u2261 5 mod 7\n\nFrom Eq3: 6d1 + 2d2 + d4 \u2261 -3 mod 7 \u21d2 6d1 + 2d2 + d4 \u2261 4 mod 7\n\nFrom Eq4: 6d1 + 2d2 + 3d3 \u2261 -1 mod 7 \u21d2 6d1 + 2d2 + 3d3 \u2261 6 mod 7\n\nSo, summarizing:\n\nEq1: 2d2 + 3d3 + d4 \u2261 1 mod7\n\nEq2: 6d1 + 3d3 + d4 \u2261 5 mod7\n\nEq3: 6d1 + 2d2 + d4 \u2261 4 mod7\n\nEq4: 6d1 + 2d2 + 3d3 \u2261 6 mod7\n\nLet me see if I can subtract equations to eliminate variables.\n\nFirst, let's subtract Eq1 from Eq2:\n\nEq2 - Eq1: (6d1 + 3d3 + d4) - (2d2 + 3d3 + d4) \u2261 5 - 1 mod7\n\nSimplify: 6d1 - 2d2 \u2261 4 mod7 \u21d2 6d1 - 2d2 \u2261 4 mod7 \u21d2 Let's factor 2: 2*(3d1 - d2) \u2261 4 mod7 \u21d2 3d1 - d2 \u2261 2 mod7 (since 2*4=8\u22611 mod7, but wait, dividing both sides by 2. Since 2 and 7 are coprime, we can multiply by inverse of 2 mod7, which is 4, because 2*4=8\u22611 mod7. So, 3d1 - d2 \u2261 4*2 mod7 \u21d2 3d1 - d2 \u2261 2 mod7. Wait, maybe I confused steps here.\n\nWait, original equation after subtraction: 6d1 - 2d2 \u22614 mod7. Let's factor 2: 2*(3d1 - d2) \u22614 mod7. Then divide both sides by 2: multiply both sides by 4 (the inverse of 2 mod7). So:\n\n(3d1 - d2) \u22614*4 mod7 \u21d2 3d1 - d2 \u226116 mod7 \u21d216 mod7 is 2, so 3d1 - d2 \u22612 mod7.\n\nSo, we get 3d1 - d2 \u22612 mod7. Let's call this Eq5.\n\nSimilarly, subtract Eq1 from Eq3:\n\nEq3 - Eq1: (6d1 + 2d2 + d4) - (2d2 + 3d3 + d4) \u22614 -1 mod7\n\nSimplify: 6d1 -3d3 \u22613 mod7 \u21d26d1 -3d3 \u22613 mod7 \u21d2Factor 3: 3*(2d1 - d3) \u22613 mod7 \u21d2Divide both sides by 3 (inverse of 3 mod7 is 5, since 3*5=15\u22611 mod7). So:\n\n2d1 - d3 \u22611 mod7. Let's call this Eq6.\n\nNow, subtract Eq1 from Eq4:\n\nEq4 - Eq1: (6d1 + 2d2 + 3d3) - (2d2 + 3d3 + d4) \u22616 -1 mod7\n\nSimplify: 6d1 - d4 \u22615 mod7. Let's call this Eq7.\n\nSo now, we have:\n\nEq5: 3d1 - d2 \u22612 mod7\n\nEq6: 2d1 - d3 \u22611 mod7\n\nEq7: 6d1 - d4 \u22615 mod7\n\nAdditionally, we still have Eq1: 2d2 + 3d3 + d4 \u22611 mod7\n\nBut perhaps now we can express d2, d3, d4 in terms of d1.\n\nFrom Eq5: d2 \u22613d1 -2 mod7\n\nFrom Eq6: d3 \u22612d1 -1 mod7\n\nFrom Eq7: d4 \u22616d1 -5 mod7\n\nSo, substituting these into Eq1:\n\n2*(3d1 -2) + 3*(2d1 -1) + (6d1 -5) \u22611 mod7\n\nLet's compute each term:\n\n2*(3d1 -2) =6d1 -4\n\n3*(2d1 -1)=6d1 -3\n\nAdding these: 6d1 -4 +6d1 -3=12d1 -7\n\nThen add (6d1 -5): 12d1 -7 +6d1 -5=18d1 -12\n\nSo, 18d1 -12 \u22611 mod7\n\nSimplify:\n\n18d1 \u226113 mod7\n\nBut 18 mod7 is 4 (7*2=14, 18-14=4), and 13 mod7 is 6.\n\nSo, 4d1 \u22616 mod7\n\nMultiply both sides by inverse of 4 mod7, which is 2, since 4*2=8\u22611 mod7.\n\nThus, d1 \u22616*2=12\u22615 mod7.\n\nSo, d1 \u22615 mod7.\n\nSince d1 is a digit from 1 to 9, possible values are 5 and 12\u22615 mod7, but 12 is invalid. So d1=5 or d1=5+7=12, but 12 is not a digit. So d1 must be 5.\n\nWait, but digits go up to 9. So d1=5 is the only possibility? Wait, 5 mod7 is 5, so d1 can be 5 or 5+7=12, but 12 is invalid. So d1=5.\n\nSo, d1=5.\n\nThen, from Eq5: d2 \u22613*5 -2 mod7=15-2=13\u22616 mod7. So d2\u22616 mod7. Since d2 is a digit (0-9), possible values are 6 and 6+7=13, which is invalid. So d2=6.\n\nFrom Eq6: d3\u22612*5 -1 mod7=10-1=9\u22612 mod7. So d3\u22612 mod7. Possible digits: 2, 9 (2+7=9). So d3 can be 2 or 9.\n\nFrom Eq7: d4\u22616*5 -5 mod7=30-5=25\u22614 mod7. So d4\u22614 mod7. Possible digits:4, 11 (invalid). So d4=4.\n\nBut wait, d3 can be 2 or 9. Let's check both possibilities.\n\nFirst, let's take d3=9. Then check if substituting into original equations holds.\n\nWait, but let's check if substituting d1=5, d2=6, d3=9, d4=4 into the original equations.\n\nOriginal N=5 6 9 4=5694.\n\nCheck condition 1: changing d1 to 1: 1694. Is 1694 divisible by 7? Let's check: 7*242=1694. Yes, because 7*240=1680, 7*2=14, so 1680+14=1694. So 1694 is divisible by 7.\n\nCondition 2: changing d2 to 1: 5194. 5194 divided by 7: 7*742=5194. 7*700=4900, 7*42=294, 4900+294=5194. So yes.\n\nCondition3: changing d3 to 1: 5614. 5614 divided by 7: 7*802=5614. 7*800=5600, 7*2=14, so 5600+14=5614. Correct.\n\nCondition4: changing d4 to 1: 5691. 5691 divided by 7: 7*813=5691. 7*800=5600, 7*13=91, 5600+91=5691. Correct.\n\nSo N=5694 works. But wait, d3 was chosen as 9 here. But earlier, from Eq6, d3\u22612 mod7, so d3 can be 2 or 9. Let's check d3=2.\n\nIf d3=2, then N=5 6 2 4=5624.\n\nCheck condition1: 1624. 1624/7=232, since 7*230=1610, 7*2=14, 1610+14=1624. Correct.\n\nCondition2: 5124. 5124/7=732. 7*700=4900, 7*32=224, 4900+224=5124. Correct.\n\nCondition3: 5614. Wait, same as before? Wait, changing d3 to 1: 5614. Which is same as when d3 was 9. But 5614 is divisible by 7 as we saw. So correct.\n\nCondition4: 5621. 5621/7=803. 7*800=5600, 7*3=21, 5600+21=5621. Correct.\n\nSo N=5624 also works. So both d3=2 and d3=9 give valid numbers. But since we want the greatest four-digit number, we need to check which is larger: 5694 or 5624. Clearly 5694 is larger.\n\nBut wait, is there a possibility of higher d1? Wait, earlier we concluded d1 must be 5 mod7, and since d1 is a digit from 1-9, only d1=5. So 5 is the only possible value. Therefore, the maximum N would be with d1=5, d2=6, d3=9, d4=4, which is 5694.\n\nWait, but hold on. Let me check if there are other possibilities. For example, if d3 can be 9, which is higher than 2, so 5694 is higher than 5624. So 5694 is the larger number.\n\nBut let me confirm if there are other solutions. Suppose d1=5, d2=6, d3=9, d4=4. Then N=5694. Is there a higher number possible?\n\nWait, suppose d1=5, but can d2 be higher? From Eq5, d2\u22616 mod7, so d2=6 or 13, but 13 is invalid. So d2=6 is the maximum. Similarly, d3 can be 9 (since 9\u22612 mod7) which is higher than 2. So d3=9 is the maximum possible. d4=4, since d4\u22614 mod7, and 4 is the only digit possible here. So 5694 seems to be the maximum.\n\nBut let's check if there's a higher number with d1=5. For example, if d3=9, d2=6, d4=4. So 5694. If we try to increase d4 beyond 4, but d4 must be \u22614 mod7, so possible digits are 4 and 11 (invalid). So d4=4 is the maximum. Similarly, d3=9 is maximum possible for d3. d2=6 is maximum possible. So 5694 is indeed the maximum.\n\nWait, but let's check if there's another d1. Wait, earlier we concluded d1\u22615 mod7, so d1=5. But what if d1=5+7=12? But d1 must be a single digit, so 12 is invalid. So d1=5 is the only possibility.\n\nTherefore, N=5694 is the maximum such number. Then Q is the quotient when N is divided by 1000, which is 5 (since 5694 divided by 1000 is 5 with remainder 694). R is the remainder, which is 694. Then Q+R=5+694=699.\n\nWait, but let me confirm N=5694 is indeed the correct answer.\n\nWait, let's check another possible number. Suppose d1=5, d2=6, d3=9, d4=4. Changing each digit to 1:\n\n1. 1694: 1694 \u00f77=242, which is exact.\n\n2. 5194: 5194 \u00f77=742, exact.\n\n3. 5614: 5614 \u00f77=802, exact.\n\n4. 5691: 5691 \u00f77=813, exact.\n\nAll four conditions are satisfied. So N=5694 works.\n\nIs there a higher number? Let's see. Suppose someone tried N=5999. Let's check if changing any digit to 1 gives a multiple of 7.\n\nChange d1 to1:1999. 1999 \u00f77\u2248285.571, not integer. So no. So N=5999 doesn't work.\n\nWhat about N=5984? Wait, but how would I know? It's tedious to check all numbers. But according to our earlier reasoning, N=5694 is the maximum. Since d1 is fixed at 5, and the other digits are maximized under their respective congruences, 5694 is indeed the largest possible.\n\nTherefore, Q=5 and R=694, so Q+R=5+694=699.\n\n**Final Answer**\n\\boxed{699}"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 163,
+            "label": "context",
+            "text": "Let $N$ be the greatest four-digit positive integer with the property that whenever one of its digits is changed to $1$, the resulting number is divisible by $7$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 163,
+            "end": 255,
+            "label": "context",
+            "text": "Let $Q$ and $R$ be the quotient and remainder, respectively, when $N$ is divided by $1000$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 255,
+            "end": 266,
+            "label": "context",
+            "text": "Find $Q+R$.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": false,
+            "start": 0,
+            "end": 134,
+            "label": "restatement",
+            "text": "Okay, so I need to find the greatest four-digit number N such that changing any single digit to 1 results in a number divisible by 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": false,
+            "start": 134,
+            "end": 267,
+            "label": "restatement",
+            "text": "Then, after finding N, I divide it by 1000 to get Q (the quotient) and R (the remainder) and add them together for the final answer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": false,
+            "start": 267,
+            "end": 309,
+            "label": "planning",
+            "text": "Hmm, let's break this down step by step.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": false,
+            "start": 309,
+            "end": 342,
+            "label": "restatement",
+            "text": "First, N is a four-digit number. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": false,
+            "start": 342,
+            "end": 465,
+            "label": "restatement",
+            "text": "Let's denote its digits as d1, d2, d3, d4, where d1 is the thousands place, d2 the hundreds, d3 the tens, and d4 the ones. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": false,
+            "start": 465,
+            "end": 501,
+            "label": "restatement",
+            "text": "So N = 1000d1 + 100d2 + 10d3 + d4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": false,
+            "start": 501,
+            "end": 592,
+            "label": "restatement",
+            "text": "The key property here is that changing any one digit to 1 makes the number divisible by 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": false,
+            "start": 592,
+            "end": 663,
+            "label": "reasoning",
+            "text": "So, if I change d1 to 1, the new number is 1000*1 + 100d2 + 10d3 + d4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": false,
+            "start": 663,
+            "end": 750,
+            "label": "reasoning",
+            "text": "Similarly, changing d2 to 1 gives 1000d1 + 100*1 + 10d3 + d4, and so on for d3 and d4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": false,
+            "start": 750,
+            "end": 806,
+            "label": "restatement",
+            "text": "Each of these modified numbers must be divisible by 7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": false,
+            "start": 806,
+            "end": 843,
+            "label": "planning",
+            "text": "So, there are four conditions here:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": false,
+            "start": 843,
+            "end": 883,
+            "label": "reasoning",
+            "text": "1. 1000*1 + 100d2 + 10d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": false,
+            "start": 883,
+            "end": 923,
+            "label": "reasoning",
+            "text": "2. 1000d1 + 100*1 + 10d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": false,
+            "start": 923,
+            "end": 963,
+            "label": "reasoning",
+            "text": "3. 1000d1 + 100d2 + 10*1 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": false,
+            "start": 963,
+            "end": 1003,
+            "label": "reasoning",
+            "text": "4. 1000d1 + 100d2 + 10d3 + 1 \u2261 0 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": false,
+            "start": 1003,
+            "end": 1100,
+            "label": "planning",
+            "text": "Our goal is to find the maximum N = 1000d1 + 100d2 + 10d3 + d4 satisfying all four congruences.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": false,
+            "start": 1100,
+            "end": 1235,
+            "label": "planning",
+            "text": "Since we want the greatest possible N, we should start with the largest four-digit number, 9999, and check if it meets the conditions. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": false,
+            "start": 1235,
+            "end": 1287,
+            "label": "planning",
+            "text": "If not, decrement by 1 until we find such a number. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": false,
+            "start": 1287,
+            "end": 1338,
+            "label": "reflection",
+            "text": "But this brute-force approach might take too long. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": false,
+            "start": 1338,
+            "end": 1410,
+            "label": "planning",
+            "text": "Instead, let's try to find a smarter way by analyzing the congruences.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": false,
+            "start": 1410,
+            "end": 1450,
+            "label": "planning",
+            "text": "Let me rewrite each condition modulo 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": false,
+            "start": 1450,
+            "end": 1512,
+            "label": "fact",
+            "text": "First, note that 10 \u2261 3 mod 7, 100 \u2261 2 mod 7, 1000 \u2261 6 mod 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": false,
+            "start": 1512,
+            "end": 1528,
+            "label": "planning",
+            "text": "Let me verify:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": false,
+            "start": 1528,
+            "end": 1544,
+            "label": "reasoning",
+            "text": "10^1 \u2261 3 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": false,
+            "start": 1544,
+            "end": 1570,
+            "label": "reasoning",
+            "text": "10^2 \u2261 3*3 = 9 \u2261 2 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": false,
+            "start": 1570,
+            "end": 1592,
+            "label": "reasoning",
+            "text": "10^3 \u2261 2*3 = 6 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": false,
+            "start": 1592,
+            "end": 1619,
+            "label": "reasoning",
+            "text": "10^4 \u2261 6*3 = 18 \u2261 4 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": false,
+            "start": 1619,
+            "end": 1661,
+            "label": "restatement",
+            "text": "Wait, but 1000 is 10^3, which is 6 mod 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": false,
+            "start": 1661,
+            "end": 1666,
+            "label": "planning",
+            "text": "So:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": false,
+            "start": 1666,
+            "end": 1744,
+            "label": "reasoning",
+            "text": "Original number N = 1000d1 + 100d2 + 10d3 + d4 \u2261 6d1 + 2d2 + 3d3 + d4 mod 7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": false,
+            "start": 1744,
+            "end": 1782,
+            "label": "planning",
+            "text": "Similarly, changing each digit to 1:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": false,
+            "start": 1782,
+            "end": 1884,
+            "label": "reasoning",
+            "text": "1. Changing d1 to 1: 1000*1 + 100d2 + 10d3 + d4 \u2261 6*1 + 2d2 + 3d3 + d4 \u2261 6 + 2d2 + 3d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": false,
+            "start": 1884,
+            "end": 1986,
+            "label": "reasoning",
+            "text": "2. Changing d2 to 1: 1000d1 + 100*1 + 10d3 + d4 \u2261 6d1 + 2*1 + 3d3 + d4 \u2261 6d1 + 2 + 3d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": false,
+            "start": 1986,
+            "end": 2088,
+            "label": "reasoning",
+            "text": "3. Changing d3 to 1: 1000d1 + 100d2 + 10*1 + d4 \u2261 6d1 + 2d2 + 3*1 + d4 \u2261 6d1 + 2d2 + 3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": false,
+            "start": 2088,
+            "end": 2168,
+            "label": "reasoning",
+            "text": "4. Changing d4 to 1: 1000d1 + 100d2 + 10d3 + 1 \u2261 6d1 + 2d2 + 3d3 + 1 \u2261 0 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": false,
+            "start": 2168,
+            "end": 2197,
+            "label": "planning",
+            "text": "So, we have four equations:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": false,
+            "start": 2197,
+            "end": 2229,
+            "label": "reasoning",
+            "text": "1. 6 + 2d2 + 3d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": false,
+            "start": 2229,
+            "end": 2261,
+            "label": "reasoning",
+            "text": "2. 6d1 + 2 + 3d3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": false,
+            "start": 2261,
+            "end": 2293,
+            "label": "reasoning",
+            "text": "3. 6d1 + 2d2 + 3 + d4 \u2261 0 mod 7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": false,
+            "start": 2293,
+            "end": 2327,
+            "label": "reasoning",
+            "text": "4. 6d1 + 2d2 + 3d3 + 1 \u2261 0 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": false,
+            "start": 2327,
+            "end": 2413,
+            "label": "restatement",
+            "text": "Our variables are d1, d2, d3, d4, each digits from 0-9, except d1 which is from 1-9.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": false,
+            "start": 2413,
+            "end": 2458,
+            "label": "planning",
+            "text": "We need to solve this system of congruences. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": false,
+            "start": 2458,
+            "end": 2512,
+            "label": "planning",
+            "text": "Let's denote equations 1 to 4 as Eq1, Eq2, Eq3, Eq4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": false,
+            "start": 2512,
+            "end": 2570,
+            "label": "planning",
+            "text": "Let me try to express some variables in terms of others.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": false,
+            "start": 2570,
+            "end": 2655,
+            "label": "reasoning",
+            "text": "From Eq1: 2d2 + 3d3 + d4 \u2261 -6 mod 7 \u21d2 2d2 + 3d3 + d4 \u2261 1 mod 7 (since -6 \u2261 1 mod 7)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": false,
+            "start": 2655,
+            "end": 2719,
+            "label": "reasoning",
+            "text": "From Eq2: 6d1 + 3d3 + d4 \u2261 -2 mod 7 \u21d2 6d1 + 3d3 + d4 \u2261 5 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": false,
+            "start": 2719,
+            "end": 2783,
+            "label": "reasoning",
+            "text": "From Eq3: 6d1 + 2d2 + d4 \u2261 -3 mod 7 \u21d2 6d1 + 2d2 + d4 \u2261 4 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": false,
+            "start": 2783,
+            "end": 2849,
+            "label": "reasoning",
+            "text": "From Eq4: 6d1 + 2d2 + 3d3 \u2261 -1 mod 7 \u21d2 6d1 + 2d2 + 3d3 \u2261 6 mod 7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": false,
+            "start": 2849,
+            "end": 2867,
+            "label": "planning",
+            "text": "So, summarizing:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": false,
+            "start": 2867,
+            "end": 2897,
+            "label": "reasoning",
+            "text": "Eq1: 2d2 + 3d3 + d4 \u2261 1 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": false,
+            "start": 2897,
+            "end": 2927,
+            "label": "reasoning",
+            "text": "Eq2: 6d1 + 3d3 + d4 \u2261 5 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": false,
+            "start": 2927,
+            "end": 2957,
+            "label": "reasoning",
+            "text": "Eq3: 6d1 + 2d2 + d4 \u2261 4 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": false,
+            "start": 2957,
+            "end": 2988,
+            "label": "reasoning",
+            "text": "Eq4: 6d1 + 2d2 + 3d3 \u2261 6 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": false,
+            "start": 2988,
+            "end": 3052,
+            "label": "planning",
+            "text": "Let me see if I can subtract equations to eliminate variables.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": false,
+            "start": 3052,
+            "end": 3089,
+            "label": "planning",
+            "text": "First, let's subtract Eq1 from Eq2:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": false,
+            "start": 3089,
+            "end": 3150,
+            "label": "reasoning",
+            "text": "Eq2 - Eq1: (6d1 + 3d3 + d4) - (2d2 + 3d3 + d4) \u2261 5 - 1 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": false,
+            "start": 3150,
+            "end": 3497,
+            "label": "reasoning",
+            "text": "Simplify: 6d1 - 2d2 \u2261 4 mod7 \u21d2 6d1 - 2d2 \u2261 4 mod7 \u21d2 Let's factor 2: 2*(3d1 - d2) \u2261 4 mod7 \u21d2 3d1 - d2 \u2261 2 mod7 (since 2*4=8\u22611 mod7, but wait, dividing both sides by 2. Since 2 and 7 are coprime, we can multiply by inverse of 2 mod7, which is 4, because 2*4=8\u22611 mod7. So, 3d1 - d2 \u2261 4*2 mod7 \u21d2 3d1 - d2 \u2261 2 mod7. Wait, maybe I confused steps here.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": false,
+            "start": 3497,
+            "end": 3559,
+            "label": "restatement",
+            "text": "Wait, original equation after subtraction: 6d1 - 2d2 \u22614 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": false,
+            "start": 3559,
+            "end": 3597,
+            "label": "reasoning",
+            "text": "Let's factor 2: 2*(3d1 - d2) \u22614 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": false,
+            "start": 3597,
+            "end": 3676,
+            "label": "reasoning",
+            "text": "Then divide both sides by 2: multiply both sides by 4 (the inverse of 2 mod7). ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": false,
+            "start": 3676,
+            "end": 3681,
+            "label": "planning",
+            "text": "So:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": false,
+            "start": 3681,
+            "end": 3759,
+            "label": "reasoning",
+            "text": "(3d1 - d2) \u22614*4 mod7 \u21d2 3d1 - d2 \u226116 mod7 \u21d216 mod7 is 2, so 3d1 - d2 \u22612 mod7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": false,
+            "start": 3759,
+            "end": 3788,
+            "label": "reasoning",
+            "text": "So, we get 3d1 - d2 \u22612 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": false,
+            "start": 3788,
+            "end": 3810,
+            "label": "planning",
+            "text": "Let's call this Eq5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": false,
+            "start": 3810,
+            "end": 3845,
+            "label": "planning",
+            "text": "Similarly, subtract Eq1 from Eq3:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": false,
+            "start": 3845,
+            "end": 3904,
+            "label": "reasoning",
+            "text": "Eq3 - Eq1: (6d1 + 2d2 + d4) - (2d2 + 3d3 + d4) \u22614 -1 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": false,
+            "start": 3904,
+            "end": 4057,
+            "label": "reasoning",
+            "text": "Simplify: 6d1 -3d3 \u22613 mod7 \u21d26d1 -3d3 \u22613 mod7 \u21d2Factor 3: 3*(2d1 - d3) \u22613 mod7 \u21d2Divide both sides by 3 (inverse of 3 mod7 is 5, since 3*5=15\u22611 mod7). So:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": false,
+            "start": 4057,
+            "end": 4075,
+            "label": "reasoning",
+            "text": "2d1 - d3 \u22611 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": false,
+            "start": 4075,
+            "end": 4097,
+            "label": "planning",
+            "text": "Let's call this Eq6.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": false,
+            "start": 4097,
+            "end": 4126,
+            "label": "planning",
+            "text": "Now, subtract Eq1 from Eq4:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": false,
+            "start": 4126,
+            "end": 4186,
+            "label": "reasoning",
+            "text": "Eq4 - Eq1: (6d1 + 2d2 + 3d3) - (2d2 + 3d3 + d4) \u22616 -1 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": false,
+            "start": 4186,
+            "end": 4214,
+            "label": "reasoning",
+            "text": "Simplify: 6d1 - d4 \u22615 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": false,
+            "start": 4214,
+            "end": 4236,
+            "label": "planning",
+            "text": "Let's call this Eq7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": false,
+            "start": 4236,
+            "end": 4254,
+            "label": "planning",
+            "text": "So now, we have:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": false,
+            "start": 4254,
+            "end": 4277,
+            "label": "reasoning",
+            "text": "Eq5: 3d1 - d2 \u22612 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": false,
+            "start": 4277,
+            "end": 4300,
+            "label": "reasoning",
+            "text": "Eq6: 2d1 - d3 \u22611 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": false,
+            "start": 4300,
+            "end": 4323,
+            "label": "reasoning",
+            "text": "Eq7: 6d1 - d4 \u22615 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": false,
+            "start": 4323,
+            "end": 4380,
+            "label": "restatement",
+            "text": "Additionally, we still have Eq1: 2d2 + 3d3 + d4 \u22611 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": false,
+            "start": 4380,
+            "end": 4439,
+            "label": "planning",
+            "text": "But perhaps now we can express d2, d3, d4 in terms of d1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": false,
+            "start": 4439,
+            "end": 4466,
+            "label": "reasoning",
+            "text": "From Eq5: d2 \u22613d1 -2 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": false,
+            "start": 4466,
+            "end": 4493,
+            "label": "reasoning",
+            "text": "From Eq6: d3 \u22612d1 -1 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": false,
+            "start": 4493,
+            "end": 4520,
+            "label": "reasoning",
+            "text": "From Eq7: d4 \u22616d1 -5 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": false,
+            "start": 4520,
+            "end": 4554,
+            "label": "planning",
+            "text": "So, substituting these into Eq1:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": false,
+            "start": 4554,
+            "end": 4598,
+            "label": "reasoning",
+            "text": "2*(3d1 -2) + 3*(2d1 -1) + (6d1 -5) \u22611 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": false,
+            "start": 4598,
+            "end": 4624,
+            "label": "planning",
+            "text": "Let's compute each term:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": false,
+            "start": 4624,
+            "end": 4644,
+            "label": "reasoning",
+            "text": "2*(3d1 -2) =6d1 -4\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": false,
+            "start": 4644,
+            "end": 4663,
+            "label": "reasoning",
+            "text": "3*(2d1 -1)=6d1 -3\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": false,
+            "start": 4663,
+            "end": 4701,
+            "label": "reasoning",
+            "text": "Adding these: 6d1 -4 +6d1 -3=12d1 -7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": false,
+            "start": 4701,
+            "end": 4746,
+            "label": "reasoning",
+            "text": "Then add (6d1 -5): 12d1 -7 +6d1 -5=18d1 -12\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": false,
+            "start": 4746,
+            "end": 4768,
+            "label": "reasoning",
+            "text": "So, 18d1 -12 \u22611 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": false,
+            "start": 4768,
+            "end": 4779,
+            "label": "planning",
+            "text": "Simplify:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": false,
+            "start": 4779,
+            "end": 4794,
+            "label": "reasoning",
+            "text": "18d1 \u226113 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": false,
+            "start": 4794,
+            "end": 4849,
+            "label": "reasoning",
+            "text": "But 18 mod7 is 4 (7*2=14, 18-14=4), and 13 mod7 is 6.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": false,
+            "start": 4849,
+            "end": 4866,
+            "label": "reasoning",
+            "text": "So, 4d1 \u22616 mod7\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": false,
+            "start": 4866,
+            "end": 4941,
+            "label": "reasoning",
+            "text": "Multiply both sides by inverse of 4 mod7, which is 2, since 4*2=8\u22611 mod7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": false,
+            "start": 4941,
+            "end": 4967,
+            "label": "reasoning",
+            "text": "Thus, d1 \u22616*2=12\u22615 mod7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": false,
+            "start": 4967,
+            "end": 4984,
+            "label": "reasoning",
+            "text": "So, d1 \u22615 mod7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": false,
+            "start": 4984,
+            "end": 5073,
+            "label": "reasoning",
+            "text": "Since d1 is a digit from 1 to 9, possible values are 5 and 12\u22615 mod7, but 12 is invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": false,
+            "start": 5073,
+            "end": 5118,
+            "label": "reasoning",
+            "text": "So d1=5 or d1=5+7=12, but 12 is not a digit. ",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": false,
+            "start": 5118,
+            "end": 5136,
+            "label": "reasoning",
+            "text": "So d1 must be 5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": false,
+            "start": 5136,
+            "end": 5165,
+            "label": "reflection",
+            "text": "Wait, but digits go up to 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": false,
+            "start": 5165,
+            "end": 5198,
+            "label": "reflection",
+            "text": "So d1=5 is the only possibility? ",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": false,
+            "start": 5198,
+            "end": 5262,
+            "label": "reasoning",
+            "text": "Wait, 5 mod7 is 5, so d1 can be 5 or 5+7=12, but 12 is invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": false,
+            "start": 5262,
+            "end": 5283,
+            "label": "reasoning",
+            "text": "So d1=5.\n\nSo, d1=5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": false,
+            "start": 5283,
+            "end": 5331,
+            "label": "reasoning",
+            "text": "Then, from Eq5: d2 \u22613*5 -2 mod7=15-2=13\u22616 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": false,
+            "start": 5331,
+            "end": 5345,
+            "label": "reasoning",
+            "text": "So d2\u22616 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": false,
+            "start": 5345,
+            "end": 5424,
+            "label": "reasoning",
+            "text": "Since d2 is a digit (0-9), possible values are 6 and 6+7=13, which is invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": false,
+            "start": 5424,
+            "end": 5434,
+            "label": "reasoning",
+            "text": "So d2=6.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": false,
+            "start": 5434,
+            "end": 5474,
+            "label": "reasoning",
+            "text": "From Eq6: d3\u22612*5 -1 mod7=10-1=9\u22612 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": false,
+            "start": 5474,
+            "end": 5488,
+            "label": "reasoning",
+            "text": "So d3\u22612 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": false,
+            "start": 5488,
+            "end": 5519,
+            "label": "reasoning",
+            "text": "Possible digits: 2, 9 (2+7=9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": false,
+            "start": 5519,
+            "end": 5541,
+            "label": "reasoning",
+            "text": "So d3 can be 2 or 9.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": false,
+            "start": 5541,
+            "end": 5582,
+            "label": "reasoning",
+            "text": "From Eq7: d4\u22616*5 -5 mod7=30-5=25\u22614 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": false,
+            "start": 5582,
+            "end": 5596,
+            "label": "reasoning",
+            "text": "So d4\u22614 mod7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": false,
+            "start": 5596,
+            "end": 5629,
+            "label": "reasoning",
+            "text": "Possible digits:4, 11 (invalid). ",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": false,
+            "start": 5629,
+            "end": 5639,
+            "label": "reasoning",
+            "text": "So d4=4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": false,
+            "start": 5639,
+            "end": 5667,
+            "label": "reflection",
+            "text": "But wait, d3 can be 2 or 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": false,
+            "start": 5667,
+            "end": 5700,
+            "label": "planning",
+            "text": "Let's check both possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": false,
+            "start": 5700,
+            "end": 5724,
+            "label": "planning",
+            "text": "First, let's take d3=9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": false,
+            "start": 5724,
+            "end": 5783,
+            "label": "planning",
+            "text": "Then check if substituting into original equations holds.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": false,
+            "start": 5783,
+            "end": 5874,
+            "label": "planning",
+            "text": "Wait, but let's check if substituting d1=5, d2=6, d3=9, d4=4 into the original equations.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": false,
+            "start": 5874,
+            "end": 5900,
+            "label": "reasoning",
+            "text": "Original N=5 6 9 4=5694.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": false,
+            "start": 5900,
+            "end": 5943,
+            "label": "planning",
+            "text": "Check condition 1: changing d1 to 1: 1694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": false,
+            "start": 5943,
+            "end": 5967,
+            "label": "planning",
+            "text": "Is 1694 divisible by 7? ",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": false,
+            "start": 5967,
+            "end": 5992,
+            "label": "reasoning",
+            "text": "Let's check: 7*242=1694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": false,
+            "start": 5992,
+            "end": 6042,
+            "label": "reasoning",
+            "text": "Yes, because 7*240=1680, 7*2=14, so 1680+14=1694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": false,
+            "start": 6042,
+            "end": 6070,
+            "label": "reasoning",
+            "text": "So 1694 is divisible by 7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": false,
+            "start": 6070,
+            "end": 6107,
+            "label": "planning",
+            "text": "Condition 2: changing d2 to 1: 5194. ",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": false,
+            "start": 6107,
+            "end": 6138,
+            "label": "reasoning",
+            "text": "5194 divided by 7: 7*742=5194. ",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": false,
+            "start": 6138,
+            "end": 6175,
+            "label": "reasoning",
+            "text": "7*700=4900, 7*42=294, 4900+294=5194. ",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": false,
+            "start": 6175,
+            "end": 6184,
+            "label": "reasoning",
+            "text": "So yes.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": false,
+            "start": 6184,
+            "end": 6220,
+            "label": "planning",
+            "text": "Condition3: changing d3 to 1: 5614. ",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": false,
+            "start": 6220,
+            "end": 6251,
+            "label": "reasoning",
+            "text": "5614 divided by 7: 7*802=5614. ",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": false,
+            "start": 6251,
+            "end": 6288,
+            "label": "reasoning",
+            "text": "7*800=5600, 7*2=14, so 5600+14=5614. ",
+            "source": "response"
+        },
+        {
+            "id": "resp134",
+            "annotation": false,
+            "start": 6288,
+            "end": 6298,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp135",
+            "annotation": false,
+            "start": 6298,
+            "end": 6334,
+            "label": "planning",
+            "text": "Condition4: changing d4 to 1: 5691. ",
+            "source": "response"
+        },
+        {
+            "id": "resp136",
+            "annotation": false,
+            "start": 6334,
+            "end": 6365,
+            "label": "reasoning",
+            "text": "5691 divided by 7: 7*813=5691. ",
+            "source": "response"
+        },
+        {
+            "id": "resp137",
+            "annotation": false,
+            "start": 6365,
+            "end": 6400,
+            "label": "reasoning",
+            "text": "7*800=5600, 7*13=91, 5600+91=5691. ",
+            "source": "response"
+        },
+        {
+            "id": "resp138",
+            "annotation": false,
+            "start": 6400,
+            "end": 6410,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp139",
+            "annotation": false,
+            "start": 6410,
+            "end": 6427,
+            "label": "reasoning",
+            "text": "So N=5694 works. ",
+            "source": "response"
+        },
+        {
+            "id": "resp140",
+            "annotation": false,
+            "start": 6427,
+            "end": 6462,
+            "label": "reflection",
+            "text": "But wait, d3 was chosen as 9 here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp141",
+            "annotation": false,
+            "start": 6462,
+            "end": 6517,
+            "label": "reasoning",
+            "text": "But earlier, from Eq6, d3\u22612 mod7, so d3 can be 2 or 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp142",
+            "annotation": false,
+            "start": 6517,
+            "end": 6536,
+            "label": "planning",
+            "text": "Let's check d3=2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp143",
+            "annotation": false,
+            "start": 6536,
+            "end": 6567,
+            "label": "reasoning",
+            "text": "If d3=2, then N=5 6 2 4=5624.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp144",
+            "annotation": false,
+            "start": 6567,
+            "end": 6591,
+            "label": "planning",
+            "text": "Check condition1: 1624. ",
+            "source": "response"
+        },
+        {
+            "id": "resp145",
+            "annotation": false,
+            "start": 6591,
+            "end": 6643,
+            "label": "reasoning",
+            "text": "1624/7=232, since 7*230=1610, 7*2=14, 1610+14=1624. ",
+            "source": "response"
+        },
+        {
+            "id": "resp146",
+            "annotation": false,
+            "start": 6643,
+            "end": 6653,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp147",
+            "annotation": false,
+            "start": 6653,
+            "end": 6671,
+            "label": "planning",
+            "text": "Condition2: 5124. ",
+            "source": "response"
+        },
+        {
+            "id": "resp148",
+            "annotation": false,
+            "start": 6671,
+            "end": 6683,
+            "label": "reasoning",
+            "text": "5124/7=732. ",
+            "source": "response"
+        },
+        {
+            "id": "resp149",
+            "annotation": false,
+            "start": 6683,
+            "end": 6720,
+            "label": "reasoning",
+            "text": "7*700=4900, 7*32=224, 4900+224=5124. ",
+            "source": "response"
+        },
+        {
+            "id": "resp150",
+            "annotation": false,
+            "start": 6720,
+            "end": 6730,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp151",
+            "annotation": false,
+            "start": 6730,
+            "end": 6748,
+            "label": "planning",
+            "text": "Condition3: 5614. ",
+            "source": "response"
+        },
+        {
+            "id": "resp152",
+            "annotation": false,
+            "start": 6748,
+            "end": 6770,
+            "label": "reflection",
+            "text": "Wait, same as before? ",
+            "source": "response"
+        },
+        {
+            "id": "resp153",
+            "annotation": false,
+            "start": 6770,
+            "end": 6800,
+            "label": "restatement",
+            "text": "Wait, changing d3 to 1: 5614. ",
+            "source": "response"
+        },
+        {
+            "id": "resp154",
+            "annotation": false,
+            "start": 6800,
+            "end": 6832,
+            "label": "restatement",
+            "text": "Which is same as when d3 was 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp155",
+            "annotation": false,
+            "start": 6832,
+            "end": 6870,
+            "label": "restatement",
+            "text": "But 5614 is divisible by 7 as we saw. ",
+            "source": "response"
+        },
+        {
+            "id": "resp156",
+            "annotation": false,
+            "start": 6870,
+            "end": 6883,
+            "label": "reflection",
+            "text": "So correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp157",
+            "annotation": false,
+            "start": 6883,
+            "end": 6901,
+            "label": "planning",
+            "text": "Condition4: 5621. ",
+            "source": "response"
+        },
+        {
+            "id": "resp158",
+            "annotation": false,
+            "start": 6901,
+            "end": 6913,
+            "label": "reasoning",
+            "text": "5621/7=803. ",
+            "source": "response"
+        },
+        {
+            "id": "resp159",
+            "annotation": false,
+            "start": 6913,
+            "end": 6947,
+            "label": "reasoning",
+            "text": "7*800=5600, 7*3=21, 5600+21=5621. ",
+            "source": "response"
+        },
+        {
+            "id": "resp160",
+            "annotation": false,
+            "start": 6947,
+            "end": 6957,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp161",
+            "annotation": false,
+            "start": 6957,
+            "end": 6979,
+            "label": "reasoning",
+            "text": "So N=5624 also works. ",
+            "source": "response"
+        },
+        {
+            "id": "resp162",
+            "annotation": false,
+            "start": 6979,
+            "end": 7021,
+            "label": "reasoning",
+            "text": "So both d3=2 and d3=9 give valid numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp163",
+            "annotation": false,
+            "start": 7021,
+            "end": 7119,
+            "label": "planning",
+            "text": "But since we want the greatest four-digit number, we need to check which is larger: 5694 or 5624. ",
+            "source": "response"
+        },
+        {
+            "id": "resp164",
+            "annotation": false,
+            "start": 7119,
+            "end": 7144,
+            "label": "reasoning",
+            "text": "Clearly 5694 is larger.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp165",
+            "annotation": false,
+            "start": 7144,
+            "end": 7191,
+            "label": "reflection",
+            "text": "But wait, is there a possibility of higher d1? ",
+            "source": "response"
+        },
+        {
+            "id": "resp166",
+            "annotation": false,
+            "start": 7191,
+            "end": 7282,
+            "label": "reasoning",
+            "text": "Wait, earlier we concluded d1 must be 5 mod7, and since d1 is a digit from 1-9, only d1=5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp167",
+            "annotation": false,
+            "start": 7282,
+            "end": 7315,
+            "label": "reasoning",
+            "text": "So 5 is the only possible value. ",
+            "source": "response"
+        },
+        {
+            "id": "resp168",
+            "annotation": false,
+            "start": 7315,
+            "end": 7394,
+            "label": "reasoning",
+            "text": "Therefore, the maximum N would be with d1=5, d2=6, d3=9, d4=4, which is 5694.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp169",
+            "annotation": false,
+            "start": 7394,
+            "end": 7413,
+            "label": "reflection",
+            "text": "Wait, but hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp170",
+            "annotation": false,
+            "start": 7413,
+            "end": 7460,
+            "label": "planning",
+            "text": "Let me check if there are other possibilities. ",
+            "source": "response"
+        },
+        {
+            "id": "resp171",
+            "annotation": false,
+            "start": 7460,
+            "end": 7542,
+            "label": "reasoning",
+            "text": "For example, if d3 can be 9, which is higher than 2, so 5694 is higher than 5624. ",
+            "source": "response"
+        },
+        {
+            "id": "resp172",
+            "annotation": false,
+            "start": 7542,
+            "end": 7573,
+            "label": "reasoning",
+            "text": "So 5694 is the larger number.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp173",
+            "annotation": false,
+            "start": 7573,
+            "end": 7622,
+            "label": "planning",
+            "text": "But let me confirm if there are other solutions. ",
+            "source": "response"
+        },
+        {
+            "id": "resp174",
+            "annotation": false,
+            "start": 7622,
+            "end": 7654,
+            "label": "restatement",
+            "text": "Suppose d1=5, d2=6, d3=9, d4=4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp175",
+            "annotation": false,
+            "start": 7654,
+            "end": 7667,
+            "label": "restatement",
+            "text": "Then N=5694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp176",
+            "annotation": false,
+            "start": 7667,
+            "end": 7703,
+            "label": "reflection",
+            "text": "Is there a higher number possible?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp177",
+            "annotation": false,
+            "start": 7703,
+            "end": 7745,
+            "label": "planning",
+            "text": "Wait, suppose d1=5, but can d2 be higher? ",
+            "source": "response"
+        },
+        {
+            "id": "resp178",
+            "annotation": false,
+            "start": 7745,
+            "end": 7800,
+            "label": "reasoning",
+            "text": "From Eq5, d2\u22616 mod7, so d2=6 or 13, but 13 is invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp179",
+            "annotation": false,
+            "start": 7800,
+            "end": 7824,
+            "label": "reasoning",
+            "text": "So d2=6 is the maximum. ",
+            "source": "response"
+        },
+        {
+            "id": "resp180",
+            "annotation": false,
+            "start": 7824,
+            "end": 7888,
+            "label": "reasoning",
+            "text": "Similarly, d3 can be 9 (since 9\u22612 mod7) which is higher than 2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp181",
+            "annotation": false,
+            "start": 7888,
+            "end": 7921,
+            "label": "reasoning",
+            "text": "So d3=9 is the maximum possible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp182",
+            "annotation": false,
+            "start": 7921,
+            "end": 7983,
+            "label": "reasoning",
+            "text": "d4=4, since d4\u22614 mod7, and 4 is the only digit possible here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp183",
+            "annotation": false,
+            "start": 7983,
+            "end": 8017,
+            "label": "reasoning",
+            "text": "So 5694 seems to be the maximum.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp184",
+            "annotation": false,
+            "start": 8017,
+            "end": 8071,
+            "label": "planning",
+            "text": "But let's check if there's a higher number with d1=5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp185",
+            "annotation": false,
+            "start": 8071,
+            "end": 8105,
+            "label": "restatement",
+            "text": "For example, if d3=9, d2=6, d4=4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp186",
+            "annotation": false,
+            "start": 8105,
+            "end": 8114,
+            "label": "restatement",
+            "text": "So 5694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp187",
+            "annotation": false,
+            "start": 8114,
+            "end": 8216,
+            "label": "reasoning",
+            "text": "If we try to increase d4 beyond 4, but d4 must be \u22614 mod7, so possible digits are 4 and 11 (invalid). ",
+            "source": "response"
+        },
+        {
+            "id": "resp188",
+            "annotation": false,
+            "start": 8216,
+            "end": 8240,
+            "label": "reasoning",
+            "text": "So d4=4 is the maximum. ",
+            "source": "response"
+        },
+        {
+            "id": "resp189",
+            "annotation": false,
+            "start": 8240,
+            "end": 8284,
+            "label": "reasoning",
+            "text": "Similarly, d3=9 is maximum possible for d3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp190",
+            "annotation": false,
+            "start": 8284,
+            "end": 8310,
+            "label": "reasoning",
+            "text": "d2=6 is maximum possible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp191",
+            "annotation": false,
+            "start": 8310,
+            "end": 8342,
+            "label": "reasoning",
+            "text": "So 5694 is indeed the maximum.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp192",
+            "annotation": false,
+            "start": 8342,
+            "end": 8387,
+            "label": "planning",
+            "text": "Wait, but let's check if there's another d1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp193",
+            "annotation": false,
+            "start": 8387,
+            "end": 8434,
+            "label": "restatement",
+            "text": "Wait, earlier we concluded d1\u22615 mod7, so d1=5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp194",
+            "annotation": false,
+            "start": 8434,
+            "end": 8457,
+            "label": "planning",
+            "text": "But what if d1=5+7=12? ",
+            "source": "response"
+        },
+        {
+            "id": "resp195",
+            "annotation": false,
+            "start": 8457,
+            "end": 8506,
+            "label": "reasoning",
+            "text": "But d1 must be a single digit, so 12 is invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp196",
+            "annotation": false,
+            "start": 8506,
+            "end": 8540,
+            "label": "reasoning",
+            "text": "So d1=5 is the only possibility.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp197",
+            "annotation": false,
+            "start": 8540,
+            "end": 8586,
+            "label": "reasoning",
+            "text": "Therefore, N=5694 is the maximum such number. ",
+            "source": "response"
+        },
+        {
+            "id": "resp198",
+            "annotation": false,
+            "start": 8586,
+            "end": 8701,
+            "label": "reasoning",
+            "text": "Then Q is the quotient when N is divided by 1000, which is 5 (since 5694 divided by 1000 is 5 with remainder 694). ",
+            "source": "response"
+        },
+        {
+            "id": "resp199",
+            "annotation": false,
+            "start": 8701,
+            "end": 8735,
+            "label": "reasoning",
+            "text": "R is the remainder, which is 694. ",
+            "source": "response"
+        },
+        {
+            "id": "resp200",
+            "annotation": false,
+            "start": 8735,
+            "end": 8756,
+            "label": "reasoning",
+            "text": "Then Q+R=5+694=699.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp201",
+            "annotation": false,
+            "start": 8756,
+            "end": 8819,
+            "label": "planning",
+            "text": "Wait, but let me confirm N=5694 is indeed the correct answer.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp202",
+            "annotation": false,
+            "start": 8819,
+            "end": 8862,
+            "label": "planning",
+            "text": "Wait, let's check another possible number. ",
+            "source": "response"
+        },
+        {
+            "id": "resp203",
+            "annotation": false,
+            "start": 8862,
+            "end": 8894,
+            "label": "restatement",
+            "text": "Suppose d1=5, d2=6, d3=9, d4=4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp204",
+            "annotation": false,
+            "start": 8894,
+            "end": 8921,
+            "label": "planning",
+            "text": "Changing each digit to 1:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp205",
+            "annotation": false,
+            "start": 8921,
+            "end": 8960,
+            "label": "reasoning",
+            "text": "1. 1694: 1694 \u00f77=242, which is exact.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp206",
+            "annotation": false,
+            "start": 8960,
+            "end": 8990,
+            "label": "reasoning",
+            "text": "2. 5194: 5194 \u00f77=742, exact.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp207",
+            "annotation": false,
+            "start": 8990,
+            "end": 9020,
+            "label": "reasoning",
+            "text": "3. 5614: 5614 \u00f77=802, exact.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp208",
+            "annotation": false,
+            "start": 9020,
+            "end": 9050,
+            "label": "reasoning",
+            "text": "4. 5691: 5691 \u00f77=813, exact.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp209",
+            "annotation": false,
+            "start": 9050,
+            "end": 9085,
+            "label": "reasoning",
+            "text": "All four conditions are satisfied. ",
+            "source": "response"
+        },
+        {
+            "id": "resp210",
+            "annotation": false,
+            "start": 9085,
+            "end": 9103,
+            "label": "reasoning",
+            "text": "So N=5694 works.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp211",
+            "annotation": false,
+            "start": 9103,
+            "end": 9129,
+            "label": "planning",
+            "text": "Is there a higher number? ",
+            "source": "response"
+        },
+        {
+            "id": "resp212",
+            "annotation": false,
+            "start": 9129,
+            "end": 9140,
+            "label": "reflection",
+            "text": "Let's see. ",
+            "source": "response"
+        },
+        {
+            "id": "resp213",
+            "annotation": false,
+            "start": 9140,
+            "end": 9170,
+            "label": "planning",
+            "text": "Suppose someone tried N=5999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp214",
+            "annotation": false,
+            "start": 9170,
+            "end": 9233,
+            "label": "planning",
+            "text": "Let's check if changing any digit to 1 gives a multiple of 7.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp215",
+            "annotation": false,
+            "start": 9233,
+            "end": 9253,
+            "label": "planning",
+            "text": "Change d1 to1:1999. ",
+            "source": "response"
+        },
+        {
+            "id": "resp216",
+            "annotation": false,
+            "start": 9253,
+            "end": 9283,
+            "label": "reasoning",
+            "text": "1999 \u00f77\u2248285.571, not integer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp217",
+            "annotation": false,
+            "start": 9283,
+            "end": 9290,
+            "label": "reasoning",
+            "text": "So no. ",
+            "source": "response"
+        },
+        {
+            "id": "resp218",
+            "annotation": false,
+            "start": 9290,
+            "end": 9315,
+            "label": "reasoning",
+            "text": "So N=5999 doesn't work.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp219",
+            "annotation": false,
+            "start": 9315,
+            "end": 9334,
+            "label": "planning",
+            "text": "What about N=5984? ",
+            "source": "response"
+        },
+        {
+            "id": "resp220",
+            "annotation": false,
+            "start": 9334,
+            "end": 9362,
+            "label": "reflection",
+            "text": "Wait, but how would I know? ",
+            "source": "response"
+        },
+        {
+            "id": "resp221",
+            "annotation": false,
+            "start": 9362,
+            "end": 9397,
+            "label": "reflection",
+            "text": "It's tedious to check all numbers. ",
+            "source": "response"
+        },
+        {
+            "id": "resp222",
+            "annotation": false,
+            "start": 9397,
+            "end": 9460,
+            "label": "reasoning",
+            "text": "But according to our earlier reasoning, N=5694 is the maximum. ",
+            "source": "response"
+        },
+        {
+            "id": "resp223",
+            "annotation": false,
+            "start": 9460,
+            "end": 9593,
+            "label": "reasoning",
+            "text": "Since d1 is fixed at 5, and the other digits are maximized under their respective congruences, 5694 is indeed the largest possible.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp224",
+            "annotation": false,
+            "start": 9593,
+            "end": 9638,
+            "label": "reasoning",
+            "text": "Therefore, Q=5 and R=694, so Q+R=5+694=699.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp225",
+            "annotation": false,
+            "start": 9638,
+            "end": 9655,
+            "label": "planning",
+            "text": "**Final Answer**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp226",
+            "annotation": false,
+            "start": 9655,
+            "end": 9666,
+            "label": "conclusion",
+            "text": "\\boxed{699}",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp0",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e1",
+            "from_node_id": "ctx1",
+            "to_node_id": "resp1",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e2",
+            "from_node_id": "ctx2",
+            "to_node_id": "resp1",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e3",
+            "from_node_id": "resp0",
+            "to_node_id": "resp2",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e4",
+            "from_node_id": "resp1",
+            "to_node_id": "resp2",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e5",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp3",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e6",
+            "from_node_id": "resp3",
+            "to_node_id": "resp4",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e7",
+            "from_node_id": "resp4",
+            "to_node_id": "resp5",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e8",
+            "from_node_id": "ctx0",
+            "to_node_id": "resp6",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e9",
+            "from_node_id": "resp0",
+            "to_node_id": "resp6",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e10",
+            "from_node_id": "resp4",
+            "to_node_id": "resp7",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e11",
+            "from_node_id": "resp5",
+            "to_node_id": "resp7",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e12",
+            "from_node_id": "resp6",
+            "to_node_id": "resp7",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e13",
+            "from_node_id": "resp4",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e14",
+            "from_node_id": "resp5",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e15",
+            "from_node_id": "resp6",
+            "to_node_id": "resp8",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e16",
+            "from_node_id": "resp7",
+            "to_node_id": "resp8",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e17",
+            "from_node_id": "resp6",
+            "to_node_id": "resp9",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e18",
+            "from_node_id": "resp7",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e19",
+            "from_node_id": "resp8",
+            "to_node_id": "resp9",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e20",
+            "from_node_id": "resp6",
+            "to_node_id": "resp10",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e21",
+            "from_node_id": "resp9",
+            "to_node_id": "resp10",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e22",
+            "from_node_id": "resp7",
+            "to_node_id": "resp11",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e23",
+            "from_node_id": "resp10",
+            "to_node_id": "resp11",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e24",
+            "from_node_id": "resp8",
+            "to_node_id": "resp12",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e25",
+            "from_node_id": "resp10",
+            "to_node_id": "resp12",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e26",
+            "from_node_id": "resp8",
+            "to_node_id": "resp13",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e27",
+            "from_node_id": "resp10",
+            "to_node_id": "resp13",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e28",
+            "from_node_id": "resp9",
+            "to_node_id": "resp14",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e29",
+            "from_node_id": "resp10",
+            "to_node_id": "resp14",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e30",
+            "from_node_id": "resp5",
+            "to_node_id": "resp15",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e31",
+            "from_node_id": "resp9",
+            "to_node_id": "resp15",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e32",
+            "from_node_id": "resp10",
+            "to_node_id": "resp15",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e33",
+            "from_node_id": "resp15",
+            "to_node_id": "resp16",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e34",
+            "from_node_id": "resp15",
+            "to_node_id": "resp17",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e35",
+            "from_node_id": "resp16",
+            "to_node_id": "resp17",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e36",
+            "from_node_id": "resp15",
+            "to_node_id": "resp18",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e37",
+            "from_node_id": "resp16",
+            "to_node_id": "resp18",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e38",
+            "from_node_id": "resp17",
+            "to_node_id": "resp18",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e39",
+            "from_node_id": "resp15",
+            "to_node_id": "resp19",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e40",
+            "from_node_id": "resp18",
+            "to_node_id": "resp19",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e41",
+            "from_node_id": "resp19",
+            "to_node_id": "resp20",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e42",
+            "from_node_id": "resp20",
+            "to_node_id": "resp21",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e43",
+            "from_node_id": "resp21",
+            "to_node_id": "resp22",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e44",
+            "from_node_id": "resp21",
+            "to_node_id": "resp23",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e45",
+            "from_node_id": "resp22",
+            "to_node_id": "resp23",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e46",
+            "from_node_id": "resp21",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e47",
+            "from_node_id": "resp22",
+            "to_node_id": "resp24",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e48",
+            "from_node_id": "resp23",
+            "to_node_id": "resp24",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e49",
+            "from_node_id": "resp22",
+            "to_node_id": "resp25",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e50",
+            "from_node_id": "resp24",
+            "to_node_id": "resp25",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e51",
+            "from_node_id": "resp22",
+            "to_node_id": "resp26",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e52",
+            "from_node_id": "resp25",
+            "to_node_id": "resp26",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e53",
+            "from_node_id": "resp21",
+            "to_node_id": "resp27",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e54",
+            "from_node_id": "resp25",
+            "to_node_id": "resp27",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e55",
+            "from_node_id": "resp20",
+            "to_node_id": "resp28",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e56",
+            "from_node_id": "resp21",
+            "to_node_id": "resp28",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e57",
+            "from_node_id": "resp27",
+            "to_node_id": "resp28",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e58",
+            "from_node_id": "resp21",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e59",
+            "from_node_id": "resp23",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e60",
+            "from_node_id": "resp24",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e61",
+            "from_node_id": "resp25",
+            "to_node_id": "resp29",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e62",
+            "from_node_id": "resp27",
+            "to_node_id": "resp29",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e63",
+            "from_node_id": "resp10",
+            "to_node_id": "resp30",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e64",
+            "from_node_id": "resp28",
+            "to_node_id": "resp30",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e65",
+            "from_node_id": "resp21",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e66",
+            "from_node_id": "resp25",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e67",
+            "from_node_id": "resp29",
+            "to_node_id": "resp31",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e68",
+            "from_node_id": "resp30",
+            "to_node_id": "resp31",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e69",
+            "from_node_id": "resp29",
+            "to_node_id": "resp32",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e70",
+            "from_node_id": "resp30",
+            "to_node_id": "resp32",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e71",
+            "from_node_id": "resp13",
+            "to_node_id": "resp33",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e72",
+            "from_node_id": "resp29",
+            "to_node_id": "resp33",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e73",
+            "from_node_id": "resp30",
+            "to_node_id": "resp33",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e74",
+            "from_node_id": "resp29",
+            "to_node_id": "resp34",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e75",
+            "from_node_id": "resp30",
+            "to_node_id": "resp34",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e76",
+            "from_node_id": "resp33",
+            "to_node_id": "resp34",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e77",
+            "from_node_id": "resp30",
+            "to_node_id": "resp35",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e78",
+            "from_node_id": "resp31",
+            "to_node_id": "resp36",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e79",
+            "from_node_id": "resp35",
+            "to_node_id": "resp36",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e80",
+            "from_node_id": "resp32",
+            "to_node_id": "resp37",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e81",
+            "from_node_id": "resp35",
+            "to_node_id": "resp37",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e82",
+            "from_node_id": "resp33",
+            "to_node_id": "resp38",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e83",
+            "from_node_id": "resp35",
+            "to_node_id": "resp38",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e84",
+            "from_node_id": "resp34",
+            "to_node_id": "resp39",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e85",
+            "from_node_id": "resp35",
+            "to_node_id": "resp39",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e86",
+            "from_node_id": "resp4",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e87",
+            "from_node_id": "resp5",
+            "to_node_id": "resp40",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e88",
+            "from_node_id": "resp35",
+            "to_node_id": "resp41",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e89",
+            "from_node_id": "resp40",
+            "to_node_id": "resp41",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e90",
+            "from_node_id": "resp35",
+            "to_node_id": "resp42",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e91",
+            "from_node_id": "resp41",
+            "to_node_id": "resp42",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e92",
+            "from_node_id": "resp41",
+            "to_node_id": "resp43",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e93",
+            "from_node_id": "resp42",
+            "to_node_id": "resp43",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e94",
+            "from_node_id": "resp36",
+            "to_node_id": "resp44",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e95",
+            "from_node_id": "resp42",
+            "to_node_id": "resp44",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e96",
+            "from_node_id": "resp37",
+            "to_node_id": "resp45",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e97",
+            "from_node_id": "resp42",
+            "to_node_id": "resp45",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e98",
+            "from_node_id": "resp38",
+            "to_node_id": "resp46",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e99",
+            "from_node_id": "resp43",
+            "to_node_id": "resp46",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e100",
+            "from_node_id": "resp39",
+            "to_node_id": "resp47",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e101",
+            "from_node_id": "resp46",
+            "to_node_id": "resp47",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e102",
+            "from_node_id": "resp35",
+            "to_node_id": "resp48",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e103",
+            "from_node_id": "resp47",
+            "to_node_id": "resp48",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e104",
+            "from_node_id": "resp36",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e105",
+            "from_node_id": "resp44",
+            "to_node_id": "resp49",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e106",
+            "from_node_id": "resp48",
+            "to_node_id": "resp49",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e107",
+            "from_node_id": "resp35",
+            "to_node_id": "resp50",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e108",
+            "from_node_id": "resp37",
+            "to_node_id": "resp50",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e109",
+            "from_node_id": "resp45",
+            "to_node_id": "resp50",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e110",
+            "from_node_id": "resp48",
+            "to_node_id": "resp50",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e111",
+            "from_node_id": "resp46",
+            "to_node_id": "resp51",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e112",
+            "from_node_id": "resp48",
+            "to_node_id": "resp51",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e113",
+            "from_node_id": "resp47",
+            "to_node_id": "resp52",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e114",
+            "from_node_id": "resp48",
+            "to_node_id": "resp52",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e115",
+            "from_node_id": "resp43",
+            "to_node_id": "resp53",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e116",
+            "from_node_id": "resp48",
+            "to_node_id": "resp53",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e117",
+            "from_node_id": "resp48",
+            "to_node_id": "resp54",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e118",
+            "from_node_id": "resp53",
+            "to_node_id": "resp54",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e119",
+            "from_node_id": "resp49",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e120",
+            "from_node_id": "resp50",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e121",
+            "from_node_id": "resp54",
+            "to_node_id": "resp55",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e122",
+            "from_node_id": "resp53",
+            "to_node_id": "resp56",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e123",
+            "from_node_id": "resp54",
+            "to_node_id": "resp56",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e124",
+            "from_node_id": "resp55",
+            "to_node_id": "resp56",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e125",
+            "from_node_id": "resp55",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e126",
+            "from_node_id": "resp56",
+            "to_node_id": "resp57",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e127",
+            "from_node_id": "resp56",
+            "to_node_id": "resp58",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e128",
+            "from_node_id": "resp57",
+            "to_node_id": "resp58",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e129",
+            "from_node_id": "resp56",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e130",
+            "from_node_id": "resp57",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e131",
+            "from_node_id": "resp58",
+            "to_node_id": "resp59",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e132",
+            "from_node_id": "resp54",
+            "to_node_id": "resp60",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e133",
+            "from_node_id": "resp57",
+            "to_node_id": "resp60",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e134",
+            "from_node_id": "resp58",
+            "to_node_id": "resp60",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e135",
+            "from_node_id": "resp59",
+            "to_node_id": "resp60",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e136",
+            "from_node_id": "resp55",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e137",
+            "from_node_id": "resp57",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e138",
+            "from_node_id": "resp58",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e139",
+            "from_node_id": "resp59",
+            "to_node_id": "resp61",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e140",
+            "from_node_id": "resp55",
+            "to_node_id": "resp62",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e141",
+            "from_node_id": "resp57",
+            "to_node_id": "resp62",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e142",
+            "from_node_id": "resp58",
+            "to_node_id": "resp62",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e143",
+            "from_node_id": "resp59",
+            "to_node_id": "resp62",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e144",
+            "from_node_id": "resp61",
+            "to_node_id": "resp62",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e145",
+            "from_node_id": "resp53",
+            "to_node_id": "resp63",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e146",
+            "from_node_id": "resp60",
+            "to_node_id": "resp63",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e147",
+            "from_node_id": "resp61",
+            "to_node_id": "resp63",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e148",
+            "from_node_id": "resp62",
+            "to_node_id": "resp63",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e149",
+            "from_node_id": "resp53",
+            "to_node_id": "resp64",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e150",
+            "from_node_id": "resp54",
+            "to_node_id": "resp64",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e151",
+            "from_node_id": "resp35",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e152",
+            "from_node_id": "resp53",
+            "to_node_id": "resp65",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e153",
+            "from_node_id": "resp64",
+            "to_node_id": "resp65",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e154",
+            "from_node_id": "resp64",
+            "to_node_id": "resp66",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e155",
+            "from_node_id": "resp65",
+            "to_node_id": "resp66",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e156",
+            "from_node_id": "resp65",
+            "to_node_id": "resp67",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e157",
+            "from_node_id": "resp66",
+            "to_node_id": "resp67",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e158",
+            "from_node_id": "resp67",
+            "to_node_id": "resp68",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e159",
+            "from_node_id": "resp48",
+            "to_node_id": "resp69",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e160",
+            "from_node_id": "resp64",
+            "to_node_id": "resp69",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e161",
+            "from_node_id": "resp49",
+            "to_node_id": "resp70",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e162",
+            "from_node_id": "resp52",
+            "to_node_id": "resp70",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e163",
+            "from_node_id": "resp69",
+            "to_node_id": "resp70",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e164",
+            "from_node_id": "resp39",
+            "to_node_id": "resp71",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e165",
+            "from_node_id": "resp70",
+            "to_node_id": "resp71",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e166",
+            "from_node_id": "resp68",
+            "to_node_id": "resp72",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e167",
+            "from_node_id": "resp71",
+            "to_node_id": "resp72",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e168",
+            "from_node_id": "resp48",
+            "to_node_id": "resp73",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e169",
+            "from_node_id": "resp63",
+            "to_node_id": "resp73",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e170",
+            "from_node_id": "resp68",
+            "to_node_id": "resp73",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e171",
+            "from_node_id": "resp72",
+            "to_node_id": "resp73",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e172",
+            "from_node_id": "resp61",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e173",
+            "from_node_id": "resp62",
+            "to_node_id": "resp74",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e174",
+            "from_node_id": "resp63",
+            "to_node_id": "resp74",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e175",
+            "from_node_id": "resp67",
+            "to_node_id": "resp75",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e176",
+            "from_node_id": "resp68",
+            "to_node_id": "resp75",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e177",
+            "from_node_id": "resp70",
+            "to_node_id": "resp76",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e178",
+            "from_node_id": "resp71",
+            "to_node_id": "resp76",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e179",
+            "from_node_id": "resp72",
+            "to_node_id": "resp76",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e180",
+            "from_node_id": "resp49",
+            "to_node_id": "resp77",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e181",
+            "from_node_id": "resp68",
+            "to_node_id": "resp78",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e182",
+            "from_node_id": "resp72",
+            "to_node_id": "resp78",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e183",
+            "from_node_id": "resp73",
+            "to_node_id": "resp78",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e184",
+            "from_node_id": "resp74",
+            "to_node_id": "resp79",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e185",
+            "from_node_id": "resp78",
+            "to_node_id": "resp79",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e186",
+            "from_node_id": "resp75",
+            "to_node_id": "resp80",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e187",
+            "from_node_id": "resp78",
+            "to_node_id": "resp80",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e188",
+            "from_node_id": "resp76",
+            "to_node_id": "resp81",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e189",
+            "from_node_id": "resp78",
+            "to_node_id": "resp81",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e190",
+            "from_node_id": "resp77",
+            "to_node_id": "resp82",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e191",
+            "from_node_id": "resp78",
+            "to_node_id": "resp82",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e192",
+            "from_node_id": "resp79",
+            "to_node_id": "resp82",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e193",
+            "from_node_id": "resp80",
+            "to_node_id": "resp82",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e194",
+            "from_node_id": "resp81",
+            "to_node_id": "resp82",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e195",
+            "from_node_id": "resp79",
+            "to_node_id": "resp83",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e196",
+            "from_node_id": "resp80",
+            "to_node_id": "resp83",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e197",
+            "from_node_id": "resp81",
+            "to_node_id": "resp83",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e198",
+            "from_node_id": "resp82",
+            "to_node_id": "resp83",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e199",
+            "from_node_id": "resp82",
+            "to_node_id": "resp84",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e200",
+            "from_node_id": "resp83",
+            "to_node_id": "resp84",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e201",
+            "from_node_id": "resp83",
+            "to_node_id": "resp85",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e202",
+            "from_node_id": "resp84",
+            "to_node_id": "resp85",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e203",
+            "from_node_id": "resp84",
+            "to_node_id": "resp86",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e204",
+            "from_node_id": "resp84",
+            "to_node_id": "resp87",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e205",
+            "from_node_id": "resp85",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e206",
+            "from_node_id": "resp86",
+            "to_node_id": "resp87",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e207",
+            "from_node_id": "resp84",
+            "to_node_id": "resp88",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e208",
+            "from_node_id": "resp85",
+            "to_node_id": "resp88",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e209",
+            "from_node_id": "resp86",
+            "to_node_id": "resp88",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e210",
+            "from_node_id": "resp87",
+            "to_node_id": "resp88",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e211",
+            "from_node_id": "resp82",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e212",
+            "from_node_id": "resp83",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e213",
+            "from_node_id": "resp84",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e214",
+            "from_node_id": "resp85",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e215",
+            "from_node_id": "resp86",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e216",
+            "from_node_id": "resp87",
+            "to_node_id": "resp89",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e217",
+            "from_node_id": "resp88",
+            "to_node_id": "resp89",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e218",
+            "from_node_id": "resp82",
+            "to_node_id": "resp90",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e219",
+            "from_node_id": "resp84",
+            "to_node_id": "resp90",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e220",
+            "from_node_id": "resp89",
+            "to_node_id": "resp91",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e221",
+            "from_node_id": "resp90",
+            "to_node_id": "resp91",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e222",
+            "from_node_id": "resp88",
+            "to_node_id": "resp92",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e223",
+            "from_node_id": "resp89",
+            "to_node_id": "resp92",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e224",
+            "from_node_id": "resp91",
+            "to_node_id": "resp92",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e225",
+            "from_node_id": "resp89",
+            "to_node_id": "resp93",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e226",
+            "from_node_id": "resp91",
+            "to_node_id": "resp93",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e227",
+            "from_node_id": "resp92",
+            "to_node_id": "resp93",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e228",
+            "from_node_id": "resp90",
+            "to_node_id": "resp94",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e229",
+            "from_node_id": "resp91",
+            "to_node_id": "resp94",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e230",
+            "from_node_id": "resp92",
+            "to_node_id": "resp94",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e231",
+            "from_node_id": "resp93",
+            "to_node_id": "resp94",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e232",
+            "from_node_id": "resp92",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e233",
+            "from_node_id": "resp93",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e234",
+            "from_node_id": "resp94",
+            "to_node_id": "resp95",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e235",
+            "from_node_id": "resp95",
+            "to_node_id": "resp96",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e236",
+            "from_node_id": "resp40",
+            "to_node_id": "resp97",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e237",
+            "from_node_id": "resp96",
+            "to_node_id": "resp97",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e238",
+            "from_node_id": "resp96",
+            "to_node_id": "resp98",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e239",
+            "from_node_id": "resp97",
+            "to_node_id": "resp98",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e240",
+            "from_node_id": "resp96",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e241",
+            "from_node_id": "resp97",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e242",
+            "from_node_id": "resp98",
+            "to_node_id": "resp99",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e243",
+            "from_node_id": "resp97",
+            "to_node_id": "resp100",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e244",
+            "from_node_id": "resp98",
+            "to_node_id": "resp100",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e245",
+            "from_node_id": "resp99",
+            "to_node_id": "resp100",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e246",
+            "from_node_id": "resp98",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e247",
+            "from_node_id": "resp99",
+            "to_node_id": "resp101",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e248",
+            "from_node_id": "resp100",
+            "to_node_id": "resp101",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e249",
+            "from_node_id": "resp97",
+            "to_node_id": "resp102",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e250",
+            "from_node_id": "resp98",
+            "to_node_id": "resp102",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e251",
+            "from_node_id": "resp99",
+            "to_node_id": "resp102",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e252",
+            "from_node_id": "resp100",
+            "to_node_id": "resp102",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e253",
+            "from_node_id": "resp101",
+            "to_node_id": "resp102",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e254",
+            "from_node_id": "resp96",
+            "to_node_id": "resp103",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e255",
+            "from_node_id": "resp97",
+            "to_node_id": "resp103",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e256",
+            "from_node_id": "resp98",
+            "to_node_id": "resp103",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e257",
+            "from_node_id": "resp99",
+            "to_node_id": "resp103",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e258",
+            "from_node_id": "resp79",
+            "to_node_id": "resp104",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e259",
+            "from_node_id": "resp103",
+            "to_node_id": "resp104",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e260",
+            "from_node_id": "resp104",
+            "to_node_id": "resp105",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e261",
+            "from_node_id": "resp104",
+            "to_node_id": "resp106",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e262",
+            "from_node_id": "resp105",
+            "to_node_id": "resp106",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e263",
+            "from_node_id": "resp104",
+            "to_node_id": "resp107",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e264",
+            "from_node_id": "resp105",
+            "to_node_id": "resp107",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e265",
+            "from_node_id": "resp106",
+            "to_node_id": "resp107",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e266",
+            "from_node_id": "resp75",
+            "to_node_id": "resp108",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e267",
+            "from_node_id": "resp103",
+            "to_node_id": "resp108",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e268",
+            "from_node_id": "resp80",
+            "to_node_id": "resp109",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e269",
+            "from_node_id": "resp108",
+            "to_node_id": "resp109",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e270",
+            "from_node_id": "resp109",
+            "to_node_id": "resp110",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e271",
+            "from_node_id": "resp109",
+            "to_node_id": "resp111",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e272",
+            "from_node_id": "resp110",
+            "to_node_id": "resp111",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e273",
+            "from_node_id": "resp76",
+            "to_node_id": "resp112",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e274",
+            "from_node_id": "resp81",
+            "to_node_id": "resp112",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e275",
+            "from_node_id": "resp112",
+            "to_node_id": "resp113",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e276",
+            "from_node_id": "resp113",
+            "to_node_id": "resp114",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e277",
+            "from_node_id": "resp113",
+            "to_node_id": "resp115",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e278",
+            "from_node_id": "resp114",
+            "to_node_id": "resp115",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e279",
+            "from_node_id": "resp109",
+            "to_node_id": "resp116",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e280",
+            "from_node_id": "resp110",
+            "to_node_id": "resp116",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e281",
+            "from_node_id": "resp111",
+            "to_node_id": "resp116",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e282",
+            "from_node_id": "resp111",
+            "to_node_id": "resp117",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e283",
+            "from_node_id": "resp116",
+            "to_node_id": "resp117",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e284",
+            "from_node_id": "resp117",
+            "to_node_id": "resp118",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e285",
+            "from_node_id": "resp117",
+            "to_node_id": "resp119",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e286",
+            "from_node_id": "resp118",
+            "to_node_id": "resp119",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e287",
+            "from_node_id": "resp117",
+            "to_node_id": "resp120",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e288",
+            "from_node_id": "resp119",
+            "to_node_id": "resp120",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e289",
+            "from_node_id": "resp103",
+            "to_node_id": "resp121",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e290",
+            "from_node_id": "resp107",
+            "to_node_id": "resp121",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e291",
+            "from_node_id": "resp111",
+            "to_node_id": "resp121",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e292",
+            "from_node_id": "resp115",
+            "to_node_id": "resp121",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e293",
+            "from_node_id": "resp120",
+            "to_node_id": "resp121",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e294",
+            "from_node_id": "resp117",
+            "to_node_id": "resp122",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e295",
+            "from_node_id": "resp120",
+            "to_node_id": "resp122",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e296",
+            "from_node_id": "resp122",
+            "to_node_id": "resp123",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e297",
+            "from_node_id": "resp122",
+            "to_node_id": "resp124",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e298",
+            "from_node_id": "resp123",
+            "to_node_id": "resp124",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e299",
+            "from_node_id": "resp123",
+            "to_node_id": "resp125",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e300",
+            "from_node_id": "resp124",
+            "to_node_id": "resp125",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e301",
+            "from_node_id": "resp123",
+            "to_node_id": "resp126",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e302",
+            "from_node_id": "resp124",
+            "to_node_id": "resp126",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e303",
+            "from_node_id": "resp125",
+            "to_node_id": "resp126",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e304",
+            "from_node_id": "resp120",
+            "to_node_id": "resp127",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e305",
+            "from_node_id": "resp121",
+            "to_node_id": "resp127",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e306",
+            "from_node_id": "resp121",
+            "to_node_id": "resp128",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e307",
+            "from_node_id": "resp127",
+            "to_node_id": "resp128",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e308",
+            "from_node_id": "resp128",
+            "to_node_id": "resp129",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e309",
+            "from_node_id": "resp127",
+            "to_node_id": "resp130",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e310",
+            "from_node_id": "resp128",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e311",
+            "from_node_id": "resp129",
+            "to_node_id": "resp130",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e312",
+            "from_node_id": "resp117",
+            "to_node_id": "resp131",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e313",
+            "from_node_id": "resp118",
+            "to_node_id": "resp131",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e314",
+            "from_node_id": "resp117",
+            "to_node_id": "resp132",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e315",
+            "from_node_id": "resp121",
+            "to_node_id": "resp132",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e316",
+            "from_node_id": "resp131",
+            "to_node_id": "resp132",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e317",
+            "from_node_id": "resp132",
+            "to_node_id": "resp133",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e318",
+            "from_node_id": "resp131",
+            "to_node_id": "resp134",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e319",
+            "from_node_id": "resp132",
+            "to_node_id": "resp134",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e320",
+            "from_node_id": "resp133",
+            "to_node_id": "resp134",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e321",
+            "from_node_id": "resp120",
+            "to_node_id": "resp135",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e322",
+            "from_node_id": "resp131",
+            "to_node_id": "resp135",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e323",
+            "from_node_id": "resp121",
+            "to_node_id": "resp136",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e324",
+            "from_node_id": "resp135",
+            "to_node_id": "resp136",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e325",
+            "from_node_id": "resp135",
+            "to_node_id": "resp137",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e326",
+            "from_node_id": "resp136",
+            "to_node_id": "resp137",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e327",
+            "from_node_id": "resp133",
+            "to_node_id": "resp138",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e328",
+            "from_node_id": "resp121",
+            "to_node_id": "resp139",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e329",
+            "from_node_id": "resp126",
+            "to_node_id": "resp139",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e330",
+            "from_node_id": "resp130",
+            "to_node_id": "resp139",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e331",
+            "from_node_id": "resp134",
+            "to_node_id": "resp139",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e332",
+            "from_node_id": "resp138",
+            "to_node_id": "resp139",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e333",
+            "from_node_id": "resp111",
+            "to_node_id": "resp140",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e334",
+            "from_node_id": "resp116",
+            "to_node_id": "resp140",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e335",
+            "from_node_id": "resp75",
+            "to_node_id": "resp141",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e336",
+            "from_node_id": "resp110",
+            "to_node_id": "resp141",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e337",
+            "from_node_id": "resp111",
+            "to_node_id": "resp141",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e338",
+            "from_node_id": "resp116",
+            "to_node_id": "resp141",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e339",
+            "from_node_id": "resp111",
+            "to_node_id": "resp142",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e340",
+            "from_node_id": "resp117",
+            "to_node_id": "resp142",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e341",
+            "from_node_id": "resp111",
+            "to_node_id": "resp143",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e342",
+            "from_node_id": "resp141",
+            "to_node_id": "resp143",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e343",
+            "from_node_id": "resp142",
+            "to_node_id": "resp143",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e344",
+            "from_node_id": "resp142",
+            "to_node_id": "resp144",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e345",
+            "from_node_id": "resp142",
+            "to_node_id": "resp145",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e346",
+            "from_node_id": "resp144",
+            "to_node_id": "resp145",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e347",
+            "from_node_id": "resp145",
+            "to_node_id": "resp146",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e348",
+            "from_node_id": "resp142",
+            "to_node_id": "resp147",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e349",
+            "from_node_id": "resp143",
+            "to_node_id": "resp147",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e350",
+            "from_node_id": "resp143",
+            "to_node_id": "resp148",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e351",
+            "from_node_id": "resp147",
+            "to_node_id": "resp148",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e352",
+            "from_node_id": "resp147",
+            "to_node_id": "resp149",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e353",
+            "from_node_id": "resp148",
+            "to_node_id": "resp149",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e354",
+            "from_node_id": "resp149",
+            "to_node_id": "resp150",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e355",
+            "from_node_id": "resp131",
+            "to_node_id": "resp151",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e356",
+            "from_node_id": "resp140",
+            "to_node_id": "resp152",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e357",
+            "from_node_id": "resp143",
+            "to_node_id": "resp152",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e358",
+            "from_node_id": "resp151",
+            "to_node_id": "resp152",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e359",
+            "from_node_id": "resp131",
+            "to_node_id": "resp153",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e360",
+            "from_node_id": "resp152",
+            "to_node_id": "resp154",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e361",
+            "from_node_id": "resp153",
+            "to_node_id": "resp154",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e362",
+            "from_node_id": "resp132",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e363",
+            "from_node_id": "resp153",
+            "to_node_id": "resp155",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e364",
+            "from_node_id": "resp146",
+            "to_node_id": "resp156",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e365",
+            "from_node_id": "resp150",
+            "to_node_id": "resp156",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e366",
+            "from_node_id": "resp155",
+            "to_node_id": "resp156",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e367",
+            "from_node_id": "resp142",
+            "to_node_id": "resp157",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e368",
+            "from_node_id": "resp143",
+            "to_node_id": "resp158",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e369",
+            "from_node_id": "resp157",
+            "to_node_id": "resp158",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e370",
+            "from_node_id": "resp157",
+            "to_node_id": "resp159",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e371",
+            "from_node_id": "resp158",
+            "to_node_id": "resp159",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e372",
+            "from_node_id": "resp157",
+            "to_node_id": "resp160",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e373",
+            "from_node_id": "resp158",
+            "to_node_id": "resp160",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e374",
+            "from_node_id": "resp159",
+            "to_node_id": "resp160",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e375",
+            "from_node_id": "resp141",
+            "to_node_id": "resp161",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e376",
+            "from_node_id": "resp142",
+            "to_node_id": "resp161",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e377",
+            "from_node_id": "resp143",
+            "to_node_id": "resp161",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e378",
+            "from_node_id": "resp160",
+            "to_node_id": "resp161",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e379",
+            "from_node_id": "resp111",
+            "to_node_id": "resp162",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e380",
+            "from_node_id": "resp121",
+            "to_node_id": "resp162",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e381",
+            "from_node_id": "resp139",
+            "to_node_id": "resp162",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e382",
+            "from_node_id": "resp141",
+            "to_node_id": "resp162",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e383",
+            "from_node_id": "resp143",
+            "to_node_id": "resp162",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e384",
+            "from_node_id": "resp161",
+            "to_node_id": "resp162",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e385",
+            "from_node_id": "resp117",
+            "to_node_id": "resp163",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e386",
+            "from_node_id": "resp139",
+            "to_node_id": "resp163",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e387",
+            "from_node_id": "resp161",
+            "to_node_id": "resp163",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e388",
+            "from_node_id": "resp162",
+            "to_node_id": "resp163",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e389",
+            "from_node_id": "resp121",
+            "to_node_id": "resp164",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e390",
+            "from_node_id": "resp143",
+            "to_node_id": "resp164",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e391",
+            "from_node_id": "resp163",
+            "to_node_id": "resp164",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e392",
+            "from_node_id": "resp97",
+            "to_node_id": "resp165",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e393",
+            "from_node_id": "resp98",
+            "to_node_id": "resp165",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e394",
+            "from_node_id": "resp99",
+            "to_node_id": "resp165",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e395",
+            "from_node_id": "resp100",
+            "to_node_id": "resp165",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e396",
+            "from_node_id": "resp101",
+            "to_node_id": "resp165",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e397",
+            "from_node_id": "resp96",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e398",
+            "from_node_id": "resp97",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e399",
+            "from_node_id": "resp98",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e400",
+            "from_node_id": "resp99",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e401",
+            "from_node_id": "resp100",
+            "to_node_id": "resp166",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e402",
+            "from_node_id": "resp101",
+            "to_node_id": "resp166",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e403",
+            "from_node_id": "resp102",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e404",
+            "from_node_id": "resp103",
+            "to_node_id": "resp166",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e405",
+            "from_node_id": "resp96",
+            "to_node_id": "resp167",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e406",
+            "from_node_id": "resp99",
+            "to_node_id": "resp167",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e407",
+            "from_node_id": "resp166",
+            "to_node_id": "resp167",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e408",
+            "from_node_id": "resp99",
+            "to_node_id": "resp168",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e409",
+            "from_node_id": "resp111",
+            "to_node_id": "resp168",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e410",
+            "from_node_id": "resp115",
+            "to_node_id": "resp168",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e411",
+            "from_node_id": "resp164",
+            "to_node_id": "resp168",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e412",
+            "from_node_id": "resp167",
+            "to_node_id": "resp168",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e413",
+            "from_node_id": "resp165",
+            "to_node_id": "resp169",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e414",
+            "from_node_id": "resp166",
+            "to_node_id": "resp169",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e415",
+            "from_node_id": "resp168",
+            "to_node_id": "resp169",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e416",
+            "from_node_id": "resp163",
+            "to_node_id": "resp170",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e417",
+            "from_node_id": "resp165",
+            "to_node_id": "resp170",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e418",
+            "from_node_id": "resp111",
+            "to_node_id": "resp171",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e419",
+            "from_node_id": "resp143",
+            "to_node_id": "resp171",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e420",
+            "from_node_id": "resp163",
+            "to_node_id": "resp171",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e421",
+            "from_node_id": "resp164",
+            "to_node_id": "resp171",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e422",
+            "from_node_id": "resp163",
+            "to_node_id": "resp172",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e423",
+            "from_node_id": "resp164",
+            "to_node_id": "resp172",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e424",
+            "from_node_id": "resp171",
+            "to_node_id": "resp172",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e425",
+            "from_node_id": "resp169",
+            "to_node_id": "resp173",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e426",
+            "from_node_id": "resp170",
+            "to_node_id": "resp173",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e427",
+            "from_node_id": "resp103",
+            "to_node_id": "resp174",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e428",
+            "from_node_id": "resp107",
+            "to_node_id": "resp174",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e429",
+            "from_node_id": "resp111",
+            "to_node_id": "resp174",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e430",
+            "from_node_id": "resp115",
+            "to_node_id": "resp174",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e431",
+            "from_node_id": "resp121",
+            "to_node_id": "resp175",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e432",
+            "from_node_id": "resp168",
+            "to_node_id": "resp175",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e433",
+            "from_node_id": "resp174",
+            "to_node_id": "resp175",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e434",
+            "from_node_id": "resp165",
+            "to_node_id": "resp176",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e435",
+            "from_node_id": "resp170",
+            "to_node_id": "resp176",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e436",
+            "from_node_id": "resp173",
+            "to_node_id": "resp176",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e437",
+            "from_node_id": "resp170",
+            "to_node_id": "resp177",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e438",
+            "from_node_id": "resp176",
+            "to_node_id": "resp177",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e439",
+            "from_node_id": "resp79",
+            "to_node_id": "resp178",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e440",
+            "from_node_id": "resp105",
+            "to_node_id": "resp178",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e441",
+            "from_node_id": "resp106",
+            "to_node_id": "resp178",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e442",
+            "from_node_id": "resp105",
+            "to_node_id": "resp179",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e443",
+            "from_node_id": "resp107",
+            "to_node_id": "resp179",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e444",
+            "from_node_id": "resp178",
+            "to_node_id": "resp179",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e445",
+            "from_node_id": "resp110",
+            "to_node_id": "resp180",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e446",
+            "from_node_id": "resp111",
+            "to_node_id": "resp180",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e447",
+            "from_node_id": "resp162",
+            "to_node_id": "resp180",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e448",
+            "from_node_id": "resp171",
+            "to_node_id": "resp180",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e449",
+            "from_node_id": "resp110",
+            "to_node_id": "resp181",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e450",
+            "from_node_id": "resp111",
+            "to_node_id": "resp181",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e451",
+            "from_node_id": "resp180",
+            "to_node_id": "resp181",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e452",
+            "from_node_id": "resp113",
+            "to_node_id": "resp182",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e453",
+            "from_node_id": "resp114",
+            "to_node_id": "resp182",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e454",
+            "from_node_id": "resp115",
+            "to_node_id": "resp182",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e455",
+            "from_node_id": "resp164",
+            "to_node_id": "resp183",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e456",
+            "from_node_id": "resp171",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e457",
+            "from_node_id": "resp172",
+            "to_node_id": "resp183",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e458",
+            "from_node_id": "resp179",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e459",
+            "from_node_id": "resp181",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e460",
+            "from_node_id": "resp182",
+            "to_node_id": "resp183",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e461",
+            "from_node_id": "resp176",
+            "to_node_id": "resp184",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e462",
+            "from_node_id": "resp177",
+            "to_node_id": "resp184",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e463",
+            "from_node_id": "resp107",
+            "to_node_id": "resp185",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e464",
+            "from_node_id": "resp111",
+            "to_node_id": "resp185",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e465",
+            "from_node_id": "resp115",
+            "to_node_id": "resp185",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e466",
+            "from_node_id": "resp175",
+            "to_node_id": "resp186",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e467",
+            "from_node_id": "resp183",
+            "to_node_id": "resp186",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e468",
+            "from_node_id": "resp113",
+            "to_node_id": "resp187",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e469",
+            "from_node_id": "resp114",
+            "to_node_id": "resp187",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e470",
+            "from_node_id": "resp182",
+            "to_node_id": "resp187",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e471",
+            "from_node_id": "resp113",
+            "to_node_id": "resp188",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e472",
+            "from_node_id": "resp182",
+            "to_node_id": "resp188",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e473",
+            "from_node_id": "resp187",
+            "to_node_id": "resp188",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e474",
+            "from_node_id": "resp180",
+            "to_node_id": "resp189",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e475",
+            "from_node_id": "resp181",
+            "to_node_id": "resp189",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e476",
+            "from_node_id": "resp107",
+            "to_node_id": "resp190",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e477",
+            "from_node_id": "resp178",
+            "to_node_id": "resp190",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e478",
+            "from_node_id": "resp179",
+            "to_node_id": "resp190",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e479",
+            "from_node_id": "resp164",
+            "to_node_id": "resp191",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e480",
+            "from_node_id": "resp172",
+            "to_node_id": "resp191",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e481",
+            "from_node_id": "resp183",
+            "to_node_id": "resp191",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e482",
+            "from_node_id": "resp188",
+            "to_node_id": "resp191",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e483",
+            "from_node_id": "resp189",
+            "to_node_id": "resp191",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e484",
+            "from_node_id": "resp190",
+            "to_node_id": "resp191",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e485",
+            "from_node_id": "resp165",
+            "to_node_id": "resp192",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e486",
+            "from_node_id": "resp170",
+            "to_node_id": "resp192",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e487",
+            "from_node_id": "resp176",
+            "to_node_id": "resp192",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e488",
+            "from_node_id": "resp96",
+            "to_node_id": "resp193",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e489",
+            "from_node_id": "resp166",
+            "to_node_id": "resp193",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e490",
+            "from_node_id": "resp96",
+            "to_node_id": "resp194",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e491",
+            "from_node_id": "resp97",
+            "to_node_id": "resp194",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e492",
+            "from_node_id": "resp98",
+            "to_node_id": "resp194",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e493",
+            "from_node_id": "resp193",
+            "to_node_id": "resp194",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e494",
+            "from_node_id": "resp97",
+            "to_node_id": "resp195",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e495",
+            "from_node_id": "resp98",
+            "to_node_id": "resp195",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e496",
+            "from_node_id": "resp102",
+            "to_node_id": "resp195",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e497",
+            "from_node_id": "resp193",
+            "to_node_id": "resp195",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e498",
+            "from_node_id": "resp194",
+            "to_node_id": "resp195",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e499",
+            "from_node_id": "resp96",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e500",
+            "from_node_id": "resp97",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e501",
+            "from_node_id": "resp98",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e502",
+            "from_node_id": "resp99",
+            "to_node_id": "resp196",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e503",
+            "from_node_id": "resp101",
+            "to_node_id": "resp196",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e504",
+            "from_node_id": "resp102",
+            "to_node_id": "resp196",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e505",
+            "from_node_id": "resp168",
+            "to_node_id": "resp197",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e506",
+            "from_node_id": "resp172",
+            "to_node_id": "resp197",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e507",
+            "from_node_id": "resp183",
+            "to_node_id": "resp197",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e508",
+            "from_node_id": "resp191",
+            "to_node_id": "resp197",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e509",
+            "from_node_id": "resp175",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e510",
+            "from_node_id": "resp197",
+            "to_node_id": "resp198",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e511",
+            "from_node_id": "resp198",
+            "to_node_id": "resp199",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e512",
+            "from_node_id": "resp198",
+            "to_node_id": "resp200",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e513",
+            "from_node_id": "resp199",
+            "to_node_id": "resp200",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e514",
+            "from_node_id": "resp168",
+            "to_node_id": "resp201",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e515",
+            "from_node_id": "resp172",
+            "to_node_id": "resp201",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e516",
+            "from_node_id": "resp183",
+            "to_node_id": "resp201",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e517",
+            "from_node_id": "resp191",
+            "to_node_id": "resp201",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e518",
+            "from_node_id": "resp197",
+            "to_node_id": "resp201",
+            "label": "plan:frontier-verify"
+        },
+        {
+            "id": "e519",
+            "from_node_id": "resp170",
+            "to_node_id": "resp202",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e520",
+            "from_node_id": "resp173",
+            "to_node_id": "resp202",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e521",
+            "from_node_id": "resp176",
+            "to_node_id": "resp202",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e522",
+            "from_node_id": "resp201",
+            "to_node_id": "resp202",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e523",
+            "from_node_id": "resp174",
+            "to_node_id": "resp203",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e524",
+            "from_node_id": "resp185",
+            "to_node_id": "resp203",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e525",
+            "from_node_id": "resp6",
+            "to_node_id": "resp204",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e526",
+            "from_node_id": "resp30",
+            "to_node_id": "resp204",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e527",
+            "from_node_id": "resp122",
+            "to_node_id": "resp205",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e528",
+            "from_node_id": "resp123",
+            "to_node_id": "resp205",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e529",
+            "from_node_id": "resp124",
+            "to_node_id": "resp205",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e530",
+            "from_node_id": "resp125",
+            "to_node_id": "resp205",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e531",
+            "from_node_id": "resp127",
+            "to_node_id": "resp206",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e532",
+            "from_node_id": "resp128",
+            "to_node_id": "resp206",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e533",
+            "from_node_id": "resp203",
+            "to_node_id": "resp206",
+            "label": "reason:fact-detail"
+        },
+        {
+            "id": "e534",
+            "from_node_id": "resp204",
+            "to_node_id": "resp206",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e535",
+            "from_node_id": "resp131",
+            "to_node_id": "resp207",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e536",
+            "from_node_id": "resp132",
+            "to_node_id": "resp207",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e537",
+            "from_node_id": "resp133",
+            "to_node_id": "resp207",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e538",
+            "from_node_id": "resp153",
+            "to_node_id": "resp207",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e539",
+            "from_node_id": "resp155",
+            "to_node_id": "resp207",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e540",
+            "from_node_id": "resp135",
+            "to_node_id": "resp208",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e541",
+            "from_node_id": "resp136",
+            "to_node_id": "resp208",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e542",
+            "from_node_id": "resp137",
+            "to_node_id": "resp208",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e543",
+            "from_node_id": "resp139",
+            "to_node_id": "resp208",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e544",
+            "from_node_id": "resp203",
+            "to_node_id": "resp208",
+            "label": "reason:concept-example"
+        },
+        {
+            "id": "e545",
+            "from_node_id": "resp204",
+            "to_node_id": "resp208",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e546",
+            "from_node_id": "resp205",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e547",
+            "from_node_id": "resp206",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e548",
+            "from_node_id": "resp207",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e549",
+            "from_node_id": "resp208",
+            "to_node_id": "resp209",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e550",
+            "from_node_id": "resp121",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e551",
+            "from_node_id": "resp126",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e552",
+            "from_node_id": "resp130",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e553",
+            "from_node_id": "resp134",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e554",
+            "from_node_id": "resp138",
+            "to_node_id": "resp210",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e555",
+            "from_node_id": "resp139",
+            "to_node_id": "resp210",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e556",
+            "from_node_id": "resp176",
+            "to_node_id": "resp211",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e557",
+            "from_node_id": "resp192",
+            "to_node_id": "resp211",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e558",
+            "from_node_id": "resp201",
+            "to_node_id": "resp211",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e559",
+            "from_node_id": "resp201",
+            "to_node_id": "resp212",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e560",
+            "from_node_id": "resp211",
+            "to_node_id": "resp212",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e561",
+            "from_node_id": "resp211",
+            "to_node_id": "resp213",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e562",
+            "from_node_id": "resp212",
+            "to_node_id": "resp213",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e563",
+            "from_node_id": "resp211",
+            "to_node_id": "resp214",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e564",
+            "from_node_id": "resp212",
+            "to_node_id": "resp214",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e565",
+            "from_node_id": "resp213",
+            "to_node_id": "resp214",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e566",
+            "from_node_id": "resp214",
+            "to_node_id": "resp215",
+            "label": "plan:plan-subplan"
+        },
+        {
+            "id": "e567",
+            "from_node_id": "resp214",
+            "to_node_id": "resp216",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e568",
+            "from_node_id": "resp215",
+            "to_node_id": "resp216",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e569",
+            "from_node_id": "resp211",
+            "to_node_id": "resp217",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e570",
+            "from_node_id": "resp213",
+            "to_node_id": "resp217",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e571",
+            "from_node_id": "resp216",
+            "to_node_id": "resp217",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e572",
+            "from_node_id": "resp213",
+            "to_node_id": "resp218",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e573",
+            "from_node_id": "resp214",
+            "to_node_id": "resp218",
+            "label": "reason:plan-step"
+        },
+        {
+            "id": "e574",
+            "from_node_id": "resp217",
+            "to_node_id": "resp218",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e575",
+            "from_node_id": "resp211",
+            "to_node_id": "resp219",
+            "label": "plan:plan-alternative"
+        },
+        {
+            "id": "e576",
+            "from_node_id": "resp213",
+            "to_node_id": "resp219",
+            "label": "plan:plan-nextplan"
+        },
+        {
+            "id": "e577",
+            "from_node_id": "resp211",
+            "to_node_id": "resp220",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e578",
+            "from_node_id": "resp212",
+            "to_node_id": "resp220",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e579",
+            "from_node_id": "resp219",
+            "to_node_id": "resp220",
+            "label": "evaluate:uncertainty"
+        },
+        {
+            "id": "e580",
+            "from_node_id": "resp18",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e581",
+            "from_node_id": "resp220",
+            "to_node_id": "resp221",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e582",
+            "from_node_id": "resp164",
+            "to_node_id": "resp222",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e583",
+            "from_node_id": "resp172",
+            "to_node_id": "resp222",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e584",
+            "from_node_id": "resp183",
+            "to_node_id": "resp222",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e585",
+            "from_node_id": "resp191",
+            "to_node_id": "resp222",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e586",
+            "from_node_id": "resp197",
+            "to_node_id": "resp222",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e587",
+            "from_node_id": "resp167",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e588",
+            "from_node_id": "resp180",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e589",
+            "from_node_id": "resp188",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e590",
+            "from_node_id": "resp189",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e591",
+            "from_node_id": "resp190",
+            "to_node_id": "resp223",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e592",
+            "from_node_id": "resp191",
+            "to_node_id": "resp223",
+            "label": "evaluate:support"
+        },
+        {
+            "id": "e593",
+            "from_node_id": "resp198",
+            "to_node_id": "resp224",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e594",
+            "from_node_id": "resp199",
+            "to_node_id": "resp224",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e595",
+            "from_node_id": "resp200",
+            "to_node_id": "resp224",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e596",
+            "from_node_id": "resp224",
+            "to_node_id": "resp225",
+            "label": "plan:frontier-plan"
+        },
+        {
+            "id": "e597",
+            "from_node_id": "resp200",
+            "to_node_id": "resp226",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e598",
+            "from_node_id": "resp223",
+            "to_node_id": "resp226",
+            "label": "reason:premise-conclusion"
+        },
+        {
+            "id": "e599",
+            "from_node_id": "resp224",
+            "to_node_id": "resp226",
+            "label": "reason:stmt-restatement"
+        },
+        {
+            "id": "e600",
+            "from_node_id": "resp225",
+            "to_node_id": "resp226",
+            "label": "reason:plan-step"
+        }
+    ]
+}
