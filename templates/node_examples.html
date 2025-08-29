@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAG Text Segment Annotator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; }
+        .container { display: flex; border: 1px solid #ccc; }
+        .navigator { width: 200px; border-right: 1px solid #ccc; padding: 10px; }
+        .editor { flex: 1; padding: 10px; }
+        .header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .node-item { margin-bottom: 5px; padding: 5px; border: 1px solid #ddd; display: flex; }
+        .node-details { width: 50%; padding-right: 10px; }
+        .edges-container { width: 50%; padding-left: 10px; border-left: 1px solid #eee; }
+        .edge-item { margin-bottom: 5px; border-bottom: 1px dotted #ccc; padding-bottom: 5px; }
+        .btn { padding: 2px 2px; cursor: pointer; }
+        select, input { margin: 2px 0; padding: 0px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigator">
+            <h3>Document List</h3>
+            <div id="file-list"></div>
+        </div>
+        <div class="editor">
+            <div class="header">
+                <h2>DAG Annotator</h2>
+                <div>
+                    <button id="graph-btn" class="btn">Show Graph</button>
+                    <button id="save-btn" class="btn">Save</button>
+                </div>
+            </div>
+            <div id="doc-content">
+                <p>No document selected. Please choose a document from the list.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let nodeId = null;
+        let nodeLabels = null; // Example labels
+        let edgeLabels = null; // Example edge labels
+        let nodeColors = null;
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update nodeLabels and edgeLabels dynamically
+            fetch('/get_labels')
+                .then(response => response.json())
+                .then(data => {
+                    nodeLabels = data.node_labels;
+                    edgeLabels = data.edge_labels;
+                    nodeColors = data.node_colors
+                })
+                .catch(error => console.error('Error fetching labels:', error));
+                
+            // Get doc_id from URL and fetch data from backend
+            const params = new URLSearchParams(window.location.search);
+            nodeId = params.get('node_id');
+            console.log('nodeId:', nodeId);
+            if (nodeId) {
+                loadNodeList(nodeId);
+            }
+        });
+
+        // Load node list
+        function loadNodeList(nodeId) {
+            fetch(`/load_node_examples?node_id=${nodeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    currentDoc = data;
+                    renderList(data);
+                })
+                .catch(error => console.error('Error loading document:', error));
+        }
+
+        // Render document content
+        function renderList(data) {
+            const contentElement = document.getElementById('doc-content');
+            contentElement.innerHTML = '';
+
+            // Add document ID and raw text
+            const docIdElement = document.createElement('h3');
+            docIdElement.textContent = `Node ID: ${nodeId}`;
+            contentElement.appendChild(docIdElement);
+
+            // Render nodes section
+            const nodesSection = document.createElement('div');
+            nodesSection.innerHTML = '<h3>Nodes</h3>';
+            contentElement.appendChild(nodesSection);
+
+            // Render each node
+            data.forEach((node, nodeIndex) => {
+                const nodeElement = document.createElement('div');
+                nodeElement.className = 'node-item';
+                nodeElement.style.backgroundColor = nodeColors[nodeId];
+                
+                // Create node details column (left side)
+                const nodeDetailsElement = document.createElement('div');
+                nodeDetailsElement.className = 'node-details';
+                
+                const nodeText = document.createElement('div');
+                nodeText.textContent = `${node.id}: "${node.text}"`;
+                nodeDetailsElement.appendChild(nodeText);
+                
+                // Doc id
+                const labelContainer = document.createElement('div');
+                labelContainer.innerHTML = `<a href="/?doc_id=${node.doc_id}">${node.doc_id}</a>`;
+                
+                nodeDetailsElement.appendChild(labelContainer);
+                
+                // Add node details to the main node element
+                nodeElement.appendChild(nodeDetailsElement);
+                
+                // Add the complete node element to the nodes section
+                nodesSection.appendChild(nodeElement);
+            });
+        }
+    </script>
+</body>
+</html>
