@@ -14,7 +14,7 @@ We will soon add:
 - More data
 - Automatic parsers
 
-> Link to project page: https://bit.ly/reasoningflow
+> Link to project page: https://tinyurl.com/reasoningflow
 
 ## Web annotator / Visualizer
 
