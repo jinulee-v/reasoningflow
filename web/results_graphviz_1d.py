@@ -74,7 +74,7 @@ def draw_graph(data):
     return net
 
 # FILE = "data/math_0_QwQ-32B-Preview_long_correct.json"
-FILE = "data/math_14_QwQ-32B-Preview_long_correct.json"
+FILE = "data/math_29_QwQ-32B-Preview_long_correct.json"
 with open(FILE, 'r', encoding='utf-8') as f:
     data = json.load(f)
     net = draw_graph(data)  # Call the function to draw the graph
@@ -100,7 +100,9 @@ with open(FILE, 'r', encoding='utf-8') as f:
     )
     new_network.draw("graph_test.html")  # Save the graph to an HTML file
 
-    # graph = draw_graph(data)  # Call the function to draw the graph
+    # graph = draw
+    # 
+    # _graph(data)  # Call the function to draw the graph
     # graph = subgraph_premise_conclusion(graph)
     # graph.show("graph_entailment.html")
     
