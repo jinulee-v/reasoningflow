@@ -1,0 +1,699 @@
+edges:
+- name: reason:premise-conclusion
+  color: "#F0F0F0"
+  description: This edge represents the basic premise-conclusion relationship. To apply this edge, both nodes should be asserted facts/propositions.
+  from: [context, fact, reasoning, restatement, assumption, example, conclusion]
+  to: [reasoning, assumption, reflection, conclusion]
+  subtypes:
+  - type: (Deductive) Premises → Conclusion
+    description: This might also include commonsense-included deductive reasoning, where some premises are missing.
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: Sulferic acid is a strong acid,
+        edge_to: false
+      - type: reasoning
+        text: so it will fully dissociate, providing H+ ions.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: fact
+        text: I recall that the energy splitting due to the Zeeman effect is proportional to the magnetic field.
+        edge_to: false
+      - type: reasoning
+        text: So, if you increase the magnetic field, the splitting should increase as well.
+        edge_to: true
+  - type: (Math) Inputs and equations → Calculation results
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: r^2 h = 2r^3
+        edge_to: false
+      - type: reasoning
+        text: h = 2r
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: "Corrosion rate = (10 × 8.76 × 10³) / (2 × 96485 × 8960 × 7.1e-6)"
+        edge_to: false
+      - type: reasoning
+        text: "So, corrosion rate ≒ 87600 / 12264 ≒ 7.14 mm/year"
+        edge_to: true
+  - type: (Inductive) Observations → Inductive Hypothesis
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: example
+        text: 0^2=0, which is 4 * 0 + 0.
+        edge_to: false
+      - type: example
+        text: "..."
+        edge_to: false
+      - type: example
+        text: 7^2=49, which is 4 * 12 + 1.
+        edge_to: false
+      - type: reasoning
+        text: Hmm, it seems like all these perfect squares are either 4n+0 or 4n+1.
+        edge_to: true
+
+- name: reason:plan-step
+  color: "#E8E8E8"
+  description: This label represents the relationship between a plan and its implementation. This edge should connect the plan and the first nodes of parallel reasoning chains. A step might be logically correct, but might not be relevant to the current goal. This edge provides the contextual information regarding what the step is doing right now, i.e., coherence of the reasoning step.
+  from: [planning, assumption]
+  to: [fact, reasoning, restatement, assumption, example, conclusion]
+  subtypes:
+  - type: A plan and its implementation
+    description: "For connecting planning and example nodes, if the planning node contains details about what the example node is exemplifying, it should be annotated as reason:concept-example edge instead."
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: But wait, there's also spin to consider.
+        edge_to: false
+      - type: fact
+        text: Electrons have spin quantum number s=1/2, and the total angular momentum quantum number j is l + s or l - s.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: "Simplify \\sqrt{6176}:"
+        edge_to: false
+      - type: reasoning
+        text: "\\sqrt{6176} = \\sqrt{64 times 96.5} = 8\\sqrt{96.5}"
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: planning
+        text: Let me consider the boundary cases.
+        edge_to: false
+      - type: reasoning
+        text: If c = 9, then D = 0, meaning one real root, and the parabola just touches the x-axis.
+        edge_to: true
+    - id: 3
+      nodes:
+      - type: planning
+        text: "Let me consider some examples:"
+        edge_to: false
+      - type: example
+        text: "- 0^2 = 0, which is 4×0 + 1."
+        edge_to: true
+
+- name: reason:stmt-restatement
+  color: "#E0E0E0"
+  description: This edge connects the Restatement node to the previous node that is restated. When there are multiple statements that include the same content, make sure that this edge points to the original node that is the earliest in the reasoning trace. Even if the node is not directly copying the content, restating a few facts or high-level information of the context can be considered as restatement.
+  from: [context, fact, reasoning, assumption, conclusion]
+  to: [restatement]
+  subtypes:
+  - type: Restating contexts
+    description: 
+    examples:
+    - id: 0
+      nodes:
+      - type: context
+        text: Let $(x, y)$ be a solution to the system of equations \[\begin{aligned} \lfloor x \rfloor + \{y\} &= 2.4, \\ \{x\} + \lfloor y \rfloor &= 5.1. \end{aligned} \]
+        edge_to: false
+      - type: restatement
+        text: "So, I need to find the solution for this equation: \\[\begin{aligned} \\lfloor x \rfloor + \\{y\\} &= 2.4, \\ \\{x\\} + \\lfloor y \\rfloor &= 5.1. \\end{aligned} \\]"
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: context
+        text: What is the amplitude of gravitational waves produced by a binary black hole system with masses of 10 solar masses and 25 solar masses at a distance of 500 megaparsecs from the Earth?
+        edge_to: false
+      - type: restatement
+        text: Alright, I'm trying to figure out the amplitude of gravitational waves from a binary black hole system.
+        edge_to: true
+  - type: Restating intermediate nodes
+    description: 
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Let’s suppose, for the sake of contradiction, that there exists an integer m suc that m^2 = 4n + 3 for some integer n.
+        edge_to: false
+      - type: restatement
+        text: I previously assumed that an integer $m$ satisfies $m^2 = 4n + 3$.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: fact
+        text: "Arrhenius equation shows how temperature affects the reaction speed: \\[k=Ae^{E_a/RT}\\]."
+        edge_to: false
+      - type: restatement
+        text: I already know that the Arrhenius equation is \[k=Ae^{E_a/RT}\].
+        edge_to: true
+
+- name: reason:fact-detail
+  color: "#D8D8D8"
+  description: This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact.
+  from: [fact]
+  to: [fact]
+  subtypes:
+  - type: A fact and linked facts
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: To have two distinct real roots, the discriminant must be positive.
+        edge_to: false
+      - type: fact
+        text: The discriminant D of a quadratic equation ax^2 + bx + c = 0 is given by D = b^2-4ac.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: fact
+        text: Okay, so I remember that the Arrhenius equation relates these quantities.
+        edge_to: false
+      - type: fact
+        text: "The equation is k = A * e^(-Ea/(RT)),"
+        edge_to: true
+
+- name: reason:concept-example
+  color: "#D0D0D0"
+  description: This edge label applies to Example nodes, connecting the example to what it exemplifies. When both nodes are trivia-like facts, it should be rather annotated as fact-detail.
+  from: [planning, fact, reasoning, restatement, assumption]
+  to: [example]
+  subtypes:
+  - type: Enumeration
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: First, maybe I should think about what perfect squares look like when divided by 4.
+        edge_to: false
+      - type: example
+        text: "- 0^2 = 0, which is 4×0 + 0."
+        edge_to: true
+      - type: example
+        text: "- 1^2 = 1, which is 4×0 + 1."
+        edge_to: true
+  - type: Conceptual examples
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Maybe the problem is considering some other reaction or there's additional information I need to account for.
+        edge_to: false
+      - type: example
+        text: Perhaps the presense of sulfuric acid allows for copper to be oxidized directly, or there's a coupled reaction happening that I'm not accounting for.
+        edge_to: true
+  - type: Demonstrative examples
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: Therefore, the valid range is 0 < c < 9.
+        edge_to: false
+      - type: example
+        text: Take c=4, which is between 0 and 9.
+        edge_to: true
+
+- name: plan:frontier-plan
+  color: "#FFCDCD"
+  description: This edge connects facts/reasoning/restatements/examples/... to a plan, when the content of the previous node triggers the planning. Typical examples include deciding high-level plans based on known facts and indicating how to solve (simplify, substitute, calculate) a certain equation at a low level.
+  from: [context, fact, reasoning, restatement, assumption, example]
+  to: [planning]
+  subtypes:
+  - type: Base facts → initial plan
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: "The volume V of a sphere is given by: V = 4/3 \\pi r^3 where r is the radius of the sphere."
+        edge_to: false
+      - type: restatement
+        text: Additionally, the volume of the cone is one-half that of the sphere.
+        edge_to: false
+      - type: planning
+        text: "Substituting the formulas, we get:"
+        edge_to: true
+  - type: The previous plan's conclusion → next plan
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: "k = 280 ± \\sqrt{-280^2 - 4·80·199} / 2·80"
+        edge_to: false
+      - type: planning
+        text: "Calculate the discriminant:"
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: So, M_c = 250^(3/5) / 35^(1/5).
+        edge_to: false
+      - type: planning
+        text: I need to calculate that.
+        edge_to: true
+  - type: The reason a plan is not working → alternative plan
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: But I don't have a specific frequency given in the problem.
+        edge_to: false
+      - type: planning
+        text: Maybe I need to use the frequency at a certain point in the waveform, like the frequency at merger.
+        edge_to: true
+
+- name: plan:frontier-verify
+  color: "#FFC6C6"
+  description: This edge specifically labels the relationship between a reasoning node and a Planning node, initiating the verification process. Typical subsequent nodes include phrases like "Let's verify this", "I should check if there is any error".
+  from: [fact, reasoning, restatement, assumption, example]
+  to: [planning]
+  subtypes:
+  - type: Initiating verification
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: So, in this case, rho is 1000 kg/m³, g is approximately 9.8 m/s², and h is 3 meters.
+        edge_to: false
+      - type: planning
+        text: But wait, there's also atmospheric pressure to consider.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: So, a + b = 7/2.
+        edge_to: false
+      - type: planning
+        text: But let me double-check.
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: So, the amplitutde of the gravitational waves is approximately 1.58e-20.
+        edge_to: false
+      - type: planning
+        text: I should double-check the formula and the calculations.
+        edge_to: true
+
+- name: plan:plan-subplan
+  color: "#FFBDBD"
+  description: This edge connects a plan and a subplan. Subplans decompose the high-level plan into smaller, more straightforward goals. If the plans can be executed in parallel, edges should connect the high-level plan to all subplans; if the subplans are meant to execute sequentially, edges should connect to the first plan only.
+  from: [planning, assumption]
+  to: [planning, assumption]
+  subtypes:
+  - type: Decomposition
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Another approach is to set y/x = k, and then find the values of k for which the line y=kx intersectes the ellipse.
+        edge_to: false
+      - type: planning
+        text: So, let's try substituting y = kx into the ellipse equation and see what happens.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: I should double-check the formula and the calculations.
+        edge_to: false
+      - type: planning
+        text: Maybe I can look up a more precise formula or check if there's a standard expression for h_c in literature.
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: assumption
+        text: Assuming y ≠ 0 (which it isn't, since x, y, z are positive reals),
+        edge_to: false
+      - type: planning
+        text: "we can divide both sides by y:"
+        edge_to: true
+  - type: Paraphrasing of a step
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Let's consider the case for x=5.
+        edge_to: false
+      - type: planning
+        text: "### Case 1: x=5"
+        edge_to: true
+
+- name: plan:plan-nextplan
+  color: "#FFB6B6"
+  description: This edge connects multiple plans that are executed sequentially. If the node does not start with explicit phrases like "Next", "Second", "Then", we annotate it as plan:frontier-plan edge starting from the previous conclusion. When there are multiple Planning steps chained linearly, one should only link adjacent ones (and not connect all pairs).
+  from: [planning, assumption]
+  to: [planning, assumption]
+  subtypes:
+  - type: Linear progression of steps
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: "Left side:"
+        edge_to: false
+      - type: planning
+        text: "Right side:"
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: I need to balance the hydrogen and oxygen atoms.
+        edge_to: false
+      - type: planning
+        text: "Now, recounting the atoms:"
+        edge_to: true
+  - type: Mutually exclusive assumptions
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: "Let's consider an even number: let's say 2k, where k is an integer."
+        edge_to: false
+      - type: assumption
+        text: "Now, consider an odd number: let's say 2k+1, where k is an integer."
+        edge_to: true
+
+- name: plan:plan-alternative
+  color: "#FFADAD"
+  description: This edge denotes when the model is suggesting an alternative plan from the previous one. The subsequent nodes often include "Alternatively", "Let me think in other direction", or other similar phrases. When there are multiple Planning steps chained linearly, one should only link adjacent ones (and not connect all pairs).
+  from: [planning, assumption]
+  to: [planning, assumption]
+  subtypes:
+  - type: Alternative plans (backtracking)
+    description: Considering multiple mutually exclusive assumptions should be annotated as plan-nextplan. However, if the model is trying different assumptions that are not related to each other, it can be annotated as plan-alternative.
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: "Also, I should consider if there are any other factors that might affect the pressure, like temperature or the exact value of gravity,"
+        edge_to: false
+      - type: planning
+        text: Another thing to think about is whether the pool is open to the atmosphere or not.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: Perhaps I need to consider the attenuation of the unwanted polarization component due to absorption.
+        edge_to: false
+      - type: planning
+        text: Alternatively, if the absorption length is related to the refractive index and wavelength, there might be a way to express α in terms of n and λ.
+        edge_to: true
+
+- name: reflect:positive
+  color: "#D0E4FF"
+  description: This edge connects a reasoning node (mostly Reasoning, Fact, Assumption) and a reflection node that affirms it. If the affirmation is based on the semantic identity of previous and current steps, e.g., connecting the conclusion of the positive self-verification to the verification goal, it should be annotated as validate:support.
+  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  to: [reflection]
+  subtypes:
+  - type: Affirmation of previous nodes
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: restatement
+        text: "Also, the density of water is given as 1000 kg/m³,"
+        edge_to: false
+      - type: reflection
+        text: which is standard, so that's good.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: conclusion
+        text: H2SO4 + Ca(OH)2 → CaSO4 + 2 H2O
+        edge_to: false
+      - type: reflection
+        text: I think that's it.
+        edge_to: true
+
+- name: reflect:negative
+  color: "#C0D4FF"
+  description: This edge connects a reasoning node and a node that denies it. This is mostly caused by reflection statements like "This seems incorrect" or reflecting without explicit correction edge, such as "Therefore, it is wrong". When it explicitly corrects the previous node, it should be annotated as verify:attack.
+  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  to: [reflection]
+  subtypes:
+  - type: Denial of previous nodes
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: that would give t = 550 nm / (2*0.5) = 550 nm.
+        edge_to: false
+      - type: reflection
+        text: But this is just speculation.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: "- H: 2 + 2*2 = 6?"
+        edge_to: false
+      - type: reflection
+        text: Wait, no.
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: So, λ = 3 x 10^8 m/s / 1.4 x 10^10 Hz ≈ 2.14 x 10^-2 meters, which is about 21.4 millimeters.
+        edge_to: false
+      - type: reflection
+        text: Wait a minute, that seems off.
+        edge_to: true
+
+- name: reflect:uncertain
+  color: "#C8DBFF"
+  description: This edge represents all other meta-statements that are not explicitly support/refute. Typical use cases are reflection of uncertainty ("I am not sure/certain"), confusion ("I am confused/lost"), lack of knowledge ("I don't know"), lack of confidence ("I am a bit rusty"), and anomaly ("This seems weird").
+  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  to: [reasoning, reflection]
+  subtypes:
+  - type: Uncertainty
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: "Wait, perhaps considering the skin depth concept in dielectrics could be relevant,"
+        edge_to: false
+      - type: reflection
+        text: but I'm not sure.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: But wait, Is this formula correct?
+        edge_to: false
+      - type: reflection
+        text: I'm not entirely sure. I might be misremembering it.
+        edge_to: true
+  - type: Confusion
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: t = 550 nm / 1.5 = 366.67 nm.
+        edge_to: false
+      - type: reflection
+        text: This is different from the previous results.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: That would be in the microwave region,
+        edge_to: false
+      - type: fact
+        text: but the original spectral lines for hydrogen are in the visible range, like the Balmer series.
+        edge_to: false
+      - type: reflection
+        text: I think I'm mixing up things here.
+        edge_to: true
+  - type: Lack of knowledge/ability
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Alternatively, if the absorption length is related to the refractive index and wavelength, there might be a way to express α in terms of n and λ.
+        edge_to: false
+      - type: reflection
+        text: However, this seems to vague, and I don't have enough information to proceed.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: t = 550 nm / 1.5 = 366.67 nm.
+        edge_to: false
+      - type: reflection
+        text: But again,. without a clear theoretical basis, it's hard to be confident.
+        edge_to: true
+  - type: Lack of confidence; too difficult
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: One way to appoach this is to parameterize the ellipse and then express y/x in terms of the parameter.
+        edge_to: false
+      - type: reasoning
+        text: However, ellipses can be tricky to parameterize, especially when they're rotated and not aligned with the axes.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: but again, that's for reflections, not necessarily for transmission through a material.
+        edge_to: false
+      - type: reflection
+        text: This is tricky.
+        edge_to: true
+  - type: Exclamation
+    description: Only when the reflection does not indicate the correctness of the previous step. Not to be confused with evaluate:refute label, where the model indicates that the previous step is incorrect.
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: so total Ea = 94,147.736 + 691.33 ≒ 94,839 J/mol.
+        edge_to: false
+      - type: reflection
+        text: That seems high.
+        edge_to: true
+
+- name: validate:support
+  color: "#FFE5C5"
+  description: While other edges are focused on the logical premise and the reasoner's intent, Validate edges denote whether two pieces of information are consistent or not. This edge label applies to reasoning nodes and conclusion nodes that reinforce previous nodes by stating the same thing. It distinguishes from reason:stmt-restatement because it is not blindly copying the previous statement, but comparing two pieces of information that were derived independently. It also differs from reflect:positive, because validate:support annotates propositional equivalence while reflect:positive only annotates positive sentiment. IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes via this edge or validate:attack.
+  from: [context, planning, fact, reasoning, assumption, conclusion]
+  to: [reasoning, conclusion]
+  subtypes:
+  - type: Positive self-verification conclusion
+    description: When the conclusion of a verification process results in the same conclusion as the original solution (verification goal), this edge can be used to connect the original solution to the verification's conclusion.
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: 0 < c < 9.
+        edge_to: false
+      - type: reasoning
+        text: So, the inequality x^2 - 6x + c < 0 has real solutions for x precisely when 0 < c < 9.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: Now, ln(A/k) = ln(5e13 / 2.5e-3) = ln(2e16) ≒ 38.279, as I had before.
+        edge_to: false
+      - type: reasoning
+        text: So, I use 38.279, which is close enough.
+        edge_to: true
+  - type: Conclusion node and preceding consistent conclusions
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: conclusion
+        text: H2SO4 + Ca(OH)2 → CaSO4 + 2 H2O
+        edge_to: false
+      - type: conclusion
+        text: H2SO4 + Ca(OH)2 → CaSO4 + 2 H2O
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: conclusion
+        text: Therefore, the velocity of the object will be 7.3m/s.
+        edge_to: false
+      - type: conclusion
+        text: The final answer is 7.3m/s.
+        edge_to: true
+  - type: The context is a proposition, and the conclusion is its affirmation
+    description: "This type is typical in theorem proving/find counterexample type question, or open-ended debate questions."
+    examples:
+    - id: 0
+      nodes:
+      - type: context
+        text: Should cigarrettes be banned for all ages?
+        edge_to: false
+      - type: conclusion
+        text: As my final opinion, I believe that all cigarrettes should be banned for all ages.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: context
+        text: Prove that integers of the form \(4n+2\) and \(4n+3\) are not perfect squares.
+        edge_to: false
+      - type: conclusion
+        text: Therefore, there is no $n$ that makes \(4n+2\) and \(4n+3\) perfect squares.
+        edge_to: true
+
+- name: validate:attack
+  color: "#FFCD8E"
+  description: While other edges are focused on the logical premise and the reasoner's intent, Validate edges denote whether two pieces of information are consistent or not. This edge label applies to Restatement nodes and Conclusion nodes, connecting the original statement to the restatement. It differs from reflect:negative, because validate:attack annotates propositional equivalence, while reflect:negative only annotates positive sentiment. IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes via this edge or via validate:support.
+  from: [context, planning, fact, reasoning, assumption, conclusion]
+  to: [reasoning, conclusion]
+  subtypes:
+  - type: Proof by contradiction
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Let's suppose, for the sake of contradiction, that there exists an integer m suc that m^2 = 4n + 3 for some integer n.
+        edge_to: false
+      - type: reasoning
+        text: it must be that no integer m exists such taht m^2 = 4n + 3.
+        edge_to: true
+  - type: Explicit correction
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: "H: 2 + 2*2 = 6?"
+        edge_to: false
+      - type: reasoning
+        text: H2SO4 has 2 H, and Ca(OH)2 has 2*(1) = 2 H, so total 4 H.
+        edge_to: true
+  - type: Conclusion node and preceding inconsistent conclusions
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: conclusion
+        text: The final answer is 250 nm.
+        edge_to: false
+      - type: conclusion
+        text: The thickness of the film should be 177 nm.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: conclusion
+        text: The answer is Wednesday.
+        edge_to: false
+      - type: conclusion
+        text: The final answer is Tuesday.
+        edge_to: true
+  - type: The context is a proposition, and the conclusion is its negation
+    description: "This type is typical in theorem proving/find counterexample type question, or open-ended debate questions."
+    examples:
+    - id: 0
+      nodes:
+      - type: context
+        text: Should cigarrettes be banned for all ages?
+        edge_to: false
+      - type: conclusion
+        text: To conclude, I think that cigarrettes should be allowed to adults.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: context
+        text: Are all integers in the form of \(n^2 + n + 41) prime numbers?
+        edge_to: false
+      - type: conclusion
+        text: Therefore, not all integers of the form n^2 + n + 41 are prime (counterexample $n=40$).
+        edge_to: true

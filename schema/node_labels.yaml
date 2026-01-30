@@ -1,0 +1,664 @@
+nodes:
+- name: context
+  color: '#E0E0E0'
+  description: This node includes the problem statement or any background information provided to the LLM before the actual reasoning trace begins.
+  subtypes: []
+- name: planning
+  color: '#FFADAD'
+  description: '**Planning** introduces the content of the following nodes. It can be both coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
+
+
+    The rule of thumb for finding a Planning node is to check if it includes active verbs like *find, recall, check, solve, or replace,* with first-person subjects (*I, me*).'
+  subtypes:
+  - type: Introducing long-term directions and subgoals (global plans)
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: First, I need to remember what Gibbs free energy change, ΔG, represents.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: planning
+        text: Now, I need to find the equation of this perpendicular line that passes through the point \((5, 5)\).
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: planning
+        text: So, I should identify which species is being oxidized and which is being reduced here.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: planning
+        text: Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\).
+        edge_to: false
+  - type: Phrases that initiate verification
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Maybe I should look up the correct formula for calculating standard cell potential.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: planning
+        text: I should also consider if there are any assumptions I'm making here.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: planning
+        text: Let me think again.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: planning
+        text: Just to double-check, is there a reason why the problem specifies 298 K and 1 atm?
+        edge_to: false
+  - type: Phrases that initiate backtracking (alternative solutions)
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: Alternatively, maybe I can think in terms of permutations with restrictions.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: planning
+        text: Maybe I need to approach this differently.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: planning
+        text: 'Another thought:'
+        edge_to: false
+  - type: Introducing the direction of the next node (local plans)
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: 'Now, for \( n \geq 2 \):'
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: planning
+        text: 'Let me calculate the numerator:'
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: planning
+        text: 'Now, add these three expressions together:'
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: planning
+        text: 'Now, plugging in the given concentrations: [NO2F] = 0.10 M [NO2] = 0.25 M [F2] = 0.15 M'
+        edge_to: false
+  - type: Indicating the Conclusion node
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: '** Final Answer **'
+        edge_to: false
+- name: fact
+  color: '#FFD6A5'
+  description: '**Fact** refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
+
+
+    1. The information should not be given in the query.
+
+    2. It must not be deduced from other facts in a deductive/inductive manner.
+
+
+    The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.'
+  subtypes:
+  - type: Theorems, laws, and rules
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: E° cell = E° cathode + E° oxidation.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: fact
+        text: Ceva's theorem relates the concurrency of cevians in a triangle, and in this case, the "cevians" are the lines \(B_1A_1\), \(B_2A_2\), and \(B_3A_3\), which intersect the circles at specific points.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: fact
+        text: 'The condition for a quadratic equation \( a x^2 + b x + c = 0 \) to have no real solutions is that its discriminant is negative:'
+        edge_to: false
+  - type: Existing concepts and definitions
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: The Legendre symbol \(\left( \frac{a}{p} \right)\) is defined as 1 if \(a\) is a quadratic residue modulo \(p\) and not divisible by \(p\), and -1 otherwise.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: fact
+        text: pH is a measure of the acidity or basicity of a solution, and it's defined as the negative logarithm of the hydrogen ion concentration, right? So, pH = -log[H⁺].
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: fact
+        text: A sequence is periodic if there's a positive integer \( p \) such that for all \( n \), \( a_{n+p} = a_n \).
+        edge_to: false
+  - type: Values of well-known constants and unit conversions
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: I think A for nitrogen at 77 K is a known value.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: fact
+        text: R is the gas constant, which is 8.314 J/(mol·K).
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: fact
+        text: 1 atm is defined as 101,325 Pa.
+        edge_to: false
+  - type: Factual knowledge
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: Now, hydrochloric acid (HCl) is a strong acid, which means it completely dissociates in water.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: fact
+        text: It's about a particle moving at a significant fraction of the speed of light, so I know I need to consider relativistic effects.
+        edge_to: false
+  - type: Commonsense facts
+    description: '*If a trivial fact is derived or mentioned somewhere else in the trace, it should be annotated as reasoning or restatement, respectively.*'
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: 2^10 is 1024.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: fact
+        text: We know that water boils at 212F.
+        edge_to: false
+- name: reasoning
+  color: '#FDFFB6'
+  description: '**Reasoning** includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.'
+  subtypes:
+  - type: Calculations
+    description: '*This category includes arithmetic operations (deriving numeric values from other numeric values), simplification (altering an equation/expression to its logical equivalents), and other mathematical operations.*'
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: So, ΔG° = (-2150.4) - (-103.8) = -2150.4 + 103.8 = -2046.6 kJ/mol
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: 'C loses 3: 10 - 3 = 7'
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: S = 2 * (2^n - 1)/(2 - 1) = 2 * (2^n - 1)/1 = 2*(2^n - 1) = 2^{n+1} - 2.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: reasoning
+        text: The quadratic is \( x^2 - 6x < 0 \), which factors to \( x(x - 6) < 0 \).
+        edge_to: false
+    - id: 4
+      nodes:
+      - type: reasoning
+        text: t = 550 nm / 1.5 = 366.67 nm.
+        edge_to: false
+  - type: Logical reasoning
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: So, there are no real solutions to the inequality.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: But according to the recursive relation \( a_n = 3 \times a_{n-1} \), \( a_2 \) would be 12, which doesn't match.
+        edge_to: false
+      - type: reasoning
+        text: Therefore, the recursive relation \( a_n = 3 \times a_{n-1} \) is incorrect.
+        edge_to: false
+  - type: Commonsense reasoning
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: When we increase the tax imposed on cigarrettes, it will reduce the demand.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: But the answer is not included in the given options.
+        edge_to: false
+  - type: Speculations
+    description: '*This category includes speculations (educated guesses). This should be distinguished from assuming a fact, where the assumption is explicitly used as a premise to deduce the conclusion.*'
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: This logarithmic relationship suggests that the first digit changes in a way that is not periodic.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: Maybe there's a pattern here based on whether the number being squared is even or odd.
+        edge_to: false
+  - type: Defining symbols and notations
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: Let the speed of the spacecraft be \(v\).
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: We can substitute $x+2y$ by $t$.
+        edge_to: false
+  - type: Reasoning on the applicability of Fact
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: However, Benford's law itself doesn't directly help in proving non-periodicity.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: But again, this seems more applicable to thin-film interference rather than Polaroid polarization.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: This suggests that my initial formula might not be appropriate for this context.
+        edge_to: false
+- name: restatement
+  color: '#CAFFBF'
+  description: '**Restatement** is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like ''as seen previously'', ''already stated'', ''the problem''.
+
+
+    Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.'
+  subtypes:
+  - type: Rephrasing the context
+    description: '*Not to confuse with nodes with only filler words, like: "I got this problem here."*'
+    examples:
+    - id: 0
+      nodes:
+      - type: context
+        text: What is the Gibbs free energy change (\u0394G) for the combustion of propane (C3H8) at 25\u00b0C and 1 atm pressure?
+        edge_to: false
+      - type: null
+        text: '...'
+        edge_to: false
+      - type: restatement
+        text: Alright, I have this problem about calculating the Gibbs free energy change for the combustion of propane.
+        edge_to: false
+      - type: restatement
+        text: The reaction is C3H8(g) + 5O2(g) → 3CO2(g) + 4H2O(g), and I'm given the standard Gibbs free energy of formation values for each substance involved.
+        edge_to: false
+      - type: restatement
+        text: The temperature is 25°C and the pressure is 1 atm.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: context
+        text: 'If the arithmetic mean of $a$ and $b$ is double their geometric mean, with $a>b>0$, then a possible value for the ratio $a/b$, to the nearest integer, is:'
+        edge_to: false
+      - type: null
+        text: '...'
+        edge_to: false
+      - type: restatement
+        text: 'So I''ve got this problem here: the arithmetic mean of A and B is double their geometric mean, with A > B > 0,'
+        edge_to: false
+      - type: restatement
+        text: and I need to find the possible value for the ratio A/B, to the nearest integer.
+        edge_to: false
+      - type: restatement
+        text: The options are 5, 8, 11, 14, or none of these.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: context
+        text: Assume that the planet has a mass 10 times that of the sun, and the spaceship is at a distance of 10,000 km from the center of the planet.
+        edge_to: false
+      - type: null
+        text: '...'
+        edge_to: false
+      - type: restatement
+        text: Given that the planet is 10 times the mass of the Sun, and the spaceship is 10,000 km away from the center,
+        edge_to: false
+  - type: Rephrasing previous nodes
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: restatement
+        text: Earlier, I concluded that only \(b = 5\) and \(b = 6\) are possible,
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: restatement
+        text: As before, this is approximately 13.928, which rounds to 14.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: restatement
+        text: The first digit \( a_n \) depends on the fractional part of \( 2 \log_{10}(n) \), as we saw earlier.
+        edge_to: false
+- name: assumption
+  color: '#bdfbdf'
+  description: '**Assumption** is when a step is intentionally indicated as *not necessarily true*, but serves as a premise for the following steps. Therefore, Assumption defines a *scope* of nodes that are based on the assumption, where the validity of nodes depends on the validity of the assumption.'
+  subtypes:
+  - type: Assuming missing premises by commonsense/common practices
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Assuming that all gases are ideal and the pressure is 1 atm for each gas (since it's not specified otherwise),
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: assumption
+        text: Since it's a swimming pool, I assume it's open,
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: assumption
+        text: I'm assuming that ΔH doesn't change significantly with temperature,
+        edge_to: false
+  - type: Assuming uncertain facts
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Assuming the C-H stretching wavenumber in methane is around 3000 cm⁻¹,
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: assumption
+        text: Suppose that the three circles \(O_1\), \(O_2\), and \(O_3\) are congruent and their centers form an equilateral triangle.
+        edge_to: false
+  - type: Branching (switch-case)
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: 'Let''s consider an even number: let''s say \(2k\), where \(k\) is an integer.'
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: assumption
+        text: 'Now, consider an odd number: let''s say \(2k + 1\), where \(k\) is an integer.'
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: assumption
+        text: If it were 4,
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: assumption
+        text: and if it were 6,
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: assumption
+        text: If \( f(x) \) is zero everywhere, then obviously there are infinitely many roots.
+        edge_to: false
+      - type: assumption
+        text: So, I can assume that \( f(x) \) is not identically zero.
+        edge_to: false
+  - type: Proof by contradiction
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Let's suppose, for the sake of contradiction, that there exists an integer \(m\) such that \(m^2 = 4n + 3\) for some integer \(n\).
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: assumption
+        text: Suppose, for the sake of contradiction, that the sequence is periodic with period \( p \).
+        edge_to: false
+- name: example
+  color: '#9bf6ff'
+  description: '**Example** is a specific instance of a general and abstract concept provided above.'
+  subtypes:
+  - type: Pattern induction by enumeration
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: example
+        text: 'Take \( n = 1 \):'
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: example
+        text: '\( n = 2 \):'
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: example
+        text: '\( n = 3 \):'
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: example
+        text: For example, consider \( n = 10^k \) for \( k = 1, 2, 3, \ldots \).
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: example
+        text: Now, consider \( n = \lceil \sqrt{2} \times 10^k \rceil \), \( n^2 \) will be approximately \( 2 \times 10^{2k} \), so the first digit would be 2.
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: example
+        text: Similarly, for \( n = \lceil \sqrt{3} \times 10^k \rceil \), \( n^2 \) would be approximately \( 3 \times 10^{2k} \), giving the first digit 3.
+        edge_to: false
+  - type: Non-exhaustive listings
+    description: When the listing is exhuastive and mutually exclusive, it should be annotated as Assumption.
+    examples:
+    - id: 0
+      nodes:
+      - type: example
+        text: Suppose \(s = 13\), \(s^2 = 169\), sum is \(\frac{169 - 95}{2} = \frac{74}{2} = 37\), which is larger than \(13\).
+        edge_to: false
+      - type: example
+        text: If \(s = 15\), \(s^2 = 225\), sum is \(\frac{225 - 95}{2} = \frac{130}{2} = 65\), which is even larger.
+        edge_to: false
+  - type: Other examples
+    description: ''
+    examples: []
+- name: reflection
+  color: '#a0c4ff'
+  description: '**Reflection** is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
+
+
+    Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.'
+  subtypes:
+  - type: Meta-evaluations
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reflection
+        text: I'm clearly making a mistake here.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reflection
+        text: But in this theoretical problem, I need to relate the rate to the given parameters.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reflection
+        text: But without knowing k, I can't compute a numerical rate.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: reflection
+        text: I think I'm mixing units again.
+        edge_to: false
+    - id: 4
+      nodes:
+      - type: reflection
+        text: Perhaps there's a better approach.
+        edge_to: false
+    - id: 5
+      nodes:
+      - type: reflection
+        text: I don't see any errors in this approach, and it confirms the earlier result.
+        edge_to: false
+  - type: Emotions and impressions
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reflection
+        text: This is confusing.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reflection
+        text: But I'm not sure about this approach.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reflection
+        text: but in this case, it's straightforward.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: reflection
+        text: This is really frustrating.
+        edge_to: false
+  - type: Rhetorical phrases
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reflection
+        text: I'm not sure what it is off the top of my head.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reflection
+        text: Does that sound right?
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reflection
+        text: I'm getting a bit stuck here.
+        edge_to: false
+  - type: Filler words
+    description: '*Not to be confused with nodes that restate the actual content of the problem: "Alright, I have this problem about calculating the Gibbs free energy change for the combustion of propane."*'
+    examples:
+    - id: 0
+      nodes:
+      - type: reflection
+        text: I got this problem here.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reflection
+        text: Let's see…
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reflection
+        text: Let's proceed.
+        edge_to: false
+- name: conclusion
+  color: '#c3b1e1'
+  description: 'This node includes the model''s final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
+
+
+    Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.'
+  subtypes:
+  - type: Intermediate conclusions
+    description: '*Nodes that do not directly answer the question should be annotated as reasoning.*'
+    examples:
+    - id: 0
+      nodes:
+      - type: context
+        text: Calculate the **factor by which time on the spaceship is dilated** due to the gravitational force of the planet compared to the time on the planet.
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: reasoning
+        text: \- sqrt(1 - 0.0295) ≈ sqrt(0.9705) ≈ 0.9851.
+        edge_to: false
+      - type: conclusion
+        text: '\- **Total time dilation factor**: 0.9851 / 1.6667 ≈ 0.591.'
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: context
+        text: What is the value of $a+b$?
+        edge_to: false
+      - type: context
+        text: $\mathrm{(A)}\ 3 \qquad\mathrm{(B)}\ \sqrt{10} \qquad\mathrm{(C)}\ \frac 72 \qquad\mathrm{(D)}\ \frac 92 \qquad\mathrm{(E)}\ 2\sqrt{14}$
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: reasoning
+        text: So, \(a + b = \frac{7}{2}\)
+        edge_to: false
+      - type: conclusion
+        text: Option \(\mathrm{(C)}\ \frac{7}{2}\) matches my result.
+        edge_to: false
+  - type: Final answers
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: '** Final Answer **'
+        edge_to: false
+      - type: conclusion
+        text: '5.'
+        edge_to: false

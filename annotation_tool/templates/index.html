@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAG Text Segment Annotator</title>
+    <link rel="stylesheet" href="static/style.css">
+    <style>
+        /* Annotation tool specific styles */
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .editor-header h1 {
+            margin-bottom: 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .annotator-node-item {
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #ddd;
+            display: flex;
+            gap: 20px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .annotator-node-item:hover {
+            transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .node-details {
+            flex: 1;
+            min-width: 0;
+        }
+        .node-text-display {
+            color: #2c3e50;
+            line-height: 1.5;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        .node-id {
+            font-weight: 600;
+            color: #34495e;
+            margin-right: 8px;
+        }
+        .edges-container {
+            flex: 1;
+            padding-left: 20px;
+            border-left: 1px solid #e0e0e0;
+            min-width: 0;
+        }
+        .edge-item {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        .edge-item label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .edge-item select {
+            margin-left: 8px;
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .label-select-container {
+            margin-top: 8px;
+        }
+        .label-select-container label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .label-select-container select {
+            margin-left: 8px;
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8em;
+        }
+        .edges-header {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .edge-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        #doc-content h3 {
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .nav-file-item {
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+            color: #2c3e50;
+            word-wrap: break-word;
+        }
+        .nav-file-item:hover {
+            background: #e9ecef;
+            transform: translateX(-3px);
+        }
+        .nav-file-item.active {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body class="with-nav">
+    <div class="floating-nav" id="floating-nav">
+        <h2>Documents</h2>
+        <div id="file-list" class="nav-list"></div>
+    </div>
+
+    <div class="container">
+        <div class="editor-header">
+            <h1>ReasoningFlow Annotation Tool</h1>
+            <div class="button-group">
+                <button id="graph-btn" class="btn">Show Graph</button>
+                <button id="save-btn" class="btn">Save</button>
+            </div>
+        </div>
+        <div id="doc-content">
+            <p class="subtitle">No document selected. Please choose a document from the list.</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentDirectory = '';
+        let currentFilename = '';
+        let currentDoc = null;
+        let nodeLabels = null; // Example labels
+        let edgeLabels = null; // Example edge labels
+        let nodeColors = null;
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFileList();
+            document.getElementById('save-btn').addEventListener('click', saveAnnotation);
+
+            // Update nodeLabels and edgeLabels dynamically
+            fetch('/get_labels')
+                .then(response => response.json())
+                .then(data => {
+                    nodeLabels = data.node_labels;
+                    edgeLabels = data.edge_labels;
+                    nodeColors = data.node_colors
+                })
+                .catch(error => console.error('Error fetching labels:', error));
+
+            // Get doc_id from URL and fetch data from backend
+            const params = new URLSearchParams(window.location.search);
+            const directory = params.get('directory');
+            const filename = params.get('filename');
+            if (directory && filename) {
+                loadDocument(directory, filename);
+            }
+        });
+
+        // Load list of JSON files
+        function loadFileList() {
+            fetch('/load_file_list')
+                .then(response => response.json())
+                .then(directories => {
+                    const fileListElement = document.getElementById('file-list');
+
+                    const html = directories.map((dir, dirIndex) => `
+                        <div class="nav-directory">
+                            <div class="nav-directory-title monospace" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" data-dir-index="${dirIndex}">
+                                <span class="dir-toggle" style="display: inline-block; width: 16px;">▶</span>
+                                ${dir.directory}
+                            </div>
+                            <div class="nav-directory-files" data-dir-index="${dirIndex}" style="display: none;">
+                                ${dir.files.map(file => `
+                                    <div
+                                        class="nav-file-item"
+                                        data-directory="${dir.directory}"
+                                        data-filename="${file.filename}"
+                                    >
+                                        ${file.filename.replace(".json", "")}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    fileListElement.innerHTML = html;
+                    
+                    // Add collapse/expand toggle handlers
+                    fileListElement.querySelectorAll('.nav-directory-title').forEach(title => {
+                        title.addEventListener('click', () => {
+                            const dirIndex = title.dataset.dirIndex;
+                            const filesDiv = fileListElement.querySelector(`.nav-directory-files[data-dir-index="${dirIndex}"]`);
+                            const toggle = title.querySelector('.dir-toggle');
+                            
+                            const isHidden = filesDiv.style.display === 'none';
+                            filesDiv.style.display = isHidden ? 'block' : 'none';
+                            toggle.textContent = isHidden ? '▼' : '▶';
+                        });
+                    });
+
+                    // Attach click handlers after rendering
+                    fileListElement.querySelectorAll('.nav-file-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            document
+                                .querySelectorAll('.nav-file-item')
+                                .forEach(el => el.classList.remove('active'));
+
+                            item.classList.add('active');
+
+                            const directory = item.dataset.directory;
+                            const filename = item.dataset.filename;
+                            loadDocument(directory, filename);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error loading file list:', error));
+        }
+
+
+
+        // Load document
+        function loadDocument(directory, filename) {
+            fetch(`/load_annotation?directory=${directory}&filename=${filename}`)
+                .then(response => response.json())
+                .then(data => {
+                    currentDirectory = directory;
+                    currentFilename = filename;
+                    currentDoc = data;
+                    renderDocument(data);
+                })
+                .catch(error => console.error('Error loading document:', error));
+        }
+
+        // Render document content
+        function renderDocument(doc) {
+            const contentElement = document.getElementById('doc-content');
+            // Clear old content and remove references to help garbage collection
+            while (contentElement.firstChild) {
+                contentElement.removeChild(contentElement.firstChild);
+            }
+
+            // Add document ID and raw text
+            const docIdElement = document.createElement('h3');
+            docIdElement.textContent = `Document ID: ${doc.doc_id}`;
+            contentElement.appendChild(docIdElement);
+
+            // Render nodes section
+            const nodesSection = document.createElement('div');
+            nodesSection.innerHTML = '<h3>Nodes</h3>';
+            contentElement.appendChild(nodesSection);
+
+            // Ensure edges array exists
+            if (!doc.edges) {
+                doc.edges = [];
+            }
+
+            // Use DocumentFragment for batch DOM insertion (reduces reflows)
+            const fragment = document.createDocumentFragment();
+
+            // Render each node
+            doc.nodes.forEach((node, nodeIndex) => {
+                const nodeElement = document.createElement('div');
+                nodeElement.className = 'annotator-node-item';
+                nodeElement.id = `node-item-${node.id}`;
+
+                // Create node details column (left side)
+                const nodeDetailsElement = document.createElement('div');
+                nodeDetailsElement.className = 'node-details';
+
+                const nodeText = document.createElement('div');
+                nodeText.className = 'node-text-display';
+                nodeText.innerHTML = `<span class="node-id">${node.id}:</span> ${node.text}`;
+                nodeDetailsElement.appendChild(nodeText);
+                
+                // Node label dropdown
+                const labelContainer = document.createElement('div');
+                labelContainer.className = 'label-select-container';
+                labelContainer.innerHTML = `<label>Label:</label>`;
+                
+                const labelSelect = document.createElement('select');
+                labelSelect.id = `node-label-${node.id}`;
+                
+                // Add empty option
+                const emptyOption = document.createElement('option');
+                emptyOption.value = '';
+                emptyOption.textContent = 'Select label';
+                labelSelect.appendChild(emptyOption);
+                
+                // Add node label options
+                nodeLabels.forEach(label => {
+                    const option = document.createElement('option');
+                    option.value = label;
+                    option.textContent = label;
+                    option.selected = node.label === label;
+                    labelSelect.appendChild(option);
+                });
+
+                // if node.annotation is False, disable this dropdown
+                if (node.annotation === false) {
+                    labelSelect.disabled = true;
+                }
+                
+                labelContainer.appendChild(labelSelect);
+                nodeDetailsElement.appendChild(labelContainer);
+                
+                // Add event listener for label change
+                labelSelect.addEventListener('change', (e) => {
+                    const nodeIndex = doc.nodes.findIndex(n => n.id === node.id);
+                    if (nodeIndex !== -1) {
+                        doc.nodes[nodeIndex].label = e.target.value;
+                    }
+                });
+                labelSelect.addEventListener('change', () => handleNodeSelection(node.id));
+                labelSelect.addEventListener('change', saveAnnotation);
+                
+                // Add node details to the main node element
+                nodeElement.appendChild(nodeDetailsElement);
+                
+                // Create edges column (right side)
+                const edgesContainer = document.createElement('div');
+                edgesContainer.className = 'edges-container';
+                
+                if (!!node.annotation) {  // Skip for the first node as it can't have incoming edges
+                    const edgesHeader = document.createElement('div');
+                    edgesHeader.className = 'edges-header';
+                    edgesHeader.textContent = 'Incoming Edges';
+                    edgesContainer.appendChild(edgesHeader);
+                    
+                    // Get edges where this node is the target
+                    const nodeEdges = doc.edges.filter(edge => edge.to_node_id === node.id);
+
+                    // Render existing edges
+                    nodeEdges.forEach(edge => {
+                        try {
+                            const edgeElement = createEdgeElementForNode(edge, node.id);
+                            edgesContainer.appendChild(edgeElement);
+                        } catch (error) {
+                            console.error('Error creating edge element:', error);
+                        }
+                    });
+                    
+                    // Button container for edge actions
+                    const edgeButtonsContainer = document.createElement('div');
+                    edgeButtonsContainer.className = 'edge-buttons';
+
+                    // Add edge button
+                    const addEdgeBtn = document.createElement('button');
+                    addEdgeBtn.textContent = 'Add Edge';
+                    addEdgeBtn.className = 'btn btn-small';
+                    addEdgeBtn.addEventListener('click', () => {
+                        // find the edge ID that is not present in doc.edges
+                        const newEdgeId = doc.edges.length ? Math.max(...doc.edges.map(e => parseInt(e.id.substring(1)))) + 1 : 1;
+                        const newEdge = {
+                            id: `e${newEdgeId}`,
+                            from_node_id: '',
+                            to_node_id: node.id,
+                            label: ''
+                        };
+                        doc.edges.push(newEdge);
+                        const edgeElement = createEdgeElementForNode(newEdge, node.id);
+                        edgesContainer.insertBefore(edgeElement, edgeButtonsContainer);
+                    });
+                    edgeButtonsContainer.appendChild(addEdgeBtn);
+
+                    // Split button
+                    const splitBtn = document.createElement('button');
+                    splitBtn.textContent = 'Split';
+                    splitBtn.className = 'btn btn-small btn-secondary';
+                    splitBtn.addEventListener('click', () => {
+                        // generate a textarea with label as pre-inputted text
+                        const splitText = document.createElement('textarea');
+                        splitText.value = node.text;
+                        splitText.style.width = '100%';
+                        splitText.style.height = 'auto';
+                        splitText.style.overflowY = 'hidden';
+                        splitText.addEventListener('input', () => {
+                            splitText.style.height = 'auto';
+                            splitText.style.height = `${splitText.scrollHeight}px`;
+                        });
+                        // add a save button
+                        const saveSplitBtn = document.createElement('button');
+                        saveSplitBtn.textContent = 'Save Split';
+                        saveSplitBtn.className = 'btn btn-small';
+                        saveSplitBtn.addEventListener('click', () => {
+                            // call split_node API
+                            fetch('/split_node', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    doc: currentDoc,
+                                    directory: currentDirectory,
+                                    filename: currentFilename,
+                                    node_id: node.id,
+                                    new_text: splitText.value
+                                })
+                            })
+                            // reload the document
+                            .then(response => response.json())
+                            .then(data => {
+                                loadDocument(currentDirectory, currentFilename);
+                            })
+                            .catch(error => console.error('Error splitting node:', error));
+                        });
+                        const splitInstruction = document.createElement('p');
+                        splitInstruction.textContent = 'Enter | character right before where the second node starts';
+                        edgesContainer.appendChild(splitInstruction);
+                        edgesContainer.appendChild(splitText);
+                        edgesContainer.appendChild(saveSplitBtn);
+                    });
+                    edgeButtonsContainer.appendChild(splitBtn);
+
+                    // Merge button
+                    const mergeBtn = document.createElement('button');
+                    mergeBtn.textContent = 'Merge with above';
+                    mergeBtn.className = 'btn btn-small btn-secondary';
+                    mergeBtn.addEventListener('click', () => {
+                        // call split_node API
+                        fetch('/merge_node', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                doc: currentDoc,
+                                directory: currentDirectory,
+                                filename: currentFilename,
+                                node_id: node.id
+                            })
+                        })
+                        // reload the document
+                        .then(response => response.json())
+                        .then(data => {
+                            loadDocument(currentDirectory, currentFilename);
+                        })
+                        .catch(error => console.error('Error merge node:', error))
+                    });
+                    edgeButtonsContainer.appendChild(mergeBtn);
+
+                    edgesContainer.appendChild(edgeButtonsContainer);
+                }
+                
+                
+                // Add edges container to the main node element
+                nodeElement.appendChild(edgesContainer);
+
+                // Add the complete node element to the fragment
+                fragment.appendChild(nodeElement);
+            });
+
+            // Batch insert all nodes at once (single reflow)
+            nodesSection.appendChild(fragment);
+
+            // Trigger handleNodeSelection after DOM is updated
+            doc.nodes.forEach(node => handleNodeSelection(node.id));
+        }
+        
+        // event handler function for node selection
+        // change the 'annotator-node-item' bgcolor with the nodeColor[selected node label]
+        function handleNodeSelection(nodeId) {
+            const nodeLabelSelect = document.getElementById(`node-label-${nodeId}`);
+            const parentNodeItem = document.getElementById(`node-item-${nodeId}`);
+            if (nodeLabelSelect && parentNodeItem) {
+                const selectedLabel = nodeLabelSelect.value;
+                if (selectedLabel && nodeColors[selectedLabel]) {
+                    parentNodeItem.style.backgroundColor = nodeColors[selectedLabel];
+                    parentNodeItem.style.borderLeftColor = nodeColors[selectedLabel];
+                } else {
+                    parentNodeItem.style.backgroundColor = '';
+                    parentNodeItem.style.borderLeftColor = '#ddd';
+                }
+            }
+        }
+
+        // Create edge element for a specific node
+        function createEdgeElementForNode(edge, toNodeId) {
+            const edgeElement = document.createElement('div');
+            edgeElement.className = 'edge-item';
+            edgeElement.id = `edge-${edge.id}`;
+            
+            // From node dropdown (only showing nodes that precede this one)
+            const fromNodeContainer = document.createElement('div');
+            fromNodeContainer.innerHTML = `<label>From Node: </label>`;
+            
+            const fromNodeSelect = document.createElement('select');
+            fromNodeSelect.id = `edge-from-${edge.id}`;
+            
+            // Add empty option
+            const emptyFromOption = document.createElement('option');
+            emptyFromOption.value = '';
+            emptyFromOption.textContent = 'Select node';
+            fromNodeSelect.appendChild(emptyFromOption);
+            
+            // Find the target node index
+            const toNodeIndex = currentDoc.nodes.findIndex(n => n.id === toNodeId);
+
+            // Add only preceding nodes as options (avoid creating slice array)
+            for (let i = 0; i < toNodeIndex; i++) {
+                const node = currentDoc.nodes[i];
+                const option = document.createElement('option');
+                option.value = node.id;
+                // Truncate text to reduce memory for long texts
+                option.textContent = `${node.id}: ${node.text.length > 97 ? node.text.substring(0, 97) + '...' : node.text}`;
+                option.selected = edge.from_node_id === node.id;
+                fromNodeSelect.appendChild(option);
+            }
+
+            // make select fit within the box, considering the fromNodeContainer's children <label>'s width
+            fromNodeSelect.style.width = `calc(100% - 100px)`;
+            fromNodeSelect.style.textOverflow = 'ellipsis';
+
+            fromNodeContainer.appendChild(fromNodeSelect);
+            edgeElement.appendChild(fromNodeContainer);
+            
+            // Edge label dropdown
+            const labelContainer = document.createElement('div');
+            labelContainer.innerHTML = `<label>Edge Label: </label>`;
+            
+            const labelSelect = document.createElement('select');
+            labelSelect.id = `edge-label-${edge.id}`;
+            
+            // Add empty option
+            const emptyLabelOption = document.createElement('option');
+            emptyLabelOption.value = '';
+            emptyLabelOption.textContent = 'Select label';
+            labelSelect.appendChild(emptyLabelOption);
+            
+            // Add edge label options
+            edgeLabels.forEach(label => {
+                const option = document.createElement('option');
+                option.value = label;
+                option.textContent = label;
+                option.selected = edge.label === label;
+                labelSelect.appendChild(option);
+            });
+            
+            labelContainer.appendChild(labelSelect);
+            edgeElement.appendChild(labelContainer);
+            
+            // Delete edge button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.className = 'btn btn-small btn-danger';
+            deleteBtn.addEventListener('click', () => {
+                const edgeIndex = currentDoc.edges.findIndex(e => e.id === edge.id);
+                if (edgeIndex !== -1) {
+                    currentDoc.edges.splice(edgeIndex, 1);
+                    // Remove just this edge element instead of full re-render
+                    edgeElement.remove();
+                    saveAnnotation();
+                }
+            });
+            edgeElement.appendChild(deleteBtn);
+            
+            // Add event listeners for edge changes
+            fromNodeSelect.addEventListener('change', (e) => {
+                const edgeIndex = currentDoc.edges.findIndex(ed => ed.id === edge.id);
+                if (edgeIndex !== -1) {
+                    currentDoc.edges[edgeIndex].from_node_id = e.target.value;
+                }
+            });
+            fromNodeSelect.addEventListener('change', saveAnnotation);
+            
+            labelSelect.addEventListener('change', (e) => {
+                const edgeIndex = currentDoc.edges.findIndex(ed => ed.id === edge.id);
+                if (edgeIndex !== -1) {
+                    currentDoc.edges[edgeIndex].label = e.target.value;
+                }
+            });
+            labelSelect.addEventListener('change', saveAnnotation);
+            
+            return edgeElement;
+        }
+
+        // Save annotation
+        function saveAnnotation() {
+            if (!currentDoc) {
+                alert('No document loaded');
+                return;
+            }
+            
+            // Update node labels
+            currentDoc.nodes.forEach(node => {
+                const labelSelect = document.getElementById(`node-label-${node.id}`);
+                if (labelSelect) {
+                    node.label = labelSelect.value;
+                }
+            });
+            
+            // Send data to server
+            fetch('/save_annotation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"directory": currentDirectory, "filename": currentFilename, "doc": currentDoc})
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Annotation saved successfully
+            })
+            .catch(error => {
+                console.error('Error saving annotation:', error);
+                alert('Error saving annotation');
+            });
+        }
+
+        // When graph button is clicked, call GET /graph_visualization with doc_id param as current doc ID
+        // document.getElementById('graph-btn').addEventListener('click', () => {
+        //     if (currentDocId) {
+        //         window.location.href = `/graph?doc_id=${currentDocId}`;
+        //     } else {
+        //         alert('No document loaded');
+        //     }
+        // });
+    </script>
+</body>
+</html>

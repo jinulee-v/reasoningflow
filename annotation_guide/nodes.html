@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Labels Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="with-nav">
+    <div class="floating-nav" id="floating-nav">
+        <h2>Navigation</h2>
+        <ul class="nav-list" id="nav-list"></ul>
+    </div>
+
+    <div class="container">
+        <h1>Node Labels Documentation</h1>
+        <p class="subtitle">A comprehensive guide to different node types in reasoning traces</p>
+        
+        <div id="loading" class="loading">Loading node labels...</div>
+        <div id="error" style="display: none;"></div>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        // Fetch and parse YAML file
+        async function loadYAML() {
+            try {
+                const response = await fetch('../schema/node_labels.yaml');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const yamlText = await response.text();
+                const data = jsyaml.load(yamlText);
+                
+                // Debug: log the parsed data
+                console.log('Parsed YAML data:', data);
+                
+                // Validate data structure
+                if (!data) {
+                    throw new Error('YAML file is empty or invalid');
+                }
+                
+                if (!data.nodes) {
+                    throw new Error('YAML file does not contain "nodes" array. Data structure: ' + JSON.stringify(Object.keys(data)));
+                }
+                
+                if (!Array.isArray(data.nodes)) {
+                    throw new Error('"nodes" is not an array');
+                }
+                
+                if (data.nodes.length === 0) {
+                    throw new Error('"nodes" array is empty');
+                }
+                
+                displayNodes(data.nodes);
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                const errorDiv = document.getElementById('error');
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `<strong>Error loading YAML file:</strong> ${error.message}<br><br>
+                    Make sure the <code>node_labels.yaml</code> file is in the same directory as this HTML file.<br><br>
+                    <strong>Debugging tips:</strong><br>
+                    1. Open browser console (F12) to see detailed error messages<br>
+                    2. Check that you're running a local server (not opening the file directly)<br>
+                    3. Verify the YAML file is valid`;
+                console.error('Full error:', error);
+            }
+        }
+
+        function displayNodes(nodes) {
+            document.getElementById('loading').style.display = 'none';
+            
+            // Validate nodes array
+            if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
+                throw new Error('Invalid nodes data');
+            }
+            
+            // Create color mapping from node names to colors
+            const colorMap = {};
+            nodes.forEach(node => {
+                colorMap[node.name] = node.color;
+            });
+            
+            // Create floating navigator
+            const navList = document.getElementById('nav-list');
+            const navHTML = nodes.map(node => `
+                <li class="nav-item" onclick="document.getElementById('node-${node.name}').scrollIntoView({behavior: 'smooth'})">
+                    <div class="nav-color" style="background-color: ${node.color}"></div>
+                    <span class="nav-name capitalize">${node.name}</span>
+                </li>
+            `).join('');
+            navList.innerHTML = navHTML;
+
+            // Create main content
+            const contentDiv = document.getElementById('content');
+            const contentHTML = nodes.map(node => `
+                <div class="node-section" id="node-${node.name}" style="border-left-color: ${node.color}">
+                    <div class="node-header">
+                        <div class="color-indicator" style="background-color: ${node.color}"></div>
+                        <h2 class="node-title">${node.name}</h2>
+                    </div>
+                    
+                    <div class="node-description">
+                        ${formatDescription(node.description)}
+                    </div>
+                    
+                    ${(node.subtypes || []).map(subtype => `
+                        <div class="subtype-section">
+                            <h3 class="subtype-title">${subtype.type}</h3>
+                            ${subtype.description ? `<div class="subtype-description">${formatDescription(subtype.description)}</div>` : ''}
+                            
+                            ${subtype.examples && subtype.examples.length > 0 ? `
+                                <div class="examples-container">
+                                    ${subtype.examples.map(example => `
+                                        <div class="example-card">
+                                            ${(example.nodes || []).map(exNode => {
+                                                const nodeColor = exNode.type ? colorMap[exNode.type] : null;
+                                                const styleAttr = nodeColor ? 
+                                                    `style="background-color: ${nodeColor}; border-left-color: ${nodeColor};" class="node-item colored"` : 
+                                                    'class="node-item"';
+                                                return `
+                                                    <div ${styleAttr}>
+                                                        <div class="node-header-info">
+                                                            <span class="node-type-label">${exNode.type || ''}</span>
+                                                        </div>
+                                                        <div class="node-text">${formatText(exNode.text)}</div>
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            
+            contentDiv.innerHTML = contentHTML;
+        }
+
+        function formatDescription(text) {
+            // Convert markdown-style formatting to HTML
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, ' ');
+        }
+
+        function formatText(text) {
+            // Escape HTML and preserve LaTeX-style math notation
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Load the YAML file when the page loads
+        window.addEventListener('DOMContentLoaded', loadYAML);
+    </script>
+</body>
+</html>

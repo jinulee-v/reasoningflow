@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edge Labels Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="with-nav">
+    <div class="floating-nav" id="floating-nav">
+        <h2>Navigation</h2>
+        <ul class="nav-list" id="nav-list"></ul>
+    </div>
+
+    <div class="container">
+        <h1>Edge Labels Documentation</h1>
+        <p class="subtitle">A comprehensive guide to different edge types in reasoning traces</p>
+        
+        <div id="loading" class="loading">Loading edge labels...</div>
+        <div id="error" style="display: none;"></div>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        // Node color mapping
+        const nodeColors = {
+            "planning": "#FFADAD",
+            "fact": "#FFD6A5",
+            "reasoning": "#FDFFB6",
+            "restatement": "#CAFFBF",
+            "assumption": "#B3FBDF",
+            "example": "#9BF6FF",
+            "reflection": "#A0C4FF",
+            "conclusion": "#C3B1E1",
+            "context": "#E0E0E0"
+        };
+
+        // Fetch and parse YAML file
+        async function loadYAML() {
+            try {
+                const response = await fetch('../schema/edge_labels.yaml');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const yamlText = await response.text();
+                const data = jsyaml.load(yamlText);
+                
+                console.log('Parsed YAML data:', data);
+                
+                if (!data) {
+                    throw new Error('YAML file is empty or invalid');
+                }
+                
+                if (!data.edges) {
+                    throw new Error('YAML file does not contain "edges" array');
+                }
+                
+                if (!Array.isArray(data.edges)) {
+                    throw new Error('"edges" is not an array');
+                }
+                
+                if (data.edges.length === 0) {
+                    throw new Error('"edges" array is empty');
+                }
+                
+                displayEdges(data.edges);
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                const errorDiv = document.getElementById('error');
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `<strong>Error loading YAML file:</strong> ${error.message}<br><br>
+                    Make sure the <code>edge_labels.yaml</code> file is in the same directory as this HTML file.<br><br>
+                    <strong>Debugging tips:</strong><br>
+                    1. Open browser console (F12) to see detailed error messages<br>
+                    2. Check that you're running a local server (not opening the file directly)<br>
+                    3. Verify the YAML file is valid`;
+                console.error('Full error:', error);
+            }
+        }
+
+        function displayEdges(edges) {
+            document.getElementById('loading').style.display = 'none';
+            
+            if (!edges || !Array.isArray(edges) || edges.length === 0) {
+                throw new Error('Invalid edges data');
+            }
+            
+            // Create floating navigator
+            const navList = document.getElementById('nav-list');
+            const navHTML = edges.map(edge => `
+                <li class="nav-item" onclick="document.getElementById('edge-${sanitizeId(edge.name)}').scrollIntoView({behavior: 'smooth'})">
+                    <div class="nav-color" style="background-color: ${edge.color}"></div>
+                    <span class="nav-name monospace">${edge.name}</span>
+                </li>
+            `).join('');
+            navList.innerHTML = navHTML;
+
+            // Create main content
+            const contentDiv = document.getElementById('content');
+            const contentHTML = edges.map(edge => `
+                <div class="edge-section" id="edge-${sanitizeId(edge.name)}" style="border-left-color: ${edge.color}">
+                    <div class="edge-header">
+                        <div class="color-indicator" style="background-color: ${edge.color}"></div>
+                        <h2 class="edge-title">${edge.name}</h2>
+                    </div>
+                    
+                    <div class="edge-description">
+                        ${formatDescription(edge.description)}
+                    </div>
+                    
+                    <div class="from-to-section">
+                        <div class="from-to-box">
+                            <div class="from-to-label">From</div>
+                            <div class="node-type-list">
+                                ${(edge.from || []).map(nodeType => `
+                                    <span class="node-type-tag" style="background-color: ${nodeColors[nodeType] || '#999'}">${nodeType}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="from-to-box">
+                            <div class="from-to-label">To</div>
+                            <div class="node-type-list">
+                                ${(edge.to || []).map(nodeType => `
+                                    <span class="node-type-tag" style="background-color: ${nodeColors[nodeType] || '#999'}">${nodeType}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ${(edge.subtypes || []).map(subtype => `
+                        <div class="subtype-section">
+                            <h3 class="subtype-title">${subtype.type}</h3>
+                            ${subtype.description ? `<div class="subtype-description">${formatDescription(subtype.description)}</div>` : ''}
+                            
+                            ${subtype.examples && subtype.examples.length > 0 ? `
+                                <div class="examples-container">
+                                    ${subtype.examples.map(example => `
+                                        <div class="example-card">
+                                            ${(example.nodes || []).map(exNode => {
+                                                const nodeColor = exNode.type ? nodeColors[exNode.type] : null;
+                                                const hasEdge = exNode.edge_to === true;
+                                                const styleAttr = nodeColor ? 
+                                                    `style="background-color: ${nodeColor}; border-left-color: ${nodeColor};" class="node-item colored ${hasEdge ? 'has-edge' : ''}"` : 
+                                                    `class="node-item ${hasEdge ? 'has-edge' : ''}"`;
+                                                return `
+                                                    <div ${styleAttr}>
+                                                        <div class="node-header-info">
+                                                            <span class="node-type-label">${exNode.type || ''}</span>
+                                                        </div>
+                                                        <div class="node-text">${formatText(exNode.text)}</div>
+                                                    </div>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+            
+            contentDiv.innerHTML = contentHTML;
+        }
+
+        function sanitizeId(str) {
+            return str.replace(/[^a-zA-Z0-9-_]/g, '-');
+        }
+
+        function formatDescription(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, ' ');
+        }
+
+        function formatText(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+        }
+
+        window.addEventListener('DOMContentLoaded', loadYAML);
+    </script>
+</body>
+</html>
