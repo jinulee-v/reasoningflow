@@ -1,29 +1,22 @@
 import json
 import os
-from collections import Counter
+from collections import defaultdict
+import yaml
 
-label_types_per_node = {}
-with open("web/static/labels.json", "r") as f:
-    labels = json.load(f)
-    label_types_per_node = {x: Counter() for x in labels["node_labels"]}
-
-label_types_per_node = {
-    "planning": ["plan:frontier-plan", "plan:plan-subplan", "plan:plan-nextplan", "plan:frontier-verify", "plan:plan-alternative"],
-    "fact": ["reason:plan-step", "reason:fact-detail"],
-    "reasoning": ["reason:premise-conclusion", "reason:plan-step", "reason:stmt-correction", "evaluate:support", "evaluate:refute"],
-    "restatement": ["reason:stmt-restatement", "reason:plan-step"],
-    "assumption": ["reason:plan:plan-subplan", "reason:premise-conclusion", "reason:plan-step", "plan:frontier-plan", "plan:plan-nextplan"],
-    "example": ["reason:concept-example", "reason:plan-step"],
-    "reflection": ["evaluate:uncertainty", "evaluate:support", "evaluate:refute", "reason:premise-conclusion"],
-    "conclusion": ["reason:premise-conclusion", "reason:stmt-restatement", "reason:plan-step", "reason:stmt-correction"],
-}
+label_types_per_node = defaultdict(list)
+with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
+    edges = yaml.safe_load(f)
+    for edge in edges['edges']:
+        name = edge['name']
+        for target in edge.get('to', []):
+            label_types_per_node[target].append(name)
 
 # Select examples that cover all edge types per node type.
 few_shot_examples = {x: list() for x in label_types_per_node.keys()}
-for file in os.listdir("web/data"):
+for file in os.listdir("data/v0_human_jinu_lee"):
     if not file.endswith(".json"):
         continue
-    with open(os.path.join("web/data", file), "r") as f:
+    with open(os.path.join("data/v0_human_jinu_lee", file), "r") as f:
         data = json.load(f)
         
         # Check if the nodes and edges are empty
@@ -161,5 +154,5 @@ for node_type, examples in selected_examples.items():
         print(f"  Example {i+1}: {prev_steps_count} prev_steps")
     print()
 
-with open("parser/edge_fewshot_examples.json", "w") as f:
+with open("parser/prompts/edge_fewshot_examples.json", "w") as f:
     json.dump(selected_examples, f, indent=4)

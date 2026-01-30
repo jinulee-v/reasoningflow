@@ -1,110 +1,100 @@
 import os
 import json
 import re
-import nltk
-from nltk.tokenize import sent_tokenize
-nltk.download('punkt_tab')
-
-# from gemini import call_llm, get_metadata
-from trapi import call_llm, get_metadata
+import concurrent.futures
+from functools import partial
+from enum import Enum
+from typing import List
+from collections import defaultdict
+import yaml
 
 from pydantic import BaseModel
-from typing import List
-from enum import Enum
-from functools import partial
-import concurrent.futures
+
+from utils.gemini import call_llm, get_metadata
 
 
-class NodeLabel(Enum):
-    planning = "planning"
-    fact = "fact"
-    reasoning = "reasoning"
-    restatement = "restatement"
-    assumption = "assumption"
-    example = "example"
-    reflection = "reflection"
-    conclusion = "conclusion"
+# =============================================================================
+# Pydantic Models and Enums
+# =============================================================================
 
-class NodeResponse(BaseModel, extra="forbid"):
-    text: str
+with open("schema/node_labels.yaml", 'r', encoding='utf-8') as f:
+    NODE_LABELS = yaml.safe_load(f)
+    NODE_LABELS.pop("context", None)  # Remove 'context' label if present
+with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
+    EDGE_LABELS = yaml.safe_load(f)
+
+# 1. Node segmentation
+class SentenceList(BaseModel):
+    units: List[str]
+    
+# 2. Node classification
+NodeLabel = Enum(
+    "NodeLabel",
+    {label['name']: label['name'] for label in NODE_LABELS['nodes']}
+)
+class NodeLabelResponse(BaseModel):
     label: NodeLabel
-class NodeResponseList(BaseModel, extra="forbid"):
-    responses: list[NodeResponse]
 
-class EdgeLabel(Enum):
-    REASON_PREMISE_CONCLUSION = "reason:premise-conclusion"
-    REASON_PLAN_STEP = "reason:plan-step"
-    REASON_CONCEPT_EXAMPLE = "reason:concept-example"
-    REASON_FACT_DETAIL = "reason:fact-detail"
-    REASON_STMT_RESTATEMENT = "reason:stmt-restatement"
-    REASON_STMT_CORRECTION = "reason:stmt-correction"
-    PLAN_FRONTIER_PLAN = "plan:frontier-plan"
-    PLAN_FRONTIER_VERIFY = "plan:frontier-verify"
-    PLAN_PLAN_SUBPLAN = "plan:plan-subplan"
-    PLAN_PLAN_NEXTPLAN = "plan:plan-nextplan"
-    PLAN_PLAN_ALTERNATIVE = "plan:plan-alternative"
-    EVALUATE_SUPPORT = "evaluate:support"
-    EVALUATE_REFUTE = "evaluate:refute"
-    EVALUATE_UNCERTAINTY = "evaluate:uncertainty"
-
-class EdgeResponse(BaseModel, extra="forbid"):
+# 3. Edge detection + classification
+EdgeLabel = Enum(
+    "EdgeLabel",
+    {label['name']: label['name'] for label in EDGE_LABELS['edges']}
+)
+class EdgeResponse(BaseModel):
     from_node_id: str
     label: EdgeLabel
-class EdgeResponseList(BaseModel, extra="forbid"):
-    responses: list[EdgeResponse]
+class EdgeResponseList(BaseModel):
+    responses: List[EdgeResponse]
 
-def format_node_prompt(datum, example=False):
-    if example:
-        return f"Raw text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n" \
-               f"Output:\n{json.dumps(datum['nodes'], indent=2, ensure_ascii=False)}\n"
-    else:
-        return f"Raw text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n" \
-               f"Output:\n"
+# =============================================================================
+# Label Mappings and Definitions
+# =============================================================================
 
-def format_edge_prompt(datum, example=False):
-    if example:
-        return f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n" \
-               f"Current node:\n{json.dumps(datum['current_step'], indent=2, ensure_ascii=False)}\n" \
-               f"Output:\n{json.dumps(datum['edges'], indent=2, ensure_ascii=False)}\n"
-    else:
-        return f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n" \
-               f"Current node:\n{json.dumps(datum['current_node'], indent=2, ensure_ascii=False)}\n" \
-               f"Output:\n"
+NODE_LABEL_TO_EDGE_LABELS = defaultdict(list)
+for edge_def in EDGE_LABELS['edges']:
+    for target in edge_def.get('to', []):
+        NODE_LABEL_TO_EDGE_LABELS[target].append(edge_def['name'])
+
+EDGE_LABEL_DEFINITIONS = {}
+for edge_def in EDGE_LABELS['edges']:
+    definition = "### " + edge_def.get('name') + "\n"
+    definition += edge_def.get('description', '') + "\n"
+    for subtype in edge_def.get('subtypes', []):
+        definition += f" - **{subtype.get('type', '')}**\n"
+        if subtype['description']:
+            definition += f"    ({subtype['description']})\n"
+        
+    EDGE_LABEL_DEFINITIONS[edge_def['name']] = definition
+
+# =============================================================================
+# Utility Functions
+# =============================================================================
+
+def fuzzy_find(sentence, text, start_pos=0):
+    """Find sentence in text with tolerance for whitespace/punctuation differences.
+
+    Returns (start_idx, end_idx) tuple or None if not found.
+    """
+    tokens = re.findall(r'[a-zA-Z0-9]+', sentence)
+    if not tokens:
+        return None
+
+    escaped_tokens = [re.escape(tok) for tok in tokens]
+    pattern = r'[\s\S]{0,20}?'.join(escaped_tokens)
+
+    match = re.search(pattern, text[start_pos:])
+    if match:
+        return start_pos + match.start(), start_pos + match.end()
+    return None
 
 
-def annotate_edges(node_idx, nodes, EDGE_PROMPT, EDGE_EXAMPLES):
-    # For parallelization
-    node = nodes[node_idx]
-    if node["source"] != "response":
-        return []
-    
-    # Call the LLM to get edges
-    response = call_llm(
-        EDGE_PROMPT
-            .replace("<<example1>>", format_edge_prompt(EDGE_EXAMPLES[node["label"]][0], example=True))
-            .replace("<<example2>>", format_edge_prompt(EDGE_EXAMPLES[node["label"]][1], example=True))
-            .replace("<<example3>>", format_edge_prompt(EDGE_EXAMPLES[node["label"]][2], example=True))
-            .replace("<<input>>", format_edge_prompt({
-                "prev_steps": [
-                    {
-                        "id": n["id"],
-                        "text": n["text"],
-                        "label": n["label"]
-                    } for n in nodes[:node_idx]
-                ],
-                "current_node": node
-            })),
-        schema=EdgeResponseList
-    )["responses"]
-    
-    return [{
-        "id": f"e{i}",
-        "from_node_id": edge["from_node_id"],
-        "to_node_id": node["id"],
-        "label": edge["label"]
-    } for i, edge in enumerate(response)]
+def get_node_sort_key(node_id):
+    """Get sort key for node ID (context nodes first, then response nodes)."""
+    return 1000000 * ("resp" in node_id) + int(re.search(r'\d+', node_id).group())
+
 
 def model_id_map(file):
+    """Map filename to model ID."""
     if "DeepSeek-R1" in file:
         return "deepseek-ai/DeepSeek-R1"
     elif "DeepSeek-V3" in file:
@@ -113,212 +103,375 @@ def model_id_map(file):
         return "Qwen/Qwen2.5-32B-Instruct"
     elif "QwQ-32B" in file:
         return "Qwen/QwQ-32B"
+    return None
 
-def main_predict(file):
-    with open("parser/node_prompt.txt", "r") as f:
-        NODE_PROMPT = f.read()
-    with open("parser/edge_prompt.txt", "r") as f:
-        EDGE_PROMPT = f.read()
-    with open("parser/node_fewshot_examples.json", "r") as f:
-        NODE_EXAMPLES = json.load(f)
-    with open("parser/edge_fewshot_examples.json", "r") as f:
-        EDGE_EXAMPLES = json.load(f)
 
-    # Load the data
-    print("<Load data...>")
-    data = []
-    with open(file, "r") as f:
-        raw_data = []
-        for line in f:
-            raw_data.append(json.loads(line))
-    for i, datum in enumerate(raw_data):
-        response = datum["response"]
-        if "<think>" in response and "</think>" in response:
-            # Deepseek-R1
-            response = response.split("<think>")[-1].split("</think>")[0].strip()
-        data.append({
-            "doc_id": file.replace(".jsonl", f"_{i}.json").replace("v1_data_raw", "v1_data"),
-            "metadata": {
-                "model_id": model_id_map(file),
-                "correct_answer": datum["correct_answer"],
-            },
-            "raw_text": {
-                "question": datum["question"],
-                "response": response
-            },
-            "nodes": [],
-            "edges": []
-        })
-    print(f"Loaded {len(data)} data samples.")
+# =============================================================================
+# Prompt Formatting Functions
+# =============================================================================
 
-    # test
-    # data = data[:1]
-    for datum in data:
+def format_node_label_prompt(datum, example=False):
+    """Format prompt for node labeling."""
+    # if example:
+    #     return (
+    #         f"Raw text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n"
+    #         f'Label:\n{{"label": {datum["label"]}}}\n'
+    #     )
+    # else:
+    previous_steps = '\n'.join(datum['previous_steps'])
+    return (
+        f"Previous steps:\n{previous_steps}\n"
+        f"Text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n"
+        f"Label:\n"
+    )
+
+
+def format_edge_prompt(datum, example=False):
+    """Format prompt for edge annotation."""
+    if example:
+        return (
+            f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n"
+            f"Current node:\n{json.dumps(datum['current_step'], indent=2, ensure_ascii=False)}\n"
+            f"Output:\n{json.dumps(datum['edges'], indent=2, ensure_ascii=False)}\n"
+        )
+    else:
+        return (
+            f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n"
+            f"Current node:\n{json.dumps(datum['current_node'], indent=2, ensure_ascii=False)}\n"
+            f"Output:\n"
+        )
+
+
+# =============================================================================
+# Prompt and Example Loading
+# =============================================================================
+
+def _load_prompts_and_examples():
+    """Load all prompt templates and few-shot examples from files."""
+    prompts = {}
+    examples = {}
+
+    prompt_files = {
+        "node_segmentation": "parser/prompts/1_node_segmentation_prompt.txt",
+        "node_classification": "parser/prompts/2_node_classification_prompt.txt",
+        "edge": "parser/prompts/3_edge_prompt.txt",
+    }
+    example_files = {
+        "edge": "parser/prompts/edge_fewshot_examples.json",
+    }
+
+    for key, path in prompt_files.items():
+        with open(path, "r") as f:
+            prompts[key] = f.read()
+
+    for key, path in example_files.items():
+        with open(path, "r") as f:
+            examples[key] = json.load(f)
+
+    return prompts, examples
+
+
+PROMPTS, EXAMPLES = _load_prompts_and_examples()
+
+# Labels that require full context (all previous nodes) for edge detection
+FULL_CONTEXT_LABELS = {"planning", "assumption", "conclusion", "restatement"}
+
+# Maximum number of previous nodes to consider for edge detection
+MAX_CONTEXT_WINDOW = 10
+
+
+# =============================================================================
+# Core Annotation Functions
+# =============================================================================
+
+def _build_edge_definitions(node_label):
+    """Build edge definition text for a given node label."""
+    return "## Possible edges\n" + "\n".join(
+        f"{EDGE_LABEL_DEFINITIONS[edge_label]}"
+        for edge_label in NODE_LABEL_TO_EDGE_LABELS[node_label]
+    )
+
+
+def _build_prompt_with_examples(template, examples, format_func, input_data):
+    """Build a prompt by replacing example placeholders and input."""
+    prompt = template
+    for i, example in enumerate(examples):
+        prompt = prompt.replace(
+            f"<<example{i+1}>>",
+            format_func(example, example=True)
+        )
+    prompt = prompt.replace("<<input>>", format_func(input_data, example=False))
+    return prompt
+
+
+def _extract_node_summary(node):
+    """Extract minimal node info for edge detection context."""
+    return {"id": node["id"], "text": node["text"], "label": node["label"]}
+
+
+def node_segmentation(text):
+    """Call LLM to perform sentence tokenization."""
+    prompt = PROMPTS["node_segmentation"].replace("<<text>>", text)
+    response = call_llm(prompt, schema=SentenceList)
+    return response["units"]
+
+
+def node_classification(sent, prev_steps):
+    """Label a single sentence using LLM."""
+    input_data = {"raw_text": sent, "previous_steps": prev_steps}
+    prompt = _build_prompt_with_examples(
+        PROMPTS["node_classification"],
+        [], # No examples for node classification
+        format_node_label_prompt,
+        input_data
+    )
+    label = call_llm(prompt, schema=NodeLabelResponse)["label"]
+    return {"text": sent, "label": label.lower()}
+
+
+def edge_detection_and_classification(node_idx, nodes):
+    """Annotate edges for a single node using LLM."""
+    node = nodes[node_idx]
+    if node["source"] != "response":
+        return []
+
+    node_label = node["label"]
+    if node_label not in NODE_LABEL_TO_EDGE_LABELS:
+        return []
+    context_start = 0
+
+    # Build input data for edge detection
+    input_data = {
+        "prev_steps": [_extract_node_summary(n) for n in nodes[context_start:node_idx]],
+        "current_node": node,
+    }
+
+    # Build prompt
+    edge_definitions = _build_edge_definitions(node_label)
+    prompt = PROMPTS["edge"].replace("<<edge_definitions>>", edge_definitions)
+    prompt = _build_prompt_with_examples(
+        prompt,
+        EXAMPLES["edge"].get(node_label, []),
+        format_edge_prompt,
+        input_data
+    )
+
+    response = call_llm(prompt, schema=EdgeResponseList)
+
+    return [
+        {
+            "id": f"e{i}",
+            "from_node_id": edge["from_node_id"],
+            "to_node_id": node["id"],
+            "label": edge["label"],
+        }
+        for i, edge in enumerate(response["responses"])
+    ]
+
+
+def tokenize_and_align(text, tokenize_func):
+    """Tokenize text and find character indices for each sentence.
+
+    Returns (sentences, sentence_indices) where sentence_indices has length
+    len(sentences) + 1, with the last element being the text length.
+    Returns (None, None) if alignment fails.
+    """
+    sentences = tokenize_func(text)
+    sentence_indices = []
+    last_idx = 0
+
+    for sent in sentences:
         try:
-            continue_flag = False
-            # If data exists, skip
-            if os.path.exists(f"{datum['doc_id']}"):
-                print(f"Data for {datum['doc_id']} already exists, skipping.")
-                continue
+            idx = text.index(sent[:10], max(0, last_idx - 5))
+            matched_end = idx + len(sent)
+        except ValueError:
+            result = fuzzy_find(sent, text, max(0, last_idx - 5))
+            if result is None:
+                print(f"Warning: Sentence '{sent}' not found in text.")
+                return None, None
+            idx, matched_end = result
+        last_idx = matched_end
+        sentence_indices.append(idx)
 
-            print(f"Processing document: {datum['doc_id']}")
-            # with open(f"{datum['doc_id']}", "w") as f:
-            #     json.dump(datum, f, indent=4)
-            response = datum["raw_text"]["response"]
-            response = call_llm(
-                NODE_PROMPT
-                    .replace("<<example1>>", format_node_prompt(NODE_EXAMPLES[0], example=True))
-                    .replace("<<example2>>", format_node_prompt(NODE_EXAMPLES[1], example=True))
-                    .replace("<<example3>>", format_node_prompt(NODE_EXAMPLES[2], example=True))
-                    .replace("<<input>>", format_node_prompt({"raw_text": response}, example=False)),
-                schema=NodeResponseList
-            )["responses"]
+    sentence_indices.append(len(text))
+    return sentences, sentence_indices
 
-            # Reorganize nodes
-            nodes = datum["nodes"]
-            # 1. add "question" nodes
-            last_idx = 0
-            sentences = sent_tokenize(datum["raw_text"]["question"])
-            sentence_indices = []
-            for sent in sentences:
-                try:
-                    idx = datum["raw_text"]["question"].index(sent[:15], last_idx)
-                except ValueError:
-                    # Find idx with regex. Replace all non-alphanumeric characters with \s* wildcard.
-                    try:
-                        idx = datum["raw_text"]["question"].index(sent[:5], last_idx)
-                    except ValueError:
-                        print(f"Warning: Sentence '{sent}' not found in the question text.")
-                        raise ValueError(f"Sentence '{sent}' not found in the question text.")
-                last_idx = idx + len(sent)
-                sentence_indices.append(idx)
-            sentence_indices.append(len(datum["raw_text"]["question"]))
-            
-            assert len(sentence_indices) == len(sentences) + 1, "Sentence indices do not match the number of sentences."
 
-            for i in range(len(sentences)):
-                nodes.append({
-                    "id": f"ctx{i}",
-                    "annotation": False,
-                    "start": sentence_indices[i],
-                    "end": sentence_indices[i + 1],
-                    "label": "context",
-                    "text": datum["raw_text"]["question"][sentence_indices[i]:sentence_indices[i + 1]],
-                    "source": "question"
-                })
+# =============================================================================
+# Node Creation Helpers
+# =============================================================================
 
-            # 2. add "response" nodes
-            last_idx = 0
-            sentence_indices = []
-            for sent in response: # concatenating the "text" field should be the original response text
-                try:
-                    idx = datum["raw_text"]["response"].index(sent["text"][:10], last_idx)
-                except ValueError:
-                    # Find idx with regex. Replace all whitespace/tabs/newlines/... with \s* wildcard.
-                    # pattern = re.escape(sent["text"])
-                    # pattern = re.sub(r'[^a-zA-Z0-9]', r'.?', pattern, re.DOTALL)
-                    # pattern = re.sub(r'[^a-zA-Z0-9\\]', r'\\s*', pattern, re.DOTALL)
-                    # match = re.search(pattern, datum["raw_text"]["response"], re.DOTALL)
-                    # if match and match.start() >= last_idx:
-                    #     idx = match.start()
-                    # else:
-                    print(f"Warning: Sentence '{sent['text']}' not found in the response text.")
-                    # raise ValueError(f"Sentence '{sent['text']}' not found in the response text.")
-                    continue_flag = True; break
-                last_idx = idx + len(sent["text"])
-                sentence_indices.append(idx)
-            if continue_flag:
-                continue
-            sentence_indices[0] = 0
-            sentence_indices.append(len(datum["raw_text"]["response"]))
+def _create_context_node(index, start, end, text):
+    """Create a context node from question text."""
+    return {
+        "id": f"ctx{index}",
+        "annotation": False,
+        "start": start,
+        "end": end,
+        "label": "context",
+        "text": text,
+        "source": "response",
+    }
 
-            final_conclusion = None
-            for i in range(len(response)):
-                if response[i]["label"] == "conclusion":
-                    final_conclusion = i
-            # if final_conclusion is None:                
-            #     assert False, "No conclusion found in the response."
-            for i in range(len(response)):
-                if response[i]["label"] == "conclusion":
-                    if i != final_conclusion:
-                        response[i]["label"] = "reasoning"
 
-            # assertion checks
-            assert sentence_indices[0] == 0, "First sentence index should be 0."
-            assert len(sentence_indices) == len(response) + 1, "Sentence indices do not match the number of sentences."
-            # assert sum([int(x["label"] == "conclusion") for x in response]) == 1, f"There should be exactly one conclusion in the response but found {sum([int(x['label'] == 'conclusion') for x in response])}"
+def _create_response_node(index, start, end, label, text):
+    """Create a response node from labeled sentence."""
+    return {
+        "id": f"resp{index}",
+        "annotation": True,
+        "start": start,
+        "end": end,
+        "label": label,
+        "text": text,
+        "source": "response",
+    }
 
-            # Append to the final nodes
-            for i in range(len(response)):
-                nodes.append({
-                    "id": f"resp{i}",
-                    "annotation": False,
-                    "start": sentence_indices[i],
-                    "end": sentence_indices[i + 1],
-                    "label": response[i]["label"],
-                    "text": datum["raw_text"]["response"][sentence_indices[i]:sentence_indices[i + 1]],
-                    "source": "response"
-                })
 
-            # with open(f"{datum['doc_id']}", "w") as f:
-            #     json.dump(datum, f, indent=4)
+def _keep_only_last_conclusion(labels):
+    """Ensure only the last 'conclusion' label remains; others become 'reasoning'.
 
-            # For each node that are from "source: response", annotate edges
-            edges = datum["edges"]
-            # Process nodes in parallel to generate edges
-            edge_results = []
-            with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor: # rate limit control
-                # Create a partial function with fixed parameters
-                process_func = partial(annotate_edges, 
-                                    nodes=nodes, 
-                                    EDGE_PROMPT=EDGE_PROMPT, 
-                                    EDGE_EXAMPLES=EDGE_EXAMPLES)
-                
-                # Submit all node indices that need processing
-                future_to_idx = {executor.submit(process_func, i): i for i in range(len(nodes))}
-                
-                # Process results as they complete
-                for future in concurrent.futures.as_completed(future_to_idx):
-                    idx = future_to_idx[future]
-                    try:
-                        node_edges = future.result()
-                        for i, edge_data in enumerate(node_edges):
-                            edge_results.append(edge_data)
-                            # print(edge_data)
-                    except Exception as exc:
-                        print(f"Node {idx} generated an exception: {exc}")
+    Args:
+        labels: List of label dicts with 'text' and 'label' keys.
 
-            # Add all edges to the datum
-            edges.extend(edge_results)
-            # Sort edge by "to_node_id" and "from_node_id", by the number in the ID.
-            def get_number(node_id):
-                return 1000000 * ("resp" in node_id) + int(re.search(r'\d+', node_id).group())
-            edges.sort(key=lambda x: (get_number(x["to_node_id"]), get_number(x["from_node_id"])))
-            # Reset the IDs to be sequential
-            for i, edge in enumerate(edges):
-                edge["id"] = f"e{i}"
+    Returns:
+        Modified labels list (mutated in place).
+    """
+    # Find the last conclusion index
+    last_conclusion_idx = None
+    for i, item in enumerate(labels):
+        if item["label"] == "conclusion":
+            last_conclusion_idx = i
 
-            with open(f"{datum['doc_id']}", "w") as f:
-                json.dump(datum, f, indent=4)
-        except Exception as e:
-            # raise e
-            print(f"Error processing document {datum['doc_id']}: {e}")
+    # Default to last sentence if no conclusion found
+    if last_conclusion_idx is None:
+        last_conclusion_idx = len(labels) - 1
+
+    # Convert all other conclusions to reasoning
+    for i, item in enumerate(labels):
+        if item["label"] == "conclusion" and i != last_conclusion_idx:
+            item["label"] = "reasoning"
+
+    return labels
+
+
+# =============================================================================
+# Main Processing Function
+# =============================================================================
+
+MAX_WORKERS = 4
+
+
+def main_predict(data, output_dir=""):
+    """Main prediction function to annotate nodes and edges."""
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    for datum in data:
+        print(f"Processing document: {datum['doc_id']}")
+
+        # Process question sentences into context nodes
+        question_text = datum["raw_text"]["question"]
+        sentences, indices = tokenize_and_align(question_text, node_segmentation)
+        if sentences is None:
             continue
+        indices[0] = 0
+
+        nodes = [
+            _create_context_node(i, indices[i], indices[i + 1], question_text[indices[i]:indices[i + 1]])
+            for i in range(len(sentences))
+        ]
+
+        # Process response sentences
+        response_text = datum["raw_text"]["response"]
+        response_sentences, response_indices = tokenize_and_align(response_text, node_segmentation)
+        if response_sentences is None:
+            continue
+        response_indices[0] = 0
+
+        # Build list of previous steps for each sentence (for context in classification)
+        prev_steps_list = [response_sentences[:i] for i in range(len(response_sentences))]
+
+        # Label sentences in parallel
+        with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            labels = list(executor.map(node_classification, response_sentences, prev_steps_list))
+
+        _keep_only_last_conclusion(labels)
+
+        # Validation
+        assert response_indices[0] == 0, "First sentence index should be 0."
+        assert len(response_indices) == len(response_sentences) + 1, \
+            "Sentence indices do not match the number of sentences."
+
+        # Create response nodes
+        nodes.extend([
+            _create_response_node(
+                i,
+                response_indices[i],
+                response_indices[i + 1],
+                labels[i]["label"],
+                response_text[response_indices[i]:response_indices[i + 1]]
+            )
+            for i in range(len(labels))
+        ])
+        datum["nodes"] = nodes
+
+        # Annotate edges in parallel
+        edge_func = partial(edge_detection_and_classification, nodes=nodes)
+        non_context_indices = [i for i, node in enumerate(nodes) if node["label"] != "context"]
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            edge_lists = list(executor.map(edge_func, non_context_indices))
+
+        # Flatten and sort edges
+        edge_results = [edge for edges in edge_lists for edge in edges]
+        edge_results.sort(
+            key=lambda e: (get_node_sort_key(e["to_node_id"]), get_node_sort_key(e["from_node_id"]))
+        )
+
+        # Assign sequential IDs
+        for i, edge in enumerate(edge_results):
+            edge["id"] = f"e{i}"
+        datum["edges"] = edge_results
+
+        # Save output
+        output_path = os.path.join(output_dir, f"{datum['doc_id']}.json")
+        with open(output_path, "w") as f:
+            json.dump(datum, f, indent=4)
+
     metadata = get_metadata()
-    print(f"Total input tokens: {metadata['in_token']}, output tokens: {metadata['out_token']}, price: ${metadata['price']:.6f}")
+    print(
+        f"Total input tokens: {metadata['in_token']}, "
+        f"output tokens: {metadata['out_token']}, "
+        f"price: ${metadata['price']:.6f}"
+    )
+
+
+# =============================================================================
+# Entry Point
+# =============================================================================
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="LLM Labeler for data")
-    parser.add_argument("--file", type=str, required=True, help="Path to the input JSONL file")
     args = parser.parse_args()
 
-    main_predict(args.file)
-    # response = client.models.generate_content(
-    #     model="gemini-2.0-flash",
-    #     response=SEGMENTATION_PROMPT,
-    #     examples=data[:2],
-    # )
-    # print(response.text)
-    # with open("scp116k_data/gemini_labeler.json", "w") as f:
-    #     json.dump(response.text, f, indent=4)
+    print("<Load data...>")
+    data = []
+    for file in sorted(os.listdir("data/v0_raw_data")):
+        if file.endswith(".json"):
+            output_path = os.path.join(
+                "data",
+                "v0_llm_Gemini-2.5-Flash",
+                file
+            )
+            if os.path.exists(output_path):
+                print(f"Data for {file} already exists, skipping.")
+                continue
+
+            with open(os.path.join("data/v0_raw_data", file), "r") as f:
+                datum = json.load(f)
+                data.append(datum)
+
+    print(f"Loaded {len(data)} data samples.")
+    main_predict(data, output_dir="data/v0_llm_Gemini-2.5-Flash")
