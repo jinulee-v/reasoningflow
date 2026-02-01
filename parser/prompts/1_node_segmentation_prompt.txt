@@ -1,29 +1,36 @@
-Please split the following text into "reasoning units". While reasoning units are mostly sentences, you need to further segment in these cases:
+Please split the following text into "reasoning units". Reasoning units are mostly sentences, but can change by whether the sentence includes complex reasoning intents.
+
+You need to further split in these cases:
 - A sentence is separated by a colon, and the two parts are clearly planning and its implementation. If the planning is a single word, do not separate.
   Example:
-  > Let's now find the value of a by using the equation 3a-4=7:
-  > a=(7+4)/3=11/3.
+    "Let's now find the value of a by using the equation 3a-4=7:", "a=(7+4)/3=11/3."
 - A sentence that combines an externally verifiable fact and reasoning based on the fact.
   Example:
-  > Since the speed of light is 299,752,258m/s,
-  > the kinetic energy of a particle would be approximately 1.5M Joules.
+    "Since the speed of light is 299,752,258m/s,", "the kinetic energy of a particle would be approximately 1.5M Joules."
 - A sentence links a reasoning-like phrase and a self evaluation by punctuations like comma and colon.
   Example:
-  > The final answer for this question is 5,
-  > which seems plausible to me.
+    "The final answer for this question is 5,", "which seems plausible to me."
 - A sentence that links an assumption and its consequence.
   Example:
-  > Assuming a=1,
-  > the polynomial becomes x^2 + bx + 2b - 1 = 0.
+    "Assuming a=1,", "the polynomial becomes x^2 + bx + 2b - 1 = 0."
 
 However, do not split:
 - Simple headers or transition words
-  e.g., "1. Computing the velocity of the spacecraft" "Case 1: x=5" "Wait, let's verify the previous step."
-- When colons are used to denote simple fact and its description rather than transitioning between intents, e.g., "The derivative of xcos(x) is: \[ \cos(x) - x\sin(x) \]".
-- A single latex eqiation block.
-  e.g., \[\], \(\), \begin{aligned}...\end{aligned}
+  Example:
+    "1. Computing the velocity of the spacecraft"
+    "Case 1: x=5"
+    "Wait, let's verify the previous step."
+- When colons are used to denote simple fact and its description
+  Example:
+    "The derivative of xcos(x) is: \[ \cos(x) - x\sin(x) \]."
+- A single latex equation block.
+  Example:
+    "\[...\]"
+    "\(...\)"
+    "\begin{aligned}...\end{aligned}"
 - An equation and the following step explaning the symbols used.
-  e.g., "The kinetic energy E = mv^2/2 \n\n Where m is the mass of the object and v is the velocity."
+  Example:
+    "The kinetic energy E = mv^2/2 \n\n Where m is the mass of the object and v is the velocity."
 
 Return a JSON array of string sentences of this format: {{"units": ["..."]}}. Make sure you preserve all punctuations and newlines exactly as given.
 

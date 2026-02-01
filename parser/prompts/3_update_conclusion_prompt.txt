@@ -1,0 +1,32 @@
+# Conclusion Node Update Guidelines
+
+## Conclusion
+
+This node includes the model's final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
+Conclusion nodes can directly indicate that it is the final answer by including phrases like **Final Answer**, **Answer:**, or similar expressions. However, other conclusion nodes can be implicit, without such phrases. In that case one must compare the content of the node to the original question (context nodes).
+Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.
+
+
+#### Intermediate conclusions
+*Nodes that do not directly attempt to answer the question should be annotated as reasoning.*
+**Examples:**
+> - Calculate the **factor by which time on the spaceship is dilated** due to the gravitational force of the planet compared to the time on the planet. -> context
+> - \- sqrt(1 - 0.0295) ≈ sqrt(0.9705) ≈ 0.9851. -> reasoning
+> - \- **Total time dilation factor**: 0.9851 / 1.6667 ≈ 0.591. -> conclusion
+
+> - What is the value of $a+b$? -> context
+> - $\mathrm{(A)}\ 3 \qquad\mathrm{(B)}\ \sqrt{10} \qquad\mathrm{(C)}\ \frac 72 \qquad\mathrm{(D)}\ \frac 92 \qquad\mathrm{(E)}\ 2\sqrt{14}$ -> context
+> - So, \(a + b = \frac{7}{2}\) -> reasoning
+> - Option \(\mathrm{(C)}\ \frac{7}{2}\) matches my result. -> conclusion
+
+#### Final answers
+**Examples:**
+> - ** Final Answer ** -> planning
+> - 5. -> conclusion
+
+
+Annotate which of the nodes should be changed to "conclusion" nodes.
+Respond in JSON Dict {"conclusion_node_ids": ["(node id)", "(node id)", ...]}.
+
+
+<<input>>

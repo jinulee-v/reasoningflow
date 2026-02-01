@@ -1,20 +1,16 @@
 # Node Classification Guidelines
 
-Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
-Segment into atomic units that are uniform in their semantic roles, often a sentence or a clause. If not sure, just segment into sentence. Make the node "text" as short as possible. You don't have token limits so feel free to list all fine-grained nodes.
-The "text" part must EXACTLY copy the given text without any difference, so that `text in raw_text == True` always holds.
+Reasoning traces are already segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic.
+Your job is to assign labels to each nodes according to the provide description and examples below
+Respond by a list of JSON Dicts [{"node_id": "(node id)", "label": "(label)"}, ...].
+
 
 # Labels
-
-## Context
-
-This node includes the problem statement or any background information provided to the LLM before the actual reasoning trace begins.
-
 
 ## Planning
 
 Planning introduces the content of the following nodes. It can be both coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
-The rule of thumb for finding a Planning node is to check if it includes active verbs like *find, recall, check, solve, or replace,* with first-person subjects (*I, me*).
+Planning node often includes phrases like (I need, I should, Let's, ...) indicating that the model should act in some way. However, it can also be a very short phrase that indicates the direction of the next node, such as *"Now, for n ≥ 2:"* or *"Numerator:"*.
 
 
 #### Introducing long-term directions and subgoals (global plans)
@@ -28,6 +24,7 @@ Examples:
 > - Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\). -> planning
 
 #### Phrases that initiate verification
+It might be confused with Reflection that expresses uncertainty. As a rule-of-thumb, if the following nodes are actually verifying the step above.
 Examples:
 > - Maybe I should look up the correct formula for calculating standard cell potential. -> planning
 
@@ -36,6 +33,8 @@ Examples:
 > - Let me think again. -> planning
 
 > - Just to double-check, is there a reason why the problem specifies 298 K and 1 atm? -> planning
+
+> - Is this approach correct? -> planning
 
 #### Phrases that initiate backtracking (alternative solutions)
 Examples:
@@ -62,10 +61,9 @@ Examples:
 
 ## Fact
 
-Fact refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
-1. The information should not be given in the query.
-2. It must not be deduced from other facts in a deductive/inductive manner.
-The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.
+Fact contains external, parametric knowledge. To distinguish from other nodes, it must satisfy two criteria:
+1. The information should not be given in any of the previous nodes including contexts. If so, it should be considered as restatement nodes.
+2. It must not be deduced from other facts in a deductive/inductive manner. If so, it should be considered as reasoning nodes.
 
 
 #### Theorems, laws, and rules
@@ -109,6 +107,7 @@ Examples:
 ## Reasoning
 
 Reasoning includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.
+Even if the derivation is trivial or obvious, it should still be categorized as Reasoning as long as it involves logical steps based on prior information.
 
 
 #### Calculations
@@ -161,8 +160,11 @@ Examples:
 
 ## Restatement
 
-Restatement is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like 'as seen previously', 'already stated', 'the problem'.
-Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.
+Restatement is when the model copies/paraphrases the preceding text (context/previous nodes). Therefore, the destination node should have content that can be directly entailed from the source node.
+If the node includes any new information that is not present in the source node, it should not be classified as Restatement.
+Typically, terms like 'as seen previously', 'already stated', 'the problem', strongly indicate the restatement nodes. However, it might simply restate previous steps without any of these auxiliary phrases.
+Note 1: Even if two plans have the same content, both should be classified as planning. Restatement does not apply to planning nodes.
+Note 2: Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.
 
 
 #### Rephrasing the context
@@ -229,7 +231,9 @@ Examples:
 
 ## Example
 
-Example is a specific instance of a general and abstract concept provided above.
+Example is a specific instance of a general and abstract concept provided in the preceding steps.
+Examples are often unnecessary for the reasoning process, but rather helps illustrate the outline of the solution. Therefore, even if it is enumerating multiple objects, if it is directly solving the problem, it should be categorized as Reasoning.
+If a single example (each of the example in a list multiple of examples) spans multiple nodes, label the first one as example, and the following nodes (derived from the first node) as accordingly.
 
 
 #### Pattern induction by enumeration
@@ -248,13 +252,22 @@ Examples:
 > - Suppose \(s = 13\), \(s^2 = 169\), sum is \(\frac{169 - 95}{2} = \frac{74}{2} = 37\), which is larger than \(13\). -> example
 > - If \(s = 15\), \(s^2 = 225\), sum is \(\frac{225 - 95}{2} = \frac{130}{2} = 65\), which is even larger. -> example
 
-#### Other examples
+> - Take \( a = 3, b = 3, c = 1 \) for an example: -> example
+> - In that case, \(a ^ 3 + b ^ 3 + c ^ 3 = 27 + 27 + 1 = 55\), and \((abc)^2 = 9^2 = 81\). -> reasoning
+
+#### Rhetorical examples
+These examples are not essential to the reasoning process, but are provided to illustrate a point or clarify a concept. They often include phrases like "For example," "To list a few," or "Representative examples are"
+Examples:
+> - Now, I need to double-check whether I missed something during my initial calculation. -> planning
+> - For instance, it is easy to neglect state changes in the equilibrium constant calculation. -> example
+> - Let's check whether there any state changes involved in this reaction. -> planning
 
 
 ## Reflection
 
 Reflection is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
-Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.
+However, LLMs sometimes include subjective words during the reasoning process. Make sure the content is not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still complete.
+Note: Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.
 
 
 #### Meta-evaluations
@@ -299,30 +312,11 @@ Examples:
 > - Let's proceed. -> reflection
 
 
-## Conclusion
-
-This node includes the model's final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
-Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.
-
-
-#### Intermediate conclusions
-*Nodes that do not directly answer the question should be annotated as reasoning.*
-Examples:
-> - Calculate the factor by which time on the spaceship is dilated due to the gravitational force of the planet compared to the time on the planet. -> context
-> - \- sqrt(1 - 0.0295) ≈ sqrt(0.9705) ≈ 0.9851. -> reasoning
-> - \- Total time dilation factor: 0.9851 / 1.6667 ≈ 0.591. -> conclusion
-
-> - What is the value of $a+b$? -> context
-> - $\mathrm{(A)}\ 3 \qquad\mathrm{(B)}\ \sqrt{10} \qquad\mathrm{(C)}\ \frac 72 \qquad\mathrm{(D)}\ \frac 92 \qquad\mathrm{(E)}\ 2\sqrt{14}$ -> context
-> - So, \(a + b = \frac{7}{2}\) -> reasoning
-> - Option \(\mathrm{(C)}\ \frac{7}{2}\) matches my result. -> conclusion
-
-#### Final answers
-Examples:
-> -  Final Answer  -> planning
-> - 5. -> conclusion
-
-
 ## Classification Rules
 
-Classify this text, using the examples above and previous steps provided for better contex of the step's role. Respond in JSON Dict {"label": "(label)"}.<<input>>
+Reasoning traces are already segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic.
+Your job is to assign labels to each nodes according to the provide description and examples below
+Respond by a list of JSON Dicts [{"node_id": "(node id)", "label": "(label)"}, ...].
+
+
+<<input>>

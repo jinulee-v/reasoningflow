@@ -24,7 +24,7 @@ for file in os.listdir("data/v0_human_jinu_lee"):
             # print(f"Skipping {file} due to empty 'nodes' and 'edges'.")
             continue
         
-        # For each node and type, check if edges with "to_node_id" have edge labels included in label_types_per_node
+        # For each node and type, check if edges with "dest_node_id" have edge labels included in label_types_per_node
         for i,node in enumerate(data["nodes"]):
             valid_example = True
             node_type = node["label"]
@@ -33,7 +33,7 @@ for file in os.listdir("data/v0_human_jinu_lee"):
             
             # Check if edge label included in label_types_per_node[node_type]
             for edge in data["edges"]:
-                if edge["to_node_id"] == node["id"]:
+                if edge["dest_node_id"] == node["id"]:
                     edge_label = edge["label"]
                     if edge_label not in label_types_per_node[node_type]:
                         valid_example = False
@@ -52,10 +52,10 @@ for file in os.listdir("data/v0_human_jinu_lee"):
                     },
                     "edges": [
                         {
-                            "from_node_id": x["from_node_id"],
+                            "source_node_id": x["source_node_id"],
                             "label": x["label"]
                         }
-                        for x in data["edges"] if x["to_node_id"] == node["id"]
+                        for x in data["edges"] if x["dest_node_id"] == node["id"]
                     ],
                 })
 print("Few-shot examples selected:")

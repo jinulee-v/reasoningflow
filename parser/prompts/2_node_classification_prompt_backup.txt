@@ -1,117 +1,307 @@
-Segment reasoning trace into nodes by following the instructions below.
+# Node Classification Guidelines
 
-Text:
 Reasoning traces are segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic. Each node is assigned a distinct label based on its semantic role.
 Segment into atomic units that are uniform in their semantic roles, often a sentence or a clause. If not sure, just segment into sentence. Make the node "text" as short as possible. You don't have token limits so feel free to list all fine-grained nodes.
 The "text" part must EXACTLY copy the given text without any difference, so that `text in raw_text == True` always holds.
 
-Labels:
-### "planning"
+# Labels
 
-**Planning** introduces the content of the following nodes. It might be a coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
-The rule of thumb for finding a Planning node is to check (1) if it includes active verbs like find, recall, check, solve, replace with first-person subjects, and (2) if the following node is in the following categories: Fact, Restatement, Assumption, Example, Conclusion, with its contents highly related to the Planning node.
-- Introducing long-term directions and subgoals ("We need to ...")
-- Introducing the direction of the next node ("Add x to y.")
-- Phrases that initiate verification ("Wait, let's check ...", "Wait, is this correct? ", ...)
-- Phrases that initiate backtracking ("Wait, let's try differently ...", "Alternatively ...", ...)
+## Planning
 
-### "fact"
+Planning introduces the content of the following nodes. It can be both coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
+Planning node often includes active verbs like *find, recall, check, solve, or replace,* with first-person subjects (*I, me*). However, it can also be a very short phrase that indicates the direction of the next node, such as *"Now, for n ≥ 2:"* or *"Numerator:"*.
 
-**Fact** refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
-1. The information should not be given in the query.
+
+#### Introducing long-term directions and subgoals (global plans)
+Examples:
+> - First, I need to remember what Gibbs free energy change, ΔG, represents. -> planning
+
+> - Now, I need to find the equation of this perpendicular line that passes through the point \((5, 5)\). -> planning
+
+> - So, I should identify which species is being oxidized and which is being reduced here. -> planning
+
+> - Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\). -> planning
+
+#### Phrases that initiate verification
+Examples:
+> - Maybe I should look up the correct formula for calculating standard cell potential. -> planning
+
+> - I should also consider if there are any assumptions I'm making here. -> planning
+
+> - Let me think again. -> planning
+
+> - Just to double-check, is there a reason why the problem specifies 298 K and 1 atm? -> planning
+
+#### Phrases that initiate backtracking (alternative solutions)
+Examples:
+> - Alternatively, maybe I can think in terms of permutations with restrictions. -> planning
+
+> - Maybe I need to approach this differently. -> planning
+
+> - Another thought: -> planning
+
+#### Introducing the direction of the next node (local plans)
+Examples:
+> - Now, for \( n \geq 2 \): -> planning
+
+> - Let me calculate the numerator: -> planning
+
+> - Now, add these three expressions together: -> planning
+
+> - Now, plugging in the given concentrations: [NO2F] = 0.10 M [NO2] = 0.25 M [F2] = 0.15 M -> planning
+
+#### Indicating the Conclusion node
+Examples:
+> -  Final Answer  -> planning
+
+
+## Fact
+
+Fact refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
+1. The information should not be given in any of the context nodes.
 2. It must not be deduced from other facts in a deductive/inductive manner.
 The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.
-- Theorems, laws, and rules
-- Existing concepts and definitions
-- Values of well-known constants and unit conversions
-- Factual knowledge
-- Commonsense facts
 
-### "reasoning"
+
+#### Theorems, laws, and rules
+Examples:
+> - E° cell = E° cathode + E° oxidation. -> fact
+
+> - Ceva's theorem relates the concurrency of cevians in a triangle, and in this case, the "cevians" are the lines \(B_1A_1\), \(B_2A_2\), and \(B_3A_3\), which intersect the circles at specific points. -> fact
+
+> - The condition for a quadratic equation \( a x^2 + b x + c = 0 \) to have no real solutions is that its discriminant is negative: -> fact
+
+#### Existing concepts and definitions
+Examples:
+> - The Legendre symbol \(\left( \frac{a}{p} \right)\) is defined as 1 if \(a\) is a quadratic residue modulo \(p\) and not divisible by \(p\), and -1 otherwise. -> fact
+
+> - pH is a measure of the acidity or basicity of a solution, and it's defined as the negative logarithm of the hydrogen ion concentration, right? So, pH = -log[H⁺]. -> fact
+
+> - A sequence is periodic if there's a positive integer \( p \) such that for all \( n \), \( a_{n+p} = a_n \). -> fact
+
+#### Values of well-known constants and unit conversions
+Examples:
+> - I think A for nitrogen at 77 K is a known value. -> fact
+
+> - R is the gas constant, which is 8.314 J/(mol·K). -> fact
+
+> - 1 atm is defined as 101,325 Pa. -> fact
+
+#### Factual knowledge
+Examples:
+> - Now, hydrochloric acid (HCl) is a strong acid, which means it completely dissociates in water. -> fact
+
+> - It's about a particle moving at a significant fraction of the speed of light, so I know I need to consider relativistic effects. -> fact
+
+#### Commonsense facts
+*If a trivial fact is derived or mentioned somewhere else in the trace, it should be annotated as reasoning or restatement, respectively.*
+Examples:
+> - 2^10 is 1024. -> fact
+
+> - We know that water boils at 212F. -> fact
+
+
+## Reasoning
 
 Reasoning includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.
-- Calculations
-- Logical reasoning
-- Commonsense reasoning
-- Speculations (This category includes speculations (educated guesses). Note that this is different from assuming a fact, where the assumption is explicitly used as a premise to deduce the conclusion.)
-- Defining symbols and notations
-- Reasoning on the applicability of Fact nodes
-- Non-final conclusions
+Even if the derivation is trivial or obvious, it should still be categorized as Reasoning as long as it involves logical steps based on prior information.
 
-### "restatement"
 
-Restatement is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like ‘as seen previously’, ‘already stated’, ‘the problem’.
-- Rephrasing the context
-- Rephrasing previous nodes
+#### Calculations
+*This category includes arithmetic operations (deriving numeric values from other numeric values), simplification (altering an equation/expression to its logical equivalents), and other mathematical operations.*
+Examples:
+> - So, ΔG° = (-2150.4) - (-103.8) = -2150.4 + 103.8 = -2046.6 kJ/mol -> reasoning
 
-### "assumption"
+> - C loses 3: 10 - 3 = 7 -> reasoning
 
-Assumption is when a step is intentionally indicated as not necessarily true, but serves as a premise for the following steps. Therefore, Assumption defines a scope of nodes that are based on the assumption, where the validity of nodes depends on the validity of the assumption.
-- Assuming missing premises by commonsense/common practices
-- Assuming uncertain facts
-- Branching (switch-case): exhaustive listing of all possible cases.
-- Proof by contradiction
+> - S = 2 * (2^n - 1)/(2 - 1) = 2 * (2^n - 1)/1 = 2*(2^n - 1) = 2^{n+1} - 2. -> reasoning
 
-### "example"
+> - The quadratic is \( x^2 - 6x < 0 \), which factors to \( x(x - 6) < 0 \). -> reasoning
+
+> - t = 550 nm / 1.5 = 366.67 nm. -> reasoning
+
+#### Logical reasoning
+Examples:
+> - So, there are no real solutions to the inequality. -> reasoning
+
+> - But according to the recursive relation \( a_n = 3 \times a_{n-1} \), \( a_2 \) would be 12, which doesn't match. -> reasoning
+> - Therefore, the recursive relation \( a_n = 3 \times a_{n-1} \) is incorrect. -> reasoning
+
+#### Commonsense reasoning
+Examples:
+> - When we increase the tax imposed on cigarrettes, it will reduce the demand. -> reasoning
+
+> - But the answer is not included in the given options. -> reasoning
+
+#### Speculations
+*This category includes speculations (educated guesses). This should be distinguished from assuming a fact, where the assumption is explicitly used as a premise to deduce the conclusion.*
+Examples:
+> - This logarithmic relationship suggests that the first digit changes in a way that is not periodic. -> reasoning
+
+> - Maybe there's a pattern here based on whether the number being squared is even or odd. -> reasoning
+
+#### Defining symbols and notations
+Examples:
+> - Let the speed of the spacecraft be \(v\). -> reasoning
+
+> - We can substitute $x+2y$ by $t$. -> reasoning
+
+#### Reasoning on the applicability of Fact
+Examples:
+> - However, Benford's law itself doesn't directly help in proving non-periodicity. -> reasoning
+
+> - But again, this seems more applicable to thin-film interference rather than Polaroid polarization. -> reasoning
+
+> - This suggests that my initial formula might not be appropriate for this context. -> reasoning
+
+
+## Restatement
+
+Restatement is when the model copies/paraphrases the preceding text (context/previous nodes). Therefore, the destination node should have content that can be directly entailed from the source node.
+If the node includes any new information that is not present in the source node, it should not be classified as Restatement.
+Typically, terms like 'as seen previously', 'already stated', 'the problem', strongly indicate the restatement nodes. However, it might simply restate previous steps without any of these auxiliary phrases.
+Note 1: Even if two plans have the same content, both should be classified as planning. Restatement does not apply to planning nodes.
+Note 2: Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.
+
+
+#### Rephrasing the context
+*Not to confuse with nodes with only filler words, like: "I got this problem here."*
+Examples:
+> - What is the Gibbs free energy change (\u0394G) for the combustion of propane (C3H8) at 25\u00b0C and 1 atm pressure? -> context
+> - Alright, I have this problem about calculating the Gibbs free energy change for the combustion of propane. -> restatement
+> - The reaction is C3H8(g) + 5O2(g) → 3CO2(g) + 4H2O(g), and I'm given the standard Gibbs free energy of formation values for each substance involved. -> restatement
+> - The temperature is 25°C and the pressure is 1 atm. -> restatement
+
+> - If the arithmetic mean of $a$ and $b$ is double their geometric mean, with $a>b>0$, then a possible value for the ratio $a/b$, to the nearest integer, is: -> context
+> - So I've got this problem here: the arithmetic mean of A and B is double their geometric mean, with A > B > 0, -> restatement
+> - and I need to find the possible value for the ratio A/B, to the nearest integer. -> restatement
+> - The options are 5, 8, 11, 14, or none of these. -> restatement
+
+> - Assume that the planet has a mass 10 times that of the sun, and the spaceship is at a distance of 10,000 km from the center of the planet. -> context
+> - Given that the planet is 10 times the mass of the Sun, and the spaceship is 10,000 km away from the center, -> restatement
+
+#### Rephrasing previous nodes
+Examples:
+> - Earlier, I concluded that only \(b = 5\) and \(b = 6\) are possible, -> restatement
+
+> - As before, this is approximately 13.928, which rounds to 14. -> restatement
+
+> - The first digit \( a_n \) depends on the fractional part of \( 2 \log_{10}(n) \), as we saw earlier. -> restatement
+
+
+## Assumption
+
+Assumption is when a step is intentionally indicated as *not necessarily true*, but serves as a premise for the following steps. Therefore, Assumption defines a *scope* of nodes that are based on the assumption, where the validity of nodes depends on the validity of the assumption.
+
+
+#### Assuming missing premises by commonsense/common practices
+Examples:
+> - Assuming that all gases are ideal and the pressure is 1 atm for each gas (since it's not specified otherwise), -> assumption
+
+> - Since it's a swimming pool, I assume it's open, -> assumption
+
+> - I'm assuming that ΔH doesn't change significantly with temperature, -> assumption
+
+#### Assuming uncertain facts
+Examples:
+> - Assuming the C-H stretching wavenumber in methane is around 3000 cm⁻¹, -> assumption
+
+> - Suppose that the three circles \(O_1\), \(O_2\), and \(O_3\) are congruent and their centers form an equilateral triangle. -> assumption
+
+#### Branching (switch-case)
+Examples:
+> - Let's consider an even number: let's say \(2k\), where \(k\) is an integer. -> assumption
+> - Now, consider an odd number: let's say \(2k + 1\), where \(k\) is an integer. -> assumption
+
+> - If it were 4, -> assumption
+> - and if it were 6, -> assumption
+
+> - If \( f(x) \) is zero everywhere, then obviously there are infinitely many roots. -> assumption
+> - So, I can assume that \( f(x) \) is not identically zero. -> assumption
+
+#### Proof by contradiction
+Examples:
+> - Let's suppose, for the sake of contradiction, that there exists an integer \(m\) such that \(m^2 = 4n + 3\) for some integer \(n\). -> assumption
+
+> - Suppose, for the sake of contradiction, that the sequence is periodic with period \( p \). -> assumption
+
+
+## Example
 
 Example is a specific instance of a general and abstract concept provided above.
-- Pattern induction by enumeration ("First, if substitute x to 1..")
-- Non-exhaustive listings ("For instance, 5 satisfies the equation")
-
-### "reflection"
-Reflection is a node that express *opinions* on the previous nodes. Opinions might include (illogical) emotions like curiosity, uncertainty, satisfaction, and (logical) judgments like correctness.
-Reflection should not contain any Planning, *i.e.* introduce the content of the following nodes. It should purely reflect on previous node without planning ahead.
-- Reflections ("I made a mistake.") * Let's try .. is a planning, not a reasoning.
-- Emotions and impressions ("I am not sure")
-- Rhetorical phrases ("Why is it like that? Because...")
-- Filler words (Let's see...)
-
-### "conclusion"
-
-This node includes the model's final answer, which is usually a short snippet of text. It is not necessarily a final node and there might be more nodes after "conclusion".
 
 
-[[Example 1]]
+#### Pattern induction by enumeration
+Examples:
+> - Take \( n = 1 \): -> example
+> - \( n = 2 \): -> example
+> - \( n = 3 \): -> example
 
-<<example1>>
+> - For example, consider \( n = 10^k \) for \( k = 1, 2, 3, \ldots \). -> example
+> - Now, consider \( n = \lceil \sqrt{2} \times 10^k \rceil \), \( n^2 \) will be approximately \( 2 \times 10^{2k} \), so the first digit would be 2. -> example
+> - Similarly, for \( n = \lceil \sqrt{3} \times 10^k \rceil \), \( n^2 \) would be approximately \( 3 \times 10^{2k} \), giving the first digit 3. -> example
 
-[[Example 2]]
+#### Non-exhaustive listings
+When the listing is exhuastive and mutually exclusive, it should be annotated as Assumption.
+Examples:
+> - Suppose \(s = 13\), \(s^2 = 169\), sum is \(\frac{169 - 95}{2} = \frac{74}{2} = 37\), which is larger than \(13\). -> example
+> - If \(s = 15\), \(s^2 = 225\), sum is \(\frac{225 - 95}{2} = \frac{130}{2} = 65\), which is even larger. -> example
 
-<<example2>>
+#### Other examples
 
-[[Example 3]]
 
-<<example3>>
+## Reflection
 
-[[Example 4]]
+Reflection is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
+However, LLMs sometimes include subjective words during the reasoning process. Make sure the content is not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still complete.
+Note: Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.
 
-<<example4>>
 
-[[Example 5]]
+#### Meta-evaluations
+Examples:
+> - I'm clearly making a mistake here. -> reflection
 
-<<example5>>
+> - But in this theoretical problem, I need to relate the rate to the given parameters. -> reflection
 
-[[Example 6]]
+> - But without knowing k, I can't compute a numerical rate. -> reflection
 
-<<example6>>
+> - I think I'm mixing units again. -> reflection
 
-[[Example 7]]
+> - Perhaps there's a better approach. -> reflection
 
-<<example7>>
+> - I don't see any errors in this approach, and it confirms the earlier result. -> reflection
 
-[[Example 8]]
+#### Emotions and impressions
+Examples:
+> - This is confusing. -> reflection
 
-<<example8>>
+> - But I'm not sure about this approach. -> reflection
 
-[[Example 9]]
+> - but in this case, it's straightforward. -> reflection
 
-<<example9>>
+> - This is really frustrating. -> reflection
 
-[[Example 10]]
+#### Rhetorical phrases
+Examples:
+> - I'm not sure what it is off the top of my head. -> reflection
 
-<<example10>>
+> - Does that sound right? -> reflection
 
+> - I'm getting a bit stuck here. -> reflection
+
+#### Filler words
+*Not to be confused with nodes that restate the actual content of the problem: "Alright, I have this problem about calculating the Gibbs free energy change for the combustion of propane."*
+Examples:
+> - I got this problem here. -> reflection
+
+> - Let's see… -> reflection
+
+> - Let's proceed. -> reflection
+
+
+## Classification Rules
 
 Classify this text, using the examples above and previous steps provided for better contex of the step's role. Respond in JSON Dict {"label": "(label)"}.
+You must choose one of these labels: planning, fact, reasoning, restatement, assumption, example, reflection.
 
 <<input>>

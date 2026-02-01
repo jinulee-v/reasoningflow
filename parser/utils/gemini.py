@@ -5,13 +5,15 @@ import os
 import json_repair
 dotenv.load_dotenv()
 client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+# LLM_MODEL_NAME = "gemini-2.0-flash"
+LLM_MODEL_NAME = "gemini-2.5-flash"
 
 in_token = 0
 out_token = 0
 price = 0
 def call_llm(prompt: str, schema=None): # Gemini API
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model=LLM_MODEL_NAME,
         contents=prompt,
         config={
             "response_mime_type": "application/json",

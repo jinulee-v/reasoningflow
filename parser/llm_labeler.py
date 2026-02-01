@@ -10,7 +10,8 @@ import yaml
 
 from pydantic import BaseModel
 
-from utils.gemini import call_llm, get_metadata
+from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
 
 
 # =============================================================================
@@ -19,7 +20,8 @@ from utils.gemini import call_llm, get_metadata
 
 with open("schema/node_labels.yaml", 'r', encoding='utf-8') as f:
     NODE_LABELS = yaml.safe_load(f)
-    NODE_LABELS.pop("context", None)  # Remove 'context' label if present
+    remove_labels = {"context", "conclusion"}
+    NODE_LABELS["nodes"] = [n for n in NODE_LABELS["nodes"] if n["name"] not in remove_labels]
 with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
     EDGE_LABELS = yaml.safe_load(f)
 
@@ -28,20 +30,32 @@ class SentenceList(BaseModel):
     units: List[str]
     
 # 2. Node classification
+node_labels = {label['name']: label['name'] for label in NODE_LABELS['nodes']}
 NodeLabel = Enum(
     "NodeLabel",
-    {label['name']: label['name'] for label in NODE_LABELS['nodes']}
+    node_labels
 )
+# class NodeLabelResponse(BaseModel):
+#     label: NodeLabel
 class NodeLabelResponse(BaseModel):
+    node_id: str
     label: NodeLabel
+class NodeLabelResponseList(BaseModel):
+    responses: List[NodeLabelResponse]
 
-# 3. Edge detection + classification
+# 3. Post-hoc update of conclusion nodes
+class ConclusionNodeList(BaseModel):
+    conclusion_node_ids: List[str]
+
+# 4. Edge detection + classification
+edge_labels = {label['name']: label['name'] for label in EDGE_LABELS['edges']}
+edge_labels.update({"none": None})
 EdgeLabel = Enum(
     "EdgeLabel",
-    {label['name']: label['name'] for label in EDGE_LABELS['edges']}
+    edge_labels
 )
 class EdgeResponse(BaseModel):
-    from_node_id: str
+    source_node_id: str
     label: EdgeLabel
 class EdgeResponseList(BaseModel):
     responses: List[EdgeResponse]
@@ -52,18 +66,27 @@ class EdgeResponseList(BaseModel):
 
 NODE_LABEL_TO_EDGE_LABELS = defaultdict(list)
 for edge_def in EDGE_LABELS['edges']:
-    for target in edge_def.get('to', []):
+    for target in edge_def.get('dest', []):
         NODE_LABEL_TO_EDGE_LABELS[target].append(edge_def['name'])
 
 EDGE_LABEL_DEFINITIONS = {}
 for edge_def in EDGE_LABELS['edges']:
-    definition = "### " + edge_def.get('name') + "\n"
-    definition += edge_def.get('description', '') + "\n"
+    definition = "## " + edge_def.get('name') + "\n\n"
+    definition += edge_def.get('description', '') + "\n\n"
     for subtype in edge_def.get('subtypes', []):
-        definition += f" - **{subtype.get('type', '')}**\n"
+        definition += f"### {subtype.get('type', '')}**\n\n"
         if subtype['description']:
-            definition += f"    ({subtype['description']})\n"
-        
+            definition += f"{subtype['description']}\n\n"
+        definition += "Possible source labels: " + ", ".join(subtype.get('source', [])) + "\n\n"
+        for example in subtype.get('examples', []):
+            for node in example.get('nodes', []):
+                if not (node['type'] and node['text']):
+                    continue
+                if node.get('edge_to') == False:
+                    definition += f"**source:** [{node['type']}]" + node.get('text', '') + "\n"
+                else:
+                    definition += f"**destination:** [{node['type']}]" + node.get('text', '') + "\n\n"
+    
     EDGE_LABEL_DEFINITIONS[edge_def['name']] = definition
 
 # =============================================================================
@@ -90,7 +113,10 @@ def fuzzy_find(sentence, text, start_pos=0):
 
 def get_node_sort_key(node_id):
     """Get sort key for node ID (context nodes first, then response nodes)."""
-    return 1000000 * ("resp" in node_id) + int(re.search(r'\d+', node_id).group())
+    try:
+        return 1000000 * ("resp" in node_id) + int(re.search(r'\d+', node_id).group())
+    except:
+        return 100000000 # In case of unexpected node_id format
 
 
 def model_id_map(file):
@@ -112,34 +138,39 @@ def model_id_map(file):
 
 def format_node_label_prompt(datum, example=False):
     """Format prompt for node labeling."""
-    # if example:
-    #     return (
-    #         f"Raw text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n"
-    #         f'Label:\n{{"label": {datum["label"]}}}\n'
-    #     )
-    # else:
-    previous_steps = '\n'.join(datum['previous_steps'])
+    nodes_str = [json.dumps({"node_id": nodes["id"], "text": nodes["text"]}, ensure_ascii=False) for nodes in datum["nodes"]]
+    nodes_str_joined = '\n'.join(nodes_str)
     return (
-        f"Previous steps:\n{previous_steps}\n"
-        f"Text:\n{json.dumps(datum['raw_text'], ensure_ascii=False)}\n"
+        f"Nodes:\n{nodes_str_joined}\n\n"
         f"Label:\n"
     )
 
+def format_conclusion_prompt(datum, example=False):
+    steps = '\n'.join(
+        f"- ID: {step['id']}, Label: {step['label']}\n"
+        f"  {json.dumps(step['text'], ensure_ascii=False)}"
+        for step in datum['nodes']
+    )
+    return (
+        f"Steps:\n{steps}\n"
+    )
 
 def format_edge_prompt(datum, example=False):
     """Format prompt for edge annotation."""
-    if example:
-        return (
-            f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n"
-            f"Current node:\n{json.dumps(datum['current_step'], indent=2, ensure_ascii=False)}\n"
-            f"Output:\n{json.dumps(datum['edges'], indent=2, ensure_ascii=False)}\n"
-        )
-    else:
-        return (
-            f"Previous nodes:\n{json.dumps(datum['prev_steps'], indent=2, ensure_ascii=False)}\n"
-            f"Current node:\n{json.dumps(datum['current_node'], indent=2, ensure_ascii=False)}\n"
-            f"Output:\n"
-        )
+    prev_step_strings = '\n'.join(
+        f"- ID: {step['id']}, Label: {step['label']}\n"
+        f"  {json.dumps(step['text'], ensure_ascii=False)}"
+        for step in datum['prev_steps']
+    )
+    curr_step_str = (
+        f"- Label: {datum['current_node']['label']}\n"
+        f"  {json.dumps(datum['current_node']['text'], ensure_ascii=False)}"
+    )
+    return (
+        f"Previous nodes:\n{prev_step_strings}\n"
+        f"Current node:\n{curr_step_str}\n"
+        f"Output:\n"
+    )
 
 
 # =============================================================================
@@ -154,7 +185,8 @@ def _load_prompts_and_examples():
     prompt_files = {
         "node_segmentation": "parser/prompts/1_node_segmentation_prompt.txt",
         "node_classification": "parser/prompts/2_node_classification_prompt.txt",
-        "edge": "parser/prompts/3_edge_prompt.txt",
+        "update_conclusion": "parser/prompts/3_update_conclusion_prompt.txt",
+        "edge": "parser/prompts/4_edge_prompt.txt",
     }
     example_files = {
         "edge": "parser/prompts/edge_fewshot_examples.json",
@@ -173,9 +205,6 @@ def _load_prompts_and_examples():
 
 PROMPTS, EXAMPLES = _load_prompts_and_examples()
 
-# Labels that require full context (all previous nodes) for edge detection
-FULL_CONTEXT_LABELS = {"planning", "assumption", "conclusion", "restatement"}
-
 # Maximum number of previous nodes to consider for edge detection
 MAX_CONTEXT_WINDOW = 10
 
@@ -186,7 +215,7 @@ MAX_CONTEXT_WINDOW = 10
 
 def _build_edge_definitions(node_label):
     """Build edge definition text for a given node label."""
-    return "## Possible edges\n" + "\n".join(
+    return "\n\n".join(
         f"{EDGE_LABEL_DEFINITIONS[edge_label]}"
         for edge_label in NODE_LABEL_TO_EDGE_LABELS[node_label]
     )
@@ -216,17 +245,17 @@ def node_segmentation(text):
     return response["units"]
 
 
-def node_classification(sent, prev_steps):
-    """Label a single sentence using LLM."""
-    input_data = {"raw_text": sent, "previous_steps": prev_steps}
+def node_classification(nodes, question):
+    """Labels all sentences using LLM."""
+    input_data = {"nodes": nodes, "previous_steps": question}
     prompt = _build_prompt_with_examples(
         PROMPTS["node_classification"],
         [], # No examples for node classification
         format_node_label_prompt,
         input_data
     )
-    label = call_llm(prompt, schema=NodeLabelResponse)["label"]
-    return {"text": sent, "label": label.lower()}
+    response = call_llm(prompt, schema=NodeLabelResponseList)
+    return response
 
 
 def edge_detection_and_classification(node_idx, nodes):
@@ -237,6 +266,7 @@ def edge_detection_and_classification(node_idx, nodes):
 
     node_label = node["label"]
     if node_label not in NODE_LABEL_TO_EDGE_LABELS:
+        print("No edges for node label:", node_label)
         return []
     context_start = 0
 
@@ -251,7 +281,7 @@ def edge_detection_and_classification(node_idx, nodes):
     prompt = PROMPTS["edge"].replace("<<edge_definitions>>", edge_definitions)
     prompt = _build_prompt_with_examples(
         prompt,
-        EXAMPLES["edge"].get(node_label, []),
+        [],
         format_edge_prompt,
         input_data
     )
@@ -261,11 +291,11 @@ def edge_detection_and_classification(node_idx, nodes):
     return [
         {
             "id": f"e{i}",
-            "from_node_id": edge["from_node_id"],
-            "to_node_id": node["id"],
+            "source_node_id": edge["source_node_id"],
+            "dest_node_id": node["id"],
             "label": edge["label"],
         }
-        for i, edge in enumerate(response["responses"])
+        for i, edge in enumerate(response["responses"]) if edge["label"]
     ]
 
 
@@ -327,33 +357,6 @@ def _create_response_node(index, start, end, label, text):
     }
 
 
-def _keep_only_last_conclusion(labels):
-    """Ensure only the last 'conclusion' label remains; others become 'reasoning'.
-
-    Args:
-        labels: List of label dicts with 'text' and 'label' keys.
-
-    Returns:
-        Modified labels list (mutated in place).
-    """
-    # Find the last conclusion index
-    last_conclusion_idx = None
-    for i, item in enumerate(labels):
-        if item["label"] == "conclusion":
-            last_conclusion_idx = i
-
-    # Default to last sentence if no conclusion found
-    if last_conclusion_idx is None:
-        last_conclusion_idx = len(labels) - 1
-
-    # Convert all other conclusions to reasoning
-    for i, item in enumerate(labels):
-        if item["label"] == "conclusion" and i != last_conclusion_idx:
-            item["label"] = "reasoning"
-
-    return labels
-
-
 # =============================================================================
 # Main Processing Function
 # =============================================================================
@@ -371,14 +374,14 @@ def main_predict(data, output_dir=""):
 
         # Process question sentences into context nodes
         question_text = datum["raw_text"]["question"]
-        sentences, indices = tokenize_and_align(question_text, node_segmentation)
-        if sentences is None:
+        question_sentences, indices = tokenize_and_align(question_text, node_segmentation)
+        if question_sentences is None:
             continue
         indices[0] = 0
 
         nodes = [
             _create_context_node(i, indices[i], indices[i + 1], question_text[indices[i]:indices[i + 1]])
-            for i in range(len(sentences))
+            for i in range(len(question_sentences))
         ]
 
         # Process response sentences
@@ -387,15 +390,6 @@ def main_predict(data, output_dir=""):
         if response_sentences is None:
             continue
         response_indices[0] = 0
-
-        # Build list of previous steps for each sentence (for context in classification)
-        prev_steps_list = [response_sentences[:i] for i in range(len(response_sentences))]
-
-        # Label sentences in parallel
-        with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            labels = list(executor.map(node_classification, response_sentences, prev_steps_list))
-
-        _keep_only_last_conclusion(labels)
 
         # Validation
         assert response_indices[0] == 0, "First sentence index should be 0."
@@ -408,12 +402,28 @@ def main_predict(data, output_dir=""):
                 i,
                 response_indices[i],
                 response_indices[i + 1],
-                labels[i]["label"],
+                None, # Placeholder for label
                 response_text[response_indices[i]:response_indices[i + 1]]
             )
-            for i in range(len(labels))
+            for i in range(len(response_sentences) - 1)
         ])
+        
+        # annotate node labels together
+        node_to_labels_list = node_classification(nodes, question=question_text)
+        node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
+        for node in nodes:
+            if node['id'] in node_to_labels:
+                node['label'] = node_to_labels[node['id']]
+        
         datum["nodes"] = nodes
+        
+        # Post-hoc update of conclusion nodes
+        conclusion_prompt = PROMPTS["update_conclusion"].replace("<<input>>", format_conclusion_prompt(datum))
+        conclusion_response = call_llm(conclusion_prompt, schema=ConclusionNodeList)
+        conclusion_node_ids = set(conclusion_response["conclusion_node_ids"])
+        for node in datum["nodes"]:
+            if node["id"] in conclusion_node_ids:
+                node["label"] = "conclusion"
 
         # Annotate edges in parallel
         edge_func = partial(edge_detection_and_classification, nodes=nodes)
@@ -421,17 +431,22 @@ def main_predict(data, output_dir=""):
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             edge_lists = list(executor.map(edge_func, non_context_indices))
+        print("Reach here: edge count", sum(len(edges) for edges in edge_lists))
 
         # Flatten and sort edges
         edge_results = [edge for edges in edge_lists for edge in edges]
         edge_results.sort(
-            key=lambda e: (get_node_sort_key(e["to_node_id"]), get_node_sort_key(e["from_node_id"]))
+            key=lambda e: (get_node_sort_key(e["dest_node_id"]), get_node_sort_key(e["source_node_id"]))
         )
 
         # Assign sequential IDs
         for i, edge in enumerate(edge_results):
             edge["id"] = f"e{i}"
         datum["edges"] = edge_results
+        
+        # Update annotator info
+        datum["metadata"]["annotator"] = f"{LLM_MODEL_NAME}"
+        datum["metadata"]["is_human_annotated"] = False
 
         # Save output
         output_path = os.path.join(output_dir, f"{datum['doc_id']}.json")
@@ -458,11 +473,13 @@ if __name__ == "__main__":
 
     print("<Load data...>")
     data = []
+    # Make directory for output if not exists
+    os.makedirs(f"data/v0_llm_{LLM_MODEL_NAME}", exist_ok=True)
     for file in sorted(os.listdir("data/v0_raw_data")):
         if file.endswith(".json"):
             output_path = os.path.join(
                 "data",
-                "v0_llm_Gemini-2.5-Flash",
+                f"v0_llm_{LLM_MODEL_NAME}",
                 file
             )
             if os.path.exists(output_path):
@@ -474,4 +491,4 @@ if __name__ == "__main__":
                 data.append(datum)
 
     print(f"Loaded {len(data)} data samples.")
-    main_predict(data, output_dir="data/v0_llm_Gemini-2.5-Flash")
+    main_predict(data, output_dir=f"data/v0_llm_{LLM_MODEL_NAME}")
