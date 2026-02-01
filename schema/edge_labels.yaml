@@ -1,9 +1,9 @@
 edges:
-- name: reason:premise-conclusion
+- name: reason:inference
   color: "#F0F0F0"
   description: This edge represents the basic premise-conclusion relationship. To apply this edge, both nodes should be asserted facts/propositions.
-  from: [context, fact, reasoning, restatement, assumption, example, conclusion]
-  to: [reasoning, assumption, reflection, conclusion]
+  source: [context, fact, reasoning, restatement, assumption, example, conclusion]
+  dest: [reasoning, assumption, reflection, conclusion]
   subtypes:
   - type: (Deductive) Premises → Conclusion
     description: This might also include commonsense-included deductive reasoning, where some premises are missing.
@@ -61,14 +61,16 @@ edges:
         text: Hmm, it seems like all these perfect squares are either 4n+0 or 4n+1.
         edge_to: true
 
-- name: reason:plan-step
+- name: reason:execute
   color: "#E8E8E8"
-  description: This label represents the relationship between a plan and its implementation. This edge should connect the plan and the first nodes of parallel reasoning chains. A step might be logically correct, but might not be relevant to the current goal. This edge provides the contextual information regarding what the step is doing right now, i.e., coherence of the reasoning step.
-  from: [planning, assumption]
-  to: [fact, reasoning, restatement, assumption, example, conclusion]
+  description: 'This label represents the relationship between a plan and its execution. The plan "introduces" what will happen in the subsequent reasoning step, and the subsequent nodes will follow the plan to perform actual reasoning.
+  
+    If there are parallel reasoning going on (e.g., by individually assessing two possibilities), this edge should connect the plan and the first nodes of these parallel reasoning chains. A step might be logically correct, but might not be relevant to the current goal. This edge provides the contextual information regarding what the step is doing right now, i.e., coherence of the reasoning step.'
+  source: [planning]
+  dest: [fact, reasoning, restatement, assumption, example, conclusion]
   subtypes:
   - type: A plan and its implementation
-    description: "For connecting planning and example nodes, if the planning node contains details about what the example node is exemplifying, it should be annotated as reason:concept-example edge instead."
+    description: "For connecting planning and example nodes, if the planning node contains details about what the example node is exemplifying, it should be annotated as reason:exemplify edge instead."
     examples:
     - id: 0
       nodes:
@@ -103,11 +105,11 @@ edges:
         text: "- 0^2 = 0, which is 4×0 + 1."
         edge_to: true
 
-- name: reason:stmt-restatement
+- name: reason:restate
   color: "#E0E0E0"
   description: This edge connects the Restatement node to the previous node that is restated. When there are multiple statements that include the same content, make sure that this edge points to the original node that is the earliest in the reasoning trace. Even if the node is not directly copying the content, restating a few facts or high-level information of the context can be considered as restatement.
-  from: [context, fact, reasoning, assumption, conclusion]
-  to: [restatement]
+  source: [context, fact, reasoning, assumption, conclusion]
+  dest: [restatement]
   subtypes:
   - type: Restating contexts
     description: 
@@ -148,11 +150,11 @@ edges:
         text: I already know that the Arrhenius equation is \[k=Ae^{E_a/RT}\].
         edge_to: true
 
-- name: reason:fact-detail
+- name: reason:elaborate-fact
   color: "#D8D8D8"
   description: This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact.
-  from: [fact]
-  to: [fact]
+  source: [fact]
+  dest: [fact]
   subtypes:
   - type: A fact and linked facts
     description: ""
@@ -174,11 +176,11 @@ edges:
         text: "The equation is k = A * e^(-Ea/(RT)),"
         edge_to: true
 
-- name: reason:concept-example
+- name: reason:exemplify
   color: "#D0D0D0"
   description: This edge label applies to Example nodes, connecting the example to what it exemplifies. When both nodes are trivia-like facts, it should be rather annotated as fact-detail.
-  from: [planning, fact, reasoning, restatement, assumption]
-  to: [example]
+  source: [planning, fact, reasoning, restatement, assumption]
+  dest: [example]
   subtypes:
   - type: Enumeration
     description: ""
@@ -190,9 +192,6 @@ edges:
         edge_to: false
       - type: example
         text: "- 0^2 = 0, which is 4×0 + 0."
-        edge_to: true
-      - type: example
-        text: "- 1^2 = 1, which is 4×0 + 1."
         edge_to: true
   - type: Conceptual examples
     description: ""
@@ -219,9 +218,27 @@ edges:
 
 - name: plan:frontier-plan
   color: "#FFCDCD"
-  description: This edge connects facts/reasoning/restatements/examples/... to a plan, when the content of the previous node triggers the planning. Typical examples include deciding high-level plans based on known facts and indicating how to solve (simplify, substitute, calculate) a certain equation at a low level.
-  from: [context, fact, reasoning, restatement, assumption, example]
-  to: [planning]
+  description: 'This is the default label that connects a plan to any nodes which the content triggers the planning.
+
+    Typical examples include:
+    
+    - deciding high-level plans based on known facts
+
+    - indicating how to solve (simplify, substitute, calculate) a certain equation at a low level
+    
+    - multiple planning/assumption nodes forming a linear sequence (first, second, .../ next, then, ...)
+
+    plan:verification, plan:decomposition, and plan:backtrack edges are exceptions; they should be annotated with higher priority than this label.
+    
+    **A rule of thumb for determining source nodes that are not planning:**
+    
+    - If a plan leads to a reasoning node via plan-step, the source nodes of that reasoning node (annotated as premise-conclusion/plan-step) should be connected to the plan via this edge.
+
+    **A rule of thumb for determining planning source nodes:**
+
+    - The planning must connect to the very next planning node in a linear chain.'
+  source: [context, planning, fact, reasoning, restatement, assumption, example, reflection]
+  dest: [planning]
   subtypes:
   - type: Base facts → initial plan
     description: ""
@@ -256,8 +273,46 @@ edges:
       - type: planning
         text: I need to calculate that.
         edge_to: true
-  - type: The reason a plan is not working → alternative plan
+  - type: Linear progression of steps
     description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: "Left side:"
+        edge_to: false
+      - type: planning
+        text: "Right side:"
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: I need to balance the hydrogen and oxygen atoms.
+        edge_to: false
+      - type: planning
+        text: "Now, recounting the atoms:"
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: planning
+        text: First, let me calculate the area of the base.
+        edge_to: false
+      - type: planning
+        text: "Next, we can find the volume of the cone:"
+        edge_to: true
+  - type: Mutually exclusive assumptions
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: "Let's consider an even number: let's say 2k, where k is an integer."
+        edge_to: false
+      - type: assumption
+        text: "Now, consider an odd number: let's say 2k+1, where k is an integer."
+        edge_to: true
+  - type: The reason a plan is not working → alternative plan
+    description: "This applies only to the failed conclusion of the initial plan. The initial planning node itself should be annotated as plan-alternative."
     examples:
     - id: 0
       nodes:
@@ -267,12 +322,50 @@ edges:
       - type: planning
         text: Maybe I need to use the frequency at a certain point in the waveform, like the frequency at merger.
         edge_to: true
+  - type: Linear progression of steps
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: "Left side:"
+        edge_to: false
+      - type: planning
+        text: "Right side:"
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: planning
+        text: I need to balance the hydrogen and oxygen atoms.
+        edge_to: false
+      - type: planning
+        text: "Now, recounting the atoms:"
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: planning
+        text: First, let me calculate the area of the base.
+        edge_to: false
+      - type: planning
+        text: "Next, we can find the volume of the cone:"
+        edge_to: true
+  - type: Mutually exclusive assumptions
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: "Let's consider an even number: let's say 2k, where k is an integer."
+        edge_to: false
+      - type: assumption
+        text: "Now, consider an odd number: let's say 2k+1, where k is an integer."
+        edge_to: true
 
-- name: plan:frontier-verify
+- name: plan:verification
   color: "#FFC6C6"
-  description: This edge specifically labels the relationship between a reasoning node and a Planning node, initiating the verification process. Typical subsequent nodes include phrases like "Let's verify this", "I should check if there is any error".
-  from: [fact, reasoning, restatement, assumption, example]
-  to: [planning]
+  description: This edge specifically labels the relationship between a reasoning-like node and a Planning node, initiating the verification process. Typical destination nodes include phrases like "Let's verify this", "I should check if there is any error".
+  source: [fact, reasoning, restatement, assumption, example]
+  dest: [planning]
   subtypes:
   - type: Initiating verification
     description: ""
@@ -301,14 +394,26 @@ edges:
       - type: planning
         text: I should double-check the formula and the calculations.
         edge_to: true
+    - id: 3
+      nodes:
+      - type: reasoning
+        text: The final answer is 5.
+        edge_to: false
+      - type: planning
+        text: Wait, let me make sure that I did not miss anything.
+        edge_to: true
 
-- name: plan:plan-subplan
+- name: plan:decomposition
   color: "#FFBDBD"
-  description: This edge connects a plan and a subplan. Subplans decompose the high-level plan into smaller, more straightforward goals. If the plans can be executed in parallel, edges should connect the high-level plan to all subplans; if the subplans are meant to execute sequentially, edges should connect to the first plan only.
-  from: [planning, assumption]
-  to: [planning, assumption]
+  description: 'This edge connects a plan and a subplan. Subplans decompose the high-level plan into smaller, more straightforward goals.
+  
+    If the plans can be executed in parallel, edges should connect the high-level plan to all subplans; if the subplans are meant to execute sequentially, edges should connect to the first plan only.
+    
+    This is the most standard relationship between plans, so if there is a clear semantic relationship between two plans but no strong evidence for plan-nextplan or plan-alternative, this edge should be used.'
+  source: [planning, assumption]
+  dest: [planning, assumption]
   subtypes:
-  - type: Decomposition
+  - type: Decomposition of coarser plans into finer subplans
     description: ""
     examples:
     - id: 0
@@ -335,7 +440,18 @@ edges:
       - type: planning
         text: "we can divide both sides by y:"
         edge_to: true
-  - type: Paraphrasing of a step
+  - type: Dividing a coarse assumption into fine-grained ones
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: assumption
+        text: Let's assume that n^2 is either 0 or 1 modulo 4.
+        edge_to: false
+      - type: assumption
+        text: "Case 1: n^2 ≡ 0 (mod 4)"
+        edge_to: true
+  - type: Paraphrasing of a node due to formatting reasons (should only select when two nodes are adjacent)
     description: ""
     examples:
     - id: 0
@@ -346,49 +462,12 @@ edges:
       - type: planning
         text: "### Case 1: x=5"
         edge_to: true
-
-- name: plan:plan-nextplan
-  color: "#FFB6B6"
-  description: This edge connects multiple plans that are executed sequentially. If the node does not start with explicit phrases like "Next", "Second", "Then", we annotate it as plan:frontier-plan edge starting from the previous conclusion. When there are multiple Planning steps chained linearly, one should only link adjacent ones (and not connect all pairs).
-  from: [planning, assumption]
-  to: [planning, assumption]
-  subtypes:
-  - type: Linear progression of steps
-    description: ""
-    examples:
-    - id: 0
-      nodes:
-      - type: planning
-        text: "Left side:"
-        edge_to: false
-      - type: planning
-        text: "Right side:"
-        edge_to: true
-    - id: 1
-      nodes:
-      - type: planning
-        text: I need to balance the hydrogen and oxygen atoms.
-        edge_to: false
-      - type: planning
-        text: "Now, recounting the atoms:"
-        edge_to: true
-  - type: Mutually exclusive assumptions
-    description: ""
-    examples:
-    - id: 0
-      nodes:
-      - type: assumption
-        text: "Let's consider an even number: let's say 2k, where k is an integer."
-        edge_to: false
-      - type: assumption
-        text: "Now, consider an odd number: let's say 2k+1, where k is an integer."
-        edge_to: true
-
-- name: plan:plan-alternative
+        
+- name: plan:backtrack
   color: "#FFADAD"
   description: This edge denotes when the model is suggesting an alternative plan from the previous one. The subsequent nodes often include "Alternatively", "Let me think in other direction", or other similar phrases. When there are multiple Planning steps chained linearly, one should only link adjacent ones (and not connect all pairs).
-  from: [planning, assumption]
-  to: [planning, assumption]
+  source: [planning, assumption]
+  dest: [planning, assumption]
   subtypes:
   - type: Alternative plans (backtracking)
     description: Considering multiple mutually exclusive assumptions should be annotated as plan-nextplan. However, if the model is trying different assumptions that are not related to each other, it can be annotated as plan-alternative.
@@ -413,8 +492,8 @@ edges:
 - name: reflect:positive
   color: "#D0E4FF"
   description: This edge connects a reasoning node (mostly Reasoning, Fact, Assumption) and a reflection node that affirms it. If the affirmation is based on the semantic identity of previous and current steps, e.g., connecting the conclusion of the positive self-verification to the verification goal, it should be annotated as validate:support.
-  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
-  to: [reflection]
+  source: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  dest: [reflection]
   subtypes:
   - type: Affirmation of previous nodes
     description: ""
@@ -439,8 +518,8 @@ edges:
 - name: reflect:negative
   color: "#C0D4FF"
   description: This edge connects a reasoning node and a node that denies it. This is mostly caused by reflection statements like "This seems incorrect" or reflecting without explicit correction edge, such as "Therefore, it is wrong". When it explicitly corrects the previous node, it should be annotated as verify:attack.
-  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
-  to: [reflection]
+  source: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  dest: [reflection]
   subtypes:
   - type: Denial of previous nodes
     description: ""
@@ -473,8 +552,8 @@ edges:
 - name: reflect:uncertain
   color: "#C8DBFF"
   description: This edge represents all other meta-statements that are not explicitly support/refute. Typical use cases are reflection of uncertainty ("I am not sure/certain"), confusion ("I am confused/lost"), lack of knowledge ("I don't know"), lack of confidence ("I am a bit rusty"), and anomaly ("This seems weird").
-  from: [planning, fact, reasoning, restatement, assumption, example, conclusion]
-  to: [reasoning, reflection]
+  source: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  dest: [reasoning, reflection]
   subtypes:
   - type: Uncertainty
     description: ""
@@ -556,7 +635,7 @@ edges:
         text: This is tricky.
         edge_to: true
   - type: Exclamation
-    description: Only when the reflection does not indicate the correctness of the previous step. Not to be confused with evaluate:refute label, where the model indicates that the previous step is incorrect.
+    description: Only when the reflection does not indicate the correctness of the previous step. Not to be confused with 'verify:attack' label, where the model indicates that the previous step is incorrect.
     examples:
     - id: 0
       nodes:
@@ -569,9 +648,9 @@ edges:
 
 - name: validate:support
   color: "#FFE5C5"
-  description: While other edges are focused on the logical premise and the reasoner's intent, Validate edges denote whether two pieces of information are consistent or not. This edge label applies to reasoning nodes and conclusion nodes that reinforce previous nodes by stating the same thing. It distinguishes from reason:stmt-restatement because it is not blindly copying the previous statement, but comparing two pieces of information that were derived independently. It also differs from reflect:positive, because validate:support annotates propositional equivalence while reflect:positive only annotates positive sentiment. IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes via this edge or validate:attack.
-  from: [context, planning, fact, reasoning, assumption, conclusion]
-  to: [reasoning, conclusion]
+  description: While other edges are focused on the logical premise and the reasoner's intent, Validate edges denote whether two pieces of information are consistent or not. This edge label applies to reasoning nodes and conclusion nodes that reinforce previous nodes by stating the same thing. It distinguishes from reason:restate because it is not blindly copying the previous statement, but comparing two pieces of information that were derived independently. It also differs from reflect:positive, because validate:support annotates propositional equivalence while reflect:positive only annotates positive sentiment. IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes via this edge or validate:attack.
+  source: [context, planning, fact, reasoning, assumption, conclusion]
+  dest: [reasoning, conclusion]
   subtypes:
   - type: Positive self-verification conclusion
     description: When the conclusion of a verification process results in the same conclusion as the original solution (verification goal), this edge can be used to connect the original solution to the verification's conclusion.
@@ -634,8 +713,8 @@ edges:
 - name: validate:attack
   color: "#FFCD8E"
   description: While other edges are focused on the logical premise and the reasoner's intent, Validate edges denote whether two pieces of information are consistent or not. This edge label applies to Restatement nodes and Conclusion nodes, connecting the original statement to the restatement. It differs from reflect:negative, because validate:attack annotates propositional equivalence, while reflect:negative only annotates positive sentiment. IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes via this edge or via validate:support.
-  from: [context, planning, fact, reasoning, assumption, conclusion]
-  to: [reasoning, conclusion]
+  source: [context, planning, fact, reasoning, assumption, conclusion]
+  dest: [reasoning, conclusion]
   subtypes:
   - type: Proof by contradiction
     description: ""

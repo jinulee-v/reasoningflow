@@ -7,8 +7,7 @@ nodes:
   color: '#FFADAD'
   description: '**Planning** introduces the content of the following nodes. It can be both coarse, high-level direction that affects tens to hundreds of nodes, or highly local plans that only affect the next node.
 
-
-    The rule of thumb for finding a Planning node is to check if it includes active verbs like *find, recall, check, solve, or replace,* with first-person subjects (*I, me*).'
+    Planning node often includes phrases like (I need, I should, Let''s, ...) indicating that the model should **act** in some way. However, it can also be a very short phrase that indicates the direction of the next node, such as *"Now, for n ≥ 2:"* or *"Numerator:"*.'
   subtypes:
   - type: Introducing long-term directions and subgoals (global plans)
     description: ''
@@ -34,7 +33,7 @@ nodes:
         text: Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\).
         edge_to: false
   - type: Phrases that initiate verification
-    description: ''
+    description: 'It might be confused with Reflection that expresses uncertainty. As a rule-of-thumb, if the following nodes are actually verifying the step above.'
     examples:
     - id: 0
       nodes:
@@ -55,6 +54,11 @@ nodes:
       nodes:
       - type: planning
         text: Just to double-check, is there a reason why the problem specifies 298 K and 1 atm?
+        edge_to: false
+    - id: 4
+      nodes:
+      - type: planning
+        text: Is this approach correct?
         edge_to: false
   - type: Phrases that initiate backtracking (alternative solutions)
     description: ''
@@ -107,15 +111,11 @@ nodes:
         edge_to: false
 - name: fact
   color: '#FFD6A5'
-  description: '**Fact** refers to a phrase that contains general external knowledge. To distinguish from other nodes, it must satisfy two criteria:
+  description: '**Fact** contains external, parametric knowledge. To distinguish from other nodes, it must satisfy two criteria:
 
+    1. The information should not be given in any of the previous nodes including contexts. If so, it should be considered as restatement nodes.
 
-    1. The information should not be given in the query.
-
-    2. It must not be deduced from other facts in a deductive/inductive manner.
-
-
-    The rule of thumb for finding a Fact node is to check (1) if a Wikipedia search can verify the content of the node, or (2) if the general public will know the fact and agree to it.'
+    2. It must not be deduced from other facts in a deductive/inductive manner. If so, it should be considered as reasoning nodes.'
   subtypes:
   - type: Theorems, laws, and rules
     description: ''
@@ -199,7 +199,9 @@ nodes:
         edge_to: false
 - name: reasoning
   color: '#FDFFB6'
-  description: '**Reasoning** includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.'
+  description: '**Reasoning** includes any of deductive/inductive/abductive inference. Reasoning nodes should not present novel facts; they must refer to previous Context/Restatement/Fact/Assumption/Example/… nodes to derive the designated conclusion.
+  
+    Even if the derivation is trivial or obvious, it should still be categorized as Reasoning as long as it involves logical steps based on prior information.'
   subtypes:
   - type: Calculations
     description: '*This category includes arithmetic operations (deriving numeric values from other numeric values), simplification (altering an equation/expression to its logical equivalents), and other mathematical operations.*'
@@ -304,10 +306,15 @@ nodes:
         edge_to: false
 - name: restatement
   color: '#CAFFBF'
-  description: '**Restatement** is when the model copies/paraphrases the preceding text (context/previously presented steps). Typically, Restatement includes terms like ''as seen previously'', ''already stated'', ''the problem''.
+  description: '**Restatement** is when the model copies/paraphrases the preceding text (context/previous nodes). Therefore, the destination node should have content that can be directly entailed from the source node.
 
+    If the node includes any new information that is not present in the source node, it should not be classified as Restatement.
 
-    Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.'
+    Typically, terms like ''as seen previously'', ''already stated'', ''the problem'', strongly indicate the restatement nodes. However, it might simply restate previous steps without any of these auxiliary phrases.
+
+    Note 1: Even if two plans have the same content, both should be classified as planning. Restatement does not apply to planning nodes.
+
+    Note 2: Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.'
   subtypes:
   - type: Rephrasing the context
     description: '*Not to confuse with nodes with only filler words, like: "I got this problem here."*'
@@ -458,7 +465,12 @@ nodes:
         edge_to: false
 - name: example
   color: '#9bf6ff'
-  description: '**Example** is a specific instance of a general and abstract concept provided above.'
+  description: '**Example** is a specific instance of a general and abstract concept provided in the preceding steps.
+
+    Examples are often unnecessary for the reasoning process, but rather helps illustrate the outline of the solution.
+    Therefore, even if it is enumerating multiple objects, if it is directly solving the problem, it should be categorized as Reasoning.
+    
+    If a single example (each of the example in a list multiple of examples) spans multiple nodes, label the first one as example, and the following nodes (derived from the first node) as accordingly.'
   subtypes:
   - type: Pattern induction by enumeration
     description: ''
@@ -508,15 +520,42 @@ nodes:
       - type: example
         text: If \(s = 15\), \(s^2 = 225\), sum is \(\frac{225 - 95}{2} = \frac{130}{2} = 65\), which is even larger.
         edge_to: false
-  - type: Other examples
-    description: ''
-    examples: []
+    - id: 1
+      nodes:
+      - type: example
+        text: 'Take \( a = 3, b = 3, c = 1 \) for an example:'
+        edge_to: false
+      - type: reasoning
+        text: In that case, \(a ^ 3 + b ^ 3 + c ^ 3 = 27 + 27 + 1 = 55\), and \((abc)^2 = 9^2 = 81\).
+        edge_to: false
+  - type: Rhetorical examples
+    description: 'These examples are not essential to the reasoning process, but are provided to illustrate a point or clarify a concept. They often include phrases like "For example," "To list a few," or "Representative examples are"'
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: Country controlling citizens'' personal information is important for providing convenient public services and prevent fraud.
+        edge_to: false
+      - type: example
+        text: For example, governments can provide services for verifying one's identity for financial transactions, preventing misuse.
+        edge_to: false
+      nodes:
+      - type: planning
+        text: Now, I need to double-check whether I missed something during my initial calculation.
+        edge_to: false
+      - type: example
+        text: For instance, it is easy to neglect state changes in the equilibrium constant calculation.
+        edge_to: false
+      - type: planning
+        text: Let's check whether there any state changes involved in this reaction.
+        edge_to: false
 - name: reflection
   color: '#a0c4ff'
   description: '**Reflection** is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
 
+    However, LLMs sometimes include subjective words during the reasoning process. Make sure the content is not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still complete.
 
-    Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.'
+    Note: Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.'
   subtypes:
   - type: Meta-evaluations
     description: ''
@@ -614,11 +653,13 @@ nodes:
   color: '#c3b1e1'
   description: 'This node includes the model''s final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
 
+    Conclusion nodes can directly indicate that it is the final answer by including phrases like **Final Answer**, **Answer:**, or similar expressions.
+    However, other conclusion nodes can be implicit, without such phrases. In that case one must compare the content of the node to the original question (context nodes).
 
     Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.'
   subtypes:
   - type: Intermediate conclusions
-    description: '*Nodes that do not directly answer the question should be annotated as reasoning.*'
+    description: '*Nodes that do not directly attempt to answer the question should be annotated as reasoning.*'
     examples:
     - id: 0
       nodes:
