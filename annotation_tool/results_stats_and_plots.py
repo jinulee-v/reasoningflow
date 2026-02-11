@@ -76,7 +76,7 @@ edge_labels = {n:0 for n in edge_color_map.keys()}
 for data in edge_valid_data:
     for edge in data['edges']:            
         if edge['label'] == "":
-            print(data["doc_id"], edge["from_node_id"], edge["to_node_id"])
+            print(data["doc_id"], edge["source_node_id"], edge["dest_node_id"])
         else:
             edge_labels[edge['label']] += 1
 print(edge_labels)
@@ -172,7 +172,7 @@ for prefix in ["Wait", "Alternatively", "However"]:
                 # Find edges with alternative/verify
                 any_lrm_behavior_flag = False
                 for edge in data['edges']:
-                    if edge['to_node_id'] == node['id']:
+                    if edge['dest_node_id'] == node['id']:
                         if edge['label'] == "plan:plan-alternative":
                             alternative += 1
                             any_lrm_behavior_flag = True

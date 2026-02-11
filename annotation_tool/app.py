@@ -20,6 +20,9 @@ with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
     edges = yaml.safe_load(f)
     labels["edge_labels"] = [edge['name'] for edge in edges['edges']]
 
+print("Loaded node labels:", labels["node_labels"])
+print("Loaded edge labels:", labels["edge_labels"])
+
 def load_file(directory, filename):
     file_path = os.path.join(DATA_DIR, directory, filename)
     if not os.path.exists(file_path):
@@ -71,11 +74,11 @@ def reorganize_doc(doc):# reindex
         "edges": sorted([
             {
                 "id": d["id"],
-                "from_node_id": id_map.get(d["from_node_id"], ""),
-                "to_node_id": id_map.get(d["to_node_id"], ""),
+                "source_node_id": id_map.get(d["source_node_id"], ""),
+                "dest_node_id": id_map.get(d["dest_node_id"], ""),
                 "label": d["label"]
-            } for d in doc["edges"] if d["from_node_id"] in id_map and d["to_node_id"] in id_map
-        ], key=lambda x: (id_order_dict.get(x["to_node_id"], -1), id_order_dict.get(x["from_node_id"], -1)))
+            } for d in doc["edges"] if d["source_node_id"] in id_map and d["dest_node_id"] in id_map
+        ], key=lambda x: (id_order_dict.get(x["dest_node_id"], -1), id_order_dict.get(x["source_node_id"], -1)))
     }
     return new_data
 
@@ -236,10 +239,10 @@ def merge_node():
 
     # replace edge labels
     for edge in doc["edges"]:
-        if edge["from_node_id"] == node_id:
-            edge["from_node_id"] = node_merged["id"]
-        if edge["to_node_id"] == node_id:
-            edge["to_node_id"] = node_merged["id"]
+        if edge["source_node_id"] == node_id:
+            edge["source_node_id"] = node_merged["id"]
+        if edge["dest_node_id"] == node_id:
+            edge["dest_node_id"] = node_merged["id"]
     
     new_data = reorganize_doc(doc)
     save_file(directory, filename, new_data)
@@ -279,8 +282,8 @@ def visualize_graph():
     
     for edge in data.get('edges', []):
         graph_data['edges'].append({
-            'from': edge['from_node_id'],
-            'to': edge['to_node_id'],
+            'from': edge['source_node_id'],
+            'to': edge['dest_node_id'],
             'label': edge.get('label', ''),
             'arrows': 'to',
             "smooth": {"forceDirection": "vertical"}

@@ -29,7 +29,7 @@ def draw_graph(data):
 
     # Add edges
     for edge in data["edges"]:
-        G.add_edge(edge["from_node_id"], edge["to_node_id"], label=edge["label"], smooth={'type': 'straightCross'}, arrows={'to':{'enabled':True}}) # physics=False, 
+        G.add_edge(edge["source_node_id"], edge["dest_node_id"], label=edge["label"], smooth={'type': 'straightCross'}, arrows={'to':{'enabled':True}}) # physics=False, 
 
     # Perform topological sorting to assign vertical positions
     layers = list(nx.topological_generations(G))
@@ -98,7 +98,7 @@ def draw_graph(data):
 
     # # Add edges
     # for edge in data["edges"]:
-    #     net.add_edge(edge["from_node_id"], edge["to_node_id"], label=edge["label"], smooth={'type': 'straightCross'})
+    #     net.add_edge(edge["source_node_id"], edge["dest_node_id"], label=edge["label"], smooth={'type': 'straightCross'})
 
     # net.force_atlas_2based(gravity=-50, central_gravity=0.5, spring_length=200)
     # Show graph

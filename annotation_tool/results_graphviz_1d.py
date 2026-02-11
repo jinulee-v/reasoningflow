@@ -56,8 +56,8 @@ def draw_graph(data):
     # Add edges with styled labels
     for edge in data["edges"]:
         net.add_edge(
-            edge["from_node_id"] + "-ghost",
-            edge["to_node_id"] + "-ghost",
+            edge["source_node_id"] + "-ghost",
+            edge["dest_node_id"] + "-ghost",
             label=edge["label"].split(":")[-1],
             arrows={'to':{'enabled':True}},
             stroke="4",

@@ -383,7 +383,7 @@
                     edgesContainer.appendChild(edgesHeader);
                     
                     // Get edges where this node is the target
-                    const nodeEdges = doc.edges.filter(edge => edge.to_node_id === node.id);
+                    const nodeEdges = doc.edges.filter(edge => edge.dest_node_id === node.id);
 
                     // Render existing edges
                     nodeEdges.forEach(edge => {
@@ -408,8 +408,8 @@
                         const newEdgeId = doc.edges.length ? Math.max(...doc.edges.map(e => parseInt(e.id.substring(1)))) + 1 : 1;
                         const newEdge = {
                             id: `e${newEdgeId}`,
-                            from_node_id: '',
-                            to_node_id: node.id,
+                            source_node_id: '',
+                            dest_node_id: node.id,
                             label: ''
                         };
                         doc.edges.push(newEdge);
@@ -558,7 +558,7 @@
                 option.value = node.id;
                 // Truncate text to reduce memory for long texts
                 option.textContent = `${node.id}: ${node.text.length > 97 ? node.text.substring(0, 97) + '...' : node.text}`;
-                option.selected = edge.from_node_id === node.id;
+                option.selected = edge.source_node_id === node.id;
                 fromNodeSelect.appendChild(option);
             }
 
@@ -613,7 +613,7 @@
             fromNodeSelect.addEventListener('change', (e) => {
                 const edgeIndex = currentDoc.edges.findIndex(ed => ed.id === edge.id);
                 if (edgeIndex !== -1) {
-                    currentDoc.edges[edgeIndex].from_node_id = e.target.value;
+                    currentDoc.edges[edgeIndex].source_node_id = e.target.value;
                 }
             });
             fromNodeSelect.addEventListener('change', saveAnnotation);

@@ -17,7 +17,7 @@ distance(X, Y, D) :- edge(X, Z, _), distance(Z, Y, D1), D = D1 + 1.
     for node in data["nodes"]:
         ASP += f"node({node['id']}, \"{node['label']}\").\n"
     for edge in data["edges"]:
-        ASP += f"edge({edge['from_node_id']}, {edge['to_node_id']}, \"{edge['label']}\").\n"
+        ASP += f"edge({edge['source_node_id']}, {edge['dest_node_id']}, \"{edge['label']}\").\n"
     
     for query in query:
         ASP += "\n" + query + "\n"
