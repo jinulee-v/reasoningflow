@@ -1,10 +1,11 @@
 Please split the following text into "reasoning units". Reasoning units are mostly sentences, but can change by whether the sentence includes complex reasoning intents.
+These sentences not need to start with alphanumeric character.
 
-You need to further split in these cases:
+You need to further split in these cases where the sentence can be segmented into parts with different semantic roles:
 - A sentence is separated by a colon, and the two parts are clearly planning and its implementation. If the planning is a single word, do not separate.
   Example:
     "Let's now find the value of a by using the equation 3a-4=7:", "a=(7+4)/3=11/3."
-- A sentence that combines an externally verifiable fact and reasoning based on the fact.
+- A sentence that combines an externally verifiable fact and reasoning based on the fact. Note: If the fact is not an absolute fact but dependent on the context/previous steps, do not split.
   Example:
     "Since the speed of light is 299,752,258m/s,", "the kinetic energy of a particle would be approximately 1.5M Joules."
 - A sentence links a reasoning-like phrase and a self evaluation by punctuations like comma and colon.
@@ -14,20 +15,26 @@ You need to further split in these cases:
   Example:
     "Assuming a=1,", "the polynomial becomes x^2 + bx + 2b - 1 = 0."
 
+**Note**: Do not split where there is no connecting punctuations (semicolon, colon, comma, etc.)
+
 However, do not split:
 - Simple headers or transition words
   Example:
     "1. Computing the velocity of the spacecraft"
     "Case 1: x=5"
     "Wait, let's verify the previous step."
+- When the premise follows the conclusion in the single sentence.
+  Example:
+    "Cigarrettes should not be banned, since it provides tax income that can support the federal government."
+    "This calculation seems off, because I know that the the typical C-H bond length is around 1.06 to 1.10 Ångströms."
+    "Since a and b are coprimes as proved above, we can ensure that there exists an inverse element of a for multiplication modulo b and vise versa.
 - When colons are used to denote simple fact and its description
   Example:
     "The derivative of xcos(x) is: \[ \cos(x) - x\sin(x) \]."
 - A single latex equation block.
   Example:
-    "\[...\]"
-    "\(...\)"
-    "\begin{aligned}...\end{aligned}"
+    "\[\n x^2 - 4y = 0 \\ y = x^2/4 \]"
+    "\begin{aligned} & \cos^2(x) - sin(2x) \\ =& \cos^2(x) - 2\sin(x)\cos(x) \\ =& \cos(x)(\cos(x) - \sin(x)) \end{aligned}"
 - An equation and the following step explaning the symbols used.
   Example:
     "The kinetic energy E = mv^2/2 \n\n Where m is the mass of the object and v is the velocity."

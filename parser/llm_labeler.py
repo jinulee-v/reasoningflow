@@ -10,8 +10,9 @@ import yaml
 
 from pydantic import BaseModel
 
-from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
-# from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
+from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.vertexai import LLM_MODEL_NAME, call_llm, get_metadata
 
 
 # =============================================================================
@@ -340,7 +341,7 @@ def _create_context_node(index, start, end, text):
         "end": end,
         "label": "context",
         "text": text,
-        "source": "response",
+        "source": "question",
     }
 
 
@@ -405,14 +406,14 @@ def main_predict(data, output_dir=""):
                 None, # Placeholder for label
                 response_text[response_indices[i]:response_indices[i + 1]]
             )
-            for i in range(len(response_sentences) - 1)
+            for i in range(len(response_indices) - 1)
         ])
         
         # annotate node labels together
         node_to_labels_list = node_classification(nodes, question=question_text)
         node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
         for node in nodes:
-            if node['id'] in node_to_labels:
+            if node['id'] in node_to_labels and node['source'] == 'response':
                 node['label'] = node_to_labels[node['id']]
         
         datum["nodes"] = nodes

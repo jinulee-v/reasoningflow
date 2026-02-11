@@ -2,7 +2,7 @@ from openai import OpenAI
 import dotenv
 dotenv.load_dotenv()
 client = OpenAI()
-LLM_MODEL_NAME = "gpt-4.1-mini"
+LLM_MODEL_NAME = "gpt-5-mini"
 _SYSTEM_PROMPT = "You are an annotator creating the ReasoningFlow dataset. Read the provided annotation guide carefully, and make sure to respond correctly and concisely based on these annotation guides."
 
 in_token = 0

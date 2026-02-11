@@ -3,15 +3,21 @@ from google import genai
 import dotenv
 import os
 import json_repair
+
 dotenv.load_dotenv()
-client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
-LLM_MODEL_NAME = "gemini-2.5-flash"
-# LLM_MODEL_NAME = "gemini-3-flash-preview"
+
+client = genai.Client(
+    vertexai=True,
+    project=os.environ.get("PROJECT_ID"),
+    location=os.environ.get("REGION"),
+)
+LLM_MODEL_NAME = os.environ.get("MODEL_NAME", "gemini-2.5-flash")
 
 in_token = 0
 out_token = 0
 price = 0
-def call_llm(prompt: str, schema=None): # Gemini API
+
+def call_llm(prompt: str, schema=None):
     response = client.models.generate_content(
         model=LLM_MODEL_NAME,
         contents=prompt,
@@ -25,8 +31,7 @@ def call_llm(prompt: str, schema=None): # Gemini API
     in_token += response.usage_metadata.prompt_token_count
     out_token += response.usage_metadata.candidates_token_count
     price += response.usage_metadata.prompt_token_count * 0.3/1000000 + response.usage_metadata.candidates_token_count * 2.5/1000000
-    
-    # print(response.text); exit()
+
     response_text = response.text.split("```json")[-1].split("```")[0]
     response_text = response_text.strip()
     response_text = json_repair.repair_json(response_text)

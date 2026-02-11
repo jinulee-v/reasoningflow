@@ -33,7 +33,9 @@ nodes:
         text: Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\).
         edge_to: false
   - type: Phrases that initiate verification
-    description: 'It might be confused with Reflection that expresses uncertainty. As a rule-of-thumb, if the following nodes are actually verifying the step above.'
+    description: 'Note 1: Even if a node includes variety of facts and reasoning, if the core intent is to initialize a reasoning process, it should be annotated as planning.
+    
+      Note 2: It might be confused with Reflection nodes that expresses uncertainty. As a rule-of-thumb, check if the following nodes are actually verifying the step above.'
     examples:
     - id: 0
       nodes:
@@ -59,6 +61,16 @@ nodes:
       nodes:
       - type: planning
         text: Is this approach correct?
+        edge_to: false
+    - id: 5
+      nodes:
+      - type: planning
+        text: I must also consider that in quantum chemistry, the interaction energy is often calculated as the difference between the energy of the complex and the sum of the energies of the isolated monomers.
+        edge_to: false
+    - id: 5
+      nodes:
+      - type: planning
+        text: But wait, I should also consider the boundary conditions.
         edge_to: false
   - type: Phrases that initiate backtracking (alternative solutions)
     description: ''
@@ -111,11 +123,11 @@ nodes:
         edge_to: false
 - name: fact
   color: '#FFD6A5'
-  description: '**Fact** contains external, parametric knowledge. To distinguish from other nodes, it must satisfy two criteria:
+  description: '**Fact** contains external, parametric knowledge that is independent from the information provided in the context. A fact node must satisfy two criteria:
 
     1. The information should not be given in any of the previous nodes including contexts. If so, it should be considered as restatement nodes.
 
-    2. It must not be deduced from other facts in a deductive/inductive manner. If so, it should be considered as reasoning nodes.'
+    2. It must include nor reference information (numeric values, propositional content, context-specific constraints, ...) from the previous steps. If so, it should be considered as reasoning nodes.'
   subtypes:
   - type: Theorems, laws, and rules
     description: ''
@@ -195,7 +207,7 @@ nodes:
     - id: 1
       nodes:
       - type: fact
-        text: We know that water boils at 212F.
+        text: I know that water boils at 373 K.
         edge_to: false
 - name: reasoning
   color: '#FDFFB6'
@@ -286,23 +298,23 @@ nodes:
       - type: reasoning
         text: We can substitute $x+2y$ by $t$.
         edge_to: false
-  - type: Reasoning on the applicability of Fact
+  - type: Observations from examples
     description: ''
     examples:
     - id: 0
       nodes:
       - type: reasoning
-        text: However, Benford's law itself doesn't directly help in proving non-periodicity.
+        text: It seems that the provided numbers are all prime numbers.
         edge_to: false
     - id: 1
       nodes:
       - type: reasoning
-        text: But again, this seems more applicable to thin-film interference rather than Polaroid polarization.
+        text: From these examples, we can observe that all perfect squares are 0 or 1 modulo 4.
         edge_to: false
-    - id: 2
+    - id: 1
       nodes:
       - type: reasoning
-        text: This suggests that my initial formula might not be appropriate for this context.
+        text: I cannot find any immediate pattern like additions and multiplications in this sequence.
         edge_to: false
 - name: restatement
   color: '#CAFFBF'
@@ -314,9 +326,9 @@ nodes:
 
     Note 1: Even if two plans have the same content, both should be classified as planning. Restatement does not apply to planning nodes.
 
-    Note 2: Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.'
+    Note 2: Often, there are nodes where it seems that there exists an identical node above the reasoning trace, but the model is trying to re-derive it. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement. Only annotate a node as restatement where there is clear intent to restate one of the previous nodes.'
   subtypes:
-  - type: Rephrasing the context
+  - type: Rephrasing the context nodes
     description: '*Not to confuse with nodes with only filler words, like: "I got this problem here."*'
     examples:
     - id: 0
@@ -365,7 +377,7 @@ nodes:
         text: Given that the planet is 10 times the mass of the Sun, and the spaceship is 10,000 km away from the center,
         edge_to: false
   - type: Rephrasing previous nodes
-    description: ''
+    description: 'Exclude nodes that restate planning nodes.'
     examples:
     - id: 0
       nodes:
@@ -461,7 +473,13 @@ nodes:
     - id: 1
       nodes:
       - type: assumption
-        text: Suppose, for the sake of contradiction, that the sequence is periodic with period \( p \).
+        text: Suppose that the sequence is periodic with period \( p \).
+        edge_to: false
+      - type: 
+        text: ...
+        edge_to: false
+      - type: reasoning
+        text: This contradicts the equidistributional property.
         edge_to: false
 - name: example
   color: '#9bf6ff'
@@ -553,17 +571,20 @@ nodes:
   color: '#a0c4ff'
   description: '**Reflection** is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
 
-    However, LLMs sometimes include subjective words during the reasoning process. Make sure the content is not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still complete.
+    However, LLMs sometimes include subjective words during the reasoning process, as in "I think that (fact)" or "Wait, (fact)". Make sure the reflection nodes are not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still logically complete.
 
     Note: Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.'
   subtypes:
-  - type: Meta-evaluations
-    description: ''
+  - type: Meta-evaluation of a step
+    description: 'Not to confuse with planning nodes that indicate the future direction of how to correct. The following steps of reflection nodes should not include the direction of verification; if so, it should be annotated as planning nodes.'
     examples:
     - id: 0
       nodes:
       - type: reflection
         text: I'm clearly making a mistake here.
+        edge_to: false
+      - type: planning
+        text: Let's verify if this is correct.
         edge_to: false
     - id: 1
       nodes:
@@ -579,6 +600,9 @@ nodes:
       nodes:
       - type: reflection
         text: I think I'm mixing units again.
+        edge_to: false
+      - type: planning
+        text: Let's convert the pressure from atm to Pascal for better compatibility with standard units.
         edge_to: false
     - id: 4
       nodes:
@@ -649,17 +673,35 @@ nodes:
       - type: reflection
         text: Let's proceed.
         edge_to: false
+  - type: Reasoning on the applicability of Fact
+    description: ''
+    examples:
+    - id: 0
+      nodes:
+      - type: reflection
+        text: However, Benford's law itself doesn't directly help in proving non-periodicity.
+        edge_to: false
+    - id: 1
+      nodes:
+      - type: reflection
+        text: But again, this seems more applicable to thin-film interference rather than Polaroid polarization.
+        edge_to: false
+    - id: 2
+      nodes:
+      - type: reflection
+        text: This suggests that my initial formula might not be appropriate for this context.
+        edge_to: false
 - name: conclusion
   color: '#c3b1e1'
-  description: 'This node includes the model''s final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
+  description: 'This node includes the model''s final answer for the question.
 
     Conclusion nodes can directly indicate that it is the final answer by including phrases like **Final Answer**, **Answer:**, or similar expressions.
-    However, other conclusion nodes can be implicit, without such phrases. In that case one must compare the content of the node to the original question (context nodes).
-
-    Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.'
+    However, conclusion nodes that contain *intermediate* answers can appear without such phrases. These conclusion nodes are usually the last step of an "attempt" to solve the problem, and are often followed by planning nodes that init verification.
+    
+    Exclude nodes that are scoped under assumptions. Make sure that the model is asserting the conclusion node as the potential final answer.'
   subtypes:
   - type: Intermediate conclusions
-    description: '*Nodes that do not directly attempt to answer the question should be annotated as reasoning.*'
+    description: 'Nodes that directly attempt to answer the question, often followed by reflection, verification, and backtracking.'
     examples:
     - id: 0
       nodes:
@@ -692,6 +734,37 @@ nodes:
       - type: conclusion
         text: Option \(\mathrm{(C)}\ \frac{7}{2}\) matches my result.
         edge_to: false
+    - id: 2
+      nodes:
+      - type: context
+        text: Prove that all squares are 0 or 1 modulo 4.
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: conclusion
+        text: Therefore, for all n, n^2 \pmod 0 or 1.
+        edge_to: false
+      - type: reflection
+        text: This sounds good.
+        edge_to: false
+    - id: 3
+      nodes:
+      - type: context
+        text: Do you think cigarrettes should be banned for all ages?
+        edge_to: false
+      - type: null
+        text: …
+        edge_to: false
+      - type: reasoning
+        text: I believe adults should be able to choose whether to use certain substance or not on their own discretion.
+        edge_to: false
+      - type: conclusion
+        text: Therefore, I believe that cigarrettes should not be banned for all ages, at least to adults that can be considered responsible for their own decisions.
+        edge_to: false
+      - type: planning
+        text: Wait, I should also consider the potential harms to others caused by second-hand smoke.
+        edge_to: false
   - type: Final answers
     description: ''
     examples:
@@ -702,4 +775,9 @@ nodes:
         edge_to: false
       - type: conclusion
         text: '5.'
+        edge_to: false
+    - id: 0
+      nodes:
+      - type: conclusion
+        text: 'Therefore, the final answer is 0.381.'
         edge_to: false
