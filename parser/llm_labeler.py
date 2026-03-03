@@ -11,8 +11,8 @@ import yaml
 from pydantic import BaseModel
 
 # from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
-from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
-# from utils.vertexai import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
+from utils.vertexai import LLM_MODEL_NAME, call_llm, get_metadata
 
 
 # =============================================================================
@@ -168,8 +168,8 @@ def format_edge_prompt(datum, example=False):
         f"  {json.dumps(datum['current_node']['text'], ensure_ascii=False)}"
     )
     return (
-        f"Previous nodes:\n{prev_step_strings}\n"
-        f"Current node:\n{curr_step_str}\n"
+        f"Options for source nodes:\n\n<source>\n{prev_step_strings}\n</source>\n\n"
+        f"Destination node:\n\n<destination>\n{curr_step_str}\n</destination>\n\n"
         f"Output:\n"
     )
 
@@ -222,14 +222,34 @@ def _build_edge_definitions(node_label):
     )
 
 
-def _build_prompt_with_examples(template, examples, format_func, input_data):
-    """Build a prompt by replacing example placeholders and input."""
+def _build_prompt_with_examples(template, examples, format_func, input_data, example_outputs=None):
+    """Build a prompt by replacing example placeholders and input.
+
+    When example_outputs is provided, builds a fewshot examples block with both
+    formatted input and expected output, replacing <<fewshot_examples>> in the template.
+    Otherwise, replaces indexed <<example{i}>> placeholders with formatted input only.
+    """
     prompt = template
-    for i, example in enumerate(examples):
-        prompt = prompt.replace(
-            f"<<example{i+1}>>",
-            format_func(example, example=True)
-        )
+
+    if examples and example_outputs:
+        # Build fewshot examples block with input/output pairs
+        parts = []
+        for i, example in enumerate(examples):
+            input_str = format_func(example, example=True)
+            output_str = example_outputs[i]
+            parts.append(f"[[Example {i+1}]]\n\n{input_str}{output_str}\n")
+        prompt = prompt.replace("<<fewshot_examples>>", "\n".join(parts) + "\n")
+    elif examples:
+        # Replace indexed example placeholders (<<example1>>, <<example2>>, ...)
+        for i, example in enumerate(examples):
+            prompt = prompt.replace(
+                f"<<example{i+1}>>",
+                format_func(example, example=True)
+            )
+
+    # Clean up unused fewshot placeholder
+    prompt = prompt.replace("<<fewshot_examples>>", "")
+
     prompt = prompt.replace("<<input>>", format_func(input_data, example=False))
     return prompt
 
@@ -242,7 +262,7 @@ def _extract_node_summary(node):
 def node_segmentation(text):
     """Call LLM to perform sentence tokenization."""
     prompt = PROMPTS["node_segmentation"].replace("<<text>>", text)
-    response = call_llm(prompt, schema=SentenceList)
+    response = call_llm(prompt, schema=SentenceList, thinking_level="minimal")
     return response["units"]
 
 
@@ -255,7 +275,7 @@ def node_classification(nodes, question):
         format_node_label_prompt,
         input_data
     )
-    response = call_llm(prompt, schema=NodeLabelResponseList)
+    response = call_llm(prompt, schema=NodeLabelResponseList, thinking_level="minimal")
     return response
 
 
@@ -279,15 +299,29 @@ def edge_detection_and_classification(node_idx, nodes):
 
     # Build prompt
     edge_definitions = _build_edge_definitions(node_label)
+
+    # Prepare fewshot examples
+    raw_examples = EXAMPLES.get("edge", {}).get(node_label, [])
+    examples = [
+        {"prev_steps": ex["prev_steps"], "current_node": ex["current_step"]}
+        for ex in raw_examples
+    ]
+    example_outputs = [
+        json.dumps(ex["edges"], indent=4, ensure_ascii=False)
+        for ex in raw_examples
+    ]
+
     prompt = PROMPTS["edge"].replace("<<edge_definitions>>", edge_definitions)
     prompt = _build_prompt_with_examples(
         prompt,
-        [],
+        [], # examples,
         format_edge_prompt,
-        input_data
+        input_data,
+        example_outputs=example_outputs,
     )
+    # print(prompt); exit()
 
-    response = call_llm(prompt, schema=EdgeResponseList)
+    response = call_llm(prompt, schema=EdgeResponseList, thinking_level="high")
 
     return [
         {
@@ -362,7 +396,7 @@ def _create_response_node(index, start, end, label, text):
 # Main Processing Function
 # =============================================================================
 
-MAX_WORKERS = 4
+MAX_WORKERS = 2
 
 
 def main_predict(data, output_dir=""):
@@ -371,88 +405,92 @@ def main_predict(data, output_dir=""):
         os.makedirs(output_dir, exist_ok=True)
 
     for datum in data:
-        print(f"Processing document: {datum['doc_id']}")
+        try:
+            print(f"Processing document: {datum['doc_id']}")
 
-        # Process question sentences into context nodes
-        question_text = datum["raw_text"]["question"]
-        question_sentences, indices = tokenize_and_align(question_text, node_segmentation)
-        if question_sentences is None:
-            continue
-        indices[0] = 0
+            # Process question sentences into context nodes
+            question_text = datum["raw_text"]["question"]
+            question_sentences, indices = tokenize_and_align(question_text, node_segmentation)
+            if question_sentences is None:
+                continue
+            indices[0] = 0
 
-        nodes = [
-            _create_context_node(i, indices[i], indices[i + 1], question_text[indices[i]:indices[i + 1]])
-            for i in range(len(question_sentences))
-        ]
+            nodes = [
+                _create_context_node(i, indices[i], indices[i + 1], question_text[indices[i]:indices[i + 1]])
+                for i in range(len(question_sentences))
+            ]
 
-        # Process response sentences
-        response_text = datum["raw_text"]["response"]
-        response_sentences, response_indices = tokenize_and_align(response_text, node_segmentation)
-        if response_sentences is None:
-            continue
-        response_indices[0] = 0
+            # Process response sentences
+            response_text = datum["raw_text"]["response"]
+            response_sentences, response_indices = tokenize_and_align(response_text, node_segmentation)
+            if response_sentences is None:
+                continue
+            response_indices[0] = 0
 
-        # Validation
-        assert response_indices[0] == 0, "First sentence index should be 0."
-        assert len(response_indices) == len(response_sentences) + 1, \
-            "Sentence indices do not match the number of sentences."
+            # Validation
+            assert response_indices[0] == 0, "First sentence index should be 0."
+            assert len(response_indices) == len(response_sentences) + 1, \
+                "Sentence indices do not match the number of sentences."
 
-        # Create response nodes
-        nodes.extend([
-            _create_response_node(
-                i,
-                response_indices[i],
-                response_indices[i + 1],
-                None, # Placeholder for label
-                response_text[response_indices[i]:response_indices[i + 1]]
+            # Create response nodes
+            nodes.extend([
+                _create_response_node(
+                    i,
+                    response_indices[i],
+                    response_indices[i + 1],
+                    None, # Placeholder for label
+                    response_text[response_indices[i]:response_indices[i + 1]]
+                )
+                for i in range(len(response_indices) - 1)
+            ])
+            
+            # annotate node labels together
+            node_to_labels_list = node_classification(nodes, question=question_text)
+            node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
+            for node in nodes:
+                if node['id'] in node_to_labels and node['source'] == 'response':
+                    node['label'] = node_to_labels[node['id']]
+            
+            datum["nodes"] = nodes
+            
+            # Post-hoc update of conclusion nodes
+            conclusion_prompt = PROMPTS["update_conclusion"].replace("<<input>>", format_conclusion_prompt(datum))
+            conclusion_response = call_llm(conclusion_prompt, schema=ConclusionNodeList, thinking_level="high")
+            conclusion_node_ids = set(conclusion_response["conclusion_node_ids"])
+            for node in datum["nodes"]:
+                if node["id"] in conclusion_node_ids:
+                    node["label"] = "conclusion"
+
+            # Annotate edges in parallel
+            edge_func = partial(edge_detection_and_classification, nodes=nodes)
+            non_context_indices = [i for i, node in enumerate(nodes) if node["label"] != "context"]
+
+            with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+                edge_lists = list(executor.map(edge_func, non_context_indices))
+            print("Reach here: edge count", sum(len(edges) for edges in edge_lists))
+
+            # Flatten and sort edges
+            edge_results = [edge for edges in edge_lists for edge in edges]
+            edge_results.sort(
+                key=lambda e: (get_node_sort_key(e["dest_node_id"]), get_node_sort_key(e["source_node_id"]))
             )
-            for i in range(len(response_indices) - 1)
-        ])
-        
-        # annotate node labels together
-        node_to_labels_list = node_classification(nodes, question=question_text)
-        node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
-        for node in nodes:
-            if node['id'] in node_to_labels and node['source'] == 'response':
-                node['label'] = node_to_labels[node['id']]
-        
-        datum["nodes"] = nodes
-        
-        # Post-hoc update of conclusion nodes
-        conclusion_prompt = PROMPTS["update_conclusion"].replace("<<input>>", format_conclusion_prompt(datum))
-        conclusion_response = call_llm(conclusion_prompt, schema=ConclusionNodeList)
-        conclusion_node_ids = set(conclusion_response["conclusion_node_ids"])
-        for node in datum["nodes"]:
-            if node["id"] in conclusion_node_ids:
-                node["label"] = "conclusion"
 
-        # Annotate edges in parallel
-        edge_func = partial(edge_detection_and_classification, nodes=nodes)
-        non_context_indices = [i for i, node in enumerate(nodes) if node["label"] != "context"]
+            # Assign sequential IDs
+            for i, edge in enumerate(edge_results):
+                edge["id"] = f"e{i}"
+            datum["edges"] = edge_results
+            
+            # Update annotator info
+            datum["metadata"]["annotator"] = f"{LLM_MODEL_NAME}"
+            datum["metadata"]["is_human_annotated"] = False
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-            edge_lists = list(executor.map(edge_func, non_context_indices))
-        print("Reach here: edge count", sum(len(edges) for edges in edge_lists))
-
-        # Flatten and sort edges
-        edge_results = [edge for edges in edge_lists for edge in edges]
-        edge_results.sort(
-            key=lambda e: (get_node_sort_key(e["dest_node_id"]), get_node_sort_key(e["source_node_id"]))
-        )
-
-        # Assign sequential IDs
-        for i, edge in enumerate(edge_results):
-            edge["id"] = f"e{i}"
-        datum["edges"] = edge_results
-        
-        # Update annotator info
-        datum["metadata"]["annotator"] = f"{LLM_MODEL_NAME}"
-        datum["metadata"]["is_human_annotated"] = False
-
-        # Save output
-        output_path = os.path.join(output_dir, f"{datum['doc_id']}.json")
-        with open(output_path, "w") as f:
-            json.dump(datum, f, indent=4)
+            # Save output
+            output_path = os.path.join(output_dir, f"{datum['doc_id']}.json")
+            with open(output_path, "w") as f:
+                json.dump(datum, f, indent=4)
+        except Exception as e:
+            print(f"Error processing document {datum['doc_id']}. {e.__class__.__name__}: {e}")
+            continue
 
     metadata = get_metadata()
     print(

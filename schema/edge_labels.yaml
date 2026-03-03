@@ -1,7 +1,9 @@
 edges:
 - name: reason:infer
   color: "#F0F0F0"
-  description: This edge represents the basic premise-conclusion relationship. To apply this edge, both nodes should be asserted facts/propositions.
+  description: 'This edge represents the basic premise-conclusion relationship. To apply this edge, both nodes should be asserted facts/propositions.
+  
+    There might be multiple premise nodes that are semantically equivalent. (1) If it is due to restatement, choose only the original node instead of the restatement. (2) Otherwise, choose the closest source node from the destination.'
   source: [context, fact, reasoning, restatement, assumption, example, conclusion]
   dest: [reasoning, assumption, reflection, conclusion]
   subtypes:
@@ -92,6 +94,8 @@ edges:
   color: "#E8E8E8"
   description: 'This label represents the relationship between a plan and its execution. The plan "introduces" what will happen in the subsequent reasoning step, and the subsequent nodes will follow the plan to perform actual reasoning.
   
+    Note that this edge is mostly short-distanced, where it often connects nodes that are within distance 2.
+  
     If there are parallel reasoning going on (e.g., by individually assessing two possibilities), this edge should connect the plan and the first nodes of these parallel reasoning chains. A step might be logically correct, but might not be relevant to the current goal. This edge provides the contextual information regarding what the step is doing right now, i.e., coherence of the reasoning step.'
   source: [planning]
   dest: [fact, reasoning, restatement, assumption, example, conclusion]
@@ -179,7 +183,11 @@ edges:
 
 - name: reason:elaborate-fact
   color: "#D8D8D8"
-  description: This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact. Even if the two facts are semantically related, if they are not introduced within the same context, they should be not connected.
+  description: This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact.
+  
+    Note that this edge is usually short-distanced, where it is often connecting nodes that are within distance 2.
+
+    Even if the two facts are semantically related, if they are not introduced within the same context, they should be not connected.'
   source: [fact]
   dest: [fact]
   subtypes:
@@ -514,7 +522,7 @@ edges:
         
 - name: plan:backtrack
   color: "#FFADAD"
-  description: This edge denotes when the model is suggesting an alternative plan from the previous one. The subsequent nodes often include "Alternatively", "Let me think in other direction", or other similar phrases. When there are multiple Planning steps chained linearly, one should only link adjacent ones (and not connect all pairs).
+  description: This edge denotes when the model is suggesting an alternative plan from the previous one. The subsequent nodes often include phrases that indicate backtracking, e.g., "Alternatively", "Let me think in other direction". When there are multiple alternative Planning steps chained linearly, one should only link the immediately preceding one and not connect between all possible pairs.
   source: [planning]
   dest: [planning]
   subtypes:
@@ -530,6 +538,14 @@ edges:
         text: Another thing to think about is whether the pool is open to the atmosphere or not.
         edge_to: true
     - id: 1
+      nodes:
+      - type: planning
+        text: Perhaps I need to consider the attenuation of the unwanted polarization component due to absorption.
+        edge_to: false
+      - type: planning
+        text: Alternatively, if the absorption length is related to the refractive index and wavelength, there might be a way to express α in terms of n and λ.
+        edge_to: true
+    - id: 2
       nodes:
       - type: planning
         text: Perhaps I need to consider the attenuation of the unwanted polarization component due to absorption.
@@ -743,7 +759,7 @@ edges:
   
     This edge label applies to reasoning nodes and conclusion nodes that reinforce previous nodes by stating the same thing. It distinguishes from reason:restate because it is not blindly copying the previous statement, but comparing two pieces of information that were derived independently. It also differs from reflect:positive, because validate:support annotates propositional equivalence while reflect:positive only annotates positive sentiment.
     
-    IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes that address the same question, via validate:support or validate:attack.'
+    IMPORTANT - `Conclusion` nodes must connect to all previous `conclusion` nodes that address the same question, via validate:support or validate:attack.'
   source: [context, planning, fact, reasoning, assumption, conclusion]
   dest: [reasoning, conclusion]
   subtypes:
@@ -811,7 +827,7 @@ edges:
   
     This edge label applies to Restatement nodes and Conclusion nodes, connecting the original statement to the restatement. It differs from reflect:negative, because validate:attack annotates propositional equivalence, while reflect:negative only annotates positive sentiment.
   
-    IMPORTANT - Conclusion nodes must connect to all previous conclusion nodes that address the same question, via validate:support or validate:attack.'
+    IMPORTANT - `Conclusion` nodes must connect to all previous `conclusion` nodes that address the same question, via validate:support or validate:attack.'
   source: [context, planning, fact, reasoning, assumption, conclusion]
   dest: [reasoning, conclusion]
   subtypes:
@@ -837,7 +853,7 @@ edges:
       - type: reasoning
         text: H2SO4 has 2 H, and Ca(OH)2 has 2*(1) = 2 H, so total 4 H.
         edge_to: true
-  - type: Conclusion node and preceding conclusions that have inconsistent conclusions
+  - type: A claim and preceding claims that are logically inconsistent/mutually exclusive
     description: ""
     examples:
     - id: 0
@@ -855,6 +871,22 @@ edges:
         edge_to: false
       - type: conclusion
         text: The final answer is Tuesday.
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: Therefore, the speed of the spaceship is 0.7c.
+        edge_to: false
+      - type: reasoning
+        text: Therefore, the spaceship is traveling at approximately 0.58 times the speed of light.
+        edge_to: true
+    - id: 3
+      nodes:
+      - type: reasoning
+        text: Therefore, cigarrettes will cause additional burden to the healthcare system.
+        edge_to: false
+      - type: fact
+        text: The studies show that the additional tax revenue from cigarrettes can actually cover the healthcare costs.
         edge_to: true
   - type: The context is a proposition, and the conclusion is its negation
     description: "This type is typical in theorem proving/find counterexample type question, or open-ended debate questions."

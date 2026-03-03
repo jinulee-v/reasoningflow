@@ -8,7 +8,7 @@ with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
     edges = yaml.safe_load(f)
     for edge in edges['edges']:
         name = edge['name']
-        for target in edge.get('to', []):
+        for target in edge.get('dest', []):
             label_types_per_node[target].append(name)
 
 # Select examples that cover all edge types per node type.
@@ -69,12 +69,11 @@ for node_type, examples in few_shot_examples.items():
 def select_best_examples(examples, required_labels, max_examples=5):
     """
     Select up to max_examples that:
-    1. Have fewer than 20 prev_steps
+    1. More than 20 prev steps
     2. Collectively cover all required edge labels
     """
-    # Filter examples with fewer than 20 prev_steps
     # valid_examples = [ex for ex in examples if len(ex["prev_steps"]) < 20]
-    valid_examples = sorted([ex for ex in examples if len(ex["prev_steps"]) >= 10], key=lambda x: len(x["prev_steps"]))
+    valid_examples = sorted([ex for ex in examples if len(ex["prev_steps"]) >= 20], key=lambda x: len(x["prev_steps"]))
     # valid_examples = examples
     
     if not valid_examples:

@@ -1,8 +1,8 @@
 # Node Classification Guidelines
 
 Reasoning traces are already segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic.
-Your job is to assign labels to each nodes according to the provide description and examples below
-Respond by a list of JSON Dicts [{"node_id": "(node id)", "label": "(label)"}, ...].
+Your job is to assign labels to all nodes according to the provide description and examples below. Make sure you do not miss any nodes.
+Respond by a list of JSON Dicts {"responses": [{"node_id": "(node id)", "label": "(label)"}, ...]}
 
 
 # Labels
@@ -24,7 +24,8 @@ Examples:
 > - Let's attempt to use trigonometric relations to relate the positions of \(B_1\), \(B_2\), \(B_3\), and \(B_4\). -> planning
 
 #### Phrases that initiate verification
-It might be confused with Reflection that expresses uncertainty. As a rule-of-thumb, if the following nodes are actually verifying the step above.
+Note 1: Even if a node includes variety of facts and reasoning, if the core intent is to initialize a reasoning process, it should be annotated as planning.
+Note 2: It might be confused with Reflection nodes that expresses uncertainty. As a rule-of-thumb, check if the following nodes are actually verifying the step above.
 Examples:
 > - Maybe I should look up the correct formula for calculating standard cell potential. -> planning
 
@@ -35,6 +36,10 @@ Examples:
 > - Just to double-check, is there a reason why the problem specifies 298 K and 1 atm? -> planning
 
 > - Is this approach correct? -> planning
+
+> - I must also consider that in quantum chemistry, the interaction energy is often calculated as the difference between the energy of the complex and the sum of the energies of the isolated monomers. -> planning
+
+> - But wait, I should also consider the boundary conditions. -> planning
 
 #### Phrases that initiate backtracking (alternative solutions)
 Examples:
@@ -61,9 +66,9 @@ Examples:
 
 ## Fact
 
-Fact contains external, parametric knowledge. To distinguish from other nodes, it must satisfy two criteria:
+Fact contains external, parametric knowledge that is independent from the information provided in the context. A fact node must satisfy two criteria:
 1. The information should not be given in any of the previous nodes including contexts. If so, it should be considered as restatement nodes.
-2. It must not be deduced from other facts in a deductive/inductive manner. If so, it should be considered as reasoning nodes.
+2. It must include nor reference information (numeric values, propositional content, context-specific constraints, ...) from the previous steps. If so, it should be considered as reasoning nodes.
 
 
 #### Theorems, laws, and rules
@@ -101,7 +106,7 @@ Examples:
 Examples:
 > - 2^10 is 1024. -> fact
 
-> - We know that water boils at 212F. -> fact
+> - I know that water boils at 373 K. -> fact
 
 
 ## Reasoning
@@ -149,13 +154,13 @@ Examples:
 
 > - We can substitute $x+2y$ by $t$. -> reasoning
 
-#### Reasoning on the applicability of Fact
+#### Observations from examples
 Examples:
-> - However, Benford's law itself doesn't directly help in proving non-periodicity. -> reasoning
+> - It seems that the provided numbers are all prime numbers. -> reasoning
 
-> - But again, this seems more applicable to thin-film interference rather than Polaroid polarization. -> reasoning
+> - From these examples, we can observe that all perfect squares are 0 or 1 modulo 4. -> reasoning
 
-> - This suggests that my initial formula might not be appropriate for this context. -> reasoning
+> - I cannot find any immediate pattern like additions and multiplications in this sequence. -> reasoning
 
 
 ## Restatement
@@ -164,10 +169,10 @@ Restatement is when the model copies/paraphrases the preceding text (context/pre
 If the node includes any new information that is not present in the source node, it should not be classified as Restatement.
 Typically, terms like 'as seen previously', 'already stated', 'the problem', strongly indicate the restatement nodes. However, it might simply restate previous steps without any of these auxiliary phrases.
 Note 1: Even if two plans have the same content, both should be classified as planning. Restatement does not apply to planning nodes.
-Note 2: Often, there are nodes where it seems that the model is re-deriving it, but there exists an identical node above the reasoning trace. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement.
+Note 2: Often, there are nodes where it seems that there exists an identical node above the reasoning trace, but the model is trying to re-derive it. This happens frequently during the verification process. These nodes should be categorized as Fact/Reasoning/…, based on its semantic role within the derivation, rather than Restatement. Only annotate a node as restatement where there is clear intent to restate one of the previous nodes.
 
 
-#### Rephrasing the context
+#### Rephrasing the context nodes
 *Not to confuse with nodes with only filler words, like: "I got this problem here."*
 Examples:
 > - What is the Gibbs free energy change (\u0394G) for the combustion of propane (C3H8) at 25\u00b0C and 1 atm pressure? -> context
@@ -184,6 +189,7 @@ Examples:
 > - Given that the planet is 10 times the mass of the Sun, and the spaceship is 10,000 km away from the center, -> restatement
 
 #### Rephrasing previous nodes
+Exclude nodes that restate planning nodes.
 Examples:
 > - Earlier, I concluded that only \(b = 5\) and \(b = 6\) are possible, -> restatement
 
@@ -226,7 +232,8 @@ Examples:
 Examples:
 > - Let's suppose, for the sake of contradiction, that there exists an integer \(m\) such that \(m^2 = 4n + 3\) for some integer \(n\). -> assumption
 
-> - Suppose, for the sake of contradiction, that the sequence is periodic with period \( p \). -> assumption
+> - Suppose that the sequence is periodic with period \( p \). -> assumption
+> - This contradicts the equidistributional property. -> reasoning
 
 
 ## Example
@@ -266,19 +273,22 @@ Examples:
 ## Reflection
 
 Reflection is a node that expresses *opinions* on the previous nodes. Reflections include both illogical emotions like *curiosity, uncertainty, and satisfaction*, and logical judgments like *correctness*.
-However, LLMs sometimes include subjective words during the reasoning process. Make sure the content is not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still complete.
+However, LLMs sometimes include subjective words during the reasoning process, as in "I think that (fact)" or "Wait, (fact)". Make sure the reflection nodes are not directly a part of the solution, i.e., removing the reflection node will make the reasoning trace still logically complete.
 Note: Reflection should not introduce the content of the following nodes (unlike planning nodes). It should purely reflect on the previous node without planning ahead. For instance, "I should double-check that." is an opinion, but it indicates that it will verify the node in the following steps, so it should be treated as planning.
 
 
-#### Meta-evaluations
+#### Meta-evaluation of a step
+Not to confuse with planning nodes that indicate the future direction of how to correct. The following steps of reflection nodes should not include the direction of verification; if so, it should be annotated as planning nodes.
 Examples:
 > - I'm clearly making a mistake here. -> reflection
+> - Let's verify if this is correct. -> planning
 
 > - But in this theoretical problem, I need to relate the rate to the given parameters. -> reflection
 
 > - But without knowing k, I can't compute a numerical rate. -> reflection
 
 > - I think I'm mixing units again. -> reflection
+> - Let's convert the pressure from atm to Pascal for better compatibility with standard units. -> planning
 
 > - Perhaps there's a better approach. -> reflection
 
@@ -311,12 +321,20 @@ Examples:
 
 > - Let's proceed. -> reflection
 
+#### Reasoning on the applicability of Fact
+Examples:
+> - However, Benford's law itself doesn't directly help in proving non-periodicity. -> reflection
+
+> - But again, this seems more applicable to thin-film interference rather than Polaroid polarization. -> reflection
+
+> - This suggests that my initial formula might not be appropriate for this context. -> reflection
+
 
 ## Classification Rules
 
 Reasoning traces are already segmented into nodes, which are syntactically non-overlapping segments ranging from clause to one sentence (exceptionally multi-line equations), and are semantically atomic.
-Your job is to assign labels to each nodes according to the provide description and examples below
-Respond by a list of JSON Dicts [{"node_id": "(node id)", "label": "(label)"}, ...].
+Your job is to assign labels to all nodes according to the provide description and examples below. Make sure you do not miss any nodes.
+Respond by a list of JSON Dicts {"responses": [{"node_id": "(node id)", "label": "(label)"}, ...]}
 
 
 <<input>>

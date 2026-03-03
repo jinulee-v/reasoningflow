@@ -17,20 +17,39 @@ in_token = 0
 out_token = 0
 price = 0
 
-def call_llm(prompt: str, schema=None):
+prompt_token_rate = {
+    "gemini-3-pro-preview": 2.0/1000000,
+    "gemini-3-flash-preview": 0.50/1000000,
+}
+candidates_token_rate = {
+    "gemini-3-pro-preview": 12.0/1000000,
+    "gemini-3-flash-preview": 3.00/1000000,
+}
+
+def call_llm(prompt: str, schema=None, **args):
+    thinking_level = args.get("thinking_level", "minimal")
+    if "gemini-3-pro" in LLM_MODEL_NAME and thinking_level == "minimal":
+        # Gemini-3-Pro does not support minimal, so we use Gemini-3-flash
+        llm_model_name = LLM_MODEL_NAME.replace("gemini-3-pro", "gemini-3-flash")
+    else:
+        llm_model_name = LLM_MODEL_NAME
     response = client.models.generate_content(
-        model=LLM_MODEL_NAME,
+        model=llm_model_name,
         contents=prompt,
         config={
             "response_mime_type": "application/json",
             "response_json_schema": schema.model_json_schema(),
-            "temperature": 0,
-        } if schema is not None else {"temperature": 0}
+            "temperature": 0.0,
+            "thinking_config": {
+                "include_thoughts": False,
+                "thinking_level": thinking_level
+            }
+        } if schema is not None else {"temperature": 0.0}
     )
     global in_token, out_token, price
     in_token += response.usage_metadata.prompt_token_count
     out_token += response.usage_metadata.candidates_token_count
-    price += response.usage_metadata.prompt_token_count * 0.3/1000000 + response.usage_metadata.candidates_token_count * 2.5/1000000
+    price += response.usage_metadata.prompt_token_count * prompt_token_rate.get(LLM_MODEL_NAME, 0) + response.usage_metadata.candidates_token_count * candidates_token_rate.get(LLM_MODEL_NAME, 0)
 
     response_text = response.text.split("```json")[-1].split("```")[0]
     response_text = response_text.strip()

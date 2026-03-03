@@ -2,13 +2,13 @@
 
 ## Conclusion
 
-This node includes the model's final answer for the question. Each "attempt" of solving the problem will have one conclusion node at the end.
-Conclusion nodes can directly indicate that it is the final answer by including phrases like **Final Answer**, **Answer:**, or similar expressions. However, other conclusion nodes can be implicit, without such phrases. In that case one must compare the content of the node to the original question (context nodes).
-Make sure the node includes what the question is actually asking for. For instance, if the question is multiple choice, only those that mention the symbol (e.g., Answer: (A) 5) can be the answer, not the ones without such intent despite having the same conclusion (e.g., therefore, the minimum number is 5). The intermediate calculations that do not have the intent to answer the question should be annotated as Reasoning.
+This node includes the model's final answer for the question.
+Conclusion nodes can directly indicate that it is the final answer by including phrases like **Final Answer**, **Answer:**, or similar expressions. However, conclusion nodes that contain *intermediate* answers can appear without such phrases. These conclusion nodes are usually the last step of an "attempt" to solve the problem, and are often followed by planning nodes that init verification.
+Exclude nodes that are scoped under assumptions. Make sure that the model is asserting the conclusion node as the potential final answer.
 
 
 #### Intermediate conclusions
-*Nodes that do not directly attempt to answer the question are not conclusions.*
+Nodes that directly attempt to answer the question, often followed by reflection, verification, and backtracking.
 **Examples:**
 > - Calculate the **factor by which time on the spaceship is dilated** due to the gravitational force of the planet compared to the time on the planet. -> context
 > - \- sqrt(1 - 0.0295) ≈ sqrt(0.9705) ≈ 0.9851. -> reasoning
@@ -21,15 +21,19 @@ Make sure the node includes what the question is actually asking for. For instan
 
 > - Prove that all squares are 0 or 1 modulo 4. -> context
 > - Therefore, for all n, n^2 \pmod 0 or 1. -> conclusion
+> - This sounds good. -> reflection
 
 > - Do you think cigarrettes should be banned for all ages? -> context
 > - I believe adults should be able to choose whether to use certain substance or not on their own discretion. -> reasoning
 > - Therefore, I believe that cigarrettes should not be banned for all ages, at least to adults that can be considered responsible for their own decisions. -> conclusion
+> - Wait, I should also consider the potential harms to others caused by second-hand smoke. -> planning
 
 #### Final answers
 **Examples:**
 > - ** Final Answer ** -> planning
 > - 5. -> conclusion
+
+> - Therefore, the final answer is 0.381. -> conclusion
 
 
 Annotate which of the nodes should be changed to "conclusion" nodes.
