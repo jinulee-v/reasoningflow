@@ -6,21 +6,31 @@ import plotly.express as px
 import pandas as pd
 from transformers import AutoTokenizer
 import numpy as np
+import yaml
 
 # pyplot text as plain text, not vector
 plt.rcParams['svg.fonttype'] = 'none'
 
-with open("static/labels.json", 'r', encoding='utf-8') as f:
-    label_config = json.load(f)
-    node_color_map = label_config["node_colors"]
-    edge_color_map = label_config["edge_colors"]
+DATA_DIR = "data"
+labels = {"node_labels": [], "edge_labels": [], "node_colors": {}}
+with open("schema/node_labels.yaml", 'r', encoding='utf-8') as f:
+    nodes = yaml.safe_load(f)
+    labels["node_labels"] = [node['name'] for node in nodes['nodes']]
+    for node in nodes['nodes']:
+        labels["node_colors"][node['name']] = node.get('color', '#FFFFFF')
+with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
+    edges = yaml.safe_load(f)
+    labels["edge_labels"] = [edge['name'] for edge in edges['edges']]
+edge_color_map = {edge['name']: edge.get('color', '#FFFFFF') for edge in edges['edges']}
+node_color_map = {node['name']: node.get('color', '#FFFFFF') for node in nodes['nodes']}
+del node_color_map["context"]
 
 node_valid_data = []
 edge_valid_data = []
-for filename in os.listdir('data'):
+for filename in os.listdir('data/v0_human_jinu_lee'):
     if not filename.endswith('.json'):
         continue
-    with open(os.path.join('data', filename), 'r', encoding='utf-8') as f:
+    with open(os.path.join('data/v0_human_jinu_lee', filename), 'r', encoding='utf-8') as f:
         data = json.load(f)
         node_valid = True
         edge_valid = True
@@ -52,10 +62,11 @@ for data in edge_valid_data:
         #     print("ASSUMPTION", data["doc_id"], node["id"])
         if node['label'] == "":
             print(data["doc_id"], node["id"])
+        elif node['label'] == "context":
+            continue
         else:
             node_labels[node['label']] += 1
 print(node_labels)
-del node_labels["context"]
 # Plot node label stats
 plt.figure(figsize=(5, 5))
 # print(plt.pie(node_labels.values()))
@@ -103,6 +114,8 @@ transition_matrix = {n: {m: 0 for m in node_color_map.keys()} for n in node_colo
 for data in node_valid_data:
     nodes = data['nodes']
     for i in range(len(nodes)-1):
+        if nodes[i]['label'] == 'context':
+            continue
         transition_matrix[nodes[i]['label']][nodes[i+1]['label']] += 1
 # Print a table
 print("Transition matrix:")
@@ -131,7 +144,7 @@ plt.savefig("token_length_distribution.svg", format='svg', bbox_inches='tight')
 first_two_tokens = {n: [] for n in node_color_map.keys()}
 for data in node_valid_data:
     for node in data['nodes']:
-        if node['label'] == "":
+        if node['label'] == "" or node['label'] == "context":
             continue
         tokens = tokenizer.tokenize(node['text'], add_special_tokens=False)
         if len(tokens) < 2:
