@@ -1,0 +1,3563 @@
+{
+    "doc_id": "aime2024_23_gpt-oss-120b",
+    "raw_text": {
+        "question": "A list of positive integers has the following properties:\n\n\\bullet The sum of the items in the list is 30.\n\n\\bullet The unique mode of the list is 9.\n\n\\bullet The median of the list is a positive integer that does not appear in the list itself.\n\nFind the sum of the squares of all the items in the list.",
+        "response": "<think>We need to find a list (multiset) of positive integers satisfying:\n\n- Sum = 30.\n- Unique mode is 9 (i.e., 9 appears more times than any other value, and appears at least twice? Unique mode could be single occurrence if all others appear less? Usually mode is the most frequent value; unique means it's the only one with that highest frequency. Could be frequency 1 if all numbers distinct? But then there would be no unique mode because all frequencies equal 1, not unique. So mode must appear at least twice, and more than any other count.\n- Median is a positive integer that does NOT appear in the list. Median of list (ordered) is integer (since list length maybe odd? If even length, median is average of two middle numbers, which could be integer but not necessarily in list). They say median is a positive integer that does not appear in the list itself. So median is integer but not a member.\n\nWe need sum of squares of all items.\n\nWe need to find the list(s) that satisfy constraints; maybe unique solution.\n\nLet n = length of list. Since median is integer not in list, we need to consider parity.\n\nIf n is odd, median is middle element, which must be an element of list, contradicts \"does not appear\". So n must be even. Then median is average of two middle numbers (the n/2-th and n/2+1-th after sorting). That average is integer, but neither of those two numbers equals the median (since median not in list). So the two middle numbers must be distinct and sum to an even integer (twice median). Also median not equal to either of them.\n\nThus n is even.\n\nLet the sorted list be a1 \u2264 a2 \u2264 ... \u2264 an. n even, median = (a_{n/2} + a_{n/2+1})/2 = M, integer, M not equal to any a_i.\n\nWe have sum = 30.\n\nMode is 9, unique. So count of 9's > count of any other value. Let k = multiplicity of 9. k \u2265 2. For any other value v \u2260 9, its count \u2264 k-1.\n\nGoal: find possible multiset.\n\nWe also need sum of squares.\n\nWe need to search possibilities.\n\nLet\u2019s denote total number of elements n. Since sum is 30, and numbers are positive integers, n cannot be too large. Minimum sum for n elements is n (all ones). So n \u2264 30.\n\nBut with mode 9, we have at least two 9's, sum at least 18, leaving 12 for other numbers.\n\nAlso median integer not in list. Since 9 is mode, likely median near 9? Could be less or greater.\n\nLet's attempt to enumerate possibilities.\n\nLet\u2019s denote the multiset includes k copies of 9, plus other numbers.\n\nLet\u2019s denote other numbers list B.\n\nSum: 9k + sum(B) = 30 => sum(B) = 30 - 9k.\n\nSince sum(B) must be nonnegative, k \u2264 3 (since 9*4=36 >30). So k can be 1,2,3. But mode must be unique and at least 2 copies, so k=2 or 3.\n\nIf k=3, sum(B)=30-27=3. So B consists of positive integers summing to 3. Options: {1,1,1} (three ones) or {1,2} (two numbers) or {3} (single). But we need total n = k + |B|.\n\nCheck each.\n\nCase k=3.\n\nOption B = {3}. Then list: three 9's and a 3. So multiset: {3,9,9,9}. n=4 (even). Sorted: 3,9,9,9. Median = (9+9)/2 = 9. But median must be integer not in list; median =9 which is in list, invalid.\n\nOption B = {1,2}. List: 9,9,9,1,2 => sorted: 1,2,9,9,9. n=5 (odd) -> median is middle element =9, which is in list, invalid. Also n odd not allowed.\n\nOption B = {1,1,1}. List: 9,9,9,1,1,1 => sorted: 1,1,1,9,9,9. n=6 even. Median = (1st middle? n/2=3, a3=1, a4=9) median = (1+9)/2 =5. That's integer 5, not in list (list has 1 and 9). Good! Check mode: 9 appears 3 times, 1 appears 3 times as well. That's not unique mode (tie). So invalid.\n\nThus k=3 fails.\n\nNow k=2.\n\nThen sum(B) = 30 - 18 = 12. So we need other numbers summing to 12, with multiplicities each \u2264 k-1 =1 (since unique mode: any other value can appear at most 1 time, because if another value appears twice, then its count equals 9's count (2) -> not unique). So all other numbers must be distinct and not equal to 9.\n\nThus B is a set of distinct positive integers \u22609, sum to 12.\n\nAlso we need median integer not in list, and n even.\n\nLet m = |B|. Then total n = 2 + m must be even => m even.\n\nThus m is even.\n\nWe need distinct positive integers not 9, sum 12, with even count.\n\nLet's list possibilities.\n\nWe need distinct numbers (no repeats) from 1..12 except 9, sum 12.\n\nPossible sets:\n\n- {12} sum 12, size 1 (odd) not allowed.\n- {11,1} sum 12, size 2 (even) good.\n- {10,2} sum 12, size 2.\n- {10,1,1} not allowed duplicates.\n- {8,4} sum 12, size 2.\n- {8,3,1} size 3 odd.\n- {8,2,2} duplicate.\n- {7,5} sum 12 size2.\n- {7,4,1} size3 odd.\n- {7,3,2} size3 odd.\n- {6,6} duplicate.\n- {6,5,1} size3 odd.\n- {6,4,2} size3 odd.\n- {6,3,2,1} size4 even sum 12? 6+3+2+1=12, size4 even good.\n- {5,4,3} size3 odd.\n- {5,4,2,1} sum12? 5+4+2+1=12 size4 even.\n- {5,3,2,1,1} duplicate.\n- {4,3,2,1,2} duplicate.\n\nThus possible B sets with even size: size 2 sets: {11,1}, {10,2}, {8,4}, {7,5}. size 4 sets: {6,3,2,1}, {5,4,2,1}.\n\nAlso could be size 6? sum 12 with distinct positive integers not 9, min sum of 6 distinct positive integers (1+2+3+4+5+6=21) >12, so not possible.\n\nThus m \u2208 {2,4}.\n\nNow we need to check median condition.\n\nWe have list = two 9's plus B.\n\nWe need to sort and compute median (average of middle two). Must be integer not in list.\n\nLet's examine each candidate.\n\nFirst, B size 2.\n\nCase B = {11,1}. List: 1,9,9,11 (sorted). n=4. Median = (9+9)/2 =9, which is in list, invalid.\n\nB = {10,2}. Sorted: 2,9,9,10. Median = (9+9)/2 =9, invalid.\n\nB = {8,4}. Sorted: 4,8,9,9? Wait order: 4,8,9,9. Median = (8+9)/2 =8.5 not integer, invalid (median must be integer). Also median not integer.\n\nB = {7,5}. Sorted:5,7,9,9. Median = (7+9)/2 =8, integer 8 not in list (list has 5,7,9). Good! Check mode: 9 appears twice, others appear once each, unique mode yes. Median 8 not in list. Sum = 7+5+9+9 =30 correct. So this list works: {5,7,9,9}. Median = (7+9)/2 =8. Good.\n\nNow check other size 2 sets maybe also work.\n\nWe already did 4,8 fails integer condition. 11,1 fails median being 9. 10,2 fails.\n\nThus only {5,7,9,9} works among size2.\n\nNow size4 sets.\n\nB = {6,3,2,1}. List: 1,2,3,6,9,9 (sorted). n=6. Median = average of a3 and a4 (positions 3 and 4). a3=3, a4=6 => median = (3+6)/2 =4.5 not integer. So invalid.\n\nB = {5,4,2,1}. Sorted:1,2,4,5,9,9. Median = (4+5)/2 =4.5 not integer. Invalid.\n\nThus only viable list is {5,7,9,9}.\n\nCheck all conditions: sum 30, mode 9 unique (frequency 2 > others 1 each), median = (7+9)/2 =8 integer not in list, positive integer. Good.\n\nThus sum of squares: 5^2 + 7^2 + 9^2 + 9^2 = 25 + 49 + 81 + 81 = 236.\n\nAnswer: 236.\n\nDouble-check there is no other list with same properties maybe with more than 2 copies of 9? We already considered k=3 and found none. So unique solution.\n\nThus answer 236.\n</think>\nLet the list contain \\(k\\) copies of the mode \\(9\\).\nSince the sum of all numbers is \\(30\\),\n\n\\[\n9k+\\text{(sum of the other numbers)} =30 .\n\\]\n\nBecause the mode must be unique, any other value can appear at most \\(k-1\\) times.\n\n---\n\n### 1.  How many 9\u2019s can there be?\n\n*If \\(k=4\\) or more*, the sum would already exceed \\(30\\) (\\(9\\cdot4=36\\)).  \nThus \\(k\\le 3\\).\n\n*If \\(k=3\\)*, the remaining numbers must sum to \\(30-27=3\\).  \nThe only possibilities are \\(\\{3\\},\\{1,2\\},\\{1,1,1\\}\\).  \nNone of these give a unique mode (the other numbers would tie with the 9\u2019s) or give a median that is an integer not in the list.  \nHence \\(k\\neq 3\\).\n\nTherefore **\\(k=2\\)**.  \nThe other numbers must sum to \\(30-18=12\\) and each can appear at most once (otherwise they would tie with the 9\u2019s).\n\n---\n\n### 2.  The other numbers\n\nWe need a set of distinct positive integers \\(\\neq 9\\) whose sum is \\(12\\).  \nLet the number of such distinct elements be \\(m\\).  \nSince the total length of the list is \\(n=2+m\\) and the median must be the average of the two middle terms, \\(n\\) must be even; hence \\(m\\) is even.\n\nDistinct sets of even size that sum to \\(12\\) are  \n\n\\[\n\\begin{aligned}\n&\\{11,1\\},\\; \\{10,2\\},\\; \\{8,4\\},\\; \\{7,5\\},\\\\\n&\\{6,3,2,1\\},\\; \\{5,4,2,1\\}.\n\\end{aligned}\n\\]\n\n---\n\n### 3.  Checking the median condition  \n\nFor each candidate we sort the whole list (including the two 9\u2019s) and compute the median, which is the average of the two middle terms.\n\n| Other numbers | Sorted list | Median | In list? |\n|---------------|-------------|--------|----------|\n| \\{11,1\\}      | 1,9,9,11    | 9      | **yes** |\n| \\{10,2\\}      | 2,9,9,10    | 9      | **yes** |\n| \\{8,4\\}       | 4,8,9,9     | 8.5    | not integer |\n| \\{7,5\\}       | 5,7,9,9     | **8**  | **no** |\n| \\{6,3,2,1\\}   | 1,2,3,6,9,9 | 4.5    | not integer |\n| \\{5,4,2,1\\}   | 1,2,4,5,9,9 | 4.5    | not integer |\n\nOnly the set \\(\\{5,7\\}\\) yields an integer median (8) that does **not** appear in the list.\n\nThus the unique list satisfying all conditions is  \n\n\\[\n\\boxed{\\{5,7,9,9\\}}.\n\\]\n\n---\n\n### 4.  Sum of the squares  \n\n\\[\n5^{2}+7^{2}+9^{2}+9^{2}=25+49+81+81=236.\n\\]\n\n\\[\n\\boxed{236}\n\\]"
+    },
+    "metadata": {
+        "batch": 23,
+        "domain": "aime2024",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "aime2024-23",
+        "correct_answer": "236",
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 59,
+            "label": "context",
+            "text": "A list of positive integers has the following properties:\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 59,
+            "end": 108,
+            "label": "context",
+            "text": "\\bullet The sum of the items in the list is 30.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 108,
+            "end": 151,
+            "label": "context",
+            "text": "\\bullet The unique mode of the list is 9.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 151,
+            "end": 246,
+            "label": "context",
+            "text": "\\bullet The median of the list is a positive integer that does not appear in the list itself.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 246,
+            "end": 303,
+            "label": "context",
+            "text": "Find the sum of the squares of all the items in the list.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 75,
+            "label": "planning",
+            "text": "We need to find a list (multiset) of positive integers satisfying:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 75,
+            "end": 87,
+            "label": "restatement",
+            "text": "- Sum = 30.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 87,
+            "end": 548,
+            "label": "restatement",
+            "text": "- Unique mode is 9 (i.e., 9 appears more times than any other value, and appears at least twice? Unique mode could be single occurrence if all others appear less? Usually mode is the most frequent value; unique means it's the only one with that highest frequency. Could be frequency 1 if all numbers distinct? But then there would be no unique mode because all frequencies equal 1, not unique. So mode must appear at least twice, and more than any other count.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 548,
+            "end": 908,
+            "label": "restatement",
+            "text": "- Median is a positive integer that does NOT appear in the list. Median of list (ordered) is integer (since list length maybe odd? If even length, median is average of two middle numbers, which could be integer but not necessarily in list). They say median is a positive integer that does not appear in the list itself. So median is integer but not a member.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 908,
+            "end": 946,
+            "label": "planning",
+            "text": "We need sum of squares of all items.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 946,
+            "end": 1024,
+            "label": "planning",
+            "text": "We need to find the list(s) that satisfy constraints; maybe unique solution.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 1024,
+            "end": 1114,
+            "label": "planning",
+            "text": "Let n = length of list. Since median is integer not in list, we need to consider parity.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 1114,
+            "end": 1218,
+            "label": "reasoning",
+            "text": "If n is odd, median is middle element, which must be an element of list, contradicts \"does not appear\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 1218,
+            "end": 1237,
+            "label": "reasoning",
+            "text": "So n must be even. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 1237,
+            "end": 1323,
+            "label": "reasoning",
+            "text": "Then median is average of two middle numbers (the n/2-th and n/2+1-th after sorting). ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 1323,
+            "end": 1427,
+            "label": "reasoning",
+            "text": "That average is integer, but neither of those two numbers equals the median (since median not in list). ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1427,
+            "end": 1513,
+            "label": "reasoning",
+            "text": "So the two middle numbers must be distinct and sum to an even integer (twice median). ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1513,
+            "end": 1555,
+            "label": "reasoning",
+            "text": "Also median not equal to either of them.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1555,
+            "end": 1572,
+            "label": "reasoning",
+            "text": "Thus n is even.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1572,
+            "end": 1695,
+            "label": "reasoning",
+            "text": "Let the sorted list be a1 \u2264 a2 \u2264 ... \u2264 an. n even, median = (a_{n/2} + a_{n/2+1})/2 = M, integer, M not equal to any a_i.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1695,
+            "end": 1714,
+            "label": "restatement",
+            "text": "We have sum = 30.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1714,
+            "end": 1733,
+            "label": "restatement",
+            "text": "Mode is 9, unique. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1733,
+            "end": 1777,
+            "label": "reasoning",
+            "text": "So count of 9's > count of any other value. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1777,
+            "end": 1811,
+            "label": "reasoning",
+            "text": "Let k = multiplicity of 9. k \u2265 2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1811,
+            "end": 1856,
+            "label": "reasoning",
+            "text": "For any other value v \u2260 9, its count \u2264 k-1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1856,
+            "end": 1887,
+            "label": "planning",
+            "text": "Goal: find possible multiset.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1887,
+            "end": 1917,
+            "label": "planning",
+            "text": "We also need sum of squares.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1917,
+            "end": 1951,
+            "label": "planning",
+            "text": "We need to search possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1951,
+            "end": 2067,
+            "label": "reasoning",
+            "text": "Let\u2019s denote total number of elements n. Since sum is 30, and numbers are positive integers, n cannot be too large. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 2067,
+            "end": 2111,
+            "label": "reasoning",
+            "text": "Minimum sum for n elements is n (all ones). ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 2111,
+            "end": 2123,
+            "label": "reasoning",
+            "text": "So n \u2264 30.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2123,
+            "end": 2214,
+            "label": "reasoning",
+            "text": "But with mode 9, we have at least two 9's, sum at least 18, leaving 12 for other numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2214,
+            "end": 2247,
+            "label": "restatement",
+            "text": "Also median integer not in list. ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2247,
+            "end": 2313,
+            "label": "reasoning",
+            "text": "Since 9 is mode, likely median near 9? Could be less or greater.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2313,
+            "end": 2356,
+            "label": "planning",
+            "text": "Let's attempt to enumerate possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2356,
+            "end": 2427,
+            "label": "reasoning",
+            "text": "Let\u2019s denote the multiset includes k copies of 9, plus other numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2427,
+            "end": 2463,
+            "label": "reasoning",
+            "text": "Let\u2019s denote other numbers list B.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2463,
+            "end": 2507,
+            "label": "reasoning",
+            "text": "Sum: 9k + sum(B) = 30 => sum(B) = 30 - 9k.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 2507,
+            "end": 2567,
+            "label": "reasoning",
+            "text": "Since sum(B) must be nonnegative, k \u2264 3 (since 9*4=36 >30). ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 2567,
+            "end": 2586,
+            "label": "reasoning",
+            "text": "So k can be 1,2,3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2586,
+            "end": 2647,
+            "label": "reasoning",
+            "text": "But mode must be unique and at least 2 copies, so k=2 or 3.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 2647,
+            "end": 2671,
+            "label": "reasoning",
+            "text": "If k=3, sum(B)=30-27=3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2671,
+            "end": 2720,
+            "label": "reasoning",
+            "text": "So B consists of positive integers summing to 3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2720,
+            "end": 2790,
+            "label": "reasoning",
+            "text": "Options: {1,1,1} (three ones) or {1,2} (two numbers) or {3} (single). ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2790,
+            "end": 2822,
+            "label": "reasoning",
+            "text": "But we need total n = k + |B|.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2822,
+            "end": 2835,
+            "label": "planning",
+            "text": "Check each.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2835,
+            "end": 2846,
+            "label": "assumption",
+            "text": "Case k=3.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2846,
+            "end": 2862,
+            "label": "example",
+            "text": "Option B = {3}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2862,
+            "end": 2892,
+            "label": "reasoning",
+            "text": "Then list: three 9's and a 3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2892,
+            "end": 2916,
+            "label": "reasoning",
+            "text": "So multiset: {3,9,9,9}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2916,
+            "end": 2928,
+            "label": "reasoning",
+            "text": "n=4 (even). ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2928,
+            "end": 2945,
+            "label": "reasoning",
+            "text": "Sorted: 3,9,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2945,
+            "end": 2967,
+            "label": "reasoning",
+            "text": "Median = (9+9)/2 = 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2967,
+            "end": 3045,
+            "label": "reasoning",
+            "text": "But median must be integer not in list; median =9 which is in list, invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 3045,
+            "end": 3063,
+            "label": "example",
+            "text": "Option B = {1,2}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 3063,
+            "end": 3101,
+            "label": "reasoning",
+            "text": "List: 9,9,9,1,2 => sorted: 1,2,9,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 3101,
+            "end": 3170,
+            "label": "reasoning",
+            "text": "n=5 (odd) -> median is middle element =9, which is in list, invalid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 3170,
+            "end": 3195,
+            "label": "reasoning",
+            "text": "Also n odd not allowed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 3195,
+            "end": 3215,
+            "label": "example",
+            "text": "Option B = {1,1,1}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 3215,
+            "end": 3257,
+            "label": "reasoning",
+            "text": "List: 9,9,9,1,1,1 => sorted: 1,1,1,9,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 3257,
+            "end": 3267,
+            "label": "reasoning",
+            "text": "n=6 even. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 3267,
+            "end": 3329,
+            "label": "reasoning",
+            "text": "Median = (1st middle? n/2=3, a3=1, a4=9) median = (1+9)/2 =5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 3329,
+            "end": 3379,
+            "label": "reasoning",
+            "text": "That's integer 5, not in list (list has 1 and 9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 3379,
+            "end": 3385,
+            "label": "reflection",
+            "text": "Good! ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3385,
+            "end": 3443,
+            "label": "reasoning",
+            "text": "Check mode: 9 appears 3 times, 1 appears 3 times as well. ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3443,
+            "end": 3473,
+            "label": "reasoning",
+            "text": "That's not unique mode (tie). ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3473,
+            "end": 3486,
+            "label": "reasoning",
+            "text": "So invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3486,
+            "end": 3503,
+            "label": "reasoning",
+            "text": "Thus k=3 fails.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3503,
+            "end": 3513,
+            "label": "assumption",
+            "text": "Now k=2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3513,
+            "end": 3541,
+            "label": "reasoning",
+            "text": "Then sum(B) = 30 - 18 = 12. ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3541,
+            "end": 3770,
+            "label": "reasoning",
+            "text": "So we need other numbers summing to 12, with multiplicities each \u2264 k-1 =1 (since unique mode: any other value can appear at most 1 time, because if another value appears twice, then its count equals 9's count (2) -> not unique). ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3770,
+            "end": 3829,
+            "label": "reasoning",
+            "text": "So all other numbers must be distinct and not equal to 9.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3829,
+            "end": 3891,
+            "label": "reasoning",
+            "text": "Thus B is a set of distinct positive integers \u22609, sum to 12.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 3891,
+            "end": 3945,
+            "label": "reasoning",
+            "text": "Also we need median integer not in list, and n even.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 3945,
+            "end": 3958,
+            "label": "reasoning",
+            "text": "Let m = |B|. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 3958,
+            "end": 4004,
+            "label": "reasoning",
+            "text": "Then total n = 2 + m must be even => m even.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 4004,
+            "end": 4021,
+            "label": "reasoning",
+            "text": "Thus m is even.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 4021,
+            "end": 4089,
+            "label": "reasoning",
+            "text": "We need distinct positive integers not 9, sum 12, with even count.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 4089,
+            "end": 4116,
+            "label": "planning",
+            "text": "Let's list possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 4116,
+            "end": 4184,
+            "label": "reasoning",
+            "text": "We need distinct numbers (no repeats) from 1..12 except 9, sum 12.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 4184,
+            "end": 4200,
+            "label": "planning",
+            "text": "Possible sets:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 4200,
+            "end": 4241,
+            "label": "example",
+            "text": "- {12} sum 12, size 1 (odd) not allowed.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 4241,
+            "end": 4278,
+            "label": "example",
+            "text": "- {11,1} sum 12, size 2 (even) good.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 4278,
+            "end": 4303,
+            "label": "example",
+            "text": "- {10,2} sum 12, size 2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 4303,
+            "end": 4338,
+            "label": "example",
+            "text": "- {10,1,1} not allowed duplicates.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 4338,
+            "end": 4362,
+            "label": "example",
+            "text": "- {8,4} sum 12, size 2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 4362,
+            "end": 4384,
+            "label": "example",
+            "text": "- {8,3,1} size 3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 4384,
+            "end": 4405,
+            "label": "example",
+            "text": "- {8,2,2} duplicate.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 4405,
+            "end": 4427,
+            "label": "example",
+            "text": "- {7,5} sum 12 size2.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 4427,
+            "end": 4448,
+            "label": "example",
+            "text": "- {7,4,1} size3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 4448,
+            "end": 4469,
+            "label": "example",
+            "text": "- {7,3,2} size3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 4469,
+            "end": 4488,
+            "label": "example",
+            "text": "- {6,6} duplicate.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 4488,
+            "end": 4509,
+            "label": "example",
+            "text": "- {6,5,1} size3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 4509,
+            "end": 4530,
+            "label": "example",
+            "text": "- {6,4,2} size3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 4530,
+            "end": 4590,
+            "label": "example",
+            "text": "- {6,3,2,1} size4 even sum 12? 6+3+2+1=12, size4 even good.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 4590,
+            "end": 4611,
+            "label": "example",
+            "text": "- {5,4,3} size3 odd.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 4611,
+            "end": 4653,
+            "label": "example",
+            "text": "- {5,4,2,1} sum12? 5+4+2+1=12 size4 even.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 4653,
+            "end": 4678,
+            "label": "example",
+            "text": "- {5,3,2,1,1} duplicate.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 4678,
+            "end": 4704,
+            "label": "example",
+            "text": "- {4,3,2,1,2} duplicate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 4704,
+            "end": 4820,
+            "label": "reasoning",
+            "text": "Thus possible B sets with even size: size 2 sets: {11,1}, {10,2}, {8,4}, {7,5}. size 4 sets: {6,3,2,1}, {5,4,2,1}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 4820,
+            "end": 4968,
+            "label": "reasoning",
+            "text": "Also could be size 6? sum 12 with distinct positive integers not 9, min sum of 6 distinct positive integers (1+2+3+4+5+6=21) >12, so not possible.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 4968,
+            "end": 4985,
+            "label": "reasoning",
+            "text": "Thus m \u2208 {2,4}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 4985,
+            "end": 5025,
+            "label": "planning",
+            "text": "Now we need to check median condition.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 5025,
+            "end": 5057,
+            "label": "reasoning",
+            "text": "We have list = two 9's plus B.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 5057,
+            "end": 5117,
+            "label": "reasoning",
+            "text": "We need to sort and compute median (average of middle two). ",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 5117,
+            "end": 5147,
+            "label": "reasoning",
+            "text": "Must be integer not in list.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 5147,
+            "end": 5178,
+            "label": "planning",
+            "text": "Let's examine each candidate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 5178,
+            "end": 5196,
+            "label": "assumption",
+            "text": "First, B size 2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 5196,
+            "end": 5213,
+            "label": "example",
+            "text": "Case B = {11,1}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 5213,
+            "end": 5238,
+            "label": "reasoning",
+            "text": "List: 1,9,9,11 (sorted). ",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 5238,
+            "end": 5243,
+            "label": "reasoning",
+            "text": "n=4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 5243,
+            "end": 5292,
+            "label": "reasoning",
+            "text": "Median = (9+9)/2 =9, which is in list, invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 5292,
+            "end": 5304,
+            "label": "example",
+            "text": "B = {10,2}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 5304,
+            "end": 5322,
+            "label": "reasoning",
+            "text": "Sorted: 2,9,9,10. ",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 5322,
+            "end": 5353,
+            "label": "reasoning",
+            "text": "Median = (9+9)/2 =9, invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 5353,
+            "end": 5364,
+            "label": "example",
+            "text": "B = {8,4}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 5364,
+            "end": 5402,
+            "label": "reasoning",
+            "text": "Sorted: 4,8,9,9? Wait order: 4,8,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 5402,
+            "end": 5471,
+            "label": "reasoning",
+            "text": "Median = (8+9)/2 =8.5 not integer, invalid (median must be integer). ",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 5471,
+            "end": 5497,
+            "label": "reasoning",
+            "text": "Also median not integer.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 5497,
+            "end": 5508,
+            "label": "example",
+            "text": "B = {7,5}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 5508,
+            "end": 5524,
+            "label": "reasoning",
+            "text": "Sorted:5,7,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 5524,
+            "end": 5585,
+            "label": "reasoning",
+            "text": "Median = (7+9)/2 =8, integer 8 not in list (list has 5,7,9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 5585,
+            "end": 5591,
+            "label": "reflection",
+            "text": "Good! ",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 5591,
+            "end": 5662,
+            "label": "reasoning",
+            "text": "Check mode: 9 appears twice, others appear once each, unique mode yes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 5662,
+            "end": 5684,
+            "label": "reasoning",
+            "text": "Median 8 not in list. ",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 5684,
+            "end": 5711,
+            "label": "reasoning",
+            "text": "Sum = 7+5+9+9 =30 correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 5711,
+            "end": 5742,
+            "label": "reasoning",
+            "text": "So this list works: {5,7,9,9}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": true,
+            "start": 5742,
+            "end": 5763,
+            "label": "reasoning",
+            "text": "Median = (7+9)/2 =8. ",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": true,
+            "start": 5763,
+            "end": 5770,
+            "label": "reflection",
+            "text": "Good.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": true,
+            "start": 5770,
+            "end": 5816,
+            "label": "planning",
+            "text": "Now check other size 2 sets maybe also work.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": true,
+            "start": 5816,
+            "end": 5860,
+            "label": "reasoning",
+            "text": "We already did 4,8 fails integer condition. ",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": true,
+            "start": 5860,
+            "end": 5887,
+            "label": "reasoning",
+            "text": "11,1 fails median being 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": true,
+            "start": 5887,
+            "end": 5900,
+            "label": "reasoning",
+            "text": "10,2 fails.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": true,
+            "start": 5900,
+            "end": 5940,
+            "label": "reasoning",
+            "text": "Thus only {5,7,9,9} works among size2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": true,
+            "start": 5940,
+            "end": 5957,
+            "label": "assumption",
+            "text": "Now size4 sets.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": true,
+            "start": 5957,
+            "end": 5972,
+            "label": "example",
+            "text": "B = {6,3,2,1}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": true,
+            "start": 5972,
+            "end": 6000,
+            "label": "reasoning",
+            "text": "List: 1,2,3,6,9,9 (sorted). ",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": true,
+            "start": 6000,
+            "end": 6005,
+            "label": "reasoning",
+            "text": "n=6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp134",
+            "annotation": true,
+            "start": 6005,
+            "end": 6056,
+            "label": "reasoning",
+            "text": "Median = average of a3 and a4 (positions 3 and 4). ",
+            "source": "response"
+        },
+        {
+            "id": "resp135",
+            "annotation": true,
+            "start": 6056,
+            "end": 6105,
+            "label": "reasoning",
+            "text": "a3=3, a4=6 => median = (3+6)/2 =4.5 not integer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp136",
+            "annotation": true,
+            "start": 6105,
+            "end": 6118,
+            "label": "reasoning",
+            "text": "So invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp137",
+            "annotation": true,
+            "start": 6118,
+            "end": 6133,
+            "label": "example",
+            "text": "B = {5,4,2,1}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp138",
+            "annotation": true,
+            "start": 6133,
+            "end": 6153,
+            "label": "reasoning",
+            "text": "Sorted:1,2,4,5,9,9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp139",
+            "annotation": true,
+            "start": 6153,
+            "end": 6188,
+            "label": "reasoning",
+            "text": "Median = (4+5)/2 =4.5 not integer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp140",
+            "annotation": true,
+            "start": 6188,
+            "end": 6198,
+            "label": "reasoning",
+            "text": "Invalid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp141",
+            "annotation": true,
+            "start": 6198,
+            "end": 6235,
+            "label": "conclusion",
+            "text": "Thus only viable list is {5,7,9,9}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp142",
+            "annotation": true,
+            "start": 6235,
+            "end": 6369,
+            "label": "reasoning",
+            "text": "Check all conditions: sum 30, mode 9 unique (frequency 2 > others 1 each), median = (7+9)/2 =8 integer not in list, positive integer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp143",
+            "annotation": true,
+            "start": 6369,
+            "end": 6376,
+            "label": "reflection",
+            "text": "Good.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp144",
+            "annotation": true,
+            "start": 6376,
+            "end": 6447,
+            "label": "reasoning",
+            "text": "Thus sum of squares: 5^2 + 7^2 + 9^2 + 9^2 = 25 + 49 + 81 + 81 = 236.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp145",
+            "annotation": true,
+            "start": 6447,
+            "end": 6461,
+            "label": "conclusion",
+            "text": "Answer: 236.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp146",
+            "annotation": true,
+            "start": 6461,
+            "end": 6596,
+            "label": "reasoning",
+            "text": "Double-check there is no other list with same properties maybe with more than 2 copies of 9? We already considered k=3 and found none. ",
+            "source": "response"
+        },
+        {
+            "id": "resp147",
+            "annotation": true,
+            "start": 6596,
+            "end": 6617,
+            "label": "reasoning",
+            "text": "So unique solution.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp148",
+            "annotation": true,
+            "start": 6617,
+            "end": 6634,
+            "label": "conclusion",
+            "text": "Thus answer 236.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp149",
+            "annotation": true,
+            "start": 6634,
+            "end": 6643,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp150",
+            "annotation": true,
+            "start": 6643,
+            "end": 6696,
+            "label": "reasoning",
+            "text": "Let the list contain \\(k\\) copies of the mode \\(9\\).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp151",
+            "annotation": true,
+            "start": 6696,
+            "end": 6737,
+            "label": "restatement",
+            "text": "Since the sum of all numbers is \\(30\\),\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp152",
+            "annotation": true,
+            "start": 6737,
+            "end": 6787,
+            "label": "reasoning",
+            "text": "\\[\n9k+\\text{(sum of the other numbers)} =30 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp153",
+            "annotation": true,
+            "start": 6787,
+            "end": 6871,
+            "label": "reasoning",
+            "text": "Because the mode must be unique, any other value can appear at most \\(k-1\\) times.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp154",
+            "annotation": true,
+            "start": 6871,
+            "end": 6876,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp155",
+            "annotation": true,
+            "start": 6876,
+            "end": 6912,
+            "label": "planning",
+            "text": "### 1.  How many 9\u2019s can there be?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp156",
+            "annotation": true,
+            "start": 6912,
+            "end": 6990,
+            "label": "reasoning",
+            "text": "*If \\(k=4\\) or more*, the sum would already exceed \\(30\\) (\\(9\\cdot4=36\\)).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp157",
+            "annotation": true,
+            "start": 6990,
+            "end": 7008,
+            "label": "reasoning",
+            "text": "Thus \\(k\\le 3\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp158",
+            "annotation": true,
+            "start": 7008,
+            "end": 7071,
+            "label": "reasoning",
+            "text": "*If \\(k=3\\)*, the remaining numbers must sum to \\(30-27=3\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp159",
+            "annotation": true,
+            "start": 7071,
+            "end": 7129,
+            "label": "reasoning",
+            "text": "The only possibilities are \\(\\{3\\},\\{1,2\\},\\{1,1,1\\}\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp160",
+            "annotation": true,
+            "start": 7129,
+            "end": 7260,
+            "label": "reasoning",
+            "text": "None of these give a unique mode (the other numbers would tie with the 9\u2019s) or give a median that is an integer not in the list.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp161",
+            "annotation": true,
+            "start": 7260,
+            "end": 7280,
+            "label": "reasoning",
+            "text": "Hence \\(k\\neq 3\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp162",
+            "annotation": true,
+            "start": 7280,
+            "end": 7305,
+            "label": "reasoning",
+            "text": "Therefore **\\(k=2\\)**.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp163",
+            "annotation": true,
+            "start": 7305,
+            "end": 7423,
+            "label": "reasoning",
+            "text": "The other numbers must sum to \\(30-18=12\\) and each can appear at most once (otherwise they would tie with the 9\u2019s).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp164",
+            "annotation": true,
+            "start": 7423,
+            "end": 7428,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp165",
+            "annotation": true,
+            "start": 7428,
+            "end": 7455,
+            "label": "planning",
+            "text": "### 2.  The other numbers\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp166",
+            "annotation": true,
+            "start": 7455,
+            "end": 7533,
+            "label": "reasoning",
+            "text": "We need a set of distinct positive integers \\(\\neq 9\\) whose sum is \\(12\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp167",
+            "annotation": true,
+            "start": 7533,
+            "end": 7586,
+            "label": "reasoning",
+            "text": "Let the number of such distinct elements be \\(m\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp168",
+            "annotation": true,
+            "start": 7586,
+            "end": 7736,
+            "label": "reasoning",
+            "text": "Since the total length of the list is \\(n=2+m\\) and the median must be the average of the two middle terms, \\(n\\) must be even; hence \\(m\\) is even.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp169",
+            "annotation": true,
+            "start": 7736,
+            "end": 7789,
+            "label": "reasoning",
+            "text": "Distinct sets of even size that sum to \\(12\\) are  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp170",
+            "annotation": true,
+            "start": 7789,
+            "end": 7902,
+            "label": "reasoning",
+            "text": "\\[\n\\begin{aligned}\n&\\{11,1\\},\\; \\{10,2\\},\\; \\{8,4\\},\\; \\{7,5\\},\\\\\n&\\{6,3,2,1\\},\\; \\{5,4,2,1\\}.\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp171",
+            "annotation": true,
+            "start": 7902,
+            "end": 7907,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp172",
+            "annotation": true,
+            "start": 7907,
+            "end": 7948,
+            "label": "planning",
+            "text": "### 3.  Checking the median condition  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp173",
+            "annotation": true,
+            "start": 7948,
+            "end": 8085,
+            "label": "reasoning",
+            "text": "For each candidate we sort the whole list (including the two 9\u2019s) and compute the median, which is the average of the two middle terms.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp174",
+            "annotation": true,
+            "start": 8085,
+            "end": 8507,
+            "label": "reasoning",
+            "text": "| Other numbers | Sorted list | Median | In list? |\n|---------------|-------------|--------|----------|\n| \\{11,1\\}      | 1,9,9,11    | 9      | **yes** |\n| \\{10,2\\}      | 2,9,9,10    | 9      | **yes** |\n| \\{8,4\\}       | 4,8,9,9     | 8.5    | not integer |\n| \\{7,5\\}       | 5,7,9,9     | **8**  | **no** |\n| \\{6,3,2,1\\}   | 1,2,3,6,9,9 | 4.5    | not integer |\n| \\{5,4,2,1\\}   | 1,2,4,5,9,9 | 4.5    | not integer |\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp175",
+            "annotation": true,
+            "start": 8507,
+            "end": 8600,
+            "label": "reasoning",
+            "text": "Only the set \\(\\{5,7\\}\\) yields an integer median (8) that does **not** appear in the list.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp176",
+            "annotation": true,
+            "start": 8600,
+            "end": 8653,
+            "label": "reasoning",
+            "text": "Thus the unique list satisfying all conditions is  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp177",
+            "annotation": true,
+            "start": 8653,
+            "end": 8681,
+            "label": "reasoning",
+            "text": "\\[\n\\boxed{\\{5,7,9,9\\}}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp178",
+            "annotation": true,
+            "start": 8681,
+            "end": 8686,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp179",
+            "annotation": true,
+            "start": 8686,
+            "end": 8716,
+            "label": "planning",
+            "text": "### 4.  Sum of the squares  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp180",
+            "annotation": true,
+            "start": 8716,
+            "end": 8764,
+            "label": "reasoning",
+            "text": "\\[\n5^{2}+7^{2}+9^{2}+9^{2}=25+49+81+81=236.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp181",
+            "annotation": true,
+            "start": 8764,
+            "end": 8781,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{236}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp4",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp16",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp17",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp28",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp30",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp43",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp50",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp50",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp53",
+            "label": "validate:support"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp54",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp64",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp76",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp76",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp76",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp78",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp79",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp80",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp80",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp81",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp82",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp83",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp83",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp84",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp85",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp86",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp87",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp87",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp88",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp89",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp90",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp91",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp92",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp93",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp94",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp96",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp98",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp99",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp100",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp100",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp101",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp101",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp102",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp104",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp104",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp107",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp107",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp108",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp108",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp110",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp111",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp111",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp113",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp114",
+            "label": "validate:support"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp115",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp115",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp116",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp117",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp118",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp121",
+            "label": "validate:support"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp121",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp124",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp125",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp125",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp128",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp128",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "resp126",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp128",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp130",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp130",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp131",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp132",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp133",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "resp133",
+            "dest_node_id": "resp134",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp135",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp134",
+            "dest_node_id": "resp135",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp135",
+            "dest_node_id": "resp136",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp137",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp137",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp138",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp137",
+            "dest_node_id": "resp138",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp138",
+            "dest_node_id": "resp139",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp139",
+            "dest_node_id": "resp140",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp141",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp141",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp129",
+            "dest_node_id": "resp141",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp136",
+            "dest_node_id": "resp141",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp140",
+            "dest_node_id": "resp141",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e238",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp142",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e239",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp143",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e240",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e241",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e242",
+            "source_node_id": "resp144",
+            "dest_node_id": "resp145",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e243",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp146",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e244",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp146",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e245",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp147",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e246",
+            "source_node_id": "resp146",
+            "dest_node_id": "resp147",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e247",
+            "source_node_id": "resp145",
+            "dest_node_id": "resp148",
+            "label": "validate:support"
+        },
+        {
+            "id": "e248",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp148",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e249",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp149",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e250",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp150",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e251",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp151",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e252",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp152",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e253",
+            "source_node_id": "resp150",
+            "dest_node_id": "resp152",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e254",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp153",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e255",
+            "source_node_id": "resp150",
+            "dest_node_id": "resp153",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e256",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp154",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e257",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp154",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e258",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp155",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e259",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp155",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e260",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp156",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e261",
+            "source_node_id": "resp155",
+            "dest_node_id": "resp156",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e262",
+            "source_node_id": "resp156",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e263",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp158",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e264",
+            "source_node_id": "resp158",
+            "dest_node_id": "resp159",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e265",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp160",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e266",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp160",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e267",
+            "source_node_id": "resp158",
+            "dest_node_id": "resp160",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e268",
+            "source_node_id": "resp159",
+            "dest_node_id": "resp160",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e269",
+            "source_node_id": "resp160",
+            "dest_node_id": "resp161",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e270",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp162",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e271",
+            "source_node_id": "resp157",
+            "dest_node_id": "resp162",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e272",
+            "source_node_id": "resp161",
+            "dest_node_id": "resp162",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e273",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e274",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e275",
+            "source_node_id": "resp162",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e276",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp164",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e277",
+            "source_node_id": "resp163",
+            "dest_node_id": "resp165",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e278",
+            "source_node_id": "resp163",
+            "dest_node_id": "resp166",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e279",
+            "source_node_id": "resp165",
+            "dest_node_id": "resp166",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e280",
+            "source_node_id": "resp166",
+            "dest_node_id": "resp167",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e281",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp168",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e282",
+            "source_node_id": "resp162",
+            "dest_node_id": "resp168",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e283",
+            "source_node_id": "resp167",
+            "dest_node_id": "resp168",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e284",
+            "source_node_id": "resp166",
+            "dest_node_id": "resp169",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e285",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp169",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e286",
+            "source_node_id": "resp166",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e287",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e288",
+            "source_node_id": "resp163",
+            "dest_node_id": "resp171",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e289",
+            "source_node_id": "resp165",
+            "dest_node_id": "resp172",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e290",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp172",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e291",
+            "source_node_id": "resp170",
+            "dest_node_id": "resp172",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e292",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp173",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e293",
+            "source_node_id": "resp170",
+            "dest_node_id": "resp173",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e294",
+            "source_node_id": "resp172",
+            "dest_node_id": "resp173",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e295",
+            "source_node_id": "resp170",
+            "dest_node_id": "resp174",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e296",
+            "source_node_id": "resp172",
+            "dest_node_id": "resp174",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e297",
+            "source_node_id": "resp173",
+            "dest_node_id": "resp174",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e298",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp175",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e299",
+            "source_node_id": "resp175",
+            "dest_node_id": "resp176",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e300",
+            "source_node_id": "resp175",
+            "dest_node_id": "resp177",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e301",
+            "source_node_id": "resp170",
+            "dest_node_id": "resp178",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e302",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp179",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e303",
+            "source_node_id": "resp172",
+            "dest_node_id": "resp179",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e304",
+            "source_node_id": "resp177",
+            "dest_node_id": "resp179",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e305",
+            "source_node_id": "resp177",
+            "dest_node_id": "resp180",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e306",
+            "source_node_id": "resp179",
+            "dest_node_id": "resp180",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e307",
+            "source_node_id": "resp145",
+            "dest_node_id": "resp181",
+            "label": "validate:support"
+        },
+        {
+            "id": "e308",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp181",
+            "label": "validate:support"
+        },
+        {
+            "id": "e309",
+            "source_node_id": "resp180",
+            "dest_node_id": "resp181",
+            "label": "reason:infer"
+        }
+    ]
+}

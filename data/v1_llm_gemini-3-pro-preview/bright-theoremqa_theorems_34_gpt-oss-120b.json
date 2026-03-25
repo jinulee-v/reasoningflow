@@ -1,0 +1,830 @@
+{
+    "doc_id": "bright-theoremqa_theorems_34_gpt-oss-120b",
+    "raw_text": {
+        "question": "Imagine you have a machine that can transform puzzles. You feed it a 2x2 puzzle, and it changes the puzzle according to a specific rule, producing another 2x2 puzzle. The rule for changing the puzzle is by multiplying it with a fixed 2x2 puzzle that has pieces numbered 1, 2 on the top row and 3, 4 on the bottom row. If you can always get back the original puzzle by feeding the transformed puzzle through a different machine, does this mean the first machine's transformation process can be perfectly reversed?\n\nRetrieved documents:\n[Document 1]\n\\section{1089 Trick}\nTags: Reversals, Classic Problems, Interesting Numbers, Think of a Number Puzzles, Specific Numbers, 1089\n\n\\begin{theorem}\nTake a three-digit number (one where the first and last digits are different by at least $2$).\nReverse it, and get the difference between that and the first number.\nReverse that, and add that to the difference you calculated just now.\nYou get $1089$.\n\\end{theorem}\n\n\\begin{proof}\nLet the number you started with be expressed in decimal notation as $[abc]_{10}$.\nThen it is $10^2 a + 10 b + c$.\nIts reversal is:\n:$10^2 c + 10 b + a$\nThe difference between the two is $99a - 99c$ (or $99c - 99a$, it matters not).\nThis is a multiple of $99$.\nThe three-digit multiples of $99$ are:\n:$198$\n:$297$\n:$396$\n:$495$\n:$594$\n:$693$\n:$792$\n:$891$\nBy adding any one of these to its reversal, you get:\n:$9 \\times 100 + 2 \\times 9 \\times 10 + 9 = 1089$\n{{qed}}\n'''Note:''' You need to make sure the difference between the first and last digits of the number you started with is at least $2$ so as to make sure that the first difference you calculate is definitely a $3$-digit number.\n\\end{proof}\n\n\n\n[Document 2]\n\\begin{definition}[Definition:Clock Puzzle]\nA '''clock puzzle''' is a puzzle whose solution is based upon the mechanics of the (traditionally $12$-hour) clock.\n\\end{definition}\n\n[Document 3]\n\\begin{definition}[Definition:Bijection/Also known as]\nThe terms\n:'''biunique correspondence'''\n:'''bijective correspondence'''\nare sometimes seen for '''bijection'''.\nAuthors who prefer to limit the jargon of mathematics tend to use the term '''one-one and onto mapping''' for '''bijection'''.\nIf a '''bijection''' exists between two sets $S$ and $T$, then $S$ and $T$ are said to be '''in one-to-one correspondence'''.\nOccasionally you will see the term '''set isomorphism''', but the term '''isomorphism''' is usually reserved for mathematical structures of greater complexity than a set.\nSome authors, developing the concept of '''inverse mapping''' independently from that of the '''bijection''', call such a mapping '''invertible'''.\nThe symbol $f: S \\leftrightarrow T$ is sometimes seen to denote that $f$ is a '''bijection''' from $S$ to $T$.\nAlso seen sometimes is the notation $f: S \\cong T$ or $S \\stackrel f \\cong T$ but this is cumbersome and the symbol has already got several uses.\n== Technical Note ==\n{{:Definition:Bijection/Technical Note}}\n\\end{definition}\n\n[Document 4]\n\\begin{definition}[Definition:Think of a Number]\nA '''think of a number''' puzzle is usually in the form of a game between two players.\nPlayer '''A''' asks player '''B''' to:\n:''Think of a number''\nperhaps with constraints.\nLet this number be referred to as $n$.\nPlayer '''A''' asks player '''B''' to perform certain arithmetical manipulations on $n$.\nAs a result, player '''B''' is left with another number, which we will refer to as $m$.\nThe game now goes one of $2$ ways:\n:$(1): \\quad$ Player '''A''' announces:\n::::''The number you have been left with is $m$.''\n:$(2): \\quad$ Player '''A''' asks what $m$ is, and on learning what it is, instantaneously replies:\n::::''The number you first thought of was $n$.''\n\\end{definition}\n\n[Document 5]\n\\begin{definition}[Definition:Skeleton Puzzle]\nA '''skeleton puzzle''' is an arithmetical calculation, presented with the full working by means of the appropriate classical algorithm, in which most or all of the digits have been obscured.\nIt is usual to present such a '''skeleton puzzle''' with the obscured digits replaced by asterisks.\nThe object of the puzzle is to work out what the digits were.\nThere may or may not be constraints on the values or configurations of the resulting digits, which will be stated in the rubric of the puzzle.\n\\end{definition}",
+        "response": "**Short answer:**  \nYes.  If there is a second \u201cmachine\u2019\u2019 that, for every input matrix \\(X\\), can recover \\(X\\) from the output \\(AX\\) of the first machine, then the first machine\u2019s map  \n\\[\nT\\colon X\\longmapsto AX\n\\]\nis *bijective* (one\u2011to\u2011one and onto) and therefore *invertible*.  The inverse map is left\u2011multiplication by the ordinary matrix inverse \\(A^{-1}\\).\n\n---\n\n### Why the existence of a \u201crecovery\u2019\u2019 machine forces invertibility  \n\nLet  \n\n\\[\nA=\\begin{pmatrix}1&2\\\\[2pt]3&4\\end{pmatrix},\\qquad \nT(X)=AX .\n\\]\n\nAssume there is a second machine that always returns the original matrix when we feed it the transformed matrix.  In matrix language this means that there is a fixed matrix \\(B\\) such that  \n\n\\[\nB\\,(AX)=X\\qquad\\text{for every }2\\times2\\text{ matrix }X .\n\\]\n\nHence  \n\n\\[\n(BA)X = X\\quad\\text{for all }X .\n\\]\n\nThe only way a product of two matrices can act as the identity on *all* matrices is that the product itself is the identity matrix:\n\n\\[\nBA = I_{2}.\n\\]\n\nThus \\(B\\) is a **left inverse** of \\(A\\).\n\nNow invoke the standard linear\u2011algebra fact (see the definition of *bijection* / *invertible* in Document\u202f3): a square matrix has a left inverse **iff** it is invertible, and in that case the left inverse coincides with the (unique) right inverse.  Consequently\n\n\\[\nA^{-1}=B,\\qquad AB = I_{2}=BA .\n\\]\n\nSo the map \\(T\\) is a bijection from the set of all \\(2\\times2\\) matrices onto itself, i.e. it is *perfectly reversible*.\n\n---\n\n### The explicit inverse\n\nThe determinant of \\(A\\) is  \n\n\\[\n\\det A = 1\\cdot4-2\\cdot3 = -2\\neq0,\n\\]\n\nso \\(A\\) is indeed invertible.  Its inverse is\n\n\\[\nA^{-1}= \\frac{1}{\\det A}\n\\begin{pmatrix}\n4 & -2\\\\[2pt]\n-3 & 1\n\\end{pmatrix}\n= -\\frac12\n\\begin{pmatrix}\n4 & -2\\\\[2pt]\n-3 & 1\n\\end{pmatrix}\n=\n\\begin{pmatrix}\n-2 & 1\\\\[2pt]\n\\frac32 & -\\frac12\n\\end{pmatrix}.\n\\]\n\nTherefore the \u201csecond machine\u2019\u2019 can simply be the device that left\u2011multiplies by \\(A^{-1}\\); for any input \\(Y=AX\\),\n\n\\[\nA^{-1}Y = A^{-1}(AX)= (A^{-1}A)X = IX = X .\n\\]\n\n---\n\n### Connecting to the terminology in the documents  \n\n*Document\u202f3* explains that a mapping that has an inverse is called **invertible** (or a **bijection**).  \nOur situation exactly matches that definition: the first machine defines a map \\(T\\) that possesses an inverse map \\(T^{-1}\\) (the second machine). Hence \\(T\\) is a bijection, and the transformation can be \u201cperfectly reversed\u2019\u2019 by applying the inverse matrix \\(A^{-1}\\).\n\n---\n\n**Conclusion:**  \nThe existence of a machine that always restores the original \\(2\\times2\\) matrix from the transformed one guarantees that the original transformation \\(X\\mapsto AX\\) is invertible.  In concrete terms, the transformation can be reversed by multiplying on the left with the inverse matrix  \n\n\\[\nA^{-1}= \\begin{pmatrix}-2 & 1\\\\[2pt] \\tfrac32 & -\\tfrac12\\end{pmatrix}.\n\\]"
+    },
+    "metadata": {
+        "batch": 34,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_elainewan/math_algebra_4_3.json",
+        "correct_answer": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 55,
+            "label": "context",
+            "text": "Imagine you have a machine that can transform puzzles. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 55,
+            "end": 167,
+            "label": "context",
+            "text": "You feed it a 2x2 puzzle, and it changes the puzzle according to a specific rule, producing another 2x2 puzzle. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 167,
+            "end": 318,
+            "label": "context",
+            "text": "The rule for changing the puzzle is by multiplying it with a fixed 2x2 puzzle that has pieces numbered 1, 2 on the top row and 3, 4 on the bottom row. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 318,
+            "end": 428,
+            "label": "context",
+            "text": "If you can always get back the original puzzle by feeding the transformed puzzle through a different machine, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 428,
+            "end": 514,
+            "label": "context",
+            "text": "does this mean the first machine's transformation process can be perfectly reversed?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 514,
+            "end": 535,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 535,
+            "end": 676,
+            "label": "context",
+            "text": "[Document 1]\n\\section{1089 Trick}\nTags: Reversals, Classic Problems, Interesting Numbers, Think of a Number Puzzles, Specific Numbers, 1089\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 676,
+            "end": 787,
+            "label": "context",
+            "text": "\\begin{theorem}\nTake a three-digit number (one where the first and last digits are different by at least $2$).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 787,
+            "end": 857,
+            "label": "context",
+            "text": "Reverse it, and get the difference between that and the first number.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 857,
+            "end": 927,
+            "label": "context",
+            "text": "Reverse that, and add that to the difference you calculated just now.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 927,
+            "end": 958,
+            "label": "context",
+            "text": "You get $1089$.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 958,
+            "end": 1054,
+            "label": "context",
+            "text": "\\begin{proof}\nLet the number you started with be expressed in decimal notation as $[abc]_{10}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 1054,
+            "end": 1086,
+            "label": "context",
+            "text": "Then it is $10^2 a + 10 b + c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 1086,
+            "end": 1124,
+            "label": "context",
+            "text": "Its reversal is:\n:$10^2 c + 10 b + a$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 1124,
+            "end": 1204,
+            "label": "context",
+            "text": "The difference between the two is $99a - 99c$ (or $99c - 99a$, it matters not).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 1204,
+            "end": 1232,
+            "label": "context",
+            "text": "This is a multiple of $99$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 1232,
+            "end": 1327,
+            "label": "context",
+            "text": "The three-digit multiples of $99$ are:\n:$198$\n:$297$\n:$396$\n:$495$\n:$594$\n:$693$\n:$792$\n:$891$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 1327,
+            "end": 1438,
+            "label": "context",
+            "text": "By adding any one of these to its reversal, you get:\n:$9 \\times 100 + 2 \\times 9 \\times 10 + 9 = 1089$\n{{qed}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 1438,
+            "end": 1676,
+            "label": "context",
+            "text": "'''Note:''' You need to make sure the difference between the first and last digits of the number you started with is at least $2$ so as to make sure that the first difference you calculate is definitely a $3$-digit number.\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 1676,
+            "end": 1867,
+            "label": "context",
+            "text": "[Document 2]\n\\begin{definition}[Definition:Clock Puzzle]\nA '''clock puzzle''' is a puzzle whose solution is based upon the mechanics of the (traditionally $12$-hour) clock.\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 1867,
+            "end": 2048,
+            "label": "context",
+            "text": "[Document 3]\n\\begin{definition}[Definition:Bijection/Also known as]\nThe terms\n:'''biunique correspondence'''\n:'''bijective correspondence'''\nare sometimes seen for '''bijection'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 2048,
+            "end": 2175,
+            "label": "context",
+            "text": "Authors who prefer to limit the jargon of mathematics tend to use the term '''one-one and onto mapping''' for '''bijection'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 2175,
+            "end": 2233,
+            "label": "context",
+            "text": "If a '''bijection''' exists between two sets $S$ and $T$, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 2233,
+            "end": 2301,
+            "label": "context",
+            "text": "then $S$ and $T$ are said to be '''in one-to-one correspondence'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 2301,
+            "end": 2472,
+            "label": "context",
+            "text": "Occasionally you will see the term '''set isomorphism''', but the term '''isomorphism''' is usually reserved for mathematical structures of greater complexity than a set.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 2472,
+            "end": 2620,
+            "label": "context",
+            "text": "Some authors, developing the concept of '''inverse mapping''' independently from that of the '''bijection''', call such a mapping '''invertible'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 2620,
+            "end": 2731,
+            "label": "context",
+            "text": "The symbol $f: S \\leftrightarrow T$ is sometimes seen to denote that $f$ is a '''bijection''' from $S$ to $T$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 2731,
+            "end": 2877,
+            "label": "context",
+            "text": "Also seen sometimes is the notation $f: S \\cong T$ or $S \\stackrel f \\cong T$ but this is cumbersome and the symbol has already got several uses.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 2877,
+            "end": 2957,
+            "label": "context",
+            "text": "== Technical Note ==\n{{:Definition:Bijection/Technical Note}}\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 2957,
+            "end": 3106,
+            "label": "context",
+            "text": "[Document 4]\n\\begin{definition}[Definition:Think of a Number]\nA '''think of a number''' puzzle is usually in the form of a game between two players.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 3106,
+            "end": 3194,
+            "label": "context",
+            "text": "Player '''A''' asks player '''B''' to:\n:''Think of a number''\nperhaps with constraints.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 3194,
+            "end": 3233,
+            "label": "context",
+            "text": "Let this number be referred to as $n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 3233,
+            "end": 3322,
+            "label": "context",
+            "text": "Player '''A''' asks player '''B''' to perform certain arithmetical manipulations on $n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 3322,
+            "end": 3410,
+            "label": "context",
+            "text": "As a result, player '''B''' is left with another number, which we will refer to as $m$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 3410,
+            "end": 3445,
+            "label": "context",
+            "text": "The game now goes one of $2$ ways:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 3445,
+            "end": 3536,
+            "label": "context",
+            "text": ":$(1): \\quad$ Player '''A''' announces:\n::::''The number you have been left with is $m$.''\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 3536,
+            "end": 3703,
+            "label": "context",
+            "text": ":$(2): \\quad$ Player '''A''' asks what $m$ is, and on learning what it is, instantaneously replies:\n::::''The number you first thought of was $n$.''\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 3703,
+            "end": 3955,
+            "label": "context",
+            "text": "[Document 5]\n\\begin{definition}[Definition:Skeleton Puzzle]\nA '''skeleton puzzle''' is an arithmetical calculation, presented with the full working by means of the appropriate classical algorithm, in which most or all of the digits have been obscured.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 3955,
+            "end": 4055,
+            "label": "context",
+            "text": "It is usual to present such a '''skeleton puzzle''' with the obscured digits replaced by asterisks.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 4055,
+            "end": 4117,
+            "label": "context",
+            "text": "The object of the puzzle is to work out what the digits were.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 4117,
+            "end": 4276,
+            "label": "context",
+            "text": "There may or may not be constraints on the values or configurations of the resulting digits, which will be stated in the rubric of the puzzle.\n\\end{definition}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 26,
+            "label": "reasoning",
+            "text": "**Short answer:**  \nYes.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 26,
+            "end": 157,
+            "label": "restatement",
+            "text": "If there is a second \u201cmachine\u2019\u2019 that, for every input matrix \\(X\\), can recover \\(X\\) from the output \\(AX\\) of the first machine, ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 157,
+            "end": 284,
+            "label": "reasoning",
+            "text": "then the first machine\u2019s map  \n\\[\nT\\colon X\\longmapsto AX\n\\]\nis *bijective* (one\u2011to\u2011one and onto) and therefore *invertible*.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 284,
+            "end": 367,
+            "label": "reasoning",
+            "text": "The inverse map is left\u2011multiplication by the ordinary matrix inverse \\(A^{-1}\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 367,
+            "end": 519,
+            "label": "reasoning",
+            "text": "---\n\n### Why the existence of a \u201crecovery\u2019\u2019 machine forces invertibility  \n\nLet  \n\n\\[\nA=\\begin{pmatrix}1&2\\\\[2pt]3&4\\end{pmatrix},\\qquad \nT(X)=AX .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 519,
+            "end": 633,
+            "label": "assumption",
+            "text": "Assume there is a second machine that always returns the original matrix when we feed it the transformed matrix.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 633,
+            "end": 777,
+            "label": "reasoning",
+            "text": "In matrix language this means that there is a fixed matrix \\(B\\) such that  \n\n\\[\nB\\,(AX)=X\\qquad\\text{for every }2\\times2\\text{ matrix }X .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 777,
+            "end": 826,
+            "label": "reasoning",
+            "text": "Hence  \n\n\\[\n(BA)X = X\\quad\\text{for all }X .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 826,
+            "end": 978,
+            "label": "reasoning",
+            "text": "The only way a product of two matrices can act as the identity on *all* matrices is that the product itself is the identity matrix:\n\n\\[\nBA = I_{2}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 978,
+            "end": 1022,
+            "label": "reasoning",
+            "text": "Thus \\(B\\) is a **left inverse** of \\(A\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 1022,
+            "end": 1132,
+            "label": "planning",
+            "text": "Now invoke the standard linear\u2011algebra fact (see the definition of *bijection* / *invertible* in Document\u202f3): ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 1132,
+            "end": 1271,
+            "label": "fact",
+            "text": "a square matrix has a left inverse **iff** it is invertible, and in that case the left inverse coincides with the (unique) right inverse.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1271,
+            "end": 1324,
+            "label": "reasoning",
+            "text": "Consequently\n\n\\[\nA^{-1}=B,\\qquad AB = I_{2}=BA .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1324,
+            "end": 1447,
+            "label": "reasoning",
+            "text": "So the map \\(T\\) is a bijection from the set of all \\(2\\times2\\) matrices onto itself, i.e. it is *perfectly reversible*.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1447,
+            "end": 1552,
+            "label": "reasoning",
+            "text": "---\n\n### The explicit inverse\n\nThe determinant of \\(A\\) is  \n\n\\[\n\\det A = 1\\cdot4-2\\cdot3 = -2\\neq0,\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1552,
+            "end": 1584,
+            "label": "reasoning",
+            "text": "so \\(A\\) is indeed invertible.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1584,
+            "end": 1811,
+            "label": "reasoning",
+            "text": "Its inverse is\n\n\\[\nA^{-1}= \\frac{1}{\\det A}\n\\begin{pmatrix}\n4 & -2\\\\[2pt]\n-3 & 1\n\\end{pmatrix}\n= -\\frac12\n\\begin{pmatrix}\n4 & -2\\\\[2pt]\n-3 & 1\n\\end{pmatrix}\n=\n\\begin{pmatrix}\n-2 & 1\\\\[2pt]\n\\frac32 & -\\frac12\n\\end{pmatrix}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1811,
+            "end": 1904,
+            "label": "reasoning",
+            "text": "Therefore the \u201csecond machine\u2019\u2019 can simply be the device that left\u2011multiplies by \\(A^{-1}\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1904,
+            "end": 1980,
+            "label": "reasoning",
+            "text": "for any input \\(Y=AX\\),\n\n\\[\nA^{-1}Y = A^{-1}(AX)= (A^{-1}A)X = IX = X .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1980,
+            "end": 2145,
+            "label": "restatement",
+            "text": "---\n\n### Connecting to the terminology in the documents  \n\n*Document\u202f3* explains that a mapping that has an inverse is called **invertible** (or a **bijection**).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 2145,
+            "end": 2192,
+            "label": "reflection",
+            "text": "Our situation exactly matches that definition: ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 2192,
+            "end": 2293,
+            "label": "reasoning",
+            "text": "the first machine defines a map \\(T\\) that possesses an inverse map \\(T^{-1}\\) (the second machine). ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 2293,
+            "end": 2417,
+            "label": "reasoning",
+            "text": "Hence \\(T\\) is a bijection, and the transformation can be \u201cperfectly reversed\u2019\u2019 by applying the inverse matrix \\(A^{-1}\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 2417,
+            "end": 2622,
+            "label": "conclusion",
+            "text": "---\n\n**Conclusion:**  \nThe existence of a machine that always restores the original \\(2\\times2\\) matrix from the transformed one guarantees that the original transformation \\(X\\mapsto AX\\) is invertible.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 2622,
+            "end": 2807,
+            "label": "conclusion",
+            "text": "In concrete terms, the transformation can be reversed by multiplying on the left with the inverse matrix  \n\n\\[\nA^{-1}= \\begin{pmatrix}-2 & 1\\\\[2pt] \\tfrac32 & -\\tfrac12\\end{pmatrix}.\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp0",
+            "label": "validate:support"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "ctx20",
+            "dest_node_id": "resp10",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx25",
+            "dest_node_id": "resp10",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "ctx20",
+            "dest_node_id": "resp19",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "ctx25",
+            "dest_node_id": "resp19",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp23",
+            "label": "validate:support"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "validate:support"
+        }
+    ]
+}

@@ -1,0 +1,2222 @@
+{
+    "doc_id": "aime2024_11_DeepSeek-V3",
+    "raw_text": {
+        "question": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+        "response": "Alright, let's tackle this problem step by step. We have a 2x3 grid, and we need to place digits in each cell such that:\n\n1. The sum of the two numbers formed by reading left to right is 999.\n2. The sum of the three numbers formed by reading top to bottom is 99.\n\nLet's denote the grid as follows:\n\n```\n| A | B | C |\n| D | E | F |\n```\n\nHere, A, B, C, D, E, F are digits (0-9) that we need to determine.\n\n### Understanding the Constraints\n\n**First Constraint:** The sum of the two numbers formed by reading left to right is 999.\n\nThis means:\n```\nABC + DEF = 999\n```\nWhere ABC is a three-digit number formed by digits A, B, C, and DEF is a three-digit number formed by digits D, E, F.\n\n**Second Constraint:** The sum of the three numbers formed by reading top to bottom is 99.\n\nThis means:\n```\nAD + BE + CF = 99\n```\nWhere AD, BE, and CF are two-digit numbers formed by digits A&D, B&E, C&F respectively.\n\n### Breaking Down the First Constraint: ABC + DEF = 999\n\nLet's express ABC and DEF in terms of their digits:\n\n```\nABC = 100A + 10B + C\nDEF = 100D + 10E + F\n```\n\nSo,\n```\n100A + 10B + C + 100D + 10E + F = 999\n```\n\nThis simplifies to:\n```\n100(A + D) + 10(B + E) + (C + F) = 999\n```\n\nSince A, B, C, D, E, F are digits (0-9), the sums A+D, B+E, C+F must satisfy:\n\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nThis is because:\n\n- 100(A + D) must be 900 (since 100 * 9 = 900)\n- 10(B + E) must be 90 (since 10 * 9 = 90)\n- (C + F) must be 9\n\nSo, we have:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n### Breaking Down the Second Constraint: AD + BE + CF = 99\n\nLet's express AD, BE, and CF in terms of their digits:\n\n```\nAD = 10A + D\nBE = 10B + E\nCF = 10C + F\n```\n\nSo,\n```\n10A + D + 10B + E + 10C + F = 99\n```\n\nThis simplifies to:\n```\n10(A + B + C) + (D + E + F) = 99\n```\n\nFrom the first constraint, we know:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nAdding these three equations:\n```\n(A + D) + (B + E) + (C + F) = 9 + 9 + 9\nA + B + C + D + E + F = 27\n```\n\nLet's denote:\n```\nS = A + B + C\nT = D + E + F\n```\n\nSo,\n```\nS + T = 27\n```\n\nFrom the second constraint:\n```\n10S + T = 99\n```\n\nNow we have a system of two equations:\n```\nS + T = 27\n10S + T = 99\n```\n\nSubtract the first equation from the second:\n```\n(10S + T) - (S + T) = 99 - 27\n9S = 72\nS = 8\n```\n\nThen,\n```\nT = 27 - S = 27 - 8 = 19\n```\n\nSo,\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n### Summarizing the Equations\n\nFrom the first constraint:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\nFrom the second constraint:\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n### Solving the Equations\n\nLet's express D, E, F in terms of A, B, C:\n\nFrom A + D = 9 \u21d2 D = 9 - A\n\nFrom B + E = 9 \u21d2 E = 9 - B\n\nFrom C + F = 9 \u21d2 F = 9 - C\n\nNow, substitute D, E, F into D + E + F = 19:\n\n```\n(9 - A) + (9 - B) + (9 - C) = 19\n27 - (A + B + C) = 19\n```\n\nBut we know A + B + C = 8:\n\n```\n27 - 8 = 19\n19 = 19\n```\n\nThis confirms our equations are consistent.\n\n### Finding Possible Values for A, B, C\n\nWe have:\n```\nA + B + C = 8\n```\n\nAnd A, B, C are digits (0-9).\n\nWe need to find all possible combinations of (A, B, C) that satisfy A + B + C = 8.\n\nLet's list them:\n\n1. A=0, B=0, C=8\n2. A=0, B=1, C=7\n3. A=0, B=2, C=6\n4. A=0, B=3, C=5\n5. A=0, B=4, C=4\n6. A=0, B=5, C=3\n7. A=0, B=6, C=2\n8. A=0, B=7, C=1\n9. A=0, B=8, C=0\n10. A=1, B=0, C=7\n11. A=1, B=1, C=6\n12. A=1, B=2, C=5\n13. A=1, B=3, C=4\n14. A=1, B=4, C=3\n15. A=1, B=5, C=2\n16. A=1, B=6, C=1\n17. A=1, B=7, C=0\n18. A=2, B=0, C=6\n19. A=2, B=1, C=5\n20. A=2, B=2, C=4\n21. A=2, B=3, C=3\n22. A=2, B=4, C=2\n23. A=2, B=5, C=1\n24. A=2, B=6, C=0\n25. A=3, B=0, C=5\n26. A=3, B=1, C=4\n27. A=3, B=2, C=3\n28. A=3, B=3, C=2\n29. A=3, B=4, C=1\n30. A=3, B=5, C=0\n31. A=4, B=0, C=4\n32. A=4, B=1, C=3\n33. A=4, B=2, C=2\n34. A=4, B=3, C=1\n35. A=4, B=4, C=0\n36. A=5, B=0, C=3\n37. A=5, B=1, C=2\n38. A=5, B=2, C=1\n39. A=5, B=3, C=0\n40. A=6, B=0, C=2\n41. A=6, B=1, C=1\n42. A=6, B=2, C=0\n43. A=7, B=0, C=1\n44. A=7, B=1, C=0\n45. A=8, B=0, C=0\n```\n\nThere are 45 possible combinations for (A, B, C).\n\n### Determining D, E, F for Each Combination\n\nFor each combination of (A, B, C), we can find D, E, F using:\n\n```\nD = 9 - A\nE = 9 - B\nF = 9 - C\n```\n\nSince A, B, C are digits (0-9), D, E, F will also be digits (0-9).\n\n### Verifying All Combinations\n\nWe need to ensure that for each combination, D, E, F are valid digits (0-9). Given that A, B, C are between 0 and 8 (since A + B + C = 8), D, E, F will be between 1 and 9. Therefore, all combinations are valid.\n\n### Calculating the Total Number of Valid Arrangements\n\nSince there are 45 valid combinations for (A, B, C), and for each combination, there's exactly one corresponding (D, E, F), the total number of valid arrangements is 45.\n\n### Conclusion\n\nAfter systematically analyzing the constraints and enumerating all possible combinations, we find that there are **45** valid ways to place digits in the 2x3 grid to satisfy both conditions."
+    },
+    "metadata": {
+        "batch": 11,
+        "domain": "aime2024",
+        "generator": "DeepSeek-V3",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "aime2024-11",
+        "correct_answer": "45",
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 219,
+            "label": "context",
+            "text": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 219,
+            "end": 307,
+            "label": "context",
+            "text": "The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 307,
+            "end": 394,
+            "label": "context",
+            "text": "\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 49,
+            "label": "planning",
+            "text": "Alright, let's tackle this problem step by step. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 49,
+            "end": 122,
+            "label": "restatement",
+            "text": "We have a 2x3 grid, and we need to place digits in each cell such that:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 122,
+            "end": 192,
+            "label": "restatement",
+            "text": "1. The sum of the two numbers formed by reading left to right is 999.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 192,
+            "end": 264,
+            "label": "restatement",
+            "text": "2. The sum of the three numbers formed by reading top to bottom is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 264,
+            "end": 299,
+            "label": "planning",
+            "text": "Let's denote the grid as follows:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 299,
+            "end": 336,
+            "label": "reasoning",
+            "text": "```\n| A | B | C |\n| D | E | F |\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 336,
+            "end": 404,
+            "label": "reasoning",
+            "text": "Here, A, B, C, D, E, F are digits (0-9) that we need to determine.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 404,
+            "end": 439,
+            "label": "planning",
+            "text": "### Understanding the Constraints\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 439,
+            "end": 461,
+            "label": "planning",
+            "text": "**First Constraint:** ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 461,
+            "end": 529,
+            "label": "restatement",
+            "text": "The sum of the two numbers formed by reading left to right is 999.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 529,
+            "end": 684,
+            "label": "reasoning",
+            "text": "This means:\n```\nABC + DEF = 999\n```\nWhere ABC is a three-digit number formed by digits A, B, C, and DEF is a three-digit number formed by digits D, E, F.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 684,
+            "end": 707,
+            "label": "planning",
+            "text": "**Second Constraint:** ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 707,
+            "end": 776,
+            "label": "restatement",
+            "text": "The sum of the three numbers formed by reading top to bottom is 99.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 776,
+            "end": 903,
+            "label": "reasoning",
+            "text": "This means:\n```\nAD + BE + CF = 99\n```\nWhere AD, BE, and CF are two-digit numbers formed by digits A&D, B&E, C&F respectively.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 903,
+            "end": 960,
+            "label": "planning",
+            "text": "### Breaking Down the First Constraint: ABC + DEF = 999\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 960,
+            "end": 1013,
+            "label": "planning",
+            "text": "Let's express ABC and DEF in terms of their digits:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1013,
+            "end": 1064,
+            "label": "reasoning",
+            "text": "```\nABC = 100A + 10B + C\nDEF = 100D + 10E + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1064,
+            "end": 1115,
+            "label": "reasoning",
+            "text": "So,\n```\n100A + 10B + C + 100D + 10E + F = 999\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1115,
+            "end": 1183,
+            "label": "reasoning",
+            "text": "This simplifies to:\n```\n100(A + D) + 10(B + E) + (C + F) = 999\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1183,
+            "end": 1224,
+            "label": "reasoning",
+            "text": "Since A, B, C, D, E, F are digits (0-9), ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1224,
+            "end": 1262,
+            "label": "reasoning",
+            "text": "the sums A+D, B+E, C+F must satisfy:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1262,
+            "end": 1301,
+            "label": "reasoning",
+            "text": "```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1301,
+            "end": 1319,
+            "label": "reasoning",
+            "text": "This is because:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1319,
+            "end": 1366,
+            "label": "reasoning",
+            "text": "- 100(A + D) must be 900 (since 100 * 9 = 900)\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1366,
+            "end": 1409,
+            "label": "reasoning",
+            "text": "- 10(B + E) must be 90 (since 10 * 9 = 90)\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1409,
+            "end": 1430,
+            "label": "reasoning",
+            "text": "- (C + F) must be 9\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1430,
+            "end": 1482,
+            "label": "reasoning",
+            "text": "So, we have:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1482,
+            "end": 1542,
+            "label": "planning",
+            "text": "### Breaking Down the Second Constraint: AD + BE + CF = 99\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1542,
+            "end": 1598,
+            "label": "planning",
+            "text": "Let's express AD, BE, and CF in terms of their digits:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1598,
+            "end": 1646,
+            "label": "reasoning",
+            "text": "```\nAD = 10A + D\nBE = 10B + E\nCF = 10C + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1646,
+            "end": 1692,
+            "label": "reasoning",
+            "text": "So,\n```\n10A + D + 10B + E + 10C + F = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1692,
+            "end": 1754,
+            "label": "reasoning",
+            "text": "This simplifies to:\n```\n10(A + B + C) + (D + E + F) = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1754,
+            "end": 1829,
+            "label": "restatement",
+            "text": "From the first constraint, we know:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1829,
+            "end": 1935,
+            "label": "reasoning",
+            "text": "Adding these three equations:\n```\n(A + D) + (B + E) + (C + F) = 9 + 9 + 9\nA + B + C + D + E + F = 27\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1935,
+            "end": 1986,
+            "label": "reasoning",
+            "text": "Let's denote:\n```\nS = A + B + C\nT = D + E + F\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1986,
+            "end": 2010,
+            "label": "reasoning",
+            "text": "So,\n```\nS + T = 27\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2010,
+            "end": 2060,
+            "label": "reasoning",
+            "text": "From the second constraint:\n```\n10S + T = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 2060,
+            "end": 2132,
+            "label": "reasoning",
+            "text": "Now we have a system of two equations:\n```\nS + T = 27\n10S + T = 99\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2132,
+            "end": 2230,
+            "label": "reasoning",
+            "text": "Subtract the first equation from the second:\n```\n(10S + T) - (S + T) = 99 - 27\n9S = 72\nS = 8\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2230,
+            "end": 2270,
+            "label": "reasoning",
+            "text": "Then,\n```\nT = 27 - S = 27 - 8 = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2270,
+            "end": 2312,
+            "label": "reasoning",
+            "text": "So,\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2312,
+            "end": 2343,
+            "label": "planning",
+            "text": "### Summarizing the Equations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2343,
+            "end": 2409,
+            "label": "restatement",
+            "text": "From the first constraint:\n```\nA + D = 9\nB + E = 9\nC + F = 9\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2409,
+            "end": 2475,
+            "label": "restatement",
+            "text": "From the second constraint:\n```\nA + B + C = 8\nD + E + F = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2475,
+            "end": 2502,
+            "label": "planning",
+            "text": "### Solving the Equations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2502,
+            "end": 2546,
+            "label": "planning",
+            "text": "Let's express D, E, F in terms of A, B, C:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2546,
+            "end": 2574,
+            "label": "reasoning",
+            "text": "From A + D = 9 \u21d2 D = 9 - A\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2574,
+            "end": 2602,
+            "label": "reasoning",
+            "text": "From B + E = 9 \u21d2 E = 9 - B\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2602,
+            "end": 2630,
+            "label": "reasoning",
+            "text": "From C + F = 9 \u21d2 F = 9 - C\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2630,
+            "end": 2674,
+            "label": "planning",
+            "text": "Now, substitute D, E, F into D + E + F = 19:",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2674,
+            "end": 2676,
+            "label": "reflection",
+            "text": "\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2676,
+            "end": 2740,
+            "label": "reasoning",
+            "text": "```\n(9 - A) + (9 - B) + (9 - C) = 19\n27 - (A + B + C) = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2740,
+            "end": 2768,
+            "label": "restatement",
+            "text": "But we know A + B + C = 8:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2768,
+            "end": 2784,
+            "label": "reasoning",
+            "text": "```\n27 - 8 = 19\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2784,
+            "end": 2797,
+            "label": "reasoning",
+            "text": "19 = 19\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2797,
+            "end": 2842,
+            "label": "reflection",
+            "text": "This confirms our equations are consistent.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 2842,
+            "end": 2883,
+            "label": "planning",
+            "text": "### Finding Possible Values for A, B, C\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 2883,
+            "end": 2915,
+            "label": "restatement",
+            "text": "We have:\n```\nA + B + C = 8\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 2915,
+            "end": 2946,
+            "label": "restatement",
+            "text": "And A, B, C are digits (0-9).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 2946,
+            "end": 3030,
+            "label": "planning",
+            "text": "We need to find all possible combinations of (A, B, C) that satisfy A + B + C = 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3030,
+            "end": 3048,
+            "label": "planning",
+            "text": "Let's list them:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3048,
+            "end": 3065,
+            "label": "example",
+            "text": "1. A=0, B=0, C=8\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3065,
+            "end": 3082,
+            "label": "example",
+            "text": "2. A=0, B=1, C=7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3082,
+            "end": 3099,
+            "label": "example",
+            "text": "3. A=0, B=2, C=6\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3099,
+            "end": 3116,
+            "label": "example",
+            "text": "4. A=0, B=3, C=5\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3116,
+            "end": 3133,
+            "label": "example",
+            "text": "5. A=0, B=4, C=4\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3133,
+            "end": 3150,
+            "label": "example",
+            "text": "6. A=0, B=5, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3150,
+            "end": 3167,
+            "label": "example",
+            "text": "7. A=0, B=6, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3167,
+            "end": 3184,
+            "label": "example",
+            "text": "8. A=0, B=7, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 3184,
+            "end": 3201,
+            "label": "example",
+            "text": "9. A=0, B=8, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 3201,
+            "end": 3219,
+            "label": "example",
+            "text": "10. A=1, B=0, C=7\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 3219,
+            "end": 3237,
+            "label": "example",
+            "text": "11. A=1, B=1, C=6\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 3237,
+            "end": 3255,
+            "label": "example",
+            "text": "12. A=1, B=2, C=5\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 3255,
+            "end": 3273,
+            "label": "example",
+            "text": "13. A=1, B=3, C=4\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 3273,
+            "end": 3291,
+            "label": "example",
+            "text": "14. A=1, B=4, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 3291,
+            "end": 3309,
+            "label": "example",
+            "text": "15. A=1, B=5, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 3309,
+            "end": 3327,
+            "label": "example",
+            "text": "16. A=1, B=6, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 3327,
+            "end": 3345,
+            "label": "example",
+            "text": "17. A=1, B=7, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 3345,
+            "end": 3363,
+            "label": "example",
+            "text": "18. A=2, B=0, C=6\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 3363,
+            "end": 3381,
+            "label": "example",
+            "text": "19. A=2, B=1, C=5\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 3381,
+            "end": 3399,
+            "label": "example",
+            "text": "20. A=2, B=2, C=4\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 3399,
+            "end": 3417,
+            "label": "example",
+            "text": "21. A=2, B=3, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 3417,
+            "end": 3435,
+            "label": "example",
+            "text": "22. A=2, B=4, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 3435,
+            "end": 3453,
+            "label": "example",
+            "text": "23. A=2, B=5, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 3453,
+            "end": 3471,
+            "label": "example",
+            "text": "24. A=2, B=6, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 3471,
+            "end": 3489,
+            "label": "example",
+            "text": "25. A=3, B=0, C=5\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 3489,
+            "end": 3507,
+            "label": "example",
+            "text": "26. A=3, B=1, C=4\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 3507,
+            "end": 3525,
+            "label": "example",
+            "text": "27. A=3, B=2, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 3525,
+            "end": 3543,
+            "label": "example",
+            "text": "28. A=3, B=3, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 3543,
+            "end": 3561,
+            "label": "example",
+            "text": "29. A=3, B=4, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 3561,
+            "end": 3579,
+            "label": "example",
+            "text": "30. A=3, B=5, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 3579,
+            "end": 3597,
+            "label": "example",
+            "text": "31. A=4, B=0, C=4\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 3597,
+            "end": 3615,
+            "label": "example",
+            "text": "32. A=4, B=1, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 3615,
+            "end": 3633,
+            "label": "example",
+            "text": "33. A=4, B=2, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 3633,
+            "end": 3651,
+            "label": "example",
+            "text": "34. A=4, B=3, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 3651,
+            "end": 3669,
+            "label": "example",
+            "text": "35. A=4, B=4, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 3669,
+            "end": 3687,
+            "label": "example",
+            "text": "36. A=5, B=0, C=3\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 3687,
+            "end": 3705,
+            "label": "example",
+            "text": "37. A=5, B=1, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 3705,
+            "end": 3723,
+            "label": "example",
+            "text": "38. A=5, B=2, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 3723,
+            "end": 3741,
+            "label": "example",
+            "text": "39. A=5, B=3, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 3741,
+            "end": 3759,
+            "label": "example",
+            "text": "40. A=6, B=0, C=2\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 3759,
+            "end": 3777,
+            "label": "example",
+            "text": "41. A=6, B=1, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 3777,
+            "end": 3795,
+            "label": "example",
+            "text": "42. A=6, B=2, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 3795,
+            "end": 3813,
+            "label": "example",
+            "text": "43. A=7, B=0, C=1\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 3813,
+            "end": 3831,
+            "label": "example",
+            "text": "44. A=7, B=1, C=0\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 3831,
+            "end": 3854,
+            "label": "example",
+            "text": "45. A=8, B=0, C=0\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 3854,
+            "end": 3905,
+            "label": "reasoning",
+            "text": "There are 45 possible combinations for (A, B, C).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 3905,
+            "end": 3951,
+            "label": "planning",
+            "text": "### Determining D, E, F for Each Combination\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 3951,
+            "end": 4014,
+            "label": "planning",
+            "text": "For each combination of (A, B, C), we can find D, E, F using:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 4014,
+            "end": 4053,
+            "label": "reasoning",
+            "text": "```\nD = 9 - A\nE = 9 - B\nF = 9 - C\n```\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 4053,
+            "end": 4085,
+            "label": "reasoning",
+            "text": "Since A, B, C are digits (0-9), ",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 4085,
+            "end": 4121,
+            "label": "reasoning",
+            "text": "D, E, F will also be digits (0-9).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 4121,
+            "end": 4153,
+            "label": "planning",
+            "text": "### Verifying All Combinations\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 4153,
+            "end": 4230,
+            "label": "planning",
+            "text": "We need to ensure that for each combination, D, E, F are valid digits (0-9). ",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 4230,
+            "end": 4292,
+            "label": "reasoning",
+            "text": "Given that A, B, C are between 0 and 8 (since A + B + C = 8), ",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 4292,
+            "end": 4325,
+            "label": "reasoning",
+            "text": "D, E, F will be between 1 and 9. ",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 4325,
+            "end": 4365,
+            "label": "reasoning",
+            "text": "Therefore, all combinations are valid.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 4365,
+            "end": 4421,
+            "label": "planning",
+            "text": "### Calculating the Total Number of Valid Arrangements\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 4421,
+            "end": 4474,
+            "label": "reasoning",
+            "text": "Since there are 45 valid combinations for (A, B, C), ",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 4474,
+            "end": 4592,
+            "label": "reasoning",
+            "text": "and for each combination, there's exactly one corresponding (D, E, F), the total number of valid arrangements is 45.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 4592,
+            "end": 4608,
+            "label": "planning",
+            "text": "### Conclusion\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 4608,
+            "end": 4698,
+            "label": "reflection",
+            "text": "After systematically analyzing the constraints and enumerating all possible combinations, ",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 4698,
+            "end": 4798,
+            "label": "conclusion",
+            "text": "we find that there are **45** valid ways to place digits in the 2x3 grid to satisfy both conditions.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp9",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp12",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp14",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp26",
+            "label": "validate:support"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp32",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp42",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp44",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp44",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp45",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp48",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp51",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp52",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp57",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp58",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp59",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp61",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp62",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp63",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp64",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp65",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp66",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp67",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp68",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp69",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp69",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp70",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp71",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp72",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp73",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp74",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp75",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp76",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp77",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp78",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp79",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp79",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp80",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp81",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp82",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp83",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp84",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp85",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp86",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp87",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp88",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp89",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp90",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp91",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp92",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp93",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp94",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp95",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp96",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp96",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp97",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp98",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp99",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp100",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp101",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp102",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp103",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp104",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp105",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp108",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp108",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp108",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp108",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp108",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp110",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp113",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp114",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp117",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp118",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp118",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp120",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp121",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp122",
+            "label": "validate:support"
+        }
+    ]
+}

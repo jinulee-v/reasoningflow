@@ -1,0 +1,890 @@
+{
+    "doc_id": "bright-theoremqa_theorems_25_gpt-oss-120b",
+    "raw_text": {
+        "question": "Everyone that you invite to a party will be either a fan of football or a fan of basketball, but never both. What is the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball?\n\nRetrieved documents:\n[Document 1]\n\\begin{definition}[Definition:Ramsey Number]\nRamsey's Theorem states that in any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\nMore precisely, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\nThis number $\\map R {n_1, \\ldots, n_c}$ is called the '''Ramsey number''' for $n_1, \\ldots, n_c$.\n{{NamedforDef|Frank Plumpton Ramsey|cat = Ramsey}}\nCategory:Definitions/Ramsey Theory\n\\end{definition}\n\n[Document 2]\n\\section{Infinite Ramsey's Theorem implies Finite Ramsey's Theorem}\nTags: Ramsey Theory\n\n\\begin{theorem}\n:$\\forall l, n, r \\in \\N: \\exists m \\in \\N: m \\to \\left({l}\\right)_r^n$\nwhere $\\alpha \\to \\left({\\beta}\\right)^n_r$ means that:\n:for any assignment of $r$-colors to the $n$-subsets of $\\alpha$\n::there is a particular color $\\gamma$ and a subset $X$ of $\\alpha$ of size $\\beta$ such that all $n$-subsets of $X$ are $\\gamma$.\n\\end{theorem}\n\n\\begin{proof}\n{{AimForCont}} there is a $l$ such that:\n:$\\forall m \\in \\N: m \\nrightarrow \\left({l}\\right)_r^n$\nLet $\\hat{K_i}$ denote a hypergraph on $i$ vertices where all possible $n$-subsets of the vertices are the hyperedges.\nLet $G$ be a hypergraph with vertices $V = \\left\\{ {v_i: i \\in \\N}\\right\\}$.\nLet the hyperedges of $G <$ be enumerated by:\n:$E = \\left\\{ {E_i: E_i \\subset \\N, \\left\\vert{E_i}\\right\\vert = n}\\right\\}$\n{{explain|What does $G <$ mean?}}\nWe construct a (rooted) tree $T$ as follows:\n$(1): \\quad$ First introduce a root node $r t$.\n$(2): \\quad$ Each node is allowed to have at most $r<$ children which correspond to the $r$-colors, subject to it satisfying the criteria:\n{{explain|What does $r <$ mean?}}\n:::A child is always labeled by one among the $r$-colors.\n:::Let the colors be denoted $c_1, c_2, \\ldots, c_r$.\n$(3): \\quad$ A child $c_i$ is '''permitted''' {{iff}} its introduction creates a path of some finite length $k$ starting from the root.\n:::So, if the hyperedges $E_1, E_2, \\ldots, E_k$ are colored by the colors used in the path in the same order, then the corresponding subgraph of $G$ does not contain a monochromatic $\\hat{K_l}$.\n:::For example: if the introduction of a child $c_i$ creates the $k$ length path $r t, c_a, c_b, \\ldots, c_i$ and the hyperedges $E_1, E_2, \\ldots, E_k$ when colored $c_a, c_b, \\ldots, c_i$ do not contain a monochromatic $\\hat{K_l}$, the child $c_i$ is permitted to be added to $T$.\nNote that for all $m$, there always exists a coloring of $\\hat{K_m}$ such that no monochromatic $\\hat{K_l}$ exists within.\nThus the situation that a child cannot be added to any vertex at a given level $k$ cannot arise.\nFor we can always take a coloring of $\\hat{K_{k+n}}$ containing no monochromatic $\\hat{K_l}$.\nSince any $k$ hyperedges in it would yield a sequence of colors already existing in $T$, we know which vertex to add the child to.\nWe give the child the color corresponding to any other edge.\nHence we can forever keep adding children and so $T$ is infinite.\nIt is also obvious that each level $k$ of $T$ has at most $r^k<$ vertices.\nSo each level is finite.\nBy K\u00f6nig's Tree Lemma there will be an infinite path $P$ in $T$.\n$P$ provides a $r$-coloring of $G$ that contains no monochromatic $\\hat{K_i}$.\nHence $P$ contains no monochromatic infinite hypergraph.\nThis contradicts the Infinite Ramsey's Theorem.\nThe result follows by Proof by Contradiction.\n{{qed}}\nCategory:Ramsey Theory\n\\end{proof}\n\n\n\n[Document 3]\n\\section{Ramsey's Theorem}\nTags: Ramsey Theory, Named Theorems, Combinatorics\n\n\\begin{theorem}\nIn any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\nFor 2 colors, Ramsey's theorem states that for any pair of positive integers $\\tuple {r, s}$, there exists a least positive integer $\\map R {r, s}$ such that for any complete graph on $\\map R {r, s}$ vertices, whose edges are colored red or blue, there exists either a complete subgraph on $r$ vertices which is entirely red, or a complete subgraph on $s$ vertices which is entirely blue.\nMore generally, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\nThis number $\\map R {n_1, \\ldots, n_c}$ is called the Ramsey number for $n_1, \\ldots, n_c$.\nThe special case above has $c = 2$ (and $n_1 = r$ and $n_2 = s$).\nHere $\\map R {r, s}$ signifies an integer that depends on both $r$ and $s$. It is understood to represent the smallest integer for which the theorem holds.\n\\end{theorem}\n\n\\begin{proof}\nFirst we prove the theorem for the 2-color case, by induction on $r + s$.\nIt is clear from the definition that\n:$\\forall n \\in \\N: \\map R {n, 1} = \\map R {1, n} = 1$\nbecause the complete graph on one node has no edges.\nThis is the base case.\nWe prove that $R \\left({r, s}\\right)$ exists by finding an explicit bound for it.\nBy the inductive hypothesis, $\\map R {r - 1, s}$ and $\\map R {r, s - 1}$ exist.\n\\end{proof}\n\n\n\n[Document 4]\n\\begin{definition}[Definition:Game/Player]\nEach of the parties involved in a '''game''' are called '''players'''.\nIn the context of game theory, a '''player''' may not necessarily be a person acting alone.\nA group of people who are collaborating in a game, for example, the members of a football team, can be considered to be a single '''player'''.\n\\end{definition}\n\n[Document 5]\n\\begin{definition}[Definition:River Crossing Problem]\nA '''river crossing problem''' concerns a group of people, who may or may not have a collection of objects, which need to cross a river.\nThe constraints of the problem are generally of the form:\n:$(1): \\quad$ The boat can carry only a limited cargo, thereby making it impossible for the crossing to be made in one go\n:$(2): \\quad$ Certain combinations of people or objects or both may not be left alone or in combination on either bank of the river.\nIn some versions of the problem, there are one or more islands midstream at which people or objects may be left for a while.\n\\end{definition}",
+        "response": "**Answer:\u202f5 guests**\n\n---\n\n### Why 5 is enough  \n\nEach guest belongs to exactly one of two mutually exclusive groups  \n\n*\u202fFootball fans (F)  \n*\u202fBasketball fans (B)\n\nWe want to be **certain** that among the invited people there is a triple that all belong to the same group.\n\nThink of the two groups as \u201cpigeonholes\u201d.  \nIf we invite \\(n\\) guests, the worst\u2011case (most balanced) distribution is\n\n\\[\n\\text{F\u2011fans}= \\left\\lfloor \\frac{n}{2}\\right\\rfloor ,\\qquad \n\\text{B\u2011fans}= \\left\\lceil \\frac{n}{2}\\right\\rceil .\n\\]\n\nTo avoid having three fans of the same sport we must keep each group size \\(\\le 2\\).  \nThus the largest number of guests we could invite without forcing a triple is\n\n\\[\n2\\;(\\text{football}) + 2\\;(\\text{basketball}) = 4 .\n\\]\n\nWith **four** guests it is possible to have exactly two football fans and two basketball fans, so no triple of the same kind is guaranteed.\n\nAdd one more guest:\n\n*If the fifth guest is a football fan*, the football group now has three members.  \n*If the fifth guest is a basketball fan*, the basketball group now has three members.\n\nHence **any** set of five guests must contain either three football fans or three basketball fans.\n\n---\n\n### Formal statement (Pigeonhole Principle)\n\nFor two categories, to guarantee \\(k\\) items in the same category we need  \n\n\\[\n( k-1 )\\times 2 + 1 = 2k-1\n\\]\n\npeople.  \nWith \\(k=3\\) this gives \\(2\\cdot3-1 = 5\\).\n\n---\n\nSo the smallest number of guests you must invite to be sure of a triple of fans of the same sport is **5**."
+    },
+    "metadata": {
+        "batch": 25,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_jianyu_xu/Ramsey_2.json",
+        "correct_answer": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 109,
+            "label": "context",
+            "text": "Everyone that you invite to a party will be either a fan of football or a fan of basketball, but never both. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 109,
+            "end": 281,
+            "label": "context",
+            "text": "What is the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 281,
+            "end": 302,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 302,
+            "end": 506,
+            "label": "context",
+            "text": "[Document 1]\n\\begin{definition}[Definition:Ramsey Number]\nRamsey's Theorem states that in any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 506,
+            "end": 890,
+            "label": "context",
+            "text": "More precisely, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 890,
+            "end": 988,
+            "label": "context",
+            "text": "This number $\\map R {n_1, \\ldots, n_c}$ is called the '''Ramsey number''' for $n_1, \\ldots, n_c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 988,
+            "end": 1092,
+            "label": "context",
+            "text": "{{NamedforDef|Frank Plumpton Ramsey|cat = Ramsey}}\nCategory:Definitions/Ramsey Theory\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 1092,
+            "end": 1194,
+            "label": "context",
+            "text": "[Document 2]\n\\section{Infinite Ramsey's Theorem implies Finite Ramsey's Theorem}\nTags: Ramsey Theory\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 1194,
+            "end": 1549,
+            "label": "context",
+            "text": "\\begin{theorem}\n:$\\forall l, n, r \\in \\N: \\exists m \\in \\N: m \\to \\left({l}\\right)_r^n$\nwhere $\\alpha \\to \\left({\\beta}\\right)^n_r$ means that:\n:for any assignment of $r$-colors to the $n$-subsets of $\\alpha$\n::there is a particular color $\\gamma$ and a subset $X$ of $\\alpha$ of size $\\beta$ such that all $n$-subsets of $X$ are $\\gamma$.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 1549,
+            "end": 1661,
+            "label": "context",
+            "text": "\\begin{proof}\n{{AimForCont}} there is a $l$ such that:\n:$\\forall m \\in \\N: m \\nrightarrow \\left({l}\\right)_r^n$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 1661,
+            "end": 1780,
+            "label": "context",
+            "text": "Let $\\hat{K_i}$ denote a hypergraph on $i$ vertices where all possible $n$-subsets of the vertices are the hyperedges.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 1780,
+            "end": 1857,
+            "label": "context",
+            "text": "Let $G$ be a hypergraph with vertices $V = \\left\\{ {v_i: i \\in \\N}\\right\\}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 1857,
+            "end": 2014,
+            "label": "context",
+            "text": "Let the hyperedges of $G <$ be enumerated by:\n:$E = \\left\\{ {E_i: E_i \\subset \\N, \\left\\vert{E_i}\\right\\vert = n}\\right\\}$\n{{explain|What does $G <$ mean?}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 2014,
+            "end": 2059,
+            "label": "context",
+            "text": "We construct a (rooted) tree $T$ as follows:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 2059,
+            "end": 2107,
+            "label": "context",
+            "text": "$(1): \\quad$ First introduce a root node $r t$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 2107,
+            "end": 2392,
+            "label": "context",
+            "text": "$(2): \\quad$ Each node is allowed to have at most $r<$ children which correspond to the $r$-colors, subject to it satisfying the criteria:\n{{explain|What does $r <$ mean?}}\n:::A child is always labeled by one among the $r$-colors.\n:::Let the colors be denoted $c_1, c_2, \\ldots, c_r$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 2392,
+            "end": 2528,
+            "label": "context",
+            "text": "$(3): \\quad$ A child $c_i$ is '''permitted''' {{iff}} its introduction creates a path of some finite length $k$ starting from the root.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 2528,
+            "end": 2724,
+            "label": "context",
+            "text": ":::So, if the hyperedges $E_1, E_2, \\ldots, E_k$ are colored by the colors used in the path in the same order, then the corresponding subgraph of $G$ does not contain a monochromatic $\\hat{K_l}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 2724,
+            "end": 3007,
+            "label": "context",
+            "text": ":::For example: if the introduction of a child $c_i$ creates the $k$ length path $r t, c_a, c_b, \\ldots, c_i$ and the hyperedges $E_1, E_2, \\ldots, E_k$ when colored $c_a, c_b, \\ldots, c_i$ do not contain a monochromatic $\\hat{K_l}$, the child $c_i$ is permitted to be added to $T$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 3007,
+            "end": 3130,
+            "label": "context",
+            "text": "Note that for all $m$, there always exists a coloring of $\\hat{K_m}$ such that no monochromatic $\\hat{K_l}$ exists within.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 3130,
+            "end": 3227,
+            "label": "context",
+            "text": "Thus the situation that a child cannot be added to any vertex at a given level $k$ cannot arise.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 3227,
+            "end": 3321,
+            "label": "context",
+            "text": "For we can always take a coloring of $\\hat{K_{k+n}}$ containing no monochromatic $\\hat{K_l}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 3321,
+            "end": 3452,
+            "label": "context",
+            "text": "Since any $k$ hyperedges in it would yield a sequence of colors already existing in $T$, we know which vertex to add the child to.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 3452,
+            "end": 3513,
+            "label": "context",
+            "text": "We give the child the color corresponding to any other edge.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 3513,
+            "end": 3579,
+            "label": "context",
+            "text": "Hence we can forever keep adding children and so $T$ is infinite.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 3579,
+            "end": 3654,
+            "label": "context",
+            "text": "It is also obvious that each level $k$ of $T$ has at most $r^k<$ vertices.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 3654,
+            "end": 3679,
+            "label": "context",
+            "text": "So each level is finite.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 3679,
+            "end": 3744,
+            "label": "context",
+            "text": "By K\u00f6nig's Tree Lemma there will be an infinite path $P$ in $T$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 3744,
+            "end": 3823,
+            "label": "context",
+            "text": "$P$ provides a $r$-coloring of $G$ that contains no monochromatic $\\hat{K_i}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 3823,
+            "end": 3880,
+            "label": "context",
+            "text": "Hence $P$ contains no monochromatic infinite hypergraph.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 3880,
+            "end": 3928,
+            "label": "context",
+            "text": "This contradicts the Infinite Ramsey's Theorem.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 3928,
+            "end": 4020,
+            "label": "context",
+            "text": "The result follows by Proof by Contradiction.\n{{qed}}\nCategory:Ramsey Theory\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 4020,
+            "end": 4112,
+            "label": "context",
+            "text": "[Document 3]\n\\section{Ramsey's Theorem}\nTags: Ramsey Theory, Named Theorems, Combinatorics\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 4112,
+            "end": 4245,
+            "label": "context",
+            "text": "\\begin{theorem}\nIn any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 4245,
+            "end": 4634,
+            "label": "context",
+            "text": "For 2 colors, Ramsey's theorem states that for any pair of positive integers $\\tuple {r, s}$, there exists a least positive integer $\\map R {r, s}$ such that for any complete graph on $\\map R {r, s}$ vertices, whose edges are colored red or blue, there exists either a complete subgraph on $r$ vertices which is entirely red, or a complete subgraph on $s$ vertices which is entirely blue.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 4634,
+            "end": 5018,
+            "label": "context",
+            "text": "More generally, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 5018,
+            "end": 5110,
+            "label": "context",
+            "text": "This number $\\map R {n_1, \\ldots, n_c}$ is called the Ramsey number for $n_1, \\ldots, n_c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 5110,
+            "end": 5176,
+            "label": "context",
+            "text": "The special case above has $c = 2$ (and $n_1 = r$ and $n_2 = s$).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 5176,
+            "end": 5252,
+            "label": "context",
+            "text": "Here $\\map R {r, s}$ signifies an integer that depends on both $r$ and $s$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 5252,
+            "end": 5347,
+            "label": "context",
+            "text": "It is understood to represent the smallest integer for which the theorem holds.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 5347,
+            "end": 5435,
+            "label": "context",
+            "text": "\\begin{proof}\nFirst we prove the theorem for the 2-color case, by induction on $r + s$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx41",
+            "annotation": false,
+            "start": 5435,
+            "end": 5580,
+            "label": "context",
+            "text": "It is clear from the definition that\n:$\\forall n \\in \\N: \\map R {n, 1} = \\map R {1, n} = 1$\nbecause the complete graph on one node has no edges.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx42",
+            "annotation": false,
+            "start": 5580,
+            "end": 5603,
+            "label": "context",
+            "text": "This is the base case.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx43",
+            "annotation": false,
+            "start": 5603,
+            "end": 5685,
+            "label": "context",
+            "text": "We prove that $R \\left({r, s}\\right)$ exists by finding an explicit bound for it.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx44",
+            "annotation": false,
+            "start": 5685,
+            "end": 5780,
+            "label": "context",
+            "text": "By the inductive hypothesis, $\\map R {r - 1, s}$ and $\\map R {r, s - 1}$ exist.\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx45",
+            "annotation": false,
+            "start": 5780,
+            "end": 5907,
+            "label": "context",
+            "text": "[Document 4]\n\\begin{definition}[Definition:Game/Player]\nEach of the parties involved in a '''game''' are called '''players'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx46",
+            "annotation": false,
+            "start": 5907,
+            "end": 5999,
+            "label": "context",
+            "text": "In the context of game theory, a '''player''' may not necessarily be a person acting alone.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx47",
+            "annotation": false,
+            "start": 5999,
+            "end": 6160,
+            "label": "context",
+            "text": "A group of people who are collaborating in a game, for example, the members of a football team, can be considered to be a single '''player'''.\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx48",
+            "annotation": false,
+            "start": 6160,
+            "end": 6364,
+            "label": "context",
+            "text": "[Document 5]\n\\begin{definition}[Definition:River Crossing Problem]\nA '''river crossing problem''' concerns a group of people, who may or may not have a collection of objects, which need to cross a river.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx49",
+            "annotation": false,
+            "start": 6364,
+            "end": 6422,
+            "label": "context",
+            "text": "The constraints of the problem are generally of the form:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx50",
+            "annotation": false,
+            "start": 6422,
+            "end": 6544,
+            "label": "context",
+            "text": ":$(1): \\quad$ The boat can carry only a limited cargo, thereby making it impossible for the crossing to be made in one go\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx51",
+            "annotation": false,
+            "start": 6544,
+            "end": 6677,
+            "label": "context",
+            "text": ":$(2): \\quad$ Certain combinations of people or objects or both may not be left alone or in combination on either bank of the river.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx52",
+            "annotation": false,
+            "start": 6677,
+            "end": 6818,
+            "label": "context",
+            "text": "In some versions of the problem, there are one or more islands midstream at which people or objects may be left for a while.\n\\end{definition}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 22,
+            "label": "conclusion",
+            "text": "**Answer:\u202f5 guests**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 22,
+            "end": 27,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 27,
+            "end": 50,
+            "label": "planning",
+            "text": "### Why 5 is enough  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 50,
+            "end": 120,
+            "label": "restatement",
+            "text": "Each guest belongs to exactly one of two mutually exclusive groups  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 120,
+            "end": 142,
+            "label": "restatement",
+            "text": "*\u202fFootball fans (F)  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 142,
+            "end": 165,
+            "label": "restatement",
+            "text": "*\u202fBasketball fans (B)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 165,
+            "end": 275,
+            "label": "restatement",
+            "text": "We want to be **certain** that among the invited people there is a triple that all belong to the same group.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 275,
+            "end": 319,
+            "label": "planning",
+            "text": "Think of the two groups as \u201cpigeonholes\u201d.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 319,
+            "end": 346,
+            "label": "assumption",
+            "text": "If we invite \\(n\\) guests, ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 346,
+            "end": 516,
+            "label": "reasoning",
+            "text": "the worst\u2011case (most balanced) distribution is\n\n\\[\n\\text{F\u2011fans}= \\left\\lfloor \\frac{n}{2}\\right\\rfloor ,\\qquad \n\\text{B\u2011fans}= \\left\\lceil \\frac{n}{2}\\right\\rceil .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 516,
+            "end": 603,
+            "label": "reasoning",
+            "text": "To avoid having three fans of the same sport we must keep each group size \\(\\le 2\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 603,
+            "end": 741,
+            "label": "reasoning",
+            "text": "Thus the largest number of guests we could invite without forcing a triple is\n\n\\[\n2\\;(\\text{football}) + 2\\;(\\text{basketball}) = 4 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 741,
+            "end": 882,
+            "label": "reasoning",
+            "text": "With **four** guests it is possible to have exactly two football fans and two basketball fans, so no triple of the same kind is guaranteed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 882,
+            "end": 903,
+            "label": "planning",
+            "text": "Add one more guest:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 903,
+            "end": 987,
+            "label": "assumption",
+            "text": "*If the fifth guest is a football fan*, the football group now has three members.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 987,
+            "end": 1074,
+            "label": "assumption",
+            "text": "*If the fifth guest is a basketball fan*, the basketball group now has three members.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1074,
+            "end": 1174,
+            "label": "conclusion",
+            "text": "Hence **any** set of five guests must contain either three football fans or three basketball fans.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1174,
+            "end": 1179,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1179,
+            "end": 1224,
+            "label": "planning",
+            "text": "### Formal statement (Pigeonhole Principle)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1224,
+            "end": 1345,
+            "label": "fact",
+            "text": "For two categories, to guarantee \\(k\\) items in the same category we need  \n\n\\[\n( k-1 )\\times 2 + 1 = 2k-1\n\\]\n\npeople.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1345,
+            "end": 1389,
+            "label": "conclusion",
+            "text": "With \\(k=3\\) this gives \\(2\\cdot3-1 = 5\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1389,
+            "end": 1394,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1394,
+            "end": 1501,
+            "label": "conclusion",
+            "text": "So the smallest number of guests you must invite to be sure of a triple of fans of the same sport is **5**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "validate:support"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "validate:support"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp1",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp4",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp5",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp6",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp10",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp16",
+            "label": "validate:support"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp20",
+            "label": "validate:support"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp21",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp22",
+            "label": "validate:support"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp22",
+            "label": "validate:support"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "validate:support"
+        }
+    ]
+}

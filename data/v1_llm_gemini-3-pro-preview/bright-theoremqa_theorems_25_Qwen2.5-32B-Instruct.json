@@ -1,0 +1,722 @@
+{
+    "doc_id": "bright-theoremqa_theorems_25_Qwen2.5-32B-Instruct",
+    "raw_text": {
+        "question": "Everyone that you invite to a party will be either a fan of football or a fan of basketball, but never both. What is the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball?\n\nRetrieved documents:\n[Document 1]\n\\begin{definition}[Definition:Ramsey Number]\nRamsey's Theorem states that in any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\nMore precisely, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\nThis number $\\map R {n_1, \\ldots, n_c}$ is called the '''Ramsey number''' for $n_1, \\ldots, n_c$.\n{{NamedforDef|Frank Plumpton Ramsey|cat = Ramsey}}\nCategory:Definitions/Ramsey Theory\n\\end{definition}\n\n[Document 2]\n\\section{Infinite Ramsey's Theorem implies Finite Ramsey's Theorem}\nTags: Ramsey Theory\n\n\\begin{theorem}\n:$\\forall l, n, r \\in \\N: \\exists m \\in \\N: m \\to \\left({l}\\right)_r^n$\nwhere $\\alpha \\to \\left({\\beta}\\right)^n_r$ means that:\n:for any assignment of $r$-colors to the $n$-subsets of $\\alpha$\n::there is a particular color $\\gamma$ and a subset $X$ of $\\alpha$ of size $\\beta$ such that all $n$-subsets of $X$ are $\\gamma$.\n\\end{theorem}\n\n\\begin{proof}\n{{AimForCont}} there is a $l$ such that:\n:$\\forall m \\in \\N: m \\nrightarrow \\left({l}\\right)_r^n$\nLet $\\hat{K_i}$ denote a hypergraph on $i$ vertices where all possible $n$-subsets of the vertices are the hyperedges.\nLet $G$ be a hypergraph with vertices $V = \\left\\{ {v_i: i \\in \\N}\\right\\}$.\nLet the hyperedges of $G <$ be enumerated by:\n:$E = \\left\\{ {E_i: E_i \\subset \\N, \\left\\vert{E_i}\\right\\vert = n}\\right\\}$\n{{explain|What does $G <$ mean?}}\nWe construct a (rooted) tree $T$ as follows:\n$(1): \\quad$ First introduce a root node $r t$.\n$(2): \\quad$ Each node is allowed to have at most $r<$ children which correspond to the $r$-colors, subject to it satisfying the criteria:\n{{explain|What does $r <$ mean?}}\n:::A child is always labeled by one among the $r$-colors.\n:::Let the colors be denoted $c_1, c_2, \\ldots, c_r$.\n$(3): \\quad$ A child $c_i$ is '''permitted''' {{iff}} its introduction creates a path of some finite length $k$ starting from the root.\n:::So, if the hyperedges $E_1, E_2, \\ldots, E_k$ are colored by the colors used in the path in the same order, then the corresponding subgraph of $G$ does not contain a monochromatic $\\hat{K_l}$.\n:::For example: if the introduction of a child $c_i$ creates the $k$ length path $r t, c_a, c_b, \\ldots, c_i$ and the hyperedges $E_1, E_2, \\ldots, E_k$ when colored $c_a, c_b, \\ldots, c_i$ do not contain a monochromatic $\\hat{K_l}$, the child $c_i$ is permitted to be added to $T$.\nNote that for all $m$, there always exists a coloring of $\\hat{K_m}$ such that no monochromatic $\\hat{K_l}$ exists within.\nThus the situation that a child cannot be added to any vertex at a given level $k$ cannot arise.\nFor we can always take a coloring of $\\hat{K_{k+n}}$ containing no monochromatic $\\hat{K_l}$.\nSince any $k$ hyperedges in it would yield a sequence of colors already existing in $T$, we know which vertex to add the child to.\nWe give the child the color corresponding to any other edge.\nHence we can forever keep adding children and so $T$ is infinite.\nIt is also obvious that each level $k$ of $T$ has at most $r^k<$ vertices.\nSo each level is finite.\nBy K\u00f6nig's Tree Lemma there will be an infinite path $P$ in $T$.\n$P$ provides a $r$-coloring of $G$ that contains no monochromatic $\\hat{K_i}$.\nHence $P$ contains no monochromatic infinite hypergraph.\nThis contradicts the Infinite Ramsey's Theorem.\nThe result follows by Proof by Contradiction.\n{{qed}}\nCategory:Ramsey Theory\n\\end{proof}\n\n\n\n[Document 3]\n\\section{Ramsey's Theorem}\nTags: Ramsey Theory, Named Theorems, Combinatorics\n\n\\begin{theorem}\nIn any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\nFor 2 colors, Ramsey's theorem states that for any pair of positive integers $\\tuple {r, s}$, there exists a least positive integer $\\map R {r, s}$ such that for any complete graph on $\\map R {r, s}$ vertices, whose edges are colored red or blue, there exists either a complete subgraph on $r$ vertices which is entirely red, or a complete subgraph on $s$ vertices which is entirely blue.\nMore generally, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n:if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\nThis number $\\map R {n_1, \\ldots, n_c}$ is called the Ramsey number for $n_1, \\ldots, n_c$.\nThe special case above has $c = 2$ (and $n_1 = r$ and $n_2 = s$).\nHere $\\map R {r, s}$ signifies an integer that depends on both $r$ and $s$. It is understood to represent the smallest integer for which the theorem holds.\n\\end{theorem}\n\n\\begin{proof}\nFirst we prove the theorem for the 2-color case, by induction on $r + s$.\nIt is clear from the definition that\n:$\\forall n \\in \\N: \\map R {n, 1} = \\map R {1, n} = 1$\nbecause the complete graph on one node has no edges.\nThis is the base case.\nWe prove that $R \\left({r, s}\\right)$ exists by finding an explicit bound for it.\nBy the inductive hypothesis, $\\map R {r - 1, s}$ and $\\map R {r, s - 1}$ exist.\n\\end{proof}\n\n\n\n[Document 4]\n\\begin{definition}[Definition:Game/Player]\nEach of the parties involved in a '''game''' are called '''players'''.\nIn the context of game theory, a '''player''' may not necessarily be a person acting alone.\nA group of people who are collaborating in a game, for example, the members of a football team, can be considered to be a single '''player'''.\n\\end{definition}\n\n[Document 5]\n\\begin{definition}[Definition:River Crossing Problem]\nA '''river crossing problem''' concerns a group of people, who may or may not have a collection of objects, which need to cross a river.\nThe constraints of the problem are generally of the form:\n:$(1): \\quad$ The boat can carry only a limited cargo, thereby making it impossible for the crossing to be made in one go\n:$(2): \\quad$ Certain combinations of people or objects or both may not be left alone or in combination on either bank of the river.\nIn some versions of the problem, there are one or more islands midstream at which people or objects may be left for a while.\n\\end{definition}",
+        "response": "To solve this problem, we can use the concept of Ramsey numbers from Ramsey theory. Specifically, we are looking for the smallest number of guests \\( n \\) such that in any group of \\( n \\) people, there will be either 3 people who are all fans of football or 3 people who are all fans of basketball. This scenario can be modeled using a complete graph where each vertex represents a guest, and each edge is colored based on whether the two guests are fans of football (one color) or basketball (another color).\n\nAccording to Ramsey theory, the Ramsey number \\( R(3,3) \\) is the smallest number \\( n \\) such that any 2-coloring of the edges of a complete graph on \\( n \\) vertices will contain a monochromatic triangle (a set of three vertices all connected by edges of the same color). In our context, this means that in any group of \\( n \\) guests, there will be either 3 guests who are all fans of football or 3 guests who are all fans of basketball.\n\nFrom the provided documents, particularly Document 3, we learn that \\( R(3,3) = 6 \\). This means that if we invite 6 guests, we are guaranteed to have either 3 guests who are all fans of football or 3 guests who are all fans of basketball.\n\nTherefore, the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball is \\( \\boxed{6} \\)."
+    },
+    "metadata": {
+        "batch": 25,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "Qwen2.5-32B-Instruct",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_jianyu_xu/Ramsey_2.json",
+        "correct_answer": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 109,
+            "label": "context",
+            "text": "Everyone that you invite to a party will be either a fan of football or a fan of basketball, but never both. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 109,
+            "end": 281,
+            "label": "context",
+            "text": "What is the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 281,
+            "end": 302,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 302,
+            "end": 506,
+            "label": "context",
+            "text": "[Document 1]\n\\begin{definition}[Definition:Ramsey Number]\nRamsey's Theorem states that in any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 506,
+            "end": 658,
+            "label": "context",
+            "text": "More precisely, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 658,
+            "end": 890,
+            "label": "context",
+            "text": ":if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 890,
+            "end": 988,
+            "label": "context",
+            "text": "This number $\\map R {n_1, \\ldots, n_c}$ is called the '''Ramsey number''' for $n_1, \\ldots, n_c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 988,
+            "end": 1092,
+            "label": "context",
+            "text": "{{NamedforDef|Frank Plumpton Ramsey|cat = Ramsey}}\nCategory:Definitions/Ramsey Theory\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 1092,
+            "end": 1194,
+            "label": "context",
+            "text": "[Document 2]\n\\section{Infinite Ramsey's Theorem implies Finite Ramsey's Theorem}\nTags: Ramsey Theory\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 1194,
+            "end": 1338,
+            "label": "context",
+            "text": "\\begin{theorem}\n:$\\forall l, n, r \\in \\N: \\exists m \\in \\N: m \\to \\left({l}\\right)_r^n$\nwhere $\\alpha \\to \\left({\\beta}\\right)^n_r$ means that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 1338,
+            "end": 1549,
+            "label": "context",
+            "text": ":for any assignment of $r$-colors to the $n$-subsets of $\\alpha$\n::there is a particular color $\\gamma$ and a subset $X$ of $\\alpha$ of size $\\beta$ such that all $n$-subsets of $X$ are $\\gamma$.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 1549,
+            "end": 1604,
+            "label": "context",
+            "text": "\\begin{proof}\n{{AimForCont}} there is a $l$ such that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 1604,
+            "end": 1661,
+            "label": "context",
+            "text": ":$\\forall m \\in \\N: m \\nrightarrow \\left({l}\\right)_r^n$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 1661,
+            "end": 1780,
+            "label": "context",
+            "text": "Let $\\hat{K_i}$ denote a hypergraph on $i$ vertices where all possible $n$-subsets of the vertices are the hyperedges.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 1780,
+            "end": 1857,
+            "label": "context",
+            "text": "Let $G$ be a hypergraph with vertices $V = \\left\\{ {v_i: i \\in \\N}\\right\\}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 1857,
+            "end": 1903,
+            "label": "context",
+            "text": "Let the hyperedges of $G <$ be enumerated by:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 1903,
+            "end": 1980,
+            "label": "context",
+            "text": ":$E = \\left\\{ {E_i: E_i \\subset \\N, \\left\\vert{E_i}\\right\\vert = n}\\right\\}$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 1980,
+            "end": 2014,
+            "label": "context",
+            "text": "{{explain|What does $G <$ mean?}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 2014,
+            "end": 2059,
+            "label": "context",
+            "text": "We construct a (rooted) tree $T$ as follows:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 2059,
+            "end": 2107,
+            "label": "context",
+            "text": "$(1): \\quad$ First introduce a root node $r t$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 2107,
+            "end": 2246,
+            "label": "context",
+            "text": "$(2): \\quad$ Each node is allowed to have at most $r<$ children which correspond to the $r$-colors, subject to it satisfying the criteria:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 2246,
+            "end": 2280,
+            "label": "context",
+            "text": "{{explain|What does $r <$ mean?}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 2280,
+            "end": 2338,
+            "label": "context",
+            "text": ":::A child is always labeled by one among the $r$-colors.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 2338,
+            "end": 2392,
+            "label": "context",
+            "text": ":::Let the colors be denoted $c_1, c_2, \\ldots, c_r$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 2392,
+            "end": 2528,
+            "label": "context",
+            "text": "$(3): \\quad$ A child $c_i$ is '''permitted''' {{iff}} its introduction creates a path of some finite length $k$ starting from the root.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 2528,
+            "end": 2724,
+            "label": "context",
+            "text": ":::So, if the hyperedges $E_1, E_2, \\ldots, E_k$ are colored by the colors used in the path in the same order, then the corresponding subgraph of $G$ does not contain a monochromatic $\\hat{K_l}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 2724,
+            "end": 3007,
+            "label": "context",
+            "text": ":::For example: if the introduction of a child $c_i$ creates the $k$ length path $r t, c_a, c_b, \\ldots, c_i$ and the hyperedges $E_1, E_2, \\ldots, E_k$ when colored $c_a, c_b, \\ldots, c_i$ do not contain a monochromatic $\\hat{K_l}$, the child $c_i$ is permitted to be added to $T$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 3007,
+            "end": 3130,
+            "label": "context",
+            "text": "Note that for all $m$, there always exists a coloring of $\\hat{K_m}$ such that no monochromatic $\\hat{K_l}$ exists within.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 3130,
+            "end": 3227,
+            "label": "context",
+            "text": "Thus the situation that a child cannot be added to any vertex at a given level $k$ cannot arise.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 3227,
+            "end": 3321,
+            "label": "context",
+            "text": "For we can always take a coloring of $\\hat{K_{k+n}}$ containing no monochromatic $\\hat{K_l}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 3321,
+            "end": 3452,
+            "label": "context",
+            "text": "Since any $k$ hyperedges in it would yield a sequence of colors already existing in $T$, we know which vertex to add the child to.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 3452,
+            "end": 3513,
+            "label": "context",
+            "text": "We give the child the color corresponding to any other edge.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 3513,
+            "end": 3579,
+            "label": "context",
+            "text": "Hence we can forever keep adding children and so $T$ is infinite.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 3579,
+            "end": 3654,
+            "label": "context",
+            "text": "It is also obvious that each level $k$ of $T$ has at most $r^k<$ vertices.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 3654,
+            "end": 3679,
+            "label": "context",
+            "text": "So each level is finite.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 3679,
+            "end": 3745,
+            "label": "context",
+            "text": "By K\u00f6nig's Tree Lemma there will be an infinite path $P$ in $T$.\n$",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 3745,
+            "end": 3823,
+            "label": "context",
+            "text": "P$ provides a $r$-coloring of $G$ that contains no monochromatic $\\hat{K_i}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 3823,
+            "end": 3880,
+            "label": "context",
+            "text": "Hence $P$ contains no monochromatic infinite hypergraph.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 3880,
+            "end": 3928,
+            "label": "context",
+            "text": "This contradicts the Infinite Ramsey's Theorem.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 3928,
+            "end": 4020,
+            "label": "context",
+            "text": "The result follows by Proof by Contradiction.\n{{qed}}\nCategory:Ramsey Theory\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 4020,
+            "end": 4112,
+            "label": "context",
+            "text": "[Document 3]\n\\section{Ramsey's Theorem}\nTags: Ramsey Theory, Named Theorems, Combinatorics\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx41",
+            "annotation": false,
+            "start": 4112,
+            "end": 4245,
+            "label": "context",
+            "text": "\\begin{theorem}\nIn any coloring of the edges of a sufficiently large complete graph, one will find monochromatic complete subgraphs.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx42",
+            "annotation": false,
+            "start": 4245,
+            "end": 4634,
+            "label": "context",
+            "text": "For 2 colors, Ramsey's theorem states that for any pair of positive integers $\\tuple {r, s}$, there exists a least positive integer $\\map R {r, s}$ such that for any complete graph on $\\map R {r, s}$ vertices, whose edges are colored red or blue, there exists either a complete subgraph on $r$ vertices which is entirely red, or a complete subgraph on $s$ vertices which is entirely blue.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx43",
+            "annotation": false,
+            "start": 4634,
+            "end": 4786,
+            "label": "context",
+            "text": "More generally, for any given number of colors $c$, and any given integers $n_1, \\ldots, n_c$, there is a number $\\map R {n_1, \\ldots, n_c}$ such that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx44",
+            "annotation": false,
+            "start": 4786,
+            "end": 5018,
+            "label": "context",
+            "text": ":if the edges of a complete graph of order $\\map R {n_1, \\ldots, n_c}$ are colored with $c$ different colours, then for some $i$ between $1$ and $c$, it must contain a complete subgraph of order $n_i$ whose edges are all color $i$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx45",
+            "annotation": false,
+            "start": 5018,
+            "end": 5110,
+            "label": "context",
+            "text": "This number $\\map R {n_1, \\ldots, n_c}$ is called the Ramsey number for $n_1, \\ldots, n_c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx46",
+            "annotation": false,
+            "start": 5110,
+            "end": 5176,
+            "label": "context",
+            "text": "The special case above has $c = 2$ (and $n_1 = r$ and $n_2 = s$).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx47",
+            "annotation": false,
+            "start": 5176,
+            "end": 5252,
+            "label": "context",
+            "text": "Here $\\map R {r, s}$ signifies an integer that depends on both $r$ and $s$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx48",
+            "annotation": false,
+            "start": 5252,
+            "end": 5347,
+            "label": "context",
+            "text": "It is understood to represent the smallest integer for which the theorem holds.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx49",
+            "annotation": false,
+            "start": 5347,
+            "end": 5435,
+            "label": "context",
+            "text": "\\begin{proof}\nFirst we prove the theorem for the 2-color case, by induction on $r + s$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx50",
+            "annotation": false,
+            "start": 5435,
+            "end": 5580,
+            "label": "context",
+            "text": "It is clear from the definition that\n:$\\forall n \\in \\N: \\map R {n, 1} = \\map R {1, n} = 1$\nbecause the complete graph on one node has no edges.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx51",
+            "annotation": false,
+            "start": 5580,
+            "end": 5603,
+            "label": "context",
+            "text": "This is the base case.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx52",
+            "annotation": false,
+            "start": 5603,
+            "end": 5685,
+            "label": "context",
+            "text": "We prove that $R \\left({r, s}\\right)$ exists by finding an explicit bound for it.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx53",
+            "annotation": false,
+            "start": 5685,
+            "end": 5780,
+            "label": "context",
+            "text": "By the inductive hypothesis, $\\map R {r - 1, s}$ and $\\map R {r, s - 1}$ exist.\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx54",
+            "annotation": false,
+            "start": 5780,
+            "end": 5907,
+            "label": "context",
+            "text": "[Document 4]\n\\begin{definition}[Definition:Game/Player]\nEach of the parties involved in a '''game''' are called '''players'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx55",
+            "annotation": false,
+            "start": 5907,
+            "end": 5999,
+            "label": "context",
+            "text": "In the context of game theory, a '''player''' may not necessarily be a person acting alone.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx56",
+            "annotation": false,
+            "start": 5999,
+            "end": 6160,
+            "label": "context",
+            "text": "A group of people who are collaborating in a game, for example, the members of a football team, can be considered to be a single '''player'''.\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx57",
+            "annotation": false,
+            "start": 6160,
+            "end": 6364,
+            "label": "context",
+            "text": "[Document 5]\n\\begin{definition}[Definition:River Crossing Problem]\nA '''river crossing problem''' concerns a group of people, who may or may not have a collection of objects, which need to cross a river.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx58",
+            "annotation": false,
+            "start": 6364,
+            "end": 6422,
+            "label": "context",
+            "text": "The constraints of the problem are generally of the form:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx59",
+            "annotation": false,
+            "start": 6422,
+            "end": 6544,
+            "label": "context",
+            "text": ":$(1): \\quad$ The boat can carry only a limited cargo, thereby making it impossible for the crossing to be made in one go\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx60",
+            "annotation": false,
+            "start": 6544,
+            "end": 6677,
+            "label": "context",
+            "text": ":$(2): \\quad$ Certain combinations of people or objects or both may not be left alone or in combination on either bank of the river.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx61",
+            "annotation": false,
+            "start": 6677,
+            "end": 6818,
+            "label": "context",
+            "text": "In some versions of the problem, there are one or more islands midstream at which people or objects may be left for a while.\n\\end{definition}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 84,
+            "label": "planning",
+            "text": "To solve this problem, we can use the concept of Ramsey numbers from Ramsey theory. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 84,
+            "end": 300,
+            "label": "restatement",
+            "text": "Specifically, we are looking for the smallest number of guests \\( n \\) such that in any group of \\( n \\) people, there will be either 3 people who are all fans of football or 3 people who are all fans of basketball. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 300,
+            "end": 512,
+            "label": "reasoning",
+            "text": "This scenario can be modeled using a complete graph where each vertex represents a guest, and each edge is colored based on whether the two guests are fans of football (one color) or basketball (another color).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 512,
+            "end": 786,
+            "label": "fact",
+            "text": "According to Ramsey theory, the Ramsey number \\( R(3,3) \\) is the smallest number \\( n \\) such that any 2-coloring of the edges of a complete graph on \\( n \\) vertices will contain a monochromatic triangle (a set of three vertices all connected by edges of the same color). ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 786,
+            "end": 954,
+            "label": "reasoning",
+            "text": "In our context, this means that in any group of \\( n \\) guests, there will be either 3 guests who are all fans of football or 3 guests who are all fans of basketball.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 954,
+            "end": 1040,
+            "label": "fact",
+            "text": "From the provided documents, particularly Document 3, we learn that \\( R(3,3) = 6 \\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 1040,
+            "end": 1195,
+            "label": "reasoning",
+            "text": "This means that if we invite 6 guests, we are guaranteed to have either 3 guests who are all fans of football or 3 guests who are all fans of basketball.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 1195,
+            "end": 1387,
+            "label": "conclusion",
+            "text": "Therefore, the smallest number of guests you need to invite to ensure that there are either 3 people who are all fans of football or 3 people who are all fans of basketball is \\( \\boxed{6} \\).",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx42",
+            "dest_node_id": "resp3",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp5",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        }
+    ]
+}
