@@ -2,7 +2,7 @@
     "doc_id": "aime2024_29_gpt-oss-120b",
     "raw_text": {
         "question": "Let $\\omega \\neq 1$ be a 13th root of unity. Find the remainder when \n\\[ \\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k}) \\] is divided by 1000.",
-        "response": "<think>We need product over k=0..12 of (2 - 2 \u03c9^k + \u03c9^{2k}) where \u03c9 is a primitive 13th root of unity (any non-1 root). Since \u03c9^13=1, \u03c9\u22601.\n\nLet\u2019s denote expression: f(\u03c9^k) = 2 - 2 \u03c9^k + \u03c9^{2k} = (\u03c9^k)^2 - 2 \u03c9^k + 2 = (\u03c9^k)^2 - 2 \u03c9^k + 2.\n\nWe need product over all 13th roots (including \u03c9^0=1). So product over all 13th roots of unity of (z^2 - 2z + 2) evaluated at z = \u03c9^k.\n\nThus product = \u220f_{z^13=1} (z^2 - 2z + 2). That's a polynomial in z evaluated at all roots of unity, i.e., the resultant of z^13-1 and z^2 - 2z + 2? Actually product over roots of unity of g(z) = \u220f_{\u03b6: \u03b6^13=1} g(\u03b6) = resultant(z^13-1, g(z)) up to leading coefficient factor. Since g is degree 2, leading coefficient 1. The resultant Res(z^13-1, g(z)) = \u220f_{\u03b6: \u03b6^13=1} g(\u03b6) = \u220f_{roots of first} g(\u03b6). Indeed resultant of f and g = a_n^m \u220f_{i} g(\u03b1_i) where \u03b1_i are roots of f, a_n leading coeff of f, m = deg g. Since f = z^13-1 monic, a_n=1, m=2. So resultant = \u220f g(\u03b1_i). So product = resultant.\n\nThus compute resultant of x^13 - 1 and x^2 - 2x + 2.\n\nResultant can be computed as product of evaluating one polynomial at roots of the other, or using formula: Res(f,g) = a_n^{deg g} \u220f g(\u03b1_i) = \u220f g(\u03b1_i). So we need that.\n\nAlternatively compute using resultant property: Res(f,g) = (-1)^{nm} Res(g,f). Could compute Res(g, f) easier? g is quadratic, f is degree 13. Res(g,f) = leading coeff of g ^13 \u220f f(\u03b2_j) where \u03b2_j are roots of g. Since leading coeff of g is 1, Res(g,f) = \u220f f(\u03b2_j) where \u03b2_j are roots of g.\n\nThus product = Res(f,g) = Res(g,f) (up to sign factor). Since n=13, m=2, (-1)^{nm}=(-1)^{26}=1. So Res(f,g)=Res(g,f). So product = \u220f_{\u03b2: g(\u03b2)=0} (\u03b2^{13} - 1).\n\nThus compute roots of g: solve \u03b2^2 - 2\u03b2 + 2 = 0 => \u03b2 = [2 \u00b1 sqrt(4 - 8)]/2 = 1 \u00b1 i. So \u03b21 = 1 + i, \u03b22 = 1 - i.\n\nThus product = ( (1+i)^{13} - 1 ) * ( (1 - i)^{13} - 1 ).\n\nCompute (1+i)^{13}. Note that 1+i = \u221a2 * e^{i\u03c0/4}. So (1+i)^{13} = (\u221a2)^{13} * e^{i13\u03c0/4} = 2^{13/2} * e^{i (13\u03c0/4)}. 13\u03c0/4 = 3\u03c0 + \u03c0/4 (since 12\u03c0/4 = 3\u03c0). e^{i3\u03c0} = -1. So e^{i13\u03c0/4} = e^{i3\u03c0} * e^{i\u03c0/4} = (-1) * (cos \u03c0/4 + i sin \u03c0/4) = - (\u221a2/2 + i \u221a2/2) = -(\u221a2/2)(1 + i). So (1+i)^{13} = 2^{13/2} * (-(\u221a2/2)(1+i)) = 2^{13/2} * ( - (1+i) * \u221a2/2 ). Simplify: 2^{13/2} = 2^{6.5} = 2^6 * \u221a2 = 64 \u221a2. Multiply by -(\u221a2/2) = -( (\u221a2)*(\u221a2) /2 )? Wait compute: \u221a2/2 = 1/\u221a2. So -(\u221a2/2) = -1/\u221a2. So (1+i)^{13} = 64 \u221a2 * ( -1/\u221a2) * (1+i) = 64 * (-1) * (1+i) = -64 (1+i).\n\nThus (1+i)^{13} = -64 (1+i). Check: Let's verify using binomial maybe? But seems plausible.\n\nSimilarly (1 - i)^{13} = conjugate of (1+i)^{13} because exponent odd, conj of -64(1+i) = -64(1 - i). Indeed (1 - i) = \u221a2 e^{-i\u03c0/4}. Raise to 13: (\u221a2)^{13} e^{-i13\u03c0/4} = 64 \u221a2 * e^{-i13\u03c0/4}. e^{-i13\u03c0/4} = e^{-i3\u03c0} e^{-i\u03c0/4} = (-1) * (cos(-\u03c0/4)+i sin(-\u03c0/4)) = - (\u221a2/2 - i \u221a2/2) = -(\u221a2/2)(1 - i) = -1/\u221a2 (1 - i). Multiply: 64 \u221a2 * (-1/\u221a2) (1 - i) = -64 (1 - i). Good.\n\nThus compute each term: (1+i)^{13} - 1 = -64 (1+i) - 1 = -64 - 64 i - 1 = -65 - 64 i.\n\nSimilarly (1 - i)^{13} - 1 = -64 (1 - i) - 1 = -64 + 64 i - 1 = -65 + 64 i.\n\nProduct = (-65 - 64 i)(-65 + 64 i) = (-65)^2 - (64 i)^2? Actually (a - bi)(a + bi) = a^2 + b^2. Here a = -65, b = 64. So product = (-65)^2 + (64)^2 = 65^2 + 64^2.\n\nCompute: 65^2 = 4225. 64^2 = 4096. Sum = 8321.\n\nThus product = 8321.\n\nWe need remainder when divided by 1000: 8321 mod 1000 = 321.\n\nCheck if any sign issues: product of g(\u03b6) over all 13th roots includes \u03b6=1. Let's compute directly for \u03b6=1: g(1) = 1 - 2 + 2 = 1. So factor 1. So product = 8321 seems plausible.\n\nDouble-check using alternative method: compute resultant directly maybe yields same.\n\nThus answer 321.\n\nBut ensure that \u03c9 is any 13th root not equal to 1, but product includes all k from 0 to 12, which includes \u03c9^0 = 1. So product independent of which primitive root we choose; same as product over all roots.\n\nThus remainder 321.\n\nCheck for any possible miscalculation: Let's recompute (1+i)^{13} using binomial maybe to verify coefficient.\n\n(1+i)^2 = 2i. (1+i)^4 = (2i)^2 = -4. (1+i)^8 = (-4)^2 = 16. Then (1+i)^{13} = (1+i)^8 * (1+i)^4 * (1+i) = 16 * (-4) * (1+i) = -64 (1+i). Yes matches.\n\nThus product = (-64(1+i) - 1)(-64(1-i) - 1) = (-64 - 64i -1)(-64 + 64i -1) = (-65 -64i)(-65 +64i) = (-65)^2 + (64)^2 = 4225 + 4096 = 8321.\n\nThus remainder 321.\n\nAnswer: 321.\n</think>\n\\[\nP=\\prod_{k=0}^{12}\\bigl(2-2\\omega^{k}+\\omega^{2k}\\bigr)\n      =\\prod_{\\zeta^{13}=1}\\bigl(\\zeta^{2}-2\\zeta+2\\bigr)\n\\]\n\nLet  \n\n\\[\ng(z)=z^{2}-2z+2 .\n\\]\n\nThe product of \\(g(\\zeta)\\) over all 13\u2011th roots of unity \\(\\zeta\\) is the resultant  \n\n\\[\n\\operatorname{Res}(z^{13}-1,\\;g(z)).\n\\]\n\nSince \\(\\operatorname{Res}(f,g)=\\operatorname{Res}(g,f)\\) when \\(\\deg f\\cdot\\deg g\\) is even (here \\(13\\cdot2=26\\) is even),\n\n\\[\nP=\\operatorname{Res}(g(z),\\,z^{13}-1)=\\prod_{\\beta:\\,g(\\beta)=0}(\\beta^{13}-1).\n\\]\n\nThe roots of \\(g\\) are\n\n\\[\n\\beta_{1}=1+i,\\qquad \\beta_{2}=1-i .\n\\]\n\nHence  \n\n\\[\nP=\\bigl((1+i)^{13}-1\\bigr)\\bigl((1-i)^{13}-1\\bigr).\n\\]\n\nCompute \\((1+i)^{13}\\).  Since \\(1+i=\\sqrt2\\,e^{i\\pi/4}\\),\n\n\\[\n(1+i)^{13}= (\\sqrt2)^{13}e^{i13\\pi/4}\n          =2^{6}\\sqrt2\\;e^{i(3\\pi+\\pi/4)}\n          =64\\sqrt2\\;(-\\tfrac{\\sqrt2}{2})(1+i)\n          =-64(1+i).\n\\]\n\nSimilarly \\((1-i)^{13}=-64(1-i)\\).\n\nThus  \n\n\\[\n\\begin{aligned}\nP&=\\bigl(-64(1+i)-1\\bigr)\\bigl(-64(1-i)-1\\bigr)\\\\\n  &=(-65-64i)(-65+64i)\\\\\n  &=(-65)^2+(64)^2\\\\\n  &=65^{2}+64^{2}=4225+4096=8321.\n\\end{aligned}\n\\]\n\nThe remainder of \\(8321\\) upon division by \\(1000\\) is  \n\n\\[\n\\boxed{321}.\n\\]"
+        "response": "<think>We need product over k=0..12 of (2 - 2 ω^k + ω^{2k}) where ω is a primitive 13th root of unity (any non-1 root). Since ω^13=1, ω≠1.\n\nLet’s denote expression: f(ω^k) = 2 - 2 ω^k + ω^{2k} = (ω^k)^2 - 2 ω^k + 2 = (ω^k)^2 - 2 ω^k + 2.\n\nWe need product over all 13th roots (including ω^0=1). So product over all 13th roots of unity of (z^2 - 2z + 2) evaluated at z = ω^k.\n\nThus product = ∏_{z^13=1} (z^2 - 2z + 2). That's a polynomial in z evaluated at all roots of unity, i.e., the resultant of z^13-1 and z^2 - 2z + 2? Actually product over roots of unity of g(z) = ∏_{ζ: ζ^13=1} g(ζ) = resultant(z^13-1, g(z)) up to leading coefficient factor. Since g is degree 2, leading coefficient 1. The resultant Res(z^13-1, g(z)) = ∏_{ζ: ζ^13=1} g(ζ) = ∏_{roots of first} g(ζ). Indeed resultant of f and g = a_n^m ∏_{i} g(α_i) where α_i are roots of f, a_n leading coeff of f, m = deg g. Since f = z^13-1 monic, a_n=1, m=2. So resultant = ∏ g(α_i). So product = resultant.\n\nThus compute resultant of x^13 - 1 and x^2 - 2x + 2.\n\nResultant can be computed as product of evaluating one polynomial at roots of the other, or using formula: Res(f,g) = a_n^{deg g} ∏ g(α_i) = ∏ g(α_i). So we need that.\n\nAlternatively compute using resultant property: Res(f,g) = (-1)^{nm} Res(g,f). Could compute Res(g, f) easier? g is quadratic, f is degree 13. Res(g,f) = leading coeff of g ^13 ∏ f(β_j) where β_j are roots of g. Since leading coeff of g is 1, Res(g,f) = ∏ f(β_j) where β_j are roots of g.\n\nThus product = Res(f,g) = Res(g,f) (up to sign factor). Since n=13, m=2, (-1)^{nm}=(-1)^{26}=1. So Res(f,g)=Res(g,f). So product = ∏_{β: g(β)=0} (β^{13} - 1).\n\nThus compute roots of g: solve β^2 - 2β + 2 = 0 => β = [2 ± sqrt(4 - 8)]/2 = 1 ± i. So β1 = 1 + i, β2 = 1 - i.\n\nThus product = ( (1+i)^{13} - 1 ) * ( (1 - i)^{13} - 1 ).\n\nCompute (1+i)^{13}. Note that 1+i = √2 * e^{iπ/4}. So (1+i)^{13} = (√2)^{13} * e^{i13π/4} = 2^{13/2} * e^{i (13π/4)}. 13π/4 = 3π + π/4 (since 12π/4 = 3π). e^{i3π} = -1. So e^{i13π/4} = e^{i3π} * e^{iπ/4} = (-1) * (cos π/4 + i sin π/4) = - (√2/2 + i √2/2) = -(√2/2)(1 + i). So (1+i)^{13} = 2^{13/2} * (-(√2/2)(1+i)) = 2^{13/2} * ( - (1+i) * √2/2 ). Simplify: 2^{13/2} = 2^{6.5} = 2^6 * √2 = 64 √2. Multiply by -(√2/2) = -( (√2)*(√2) /2 )? Wait compute: √2/2 = 1/√2. So -(√2/2) = -1/√2. So (1+i)^{13} = 64 √2 * ( -1/√2) * (1+i) = 64 * (-1) * (1+i) = -64 (1+i).\n\nThus (1+i)^{13} = -64 (1+i). Check: Let's verify using binomial maybe? But seems plausible.\n\nSimilarly (1 - i)^{13} = conjugate of (1+i)^{13} because exponent odd, conj of -64(1+i) = -64(1 - i). Indeed (1 - i) = √2 e^{-iπ/4}. Raise to 13: (√2)^{13} e^{-i13π/4} = 64 √2 * e^{-i13π/4}. e^{-i13π/4} = e^{-i3π} e^{-iπ/4} = (-1) * (cos(-π/4)+i sin(-π/4)) = - (√2/2 - i √2/2) = -(√2/2)(1 - i) = -1/√2 (1 - i). Multiply: 64 √2 * (-1/√2) (1 - i) = -64 (1 - i). Good.\n\nThus compute each term: (1+i)^{13} - 1 = -64 (1+i) - 1 = -64 - 64 i - 1 = -65 - 64 i.\n\nSimilarly (1 - i)^{13} - 1 = -64 (1 - i) - 1 = -64 + 64 i - 1 = -65 + 64 i.\n\nProduct = (-65 - 64 i)(-65 + 64 i) = (-65)^2 - (64 i)^2? Actually (a - bi)(a + bi) = a^2 + b^2. Here a = -65, b = 64. So product = (-65)^2 + (64)^2 = 65^2 + 64^2.\n\nCompute: 65^2 = 4225. 64^2 = 4096. Sum = 8321.\n\nThus product = 8321.\n\nWe need remainder when divided by 1000: 8321 mod 1000 = 321.\n\nCheck if any sign issues: product of g(ζ) over all 13th roots includes ζ=1. Let's compute directly for ζ=1: g(1) = 1 - 2 + 2 = 1. So factor 1. So product = 8321 seems plausible.\n\nDouble-check using alternative method: compute resultant directly maybe yields same.\n\nThus answer 321.\n\nBut ensure that ω is any 13th root not equal to 1, but product includes all k from 0 to 12, which includes ω^0 = 1. So product independent of which primitive root we choose; same as product over all roots.\n\nThus remainder 321.\n\nCheck for any possible miscalculation: Let's recompute (1+i)^{13} using binomial maybe to verify coefficient.\n\n(1+i)^2 = 2i. (1+i)^4 = (2i)^2 = -4. (1+i)^8 = (-4)^2 = 16. Then (1+i)^{13} = (1+i)^8 * (1+i)^4 * (1+i) = 16 * (-4) * (1+i) = -64 (1+i). Yes matches.\n\nThus product = (-64(1+i) - 1)(-64(1-i) - 1) = (-64 - 64i -1)(-64 + 64i -1) = (-65 -64i)(-65 +64i) = (-65)^2 + (64)^2 = 4225 + 4096 = 8321.\n\nThus remainder 321.\n\nAnswer: 321.\n</think>\n\\[\nP=\\prod_{k=0}^{12}\\bigl(2-2\\omega^{k}+\\omega^{2k}\\bigr)\n      =\\prod_{\\zeta^{13}=1}\\bigl(\\zeta^{2}-2\\zeta+2\\bigr)\n\\]\n\nLet  \n\n\\[\ng(z)=z^{2}-2z+2 .\n\\]\n\nThe product of \\(g(\\zeta)\\) over all 13‑th roots of unity \\(\\zeta\\) is the resultant  \n\n\\[\n\\operatorname{Res}(z^{13}-1,\\;g(z)).\n\\]\n\nSince \\(\\operatorname{Res}(f,g)=\\operatorname{Res}(g,f)\\) when \\(\\deg f\\cdot\\deg g\\) is even (here \\(13\\cdot2=26\\) is even),\n\n\\[\nP=\\operatorname{Res}(g(z),\\,z^{13}-1)=\\prod_{\\beta:\\,g(\\beta)=0}(\\beta^{13}-1).\n\\]\n\nThe roots of \\(g\\) are\n\n\\[\n\\beta_{1}=1+i,\\qquad \\beta_{2}=1-i .\n\\]\n\nHence  \n\n\\[\nP=\\bigl((1+i)^{13}-1\\bigr)\\bigl((1-i)^{13}-1\\bigr).\n\\]\n\nCompute \\((1+i)^{13}\\).  Since \\(1+i=\\sqrt2\\,e^{i\\pi/4}\\),\n\n\\[\n(1+i)^{13}= (\\sqrt2)^{13}e^{i13\\pi/4}\n          =2^{6}\\sqrt2\\;e^{i(3\\pi+\\pi/4)}\n          =64\\sqrt2\\;(-\\tfrac{\\sqrt2}{2})(1+i)\n          =-64(1+i).\n\\]\n\nSimilarly \\((1-i)^{13}=-64(1-i)\\).\n\nThus  \n\n\\[\n\\begin{aligned}\nP&=\\bigl(-64(1+i)-1\\bigr)\\bigl(-64(1-i)-1\\bigr)\\\\\n  &=(-65-64i)(-65+64i)\\\\\n  &=(-65)^2+(64)^2\\\\\n  &=65^{2}+64^{2}=4225+4096=8321.\n\\end{aligned}\n\\]\n\nThe remainder of \\(8321\\) upon division by \\(1000\\) is  \n\n\\[\n\\boxed{321}.\n\\]"
     },
     "metadata": {
         "batch": 29,
@@ -11,7 +11,8 @@
         "annotator": "gemini-3-pro-preview",
         "question_id": "aime2024-29",
         "correct_answer": "321",
-        "is_human_annotated": false
+        "is_human_annotated": false,
+        "correctness": true
     },
     "nodes": [
         {
@@ -47,7 +48,7 @@
             "start": 7,
             "end": 120,
             "label": "restatement",
-            "text": "We need product over k=0..12 of (2 - 2 \u03c9^k + \u03c9^{2k}) where \u03c9 is a primitive 13th root of unity (any non-1 root). ",
+            "text": "We need product over k=0..12 of (2 - 2 ω^k + ω^{2k}) where ω is a primitive 13th root of unity (any non-1 root). ",
             "source": "response"
         },
         {
@@ -56,7 +57,7 @@
             "start": 120,
             "end": 140,
             "label": "reasoning",
-            "text": "Since \u03c9^13=1, \u03c9\u22601.\n\n",
+            "text": "Since ω^13=1, ω≠1.\n\n",
             "source": "response"
         },
         {
@@ -65,7 +66,7 @@
             "start": 140,
             "end": 239,
             "label": "reasoning",
-            "text": "Let\u2019s denote expression: f(\u03c9^k) = 2 - 2 \u03c9^k + \u03c9^{2k} = (\u03c9^k)^2 - 2 \u03c9^k + 2 = (\u03c9^k)^2 - 2 \u03c9^k + 2.\n\n",
+            "text": "Let’s denote expression: f(ω^k) = 2 - 2 ω^k + ω^{2k} = (ω^k)^2 - 2 ω^k + 2 = (ω^k)^2 - 2 ω^k + 2.\n\n",
             "source": "response"
         },
         {
@@ -74,7 +75,7 @@
             "start": 239,
             "end": 294,
             "label": "planning",
-            "text": "We need product over all 13th roots (including \u03c9^0=1). ",
+            "text": "We need product over all 13th roots (including ω^0=1). ",
             "source": "response"
         },
         {
@@ -83,7 +84,7 @@
             "start": 294,
             "end": 375,
             "label": "reasoning",
-            "text": "So product over all 13th roots of unity of (z^2 - 2z + 2) evaluated at z = \u03c9^k.\n\n",
+            "text": "So product over all 13th roots of unity of (z^2 - 2z + 2) evaluated at z = ω^k.\n\n",
             "source": "response"
         },
         {
@@ -92,7 +93,7 @@
             "start": 375,
             "end": 417,
             "label": "reasoning",
-            "text": "Thus product = \u220f_{z^13=1} (z^2 - 2z + 2). ",
+            "text": "Thus product = ∏_{z^13=1} (z^2 - 2z + 2). ",
             "source": "response"
         },
         {
@@ -110,7 +111,7 @@
             "start": 523,
             "end": 649,
             "label": "fact",
-            "text": "Actually product over roots of unity of g(z) = \u220f_{\u03b6: \u03b6^13=1} g(\u03b6) = resultant(z^13-1, g(z)) up to leading coefficient factor. ",
+            "text": "Actually product over roots of unity of g(z) = ∏_{ζ: ζ^13=1} g(ζ) = resultant(z^13-1, g(z)) up to leading coefficient factor. ",
             "source": "response"
         },
         {
@@ -128,7 +129,7 @@
             "start": 693,
             "end": 773,
             "label": "fact",
-            "text": "The resultant Res(z^13-1, g(z)) = \u220f_{\u03b6: \u03b6^13=1} g(\u03b6) = \u220f_{roots of first} g(\u03b6). ",
+            "text": "The resultant Res(z^13-1, g(z)) = ∏_{ζ: ζ^13=1} g(ζ) = ∏_{roots of first} g(ζ). ",
             "source": "response"
         },
         {
@@ -137,7 +138,7 @@
             "start": 773,
             "end": 883,
             "label": "fact",
-            "text": "Indeed resultant of f and g = a_n^m \u220f_{i} g(\u03b1_i) where \u03b1_i are roots of f, a_n leading coeff of f, m = deg g. ",
+            "text": "Indeed resultant of f and g = a_n^m ∏_{i} g(α_i) where α_i are roots of f, a_n leading coeff of f, m = deg g. ",
             "source": "response"
         },
         {
@@ -155,7 +156,7 @@
             "start": 919,
             "end": 944,
             "label": "reasoning",
-            "text": "So resultant = \u220f g(\u03b1_i). ",
+            "text": "So resultant = ∏ g(α_i). ",
             "source": "response"
         },
         {
@@ -182,7 +183,7 @@
             "start": 1023,
             "end": 1174,
             "label": "fact",
-            "text": "Resultant can be computed as product of evaluating one polynomial at roots of the other, or using formula: Res(f,g) = a_n^{deg g} \u220f g(\u03b1_i) = \u220f g(\u03b1_i). ",
+            "text": "Resultant can be computed as product of evaluating one polynomial at roots of the other, or using formula: Res(f,g) = a_n^{deg g} ∏ g(α_i) = ∏ g(α_i). ",
             "source": "response"
         },
         {
@@ -227,7 +228,7 @@
             "start": 1335,
             "end": 1404,
             "label": "fact",
-            "text": "Res(g,f) = leading coeff of g ^13 \u220f f(\u03b2_j) where \u03b2_j are roots of g. ",
+            "text": "Res(g,f) = leading coeff of g ^13 ∏ f(β_j) where β_j are roots of g. ",
             "source": "response"
         },
         {
@@ -236,7 +237,7 @@
             "start": 1404,
             "end": 1482,
             "label": "reasoning",
-            "text": "Since leading coeff of g is 1, Res(g,f) = \u220f f(\u03b2_j) where \u03b2_j are roots of g.\n\n",
+            "text": "Since leading coeff of g is 1, Res(g,f) = ∏ f(β_j) where β_j are roots of g.\n\n",
             "source": "response"
         },
         {
@@ -272,7 +273,7 @@
             "start": 1600,
             "end": 1642,
             "label": "reasoning",
-            "text": "So product = \u220f_{\u03b2: g(\u03b2)=0} (\u03b2^{13} - 1).\n\n",
+            "text": "So product = ∏_{β: g(β)=0} (β^{13} - 1).\n\n",
             "source": "response"
         },
         {
@@ -281,7 +282,7 @@
             "start": 1642,
             "end": 1726,
             "label": "reasoning",
-            "text": "Thus compute roots of g: solve \u03b2^2 - 2\u03b2 + 2 = 0 => \u03b2 = [2 \u00b1 sqrt(4 - 8)]/2 = 1 \u00b1 i. ",
+            "text": "Thus compute roots of g: solve β^2 - 2β + 2 = 0 => β = [2 ± sqrt(4 - 8)]/2 = 1 ± i. ",
             "source": "response"
         },
         {
@@ -290,7 +291,7 @@
             "start": 1726,
             "end": 1754,
             "label": "reasoning",
-            "text": "So \u03b21 = 1 + i, \u03b22 = 1 - i.\n\n",
+            "text": "So β1 = 1 + i, β2 = 1 - i.\n\n",
             "source": "response"
         },
         {
@@ -317,7 +318,7 @@
             "start": 1833,
             "end": 1864,
             "label": "fact",
-            "text": "Note that 1+i = \u221a2 * e^{i\u03c0/4}. ",
+            "text": "Note that 1+i = √2 * e^{iπ/4}. ",
             "source": "response"
         },
         {
@@ -326,7 +327,7 @@
             "start": 1864,
             "end": 1931,
             "label": "reasoning",
-            "text": "So (1+i)^{13} = (\u221a2)^{13} * e^{i13\u03c0/4} = 2^{13/2} * e^{i (13\u03c0/4)}. ",
+            "text": "So (1+i)^{13} = (√2)^{13} * e^{i13π/4} = 2^{13/2} * e^{i (13π/4)}. ",
             "source": "response"
         },
         {
@@ -335,7 +336,7 @@
             "start": 1931,
             "end": 1968,
             "label": "reasoning",
-            "text": "13\u03c0/4 = 3\u03c0 + \u03c0/4 (since 12\u03c0/4 = 3\u03c0). ",
+            "text": "13π/4 = 3π + π/4 (since 12π/4 = 3π). ",
             "source": "response"
         },
         {
@@ -344,7 +345,7 @@
             "start": 1968,
             "end": 1982,
             "label": "fact",
-            "text": "e^{i3\u03c0} = -1. ",
+            "text": "e^{i3π} = -1. ",
             "source": "response"
         },
         {
@@ -353,7 +354,7 @@
             "start": 1982,
             "end": 2086,
             "label": "reasoning",
-            "text": "So e^{i13\u03c0/4} = e^{i3\u03c0} * e^{i\u03c0/4} = (-1) * (cos \u03c0/4 + i sin \u03c0/4) = - (\u221a2/2 + i \u221a2/2) = -(\u221a2/2)(1 + i). ",
+            "text": "So e^{i13π/4} = e^{i3π} * e^{iπ/4} = (-1) * (cos π/4 + i sin π/4) = - (√2/2 + i √2/2) = -(√2/2)(1 + i). ",
             "source": "response"
         },
         {
@@ -362,7 +363,7 @@
             "start": 2086,
             "end": 2161,
             "label": "reasoning",
-            "text": "So (1+i)^{13} = 2^{13/2} * (-(\u221a2/2)(1+i)) = 2^{13/2} * ( - (1+i) * \u221a2/2 ). ",
+            "text": "So (1+i)^{13} = 2^{13/2} * (-(√2/2)(1+i)) = 2^{13/2} * ( - (1+i) * √2/2 ). ",
             "source": "response"
         },
         {
@@ -371,7 +372,7 @@
             "start": 2161,
             "end": 2210,
             "label": "reasoning",
-            "text": "Simplify: 2^{13/2} = 2^{6.5} = 2^6 * \u221a2 = 64 \u221a2. ",
+            "text": "Simplify: 2^{13/2} = 2^{6.5} = 2^6 * √2 = 64 √2. ",
             "source": "response"
         },
         {
@@ -380,7 +381,7 @@
             "start": 2210,
             "end": 2251,
             "label": "reasoning",
-            "text": "Multiply by -(\u221a2/2) = -( (\u221a2)*(\u221a2) /2 )? ",
+            "text": "Multiply by -(√2/2) = -( (√2)*(√2) /2 )? ",
             "source": "response"
         },
         {
@@ -389,7 +390,7 @@
             "start": 2251,
             "end": 2278,
             "label": "reasoning",
-            "text": "Wait compute: \u221a2/2 = 1/\u221a2. ",
+            "text": "Wait compute: √2/2 = 1/√2. ",
             "source": "response"
         },
         {
@@ -398,7 +399,7 @@
             "start": 2278,
             "end": 2298,
             "label": "reasoning",
-            "text": "So -(\u221a2/2) = -1/\u221a2. ",
+            "text": "So -(√2/2) = -1/√2. ",
             "source": "response"
         },
         {
@@ -407,7 +408,7 @@
             "start": 2298,
             "end": 2373,
             "label": "reasoning",
-            "text": "So (1+i)^{13} = 64 \u221a2 * ( -1/\u221a2) * (1+i) = 64 * (-1) * (1+i) = -64 (1+i).\n\n",
+            "text": "So (1+i)^{13} = 64 √2 * ( -1/√2) * (1+i) = 64 * (-1) * (1+i) = -64 (1+i).\n\n",
             "source": "response"
         },
         {
@@ -452,7 +453,7 @@
             "start": 2568,
             "end": 2599,
             "label": "fact",
-            "text": "Indeed (1 - i) = \u221a2 e^{-i\u03c0/4}. ",
+            "text": "Indeed (1 - i) = √2 e^{-iπ/4}. ",
             "source": "response"
         },
         {
@@ -461,7 +462,7 @@
             "start": 2599,
             "end": 2657,
             "label": "reasoning",
-            "text": "Raise to 13: (\u221a2)^{13} e^{-i13\u03c0/4} = 64 \u221a2 * e^{-i13\u03c0/4}. ",
+            "text": "Raise to 13: (√2)^{13} e^{-i13π/4} = 64 √2 * e^{-i13π/4}. ",
             "source": "response"
         },
         {
@@ -470,7 +471,7 @@
             "start": 2657,
             "end": 2777,
             "label": "reasoning",
-            "text": "e^{-i13\u03c0/4} = e^{-i3\u03c0} e^{-i\u03c0/4} = (-1) * (cos(-\u03c0/4)+i sin(-\u03c0/4)) = - (\u221a2/2 - i \u221a2/2) = -(\u221a2/2)(1 - i) = -1/\u221a2 (1 - i). ",
+            "text": "e^{-i13π/4} = e^{-i3π} e^{-iπ/4} = (-1) * (cos(-π/4)+i sin(-π/4)) = - (√2/2 - i √2/2) = -(√2/2)(1 - i) = -1/√2 (1 - i). ",
             "source": "response"
         },
         {
@@ -479,7 +480,7 @@
             "start": 2777,
             "end": 2826,
             "label": "reasoning",
-            "text": "Multiply: 64 \u221a2 * (-1/\u221a2) (1 - i) = -64 (1 - i). ",
+            "text": "Multiply: 64 √2 * (-1/√2) (1 - i) = -64 (1 - i). ",
             "source": "response"
         },
         {
@@ -596,7 +597,7 @@
             "start": 3293,
             "end": 3369,
             "label": "reasoning",
-            "text": "Check if any sign issues: product of g(\u03b6) over all 13th roots includes \u03b6=1. ",
+            "text": "Check if any sign issues: product of g(ζ) over all 13th roots includes ζ=1. ",
             "source": "response"
         },
         {
@@ -605,7 +606,7 @@
             "start": 3369,
             "end": 3423,
             "label": "reasoning",
-            "text": "Let's compute directly for \u03b6=1: g(1) = 1 - 2 + 2 = 1. ",
+            "text": "Let's compute directly for ζ=1: g(1) = 1 - 2 + 2 = 1. ",
             "source": "response"
         },
         {
@@ -650,7 +651,7 @@
             "start": 3576,
             "end": 3692,
             "label": "reasoning",
-            "text": "But ensure that \u03c9 is any 13th root not equal to 1, but product includes all k from 0 to 12, which includes \u03c9^0 = 1. ",
+            "text": "But ensure that ω is any 13th root not equal to 1, but product includes all k from 0 to 12, which includes ω^0 = 1. ",
             "source": "response"
         },
         {
@@ -785,7 +786,7 @@
             "start": 4402,
             "end": 4534,
             "label": "reasoning",
-            "text": "The product of \\(g(\\zeta)\\) over all 13\u2011th roots of unity \\(\\zeta\\) is the resultant  \n\n\\[\n\\operatorname{Res}(z^{13}-1,\\;g(z)).\n\\]\n\n",
+            "text": "The product of \\(g(\\zeta)\\) over all 13‑th roots of unity \\(\\zeta\\) is the resultant  \n\n\\[\n\\operatorname{Res}(z^{13}-1,\\;g(z)).\n\\]\n\n",
             "source": "response"
         },
         {

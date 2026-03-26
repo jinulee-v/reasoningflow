@@ -2,7 +2,7 @@
     "doc_id": "aime2024_16_gpt-oss-120b",
     "raw_text": {
         "question": "Let $\\mathcal{B}$ be the set of rectangular boxes with surface area $54$ and volume $23$. Let $r$ be the radius of the smallest sphere that can contain each of the rectangular boxes that are elements of $\\mathcal{B}$. The value of $r^2$ can be written as $\\\frac{p}{q}$, where $p$ and $q$ are relatively prime positive integers. Find $p+q$.",
-        "response": "<think>We have rectangular box (rectangular prism) with dimensions a,b,c >0. Surface area: 2(ab+bc+ca)=54 => ab+bc+ca=27. Volume: abc=23.\n\nWe need smallest sphere that can contain the box: sphere radius = half of space diagonal length? Actually minimal sphere containing a rectangular box is the circumscribed sphere centered at box's center, radius = half of space diagonal length sqrt(a^2+b^2+c^2)/2. Because the farthest points from center are the vertices; distance from center to any vertex = sqrt((a/2)^2+(b/2)^2+(c/2)^2) = sqrt(a^2+b^2+c^2)/2. So r = sqrt(a^2+b^2+c^2)/2. Need to find minimal possible r over all boxes satisfying constraints? The problem says \"the smallest sphere that can contain each of the rectangular boxes that are elements of B\". Means we need radius that works for all boxes in B, i.e., the maximum of r over all boxes? Wait phrase: \"Let r be the radius of the smallest sphere that can contain each of the rectangular boxes that are elements of B.\" Means we need a sphere that can contain every box in B; we want the smallest such sphere. So we need the minimal radius that works for all boxes, i.e., the supremum of required radii across boxes, then minimal sphere that contains all boxes must have radius at least the maximum of each box's minimal containing sphere radius. So r = max over boxes of sqrt(a^2+b^2+c^2)/2. So we need to maximize S = a^2+b^2+c^2 given constraints ab+bc+ca=27, abc=23. Then r^2 = (a^2+b^2+c^2)/4. So we need max of sum of squares.\n\nGiven symmetric constraints, we can use Lagrange multipliers or use known inequalities. Let\u2019s denote elementary symmetric sums: \u03c31 = a+b+c, \u03c32 = ab+bc+ca =27, \u03c33 = abc=23. We need to maximize a^2+b^2+c^2 = (a+b+c)^2 - 2(ab+bc+ca) = \u03c31^2 - 2\u03c32 = \u03c31^2 - 54. So maximizing sum of squares equivalent to maximizing \u03c31.\n\nThus we need to maximize \u03c31 given \u03c32=27, \u03c33=23, with positive real a,b,c.\n\nWe have constraints from cubic with roots a,b,c: t^3 - \u03c31 t^2 + \u03c32 t - \u03c33 =0. For given \u03c31, the roots must be positive real. We need to find maximum possible \u03c31 such that cubic has three positive real roots.\n\nWe can use inequality: For positive reals with fixed \u03c32 and \u03c33, \u03c31 is bounded. Use AM-GM? Not straightforward.\n\nWe can consider that for given \u03c32 and \u03c33, the sum \u03c31 is minimized when two variables equal? Actually by symmetry, extremes often occur at boundary where two variables equal (by Lagrange). Let's try set b = c = x, a = y. Then constraints:\n\n\u03c32 = yx + x^2 + yx = 2yx + x^2 =27.\n\u03c33 = y x^2 =23.\n\nWe need to solve for x,y positive.\n\nFrom \u03c33: y = 23 / x^2.\n\nPlug into \u03c32: 2*(23/x^2)*x + x^2 = 2*23/x + x^2 = 46/x + x^2 =27.\n\nThus equation: x^2 + 46/x =27 => multiply by x: x^3 + 46 =27x => x^3 -27x +46 =0.\n\nWe need positive root. Let's solve cubic. Try integer approximations: x=2 => 8 -54 +46 =0. Indeed 8-54+46=0. So x=2 is a root. Good. Then factor (x-2)(x^2+2x-23)=0. Quadratic gives x = [-2 \u00b1 sqrt(4+92)]/2 = [-2 \u00b1 sqrt96]/2 = [-2 \u00b1 4\u221a6]/2 = -1 \u00b1 2\u221a6. Positive root: -1 + 2\u221a6 \u2248 -1+4.898=3.898. So x\u22483.898.\n\nThus two possible x values: 2 and -1+2\u221a6 (~3.898). For each compute y.\n\nCase 1: x=2 => y = 23 / (2^2) = 23/4 =5.75.\n\nCheck \u03c32: 2*y*x + x^2 = 2*5.75*2 +4 = 23 +4 =27 correct.\n\nSo dimensions: (5.75,2,2). Sum \u03c31 = 5.75+2+2=9.75 = 39/4.\n\nCase 2: x = -1+2\u221a6. Compute x^2: ( -1+2\u221a6)^2 = 1 -4\u221a6 +24 =25 -4\u221a6. Approx 25 -9.798=15.202. y = 23 / x^2 = 23 / (25 -4\u221a6). Let's rationalize maybe.\n\nCompute \u03c31 = y + 2x.\n\nFirst compute y: 23/(25 -4\u221a6). Multiply numerator and denominator by (25+4\u221a6): y = 23(25+4\u221a6)/(25^2 - (4\u221a6)^2) = 23(25+4\u221a6)/(625 - 16*6) = 23(25+4\u221a6)/(625 -96) = 23(25+4\u221a6)/529. Note 529=23^2. So y = (25+4\u221a6)/23.\n\nThus y = (25+4\u221a6)/23 \u2248 (25+9.798)/23 =34.798/23\u22481.513.\n\nNow compute \u03c31 = y + 2x = (25+4\u221a6)/23 + 2(-1+2\u221a6) = (25+4\u221a6)/23 + (-2 +4\u221a6).\n\nCombine: write -2 +4\u221a6 as (-2*23 +4\u221a6*23)/23 = (-46 +92\u221a6)/23.\n\nAdd numerator: (25+4\u221a6) + (-46 +92\u221a6) = (25-46) + (4\u221a6+92\u221a6) = -21 +96\u221a6.\n\nThus \u03c31 = (-21 +96\u221a6)/23.\n\nCompute approximate: \u221a6\u22482.44949, 96*2.44949\u2248235.151, minus 21 =214.151, divide by 23 \u22489.307.\n\nSo \u03c31 \u22489.307, less than 9.75. So the maximum \u03c31 among these symmetric cases is 9.75 from first case.\n\nBut we need to verify that maximum \u03c31 overall occurs when two variables equal (by Lagrange). Likely yes due to symmetry and convexity. Let's attempt Lagrange multiplier: maximize \u03c31 = a+b+c subject to constraints g1=ab+bc+ca-27=0, g2=abc-23=0. Set gradient: (1,1,1) = \u03bb (\u2202g1) + \u03bc (\u2202g2). Compute partial derivatives: \u2202g1/\u2202a = b + c, \u2202g2/\u2202a = bc. So we have:\n\n1 = \u03bb (b + c) + \u03bc (bc)\n1 = \u03bb (c + a) + \u03bc (ca)\n1 = \u03bb (a + b) + \u03bc (ab)\n\nSubtract first two: 0 = \u03bb (b - a) + \u03bc (bc - ca) = \u03bb (b - a) + \u03bc c (b - a) = (b - a)(\u03bb + \u03bc c). So either a = b or \u03bb + \u03bc c =0. Similarly for other pairs. If not all equal, we may have \u03bb + \u03bc c =0, \u03bb + \u03bc a =0, \u03bb + \u03bc b =0 => implies \u03bc (c - a)=0 etc. Since \u03bc may be nonzero, then a=b=c. But then constraints would give a=b=c => let a = t. Then surface area: 3t^2 =27 => t^2=9 => t=3. Volume: t^3=27, not 23. So not possible. Therefore we must have at least two equal. So extremum occurs when two variables equal. Good.\n\nThus maximum \u03c31 is 39/4 = 9.75.\n\nThus maximum sum of squares = \u03c31^2 - 54 = (39/4)^2 - 54 = (1521/16) - (864/16) = (657/16). Compute: 1521-864=657. So a^2+b^2+c^2 max = 657/16.\n\nThus r^2 = (a^2+b^2+c^2)/4 = (657/16)/4 = 657/64.\n\nSimplify fraction: 657 and 64 relatively prime? 657 = 3*219 =3*3*73 =9*73. 64 = 2^6. No common factor. So p=657, q=64. p+q = 657+64 = 721.\n\nAnswer 721.\n</think>\nLet the edges of a rectangular box be \\(a,b,c>0\\).\n\n\\[\n\\begin{cases}\n2(ab+bc+ca)=54 &\\Longrightarrow ab+bc+ca=27\\\\[2mm]\nabc=23\n\\end{cases}\n\\]\n\nFor a given box the smallest sphere that contains it is the circumscribed sphere\ncentered at the box\u2019s centre. Its radius is half the space diagonal:\n\n\\[\nr=\\frac{\\sqrt{a^{2}+b^{2}+c^{2}}}{2},\\qquad \nr^{2}= \\frac{a^{2}+b^{2}+c^{2}}{4}.\n\\]\n\nHence we must find the **largest** possible value of \\(a^{2}+b^{2}+c^{2}\\) among all\nboxes satisfying the two constraints; the required sphere must contain every\nsuch box.\n\n---\n\n### 1.  Reduce to maximizing the sum of the edges\n\n\\[\na^{2}+b^{2}+c^{2}=(a+b+c)^{2}-2(ab+bc+ca)\n                =\\sigma_{1}^{2}-2\\cdot27\n                =\\sigma_{1}^{2}-54,\n\\]\n\nwhere \\(\\sigma_{1}=a+b+c\\).  \nThus maximizing \\(a^{2}+b^{2}+c^{2}\\) is equivalent to maximizing \\(\\sigma_{1}\\).\n\n---\n\n### 2.  Use symmetry (Lagrange multipliers)\n\nWe maximize \\(\\sigma_{1}=a+b+c\\) subject to  \n\n\\[\ng_{1}=ab+bc+ca-27=0,\\qquad g_{2}=abc-23=0 .\n\\]\n\nSetting \\(\\nabla (a+b+c)=\\lambda\\nabla g_{1}+\\mu\\nabla g_{2}\\) gives  \n\n\\[\n1=\\lambda(b+c)+\\mu bc,\\qquad\n1=\\lambda(c+a)+\\mu ca,\\qquad\n1=\\lambda(a+b)+\\mu ab .\n\\]\n\nSubtracting any two equations yields  \n\n\\[\n(b-a)(\\lambda+\\mu c)=0,\\qquad\n(c-b)(\\lambda+\\mu a)=0,\\qquad\n(a-c)(\\lambda+\\mu b)=0 .\n\\]\n\nIf the three edges were all distinct we would have\n\\(\\lambda+\\mu a=\\lambda+\\mu b=\\lambda+\\mu c=0\\), which forces \\(a=b=c\\),\ncontradicting \\(abc=23\\neq 27\\).  \nHence at an extremum at least two edges are equal.  \nLet \\(b=c=x\\) and \\(a=y\\).\n\n---\n\n### 3.  Solve with two equal edges\n\nConstraints become  \n\n\\[\n\\begin{cases}\n2yx+x^{2}=27\\\\[2mm]\nyx^{2}=23\n\\end{cases}\n\\qquad\\Longrightarrow\\qquad\ny=\\dfrac{23}{x^{2}},\\quad\nx^{2}+\\dfrac{46}{x}=27 .\n\\]\n\nMultiplying by \\(x\\):\n\n\\[\nx^{3}-27x+46=0 .\n\\]\n\nThe cubic factors as \\((x-2)(x^{2}+2x-23)=0\\), giving the positive solutions  \n\n\\[\nx=2,\\qquad x=-1+2\\sqrt6 .\n\\]\n\n* For \\(x=2\\): \\(y=\\dfrac{23}{4}=5.75\\) and \\(\\sigma_{1}=y+2x=5.75+4=9.75=\\dfrac{39}{4}\\).\n\n* For \\(x=-1+2\\sqrt6\\): \\(y=\\dfrac{25+4\\sqrt6}{23}\\) and \\(\\sigma_{1}= \\dfrac{-21+96\\sqrt6}{23}\\approx9.31\\).\n\nThus the larger sum of edges occurs for \\((a,b,c)=(\\tfrac{23}{4},2,2)\\).\n\nHence the maximal \\(\\sigma_{1}\\) is \\(\\displaystyle \\frac{39}{4}\\).\n\n---\n\n### 4.  Compute the maximal \\(a^{2}+b^{2}+c^{2}\\) and \\(r^{2}\\)\n\n\\[\na^{2}+b^{2}+c^{2}= \\sigma_{1}^{2}-54\n= \\left(\\frac{39}{4}\\right)^{2}-54\n= \\frac{1521}{16}-\\frac{864}{16}\n= \\frac{657}{16}.\n\\]\n\nTherefore  \n\n\\[\nr^{2}= \\frac{a^{2}+b^{2}+c^{2}}{4}= \\frac{657}{64}.\n\\]\n\nThe fraction \\(\\frac{657}{64}\\) is already in lowest terms (\\(657=9\\cdot73\\) and\n\\(64=2^{6}\\) share no common factor).\n\nThus \\(p=657,\\;q=64\\) and  \n\n\\[\np+q = 657+64 = 721.\n\\]\n\n\\[\n\\boxed{721}\n\\]"
+        "response": "<think>We have rectangular box (rectangular prism) with dimensions a,b,c >0. Surface area: 2(ab+bc+ca)=54 => ab+bc+ca=27. Volume: abc=23.\n\nWe need smallest sphere that can contain the box: sphere radius = half of space diagonal length? Actually minimal sphere containing a rectangular box is the circumscribed sphere centered at box's center, radius = half of space diagonal length sqrt(a^2+b^2+c^2)/2. Because the farthest points from center are the vertices; distance from center to any vertex = sqrt((a/2)^2+(b/2)^2+(c/2)^2) = sqrt(a^2+b^2+c^2)/2. So r = sqrt(a^2+b^2+c^2)/2. Need to find minimal possible r over all boxes satisfying constraints? The problem says \"the smallest sphere that can contain each of the rectangular boxes that are elements of B\". Means we need radius that works for all boxes in B, i.e., the maximum of r over all boxes? Wait phrase: \"Let r be the radius of the smallest sphere that can contain each of the rectangular boxes that are elements of B.\" Means we need a sphere that can contain every box in B; we want the smallest such sphere. So we need the minimal radius that works for all boxes, i.e., the supremum of required radii across boxes, then minimal sphere that contains all boxes must have radius at least the maximum of each box's minimal containing sphere radius. So r = max over boxes of sqrt(a^2+b^2+c^2)/2. So we need to maximize S = a^2+b^2+c^2 given constraints ab+bc+ca=27, abc=23. Then r^2 = (a^2+b^2+c^2)/4. So we need max of sum of squares.\n\nGiven symmetric constraints, we can use Lagrange multipliers or use known inequalities. Let’s denote elementary symmetric sums: σ1 = a+b+c, σ2 = ab+bc+ca =27, σ3 = abc=23. We need to maximize a^2+b^2+c^2 = (a+b+c)^2 - 2(ab+bc+ca) = σ1^2 - 2σ2 = σ1^2 - 54. So maximizing sum of squares equivalent to maximizing σ1.\n\nThus we need to maximize σ1 given σ2=27, σ3=23, with positive real a,b,c.\n\nWe have constraints from cubic with roots a,b,c: t^3 - σ1 t^2 + σ2 t - σ3 =0. For given σ1, the roots must be positive real. We need to find maximum possible σ1 such that cubic has three positive real roots.\n\nWe can use inequality: For positive reals with fixed σ2 and σ3, σ1 is bounded. Use AM-GM? Not straightforward.\n\nWe can consider that for given σ2 and σ3, the sum σ1 is minimized when two variables equal? Actually by symmetry, extremes often occur at boundary where two variables equal (by Lagrange). Let's try set b = c = x, a = y. Then constraints:\n\nσ2 = yx + x^2 + yx = 2yx + x^2 =27.\nσ3 = y x^2 =23.\n\nWe need to solve for x,y positive.\n\nFrom σ3: y = 23 / x^2.\n\nPlug into σ2: 2*(23/x^2)*x + x^2 = 2*23/x + x^2 = 46/x + x^2 =27.\n\nThus equation: x^2 + 46/x =27 => multiply by x: x^3 + 46 =27x => x^3 -27x +46 =0.\n\nWe need positive root. Let's solve cubic. Try integer approximations: x=2 => 8 -54 +46 =0. Indeed 8-54+46=0. So x=2 is a root. Good. Then factor (x-2)(x^2+2x-23)=0. Quadratic gives x = [-2 ± sqrt(4+92)]/2 = [-2 ± sqrt96]/2 = [-2 ± 4√6]/2 = -1 ± 2√6. Positive root: -1 + 2√6 ≈ -1+4.898=3.898. So x≈3.898.\n\nThus two possible x values: 2 and -1+2√6 (~3.898). For each compute y.\n\nCase 1: x=2 => y = 23 / (2^2) = 23/4 =5.75.\n\nCheck σ2: 2*y*x + x^2 = 2*5.75*2 +4 = 23 +4 =27 correct.\n\nSo dimensions: (5.75,2,2). Sum σ1 = 5.75+2+2=9.75 = 39/4.\n\nCase 2: x = -1+2√6. Compute x^2: ( -1+2√6)^2 = 1 -4√6 +24 =25 -4√6. Approx 25 -9.798=15.202. y = 23 / x^2 = 23 / (25 -4√6). Let's rationalize maybe.\n\nCompute σ1 = y + 2x.\n\nFirst compute y: 23/(25 -4√6). Multiply numerator and denominator by (25+4√6): y = 23(25+4√6)/(25^2 - (4√6)^2) = 23(25+4√6)/(625 - 16*6) = 23(25+4√6)/(625 -96) = 23(25+4√6)/529. Note 529=23^2. So y = (25+4√6)/23.\n\nThus y = (25+4√6)/23 ≈ (25+9.798)/23 =34.798/23≈1.513.\n\nNow compute σ1 = y + 2x = (25+4√6)/23 + 2(-1+2√6) = (25+4√6)/23 + (-2 +4√6).\n\nCombine: write -2 +4√6 as (-2*23 +4√6*23)/23 = (-46 +92√6)/23.\n\nAdd numerator: (25+4√6) + (-46 +92√6) = (25-46) + (4√6+92√6) = -21 +96√6.\n\nThus σ1 = (-21 +96√6)/23.\n\nCompute approximate: √6≈2.44949, 96*2.44949≈235.151, minus 21 =214.151, divide by 23 ≈9.307.\n\nSo σ1 ≈9.307, less than 9.75. So the maximum σ1 among these symmetric cases is 9.75 from first case.\n\nBut we need to verify that maximum σ1 overall occurs when two variables equal (by Lagrange). Likely yes due to symmetry and convexity. Let's attempt Lagrange multiplier: maximize σ1 = a+b+c subject to constraints g1=ab+bc+ca-27=0, g2=abc-23=0. Set gradient: (1,1,1) = λ (∂g1) + μ (∂g2). Compute partial derivatives: ∂g1/∂a = b + c, ∂g2/∂a = bc. So we have:\n\n1 = λ (b + c) + μ (bc)\n1 = λ (c + a) + μ (ca)\n1 = λ (a + b) + μ (ab)\n\nSubtract first two: 0 = λ (b - a) + μ (bc - ca) = λ (b - a) + μ c (b - a) = (b - a)(λ + μ c). So either a = b or λ + μ c =0. Similarly for other pairs. If not all equal, we may have λ + μ c =0, λ + μ a =0, λ + μ b =0 => implies μ (c - a)=0 etc. Since μ may be nonzero, then a=b=c. But then constraints would give a=b=c => let a = t. Then surface area: 3t^2 =27 => t^2=9 => t=3. Volume: t^3=27, not 23. So not possible. Therefore we must have at least two equal. So extremum occurs when two variables equal. Good.\n\nThus maximum σ1 is 39/4 = 9.75.\n\nThus maximum sum of squares = σ1^2 - 54 = (39/4)^2 - 54 = (1521/16) - (864/16) = (657/16). Compute: 1521-864=657. So a^2+b^2+c^2 max = 657/16.\n\nThus r^2 = (a^2+b^2+c^2)/4 = (657/16)/4 = 657/64.\n\nSimplify fraction: 657 and 64 relatively prime? 657 = 3*219 =3*3*73 =9*73. 64 = 2^6. No common factor. So p=657, q=64. p+q = 657+64 = 721.\n\nAnswer 721.\n</think>\nLet the edges of a rectangular box be \\(a,b,c>0\\).\n\n\\[\n\\begin{cases}\n2(ab+bc+ca)=54 &\\Longrightarrow ab+bc+ca=27\\\\[2mm]\nabc=23\n\\end{cases}\n\\]\n\nFor a given box the smallest sphere that contains it is the circumscribed sphere\ncentered at the box’s centre. Its radius is half the space diagonal:\n\n\\[\nr=\\frac{\\sqrt{a^{2}+b^{2}+c^{2}}}{2},\\qquad \nr^{2}= \\frac{a^{2}+b^{2}+c^{2}}{4}.\n\\]\n\nHence we must find the **largest** possible value of \\(a^{2}+b^{2}+c^{2}\\) among all\nboxes satisfying the two constraints; the required sphere must contain every\nsuch box.\n\n---\n\n### 1.  Reduce to maximizing the sum of the edges\n\n\\[\na^{2}+b^{2}+c^{2}=(a+b+c)^{2}-2(ab+bc+ca)\n                =\\sigma_{1}^{2}-2\\cdot27\n                =\\sigma_{1}^{2}-54,\n\\]\n\nwhere \\(\\sigma_{1}=a+b+c\\).  \nThus maximizing \\(a^{2}+b^{2}+c^{2}\\) is equivalent to maximizing \\(\\sigma_{1}\\).\n\n---\n\n### 2.  Use symmetry (Lagrange multipliers)\n\nWe maximize \\(\\sigma_{1}=a+b+c\\) subject to  \n\n\\[\ng_{1}=ab+bc+ca-27=0,\\qquad g_{2}=abc-23=0 .\n\\]\n\nSetting \\(\\nabla (a+b+c)=\\lambda\\nabla g_{1}+\\mu\\nabla g_{2}\\) gives  \n\n\\[\n1=\\lambda(b+c)+\\mu bc,\\qquad\n1=\\lambda(c+a)+\\mu ca,\\qquad\n1=\\lambda(a+b)+\\mu ab .\n\\]\n\nSubtracting any two equations yields  \n\n\\[\n(b-a)(\\lambda+\\mu c)=0,\\qquad\n(c-b)(\\lambda+\\mu a)=0,\\qquad\n(a-c)(\\lambda+\\mu b)=0 .\n\\]\n\nIf the three edges were all distinct we would have\n\\(\\lambda+\\mu a=\\lambda+\\mu b=\\lambda+\\mu c=0\\), which forces \\(a=b=c\\),\ncontradicting \\(abc=23\\neq 27\\).  \nHence at an extremum at least two edges are equal.  \nLet \\(b=c=x\\) and \\(a=y\\).\n\n---\n\n### 3.  Solve with two equal edges\n\nConstraints become  \n\n\\[\n\\begin{cases}\n2yx+x^{2}=27\\\\[2mm]\nyx^{2}=23\n\\end{cases}\n\\qquad\\Longrightarrow\\qquad\ny=\\dfrac{23}{x^{2}},\\quad\nx^{2}+\\dfrac{46}{x}=27 .\n\\]\n\nMultiplying by \\(x\\):\n\n\\[\nx^{3}-27x+46=0 .\n\\]\n\nThe cubic factors as \\((x-2)(x^{2}+2x-23)=0\\), giving the positive solutions  \n\n\\[\nx=2,\\qquad x=-1+2\\sqrt6 .\n\\]\n\n* For \\(x=2\\): \\(y=\\dfrac{23}{4}=5.75\\) and \\(\\sigma_{1}=y+2x=5.75+4=9.75=\\dfrac{39}{4}\\).\n\n* For \\(x=-1+2\\sqrt6\\): \\(y=\\dfrac{25+4\\sqrt6}{23}\\) and \\(\\sigma_{1}= \\dfrac{-21+96\\sqrt6}{23}\\approx9.31\\).\n\nThus the larger sum of edges occurs for \\((a,b,c)=(\\tfrac{23}{4},2,2)\\).\n\nHence the maximal \\(\\sigma_{1}\\) is \\(\\displaystyle \\frac{39}{4}\\).\n\n---\n\n### 4.  Compute the maximal \\(a^{2}+b^{2}+c^{2}\\) and \\(r^{2}\\)\n\n\\[\na^{2}+b^{2}+c^{2}= \\sigma_{1}^{2}-54\n= \\left(\\frac{39}{4}\\right)^{2}-54\n= \\frac{1521}{16}-\\frac{864}{16}\n= \\frac{657}{16}.\n\\]\n\nTherefore  \n\n\\[\nr^{2}= \\frac{a^{2}+b^{2}+c^{2}}{4}= \\frac{657}{64}.\n\\]\n\nThe fraction \\(\\frac{657}{64}\\) is already in lowest terms (\\(657=9\\cdot73\\) and\n\\(64=2^{6}\\) share no common factor).\n\nThus \\(p=657,\\;q=64\\) and  \n\n\\[\np+q = 657+64 = 721.\n\\]\n\n\\[\n\\boxed{721}\n\\]"
     },
     "metadata": {
         "batch": 16,
@@ -11,7 +11,8 @@
         "annotator": "gemini-3.1-pro-preview",
         "question_id": "aime2024-16",
         "correct_answer": "721",
-        "is_human_annotated": false
+        "is_human_annotated": false,
+        "correctness": true
     },
     "nodes": [
         {
@@ -227,7 +228,7 @@
             "start": 1582,
             "end": 1666,
             "label": "reasoning",
-            "text": "Let\u2019s denote elementary symmetric sums: \u03c31 = a+b+c, \u03c32 = ab+bc+ca =27, \u03c33 = abc=23. ",
+            "text": "Let’s denote elementary symmetric sums: σ1 = a+b+c, σ2 = ab+bc+ca =27, σ3 = abc=23. ",
             "source": "response"
         },
         {
@@ -236,7 +237,7 @@
             "start": 1666,
             "end": 1750,
             "label": "reasoning",
-            "text": "We need to maximize a^2+b^2+c^2 = (a+b+c)^2 - 2(ab+bc+ca) = \u03c31^2 - 2\u03c32 = \u03c31^2 - 54. ",
+            "text": "We need to maximize a^2+b^2+c^2 = (a+b+c)^2 - 2(ab+bc+ca) = σ1^2 - 2σ2 = σ1^2 - 54. ",
             "source": "response"
         },
         {
@@ -245,7 +246,7 @@
             "start": 1750,
             "end": 1809,
             "label": "reasoning",
-            "text": "So maximizing sum of squares equivalent to maximizing \u03c31.\n\n",
+            "text": "So maximizing sum of squares equivalent to maximizing σ1.\n\n",
             "source": "response"
         },
         {
@@ -254,7 +255,7 @@
             "start": 1809,
             "end": 1884,
             "label": "reasoning",
-            "text": "Thus we need to maximize \u03c31 given \u03c32=27, \u03c33=23, with positive real a,b,c.\n\n",
+            "text": "Thus we need to maximize σ1 given σ2=27, σ3=23, with positive real a,b,c.\n\n",
             "source": "response"
         },
         {
@@ -263,7 +264,7 @@
             "start": 1884,
             "end": 1962,
             "label": "reasoning",
-            "text": "We have constraints from cubic with roots a,b,c: t^3 - \u03c31 t^2 + \u03c32 t - \u03c33 =0. ",
+            "text": "We have constraints from cubic with roots a,b,c: t^3 - σ1 t^2 + σ2 t - σ3 =0. ",
             "source": "response"
         },
         {
@@ -272,7 +273,7 @@
             "start": 1962,
             "end": 2009,
             "label": "reasoning",
-            "text": "For given \u03c31, the roots must be positive real. ",
+            "text": "For given σ1, the roots must be positive real. ",
             "source": "response"
         },
         {
@@ -281,7 +282,7 @@
             "start": 2009,
             "end": 2093,
             "label": "reasoning",
-            "text": "We need to find maximum possible \u03c31 such that cubic has three positive real roots.\n\n",
+            "text": "We need to find maximum possible σ1 such that cubic has three positive real roots.\n\n",
             "source": "response"
         },
         {
@@ -290,7 +291,7 @@
             "start": 2093,
             "end": 2172,
             "label": "reasoning",
-            "text": "We can use inequality: For positive reals with fixed \u03c32 and \u03c33, \u03c31 is bounded. ",
+            "text": "We can use inequality: For positive reals with fixed σ2 and σ3, σ1 is bounded. ",
             "source": "response"
         },
         {
@@ -308,7 +309,7 @@
             "start": 2205,
             "end": 2297,
             "label": "reasoning",
-            "text": "We can consider that for given \u03c32 and \u03c33, the sum \u03c31 is minimized when two variables equal? ",
+            "text": "We can consider that for given σ2 and σ3, the sum σ1 is minimized when two variables equal? ",
             "source": "response"
         },
         {
@@ -344,7 +345,7 @@
             "start": 2444,
             "end": 2480,
             "label": "reasoning",
-            "text": "\u03c32 = yx + x^2 + yx = 2yx + x^2 =27.\n",
+            "text": "σ2 = yx + x^2 + yx = 2yx + x^2 =27.\n",
             "source": "response"
         },
         {
@@ -353,7 +354,7 @@
             "start": 2480,
             "end": 2497,
             "label": "reasoning",
-            "text": "\u03c33 = y x^2 =23.\n\n",
+            "text": "σ3 = y x^2 =23.\n\n",
             "source": "response"
         },
         {
@@ -371,7 +372,7 @@
             "start": 2533,
             "end": 2557,
             "label": "reasoning",
-            "text": "From \u03c33: y = 23 / x^2.\n\n",
+            "text": "From σ3: y = 23 / x^2.\n\n",
             "source": "response"
         },
         {
@@ -380,7 +381,7 @@
             "start": 2557,
             "end": 2624,
             "label": "reasoning",
-            "text": "Plug into \u03c32: 2*(23/x^2)*x + x^2 = 2*23/x + x^2 = 46/x + x^2 =27.\n\n",
+            "text": "Plug into σ2: 2*(23/x^2)*x + x^2 = 2*23/x + x^2 = 46/x + x^2 =27.\n\n",
             "source": "response"
         },
         {
@@ -461,7 +462,7 @@
             "start": 2872,
             "end": 2957,
             "label": "reasoning",
-            "text": "Quadratic gives x = [-2 \u00b1 sqrt(4+92)]/2 = [-2 \u00b1 sqrt96]/2 = [-2 \u00b1 4\u221a6]/2 = -1 \u00b1 2\u221a6. ",
+            "text": "Quadratic gives x = [-2 ± sqrt(4+92)]/2 = [-2 ± sqrt96]/2 = [-2 ± 4√6]/2 = -1 ± 2√6. ",
             "source": "response"
         },
         {
@@ -470,7 +471,7 @@
             "start": 2957,
             "end": 2999,
             "label": "reasoning",
-            "text": "Positive root: -1 + 2\u221a6 \u2248 -1+4.898=3.898. ",
+            "text": "Positive root: -1 + 2√6 ≈ -1+4.898=3.898. ",
             "source": "response"
         },
         {
@@ -479,7 +480,7 @@
             "start": 2999,
             "end": 3012,
             "label": "reasoning",
-            "text": "So x\u22483.898.\n\n",
+            "text": "So x≈3.898.\n\n",
             "source": "response"
         },
         {
@@ -488,7 +489,7 @@
             "start": 3012,
             "end": 3063,
             "label": "reasoning",
-            "text": "Thus two possible x values: 2 and -1+2\u221a6 (~3.898). ",
+            "text": "Thus two possible x values: 2 and -1+2√6 (~3.898). ",
             "source": "response"
         },
         {
@@ -515,7 +516,7 @@
             "start": 3129,
             "end": 3187,
             "label": "reasoning",
-            "text": "Check \u03c32: 2*y*x + x^2 = 2*5.75*2 +4 = 23 +4 =27 correct.\n\n",
+            "text": "Check σ2: 2*y*x + x^2 = 2*5.75*2 +4 = 23 +4 =27 correct.\n\n",
             "source": "response"
         },
         {
@@ -533,7 +534,7 @@
             "start": 3214,
             "end": 3246,
             "label": "reasoning",
-            "text": "Sum \u03c31 = 5.75+2+2=9.75 = 39/4.\n\n",
+            "text": "Sum σ1 = 5.75+2+2=9.75 = 39/4.\n\n",
             "source": "response"
         },
         {
@@ -542,7 +543,7 @@
             "start": 3246,
             "end": 3266,
             "label": "reasoning",
-            "text": "Case 2: x = -1+2\u221a6. ",
+            "text": "Case 2: x = -1+2√6. ",
             "source": "response"
         },
         {
@@ -551,7 +552,7 @@
             "start": 3266,
             "end": 3314,
             "label": "reasoning",
-            "text": "Compute x^2: ( -1+2\u221a6)^2 = 1 -4\u221a6 +24 =25 -4\u221a6. ",
+            "text": "Compute x^2: ( -1+2√6)^2 = 1 -4√6 +24 =25 -4√6. ",
             "source": "response"
         },
         {
@@ -569,7 +570,7 @@
             "start": 3339,
             "end": 3370,
             "label": "reasoning",
-            "text": "y = 23 / x^2 = 23 / (25 -4\u221a6). ",
+            "text": "y = 23 / x^2 = 23 / (25 -4√6). ",
             "source": "response"
         },
         {
@@ -587,7 +588,7 @@
             "start": 3396,
             "end": 3418,
             "label": "planning",
-            "text": "Compute \u03c31 = y + 2x.\n\n",
+            "text": "Compute σ1 = y + 2x.\n\n",
             "source": "response"
         },
         {
@@ -596,7 +597,7 @@
             "start": 3418,
             "end": 3449,
             "label": "reasoning",
-            "text": "First compute y: 23/(25 -4\u221a6). ",
+            "text": "First compute y: 23/(25 -4√6). ",
             "source": "response"
         },
         {
@@ -605,7 +606,7 @@
             "start": 3449,
             "end": 3596,
             "label": "reasoning",
-            "text": "Multiply numerator and denominator by (25+4\u221a6): y = 23(25+4\u221a6)/(25^2 - (4\u221a6)^2) = 23(25+4\u221a6)/(625 - 16*6) = 23(25+4\u221a6)/(625 -96) = 23(25+4\u221a6)/529. ",
+            "text": "Multiply numerator and denominator by (25+4√6): y = 23(25+4√6)/(25^2 - (4√6)^2) = 23(25+4√6)/(625 - 16*6) = 23(25+4√6)/(625 -96) = 23(25+4√6)/529. ",
             "source": "response"
         },
         {
@@ -623,7 +624,7 @@
             "start": 3611,
             "end": 3632,
             "label": "reasoning",
-            "text": "So y = (25+4\u221a6)/23.\n\n",
+            "text": "So y = (25+4√6)/23.\n\n",
             "source": "response"
         },
         {
@@ -632,7 +633,7 @@
             "start": 3632,
             "end": 3688,
             "label": "reasoning",
-            "text": "Thus y = (25+4\u221a6)/23 \u2248 (25+9.798)/23 =34.798/23\u22481.513.\n\n",
+            "text": "Thus y = (25+4√6)/23 ≈ (25+9.798)/23 =34.798/23≈1.513.\n\n",
             "source": "response"
         },
         {
@@ -641,7 +642,7 @@
             "start": 3688,
             "end": 3766,
             "label": "reasoning",
-            "text": "Now compute \u03c31 = y + 2x = (25+4\u221a6)/23 + 2(-1+2\u221a6) = (25+4\u221a6)/23 + (-2 +4\u221a6).\n\n",
+            "text": "Now compute σ1 = y + 2x = (25+4√6)/23 + 2(-1+2√6) = (25+4√6)/23 + (-2 +4√6).\n\n",
             "source": "response"
         },
         {
@@ -650,7 +651,7 @@
             "start": 3766,
             "end": 3830,
             "label": "reasoning",
-            "text": "Combine: write -2 +4\u221a6 as (-2*23 +4\u221a6*23)/23 = (-46 +92\u221a6)/23.\n\n",
+            "text": "Combine: write -2 +4√6 as (-2*23 +4√6*23)/23 = (-46 +92√6)/23.\n\n",
             "source": "response"
         },
         {
@@ -659,7 +660,7 @@
             "start": 3830,
             "end": 3905,
             "label": "reasoning",
-            "text": "Add numerator: (25+4\u221a6) + (-46 +92\u221a6) = (25-46) + (4\u221a6+92\u221a6) = -21 +96\u221a6.\n\n",
+            "text": "Add numerator: (25+4√6) + (-46 +92√6) = (25-46) + (4√6+92√6) = -21 +96√6.\n\n",
             "source": "response"
         },
         {
@@ -668,7 +669,7 @@
             "start": 3905,
             "end": 3932,
             "label": "reasoning",
-            "text": "Thus \u03c31 = (-21 +96\u221a6)/23.\n\n",
+            "text": "Thus σ1 = (-21 +96√6)/23.\n\n",
             "source": "response"
         },
         {
@@ -677,7 +678,7 @@
             "start": 3932,
             "end": 4026,
             "label": "reasoning",
-            "text": "Compute approximate: \u221a6\u22482.44949, 96*2.44949\u2248235.151, minus 21 =214.151, divide by 23 \u22489.307.\n\n",
+            "text": "Compute approximate: √6≈2.44949, 96*2.44949≈235.151, minus 21 =214.151, divide by 23 ≈9.307.\n\n",
             "source": "response"
         },
         {
@@ -686,7 +687,7 @@
             "start": 4026,
             "end": 4056,
             "label": "reasoning",
-            "text": "So \u03c31 \u22489.307, less than 9.75. ",
+            "text": "So σ1 ≈9.307, less than 9.75. ",
             "source": "response"
         },
         {
@@ -695,7 +696,7 @@
             "start": 4056,
             "end": 4128,
             "label": "reasoning",
-            "text": "So the maximum \u03c31 among these symmetric cases is 9.75 from first case.\n\n",
+            "text": "So the maximum σ1 among these symmetric cases is 9.75 from first case.\n\n",
             "source": "response"
         },
         {
@@ -704,7 +705,7 @@
             "start": 4128,
             "end": 4221,
             "label": "planning",
-            "text": "But we need to verify that maximum \u03c31 overall occurs when two variables equal (by Lagrange). ",
+            "text": "But we need to verify that maximum σ1 overall occurs when two variables equal (by Lagrange). ",
             "source": "response"
         },
         {
@@ -722,7 +723,7 @@
             "start": 4263,
             "end": 4372,
             "label": "planning",
-            "text": "Let's attempt Lagrange multiplier: maximize \u03c31 = a+b+c subject to constraints g1=ab+bc+ca-27=0, g2=abc-23=0. ",
+            "text": "Let's attempt Lagrange multiplier: maximize σ1 = a+b+c subject to constraints g1=ab+bc+ca-27=0, g2=abc-23=0. ",
             "source": "response"
         },
         {
@@ -731,7 +732,7 @@
             "start": 4372,
             "end": 4415,
             "label": "reasoning",
-            "text": "Set gradient: (1,1,1) = \u03bb (\u2202g1) + \u03bc (\u2202g2). ",
+            "text": "Set gradient: (1,1,1) = λ (∂g1) + μ (∂g2). ",
             "source": "response"
         },
         {
@@ -740,7 +741,7 @@
             "start": 4415,
             "end": 4473,
             "label": "reasoning",
-            "text": "Compute partial derivatives: \u2202g1/\u2202a = b + c, \u2202g2/\u2202a = bc. ",
+            "text": "Compute partial derivatives: ∂g1/∂a = b + c, ∂g2/∂a = bc. ",
             "source": "response"
         },
         {
@@ -758,7 +759,7 @@
             "start": 4486,
             "end": 4509,
             "label": "reasoning",
-            "text": "1 = \u03bb (b + c) + \u03bc (bc)\n",
+            "text": "1 = λ (b + c) + μ (bc)\n",
             "source": "response"
         },
         {
@@ -767,7 +768,7 @@
             "start": 4509,
             "end": 4532,
             "label": "reasoning",
-            "text": "1 = \u03bb (c + a) + \u03bc (ca)\n",
+            "text": "1 = λ (c + a) + μ (ca)\n",
             "source": "response"
         },
         {
@@ -776,7 +777,7 @@
             "start": 4532,
             "end": 4556,
             "label": "reasoning",
-            "text": "1 = \u03bb (a + b) + \u03bc (ab)\n\n",
+            "text": "1 = λ (a + b) + μ (ab)\n\n",
             "source": "response"
         },
         {
@@ -785,7 +786,7 @@
             "start": 4556,
             "end": 4650,
             "label": "reasoning",
-            "text": "Subtract first two: 0 = \u03bb (b - a) + \u03bc (bc - ca) = \u03bb (b - a) + \u03bc c (b - a) = (b - a)(\u03bb + \u03bc c). ",
+            "text": "Subtract first two: 0 = λ (b - a) + μ (bc - ca) = λ (b - a) + μ c (b - a) = (b - a)(λ + μ c). ",
             "source": "response"
         },
         {
@@ -794,7 +795,7 @@
             "start": 4650,
             "end": 4681,
             "label": "reasoning",
-            "text": "So either a = b or \u03bb + \u03bc c =0. ",
+            "text": "So either a = b or λ + μ c =0. ",
             "source": "response"
         },
         {
@@ -812,7 +813,7 @@
             "start": 4708,
             "end": 4801,
             "label": "reasoning",
-            "text": "If not all equal, we may have \u03bb + \u03bc c =0, \u03bb + \u03bc a =0, \u03bb + \u03bc b =0 => implies \u03bc (c - a)=0 etc. ",
+            "text": "If not all equal, we may have λ + μ c =0, λ + μ a =0, λ + μ b =0 => implies μ (c - a)=0 etc. ",
             "source": "response"
         },
         {
@@ -821,7 +822,7 @@
             "start": 4801,
             "end": 4837,
             "label": "reasoning",
-            "text": "Since \u03bc may be nonzero, then a=b=c. ",
+            "text": "Since μ may be nonzero, then a=b=c. ",
             "source": "response"
         },
         {
@@ -893,7 +894,7 @@
             "start": 5070,
             "end": 5103,
             "label": "reasoning",
-            "text": "Thus maximum \u03c31 is 39/4 = 9.75.\n\n",
+            "text": "Thus maximum σ1 is 39/4 = 9.75.\n\n",
             "source": "response"
         },
         {
@@ -902,7 +903,7 @@
             "start": 5103,
             "end": 5194,
             "label": "reasoning",
-            "text": "Thus maximum sum of squares = \u03c31^2 - 54 = (39/4)^2 - 54 = (1521/16) - (864/16) = (657/16). ",
+            "text": "Thus maximum sum of squares = σ1^2 - 54 = (39/4)^2 - 54 = (1521/16) - (864/16) = (657/16). ",
             "source": "response"
         },
         {
@@ -1028,7 +1029,7 @@
             "start": 5602,
             "end": 5713,
             "label": "fact",
-            "text": "For a given box the smallest sphere that contains it is the circumscribed sphere\ncentered at the box\u2019s centre. ",
+            "text": "For a given box the smallest sphere that contains it is the circumscribed sphere\ncentered at the box’s centre. ",
             "source": "response"
         },
         {
