@@ -1,0 +1,19 @@
+{
+    "doc_id": "aime2024_3_Qwen2.5-32B-Instruct",
+    "raw_text": {
+        "question": "Alice and Bob play the following game. A stack of $n$ tokens lies before them. The players take turns with Alice going first. On each turn, the player removes either $1$ token or $4$ tokens from the stack. Whoever removes the last token wins. Find the number of positive integers $n$ less than or equal to $2024$ for which there exists a strategy for Bob that guarantees that Bob will win the game regardless of Alice's play.",
+        "response": "To solve this problem, we need to analyze the game and determine under what conditions Bob can guarantee a win. We start by identifying the winning and losing positions in the game.\n\nA position is called a \"winning position\" if the player whose turn it is can force a win. Conversely, a position is a \"losing position\" if any move from that position leads to a winning position for the opponent.\n\nLet's denote a position as \\( n \\) tokens remaining. We need to determine the nature of each position based on the possible moves (removing 1 or 4 tokens).\n\n1. **Base Cases:**\n   - If \\( n = 0 \\), the player who faces this position loses because they cannot make a move.\n   - If \\( n = 1 \\), the player who faces this position wins by removing the single token.\n   - If \\( n = 2 \\), the player who faces this position wins by removing 1 token, leaving 1 token for the opponent.\n   - If \\( n = 3 \\), the player who faces this position wins by removing 1 token, leaving 2 tokens for the opponent.\n   - If \\( n = 4 \\), the player who faces this position wins by removing all 4 tokens.\n   - If \\( n = 5 \\), the player who faces this position loses because removing 1 token leaves 4 tokens (a winning position for the opponent), and removing 4 tokens leaves 1 token (also a winning position for the opponent).\n\nFrom these base cases, we can see a pattern emerging. Let's generalize:\n\n- A position \\( n \\) is a losing position if and only if \\( n \\equiv 0 \\pmod{5} \\). This is because:\n  - From \\( n \\equiv 0 \\pmod{5} \\), any move will leave a position \\( n-1 \\) or \\( n-4 \\), both of which are not congruent to 0 modulo 5, hence they are winning positions.\n  - From \\( n \\not\\equiv 0 \\pmod{5} \\), there is always a move that can be made to leave a position \\( n' \\equiv 0 \\pmod{5} \\), making it a losing position for the opponent.\n\nThus, Bob can guarantee a win if and only if the initial number of tokens \\( n \\) is a multiple of 5. We need to count how many multiples of 5 there are between 1 and 2024 inclusive.\n\nThe smallest multiple of 5 in this range is 5, and the largest is 2020. The sequence of multiples of 5 forms an arithmetic sequence where the first term \\( a = 5 \\) and the common difference \\( d = 5 \\). The number of terms \\( k \\) in this sequence can be found using the formula for the \\( k \\)-th term of an arithmetic sequence:\n\\[ a_k = a + (k-1)d \\]\nSetting \\( a_k = 2020 \\):\n\\[ 2020 = 5 + (k-1) \\cdot 5 \\]\n\\[ 2020 = 5 + 5k - 5 \\]\n\\[ 2020 = 5k \\]\n\\[ k = \\frac{2020}{5} = 404 \\]\n\nTherefore, there are 404 positive integers \\( n \\) less than or equal to 2024 for which Bob can guarantee a win. The answer is:\n\\[\n\\boxed{404}\n\\]"
+    },
+    "metadata": {
+        "batch": 3,
+        "domain": "aime2024",
+        "generator": "Qwen2.5-32B-Instruct",
+        "annotator": null,
+        "question_id": "aime2024-3",
+        "correct_answer": "809",
+        "topic": "math",
+        "correctness": null
+    },
+    "nodes": [],
+    "edges": []
+}

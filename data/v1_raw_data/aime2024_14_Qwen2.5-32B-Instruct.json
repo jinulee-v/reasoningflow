@@ -1,0 +1,19 @@
+{
+    "doc_id": "aime2024_14_Qwen2.5-32B-Instruct",
+    "raw_text": {
+        "question": "Consider the paths of length $16$ that follow the lines from the lower left corner to the upper right corner on an $8\\times 8$ grid. Find the number of such paths that change direction exactly four times, as in the examples shown below.",
+        "response": "To solve this problem, we need to consider the nature of the paths and how they can change direction. A path from the lower left corner to the upper right corner on an \\(8 \\times 8\\) grid consists of 8 right (R) moves and 8 up (U) moves, making a total of 16 moves. The path changes direction whenever it switches from R to U or from U to R.\n\nA path that changes direction exactly four times must have five segments of consecutive R's or U's. This is because each change of direction creates a new segment, and starting with one initial segment, four changes create five segments in total. For example, a path might look like RRRUUURRUUUURRRU, which has five segments: RRR, UUU, RR, UUUU, and RRU.\n\nWe need to determine how many ways we can distribute 8 R's and 8 U's into these five segments. Let's denote the lengths of the segments of R's and U's as \\(a_1, a_2, a_3, a_4, a_5\\), where \\(a_1 + a_3 + a_5 = 8\\) (the total number of R's) and \\(a_2 + a_4 = 8\\) (the total number of U's). Each \\(a_i\\) must be a positive integer because each segment must contain at least one move.\n\nThe number of solutions to \\(a_1 + a_3 + a_5 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(b_1 + b_3 + b_5 = 5\\) where each \\(b_i \\geq 0\\) (by setting \\(b_i = a_i - 1\\)). This is given by the stars and bars method:\n\\[\n\\binom{5+2}{2} = \\binom{7}{2} = 21.\n\\]\nSimilarly, the number of solutions to \\(a_2 + a_4 = 8\\) where each \\(a_i \\geq 1\\) is equivalent to the number of solutions to \\(c_2 + c_4 = 6\\) where each \\(c_i \\geq 0\\) (by setting \\(c_i = a_i - 1\\)). This is also given by the stars and bars method:\n\\[\n\\binom{6+1}{1} = \\binom{7}{1} = 7.\n\\]\nSince the choices for the R segments and the U segments are independent, the total number of paths is the product of these two results:\n\\[\n21 \\times 7 = 147.\n\\]\nHowever, we must also consider the different ways to arrange the segments of R's and U's. There are two possible patterns for the segments: RURURU... or URURUR.... Each pattern can be arranged in exactly one way given the segment lengths. Therefore, we do not need to multiply by any additional factor for the arrangement of the segments.\n\nThus, the number of such paths is:\n\\[\n\\boxed{147}.\n\\]"
+    },
+    "metadata": {
+        "batch": 14,
+        "domain": "aime2024",
+        "generator": "Qwen2.5-32B-Instruct",
+        "annotator": null,
+        "question_id": "aime2024-14",
+        "correct_answer": "294",
+        "topic": "math",
+        "correctness": null
+    },
+    "nodes": [],
+    "edges": []
+}
