@@ -1,0 +1,612 @@
+{
+    "doc_id": "bright-theoremqa_theorems_27_gpt-oss-120b",
+    "raw_text": {
+        "question": "Imagine you're a treasure hunter, and you're integrating the size of a strange field. To do so, find the value of \\int_a^b \\frac{dx}{\\sqrt{(x-a)(b-x)}}, rounded to the thousands' place.\n\nRetrieved documents:\n[Document 1]\n\\begin{definition}[Definition:Cumulative Rounding Error]\nLet $S$ be a set of continuous data which is to be rounded to the nearest $n$th power of $10$.\nThe '''cumulative rounding error''' of $S$ is defined as:\n:$R = \\ds \\sum_{x \\mathop \\in S} \\paren {x - \\overline x}$\nwhere $\\overline x$ denotes the rounded value of a given $x$.\n\\end{definition}\n\n[Document 2]\n\\begin{definition}[Definition:Set/Uniqueness of Elements/Multiple Specification]\nFor a given '''set''', an object is either '''in''' the set or '''not in''' the set.\nSo, if an element is in a set, then it is in the set '''only once''', however many times it may appear in the definition of the set.\nThus, the set $\\set {1, 2, 2, 3, 3, 4}$ is the same set as $\\set {1, 2, 3, 4}$.\n$2$ and $3$ are in the set, and '''listing''' them twice makes no difference to the set's '''contents'''.\nLike the membership of a club, if you're in, you're in -- however many membership cards you have to prove it.\n\\end{definition}\n\n[Document 3]\n\\section{Integration by Substitution/Definite Integral}\nTags: Integration by Substitution\n\n\\begin{theorem}\nLet $\\phi$ be a real function which has a derivative on the closed interval $\\closedint a b$.\nLet $I$ be an open interval which contains the image of $\\closedint a b$ under $\\phi$.\nLet $f$ be a real function which is continuous on $I$.\nThe definite integral of $f$ from $a$ to $b$ can be evaluated by:\n:$\\ds \\int_{\\map \\phi a}^{\\map \\phi b} \\map f t \\rd t = \\int_a^b \\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u \\rd u$\nwhere $t = \\map \\phi u$.\nThe technique of solving an integral in this manner is called '''integration by substitution'''.\n\\end{theorem}\n\n\\begin{proof}\nLet $F$ be an antiderivative of $f$.\nWe have:\n{{begin-eqn}}\n{{eqn | l = \\map {\\frac \\d {\\d u} } {\\map F t}\n      | r = \\map {\\frac \\d {\\d u} } {\\map F {\\map \\phi u} }\n      | c = Definition of $\\map \\phi u$\n}}\n{{eqn | r = \\dfrac \\d {\\d t} \\map F {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u\n      | c = Chain Rule for Derivatives\n}}\n{{eqn | r = \\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u\n      | c = as $\\map F t = \\ds \\int \\map f t \\rd t$\n}}\n{{end-eqn}}\nHence $\\map F {\\map \\phi u}$ is an antiderivative of $\\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u$.\nThus:\n{{begin-eqn}}\n{{eqn | l = \\int_a^b \\map f {\\map \\phi u} \\map {\\phi'} u \\rd u\n      | r = \\bigintlimits {\\map F {\\map \\phi u} } a b\n      | c = Fundamental Theorem of Calculus: Second Part\n}}\n{{eqn | n = 1\n      | r = \\map F {\\map \\phi b} - \\map F {\\map \\phi a}\n      | c = \n}}\n{{end-eqn}}\nHowever, also:\n{{begin-eqn}}\n{{eqn | l = \\int_{\\map \\phi a}^{\\map \\phi b} \\map f t \\rd t\n      | r = \\bigintlimits {\\map F t} {\\map \\phi a} {\\map \\phi b}\n      | c = \n}}\n{{eqn | r = \\map F {\\map \\phi b} - \\map F {\\map \\phi a}\n      | c = \n}}\n{{eqn | r = \\int_a^b \\map f {\\map \\phi u} \\map {\\phi'} u \\rd u\n      | c = from $(1)$\n}}\n{{end-eqn}}\nwhich was to be proved. \n{{qed}}\n\\end{proof}\n\n\n\n[Document 4]\n\\section{Equal Surfaces do not Intersect}\nTags: Equal Surfaces\n\n\\begin{theorem}\nLet $R$ be a region of space, which may be the interior of a body.\nLet there exist a point-function $F$ on $R$ giving rise to a scalar field.\nLet $S_1$ and $S_2$ be equal surfaces in $R$ upon which the value of $F$ on $S_1$ is different from the value of $F$ on $S_2$.\nThen $S_1$ and $S_2$ do not intersect.\n\\end{theorem}\n\n\\begin{proof}\nLet:\n:$\\forall p \\in S_1: \\map F p = C_1$\n:$\\forall p \\in S_2: \\map F p = C_2$\nBy hypothesis, $C_1 \\ne C_2$.\n{{AimForCont}} there exists a point $P$ in $R$ such that both $P \\in S_1$ and $P \\in S_2$.\nThen $\\map F p = C_1$ and also $\\map F p = C_2$.\nThis contradicts the fact that $F$ is a function.\nHence the result by Proof by Contradiction.\n{{qed}}\n\\end{proof}\n\n\n\n[Document 5]\n\\begin{definition}[Definition:Infinity]\nInformally, the term '''infinity''' is used to mean '''some infinite number''', but this concept falls very far short of a usable definition.\nThe symbol $\\infty$ (supposedly invented by {{AuthorRef|John Wallis}}) is often used in this context to mean '''an infinite number'''.\nHowever, outside of its formal use in the definition of limits its use is strongly discouraged until you know what you're talking about.\nIt is defined as having the following properties:\n:$\\forall n \\in \\Z: n < \\infty$\n:$\\forall n \\in \\Z: n + \\infty = \\infty$\n:$\\forall n \\in \\Z: n \\times \\infty = \\infty$\n:$\\infty^2 = \\infty$\nSimilarly, the quantity written as $-\\infty$ is defined as having the following properties:\n:$\\forall n \\in \\Z: -\\infty< n$\n:$\\forall n \\in \\Z: -\\infty + n = -\\infty$\n:$\\forall n \\in \\Z: -\\infty \\times n = -\\infty$\n:$\\paren {-\\infty}^2 = -\\infty$\nThe latter result seems wrong when you think of the rule that a negative number square equals a positive one, but remember that infinity is not exactly a number as such.\n\\end{definition}",
+        "response": "The integral  \n\n\\[\nI=\\int_{a}^{b}\\frac{dx}{\\sqrt{(x-a)(\\,b-x\\,)}}\n\\]\n\ndoes not depend on the particular numbers \\(a<b\\); it is a **standard beta‑integral** that always evaluates to \\(\\pi\\).\n\n---\n\n### 1.  Reduce the interval to \\([0,1]\\)\n\nPut  \n\n\\[\nx = a+(b-a)u ,\\qquad u\\in[0,1],\\qquad dx=(b-a)\\,du .\n\\]\n\nThen  \n\n\\[\n\\begin{aligned}\n(x-a) &= (b-a)u,\\\\\n(b-x) &= (b-a)(1-u),\n\\end{aligned}\n\\]\n\nso  \n\n\\[\n\\frac{dx}{\\sqrt{(x-a)(b-x)}}=\n\\frac{(b-a)\\,du}{\\sqrt{(b-a)u\\;(b-a)(1-u)}}\n      =\\frac{du}{\\sqrt{u(1-u)}} .\n\\]\n\nHence  \n\n\\[\nI=\\int_{0}^{1}\\frac{du}{\\sqrt{u(1-u)}} .\n\\]\n\n---\n\n### 2.  Trigonometric substitution  \n\nLet  \n\n\\[\nu=\\sin^{2}\\theta ,\\qquad \\theta\\in\\Bigl[0,\\frac{\\pi}{2}\\Bigr].\n\\]\n\nThen  \n\n\\[\ndu = 2\\sin\\theta\\cos\\theta\\,d\\theta,\n\\qquad\n\\sqrt{u(1-u)} = \\sqrt{\\sin^{2}\\theta\\cos^{2}\\theta}= \\sin\\theta\\cos\\theta .\n\\]\n\nThus  \n\n\\[\n\\frac{du}{\\sqrt{u(1-u)}}=\n\\frac{2\\sin\\theta\\cos\\theta\\,d\\theta}{\\sin\\theta\\cos\\theta}=2\\,d\\theta .\n\\]\n\nWhen \\(u=0\\) we have \\(\\theta=0\\); when \\(u=1\\) we have \\(\\theta=\\pi/2\\).  \nTherefore  \n\n\\[\nI = \\int_{0}^{\\pi/2} 2\\,d\\theta = 2\\Bigl[\\theta\\Bigr]_{0}^{\\pi/2}= \\pi .\n\\]\n\n---\n\n### 3.  Numerical value rounded to the thousandths place  \n\n\\[\n\\pi \\approx 3.141592653\\ldots\n\\]\n\nRounded to the **thousandths place** (three decimal places) gives  \n\n\\[\n\\boxed{3.142}.\n\\]\n\n---\n\n**Result:**  \n\n\\[\n\\displaystyle\\int_{a}^{b}\\frac{dx}{\\sqrt{(x-a)(b-x)}} = \\pi \\;\\;\\Longrightarrow\\;\\; 3.142\\text{ (to the thousandths).}\n\\]"
+    },
+    "metadata": {
+        "batch": 27,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_mingyin/Fundamental-Theorem-of-Calculus3.json",
+        "correct_answer": null,
+        "is_human_annotated": false,
+        "correctness": null
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 86,
+            "label": "context",
+            "text": "Imagine you're a treasure hunter, and you're integrating the size of a strange field. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 86,
+            "end": 187,
+            "label": "context",
+            "text": "To do so, find the value of \\int_a^b \\frac{dx}{\\sqrt{(x-a)(b-x)}}, rounded to the thousands' place.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 187,
+            "end": 208,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 208,
+            "end": 570,
+            "label": "context",
+            "text": "[Document 1]\n\\begin{definition}[Definition:Cumulative Rounding Error]\nLet $S$ be a set of continuous data which is to be rounded to the nearest $n$th power of $10$.\nThe '''cumulative rounding error''' of $S$ is defined as:\n:$R = \\ds \\sum_{x \\mathop \\in S} \\paren {x - \\overline x}$\nwhere $\\overline x$ denotes the rounded value of a given $x$.\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 570,
+            "end": 749,
+            "label": "context",
+            "text": "[Document 2]\n\\begin{definition}[Definition:Set/Uniqueness of Elements/Multiple Specification]\nFor a given '''set''', an object is either '''in''' the set or '''not in''' the set.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 749,
+            "end": 882,
+            "label": "context",
+            "text": "So, if an element is in a set, then it is in the set '''only once''', however many times it may appear in the definition of the set.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 882,
+            "end": 962,
+            "label": "context",
+            "text": "Thus, the set $\\set {1, 2, 2, 3, 3, 4}$ is the same set as $\\set {1, 2, 3, 4}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 962,
+            "end": 1068,
+            "label": "context",
+            "text": "$2$ and $3$ are in the set, and '''listing''' them twice makes no difference to the set's '''contents'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 1068,
+            "end": 1196,
+            "label": "context",
+            "text": "Like the membership of a club, if you're in, you're in -- however many membership cards you have to prove it.\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 1196,
+            "end": 1300,
+            "label": "context",
+            "text": "[Document 3]\n\\section{Integration by Substitution/Definite Integral}\nTags: Integration by Substitution\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 1300,
+            "end": 1877,
+            "label": "context",
+            "text": "\\begin{theorem}\nLet $\\phi$ be a real function which has a derivative on the closed interval $\\closedint a b$.\nLet $I$ be an open interval which contains the image of $\\closedint a b$ under $\\phi$.\nLet $f$ be a real function which is continuous on $I$.\nThe definite integral of $f$ from $a$ to $b$ can be evaluated by:\n:$\\ds \\int_{\\map \\phi a}^{\\map \\phi b} \\map f t \\rd t = \\int_a^b \\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u \\rd u$\nwhere $t = \\map \\phi u$.\nThe technique of solving an integral in this manner is called '''integration by substitution'''.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 1877,
+            "end": 2457,
+            "label": "context",
+            "text": "\\begin{proof}\nLet $F$ be an antiderivative of $f$.\nWe have:\n{{begin-eqn}}\n{{eqn | l = \\map {\\frac \\d {\\d u} } {\\map F t}\n      | r = \\map {\\frac \\d {\\d u} } {\\map F {\\map \\phi u} }\n      | c = Definition of $\\map \\phi u$\n}}\n{{eqn | r = \\dfrac \\d {\\d t} \\map F {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u\n      | c = Chain Rule for Derivatives\n}}\n{{eqn | r = \\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u\n      | c = as $\\map F t = \\ds \\int \\map f t \\rd t$\n}}\n{{end-eqn}}\nHence $\\map F {\\map \\phi u}$ is an antiderivative of $\\map f {\\map \\phi u} \\dfrac \\d {\\d u} \\map \\phi u$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 2457,
+            "end": 3143,
+            "label": "context",
+            "text": "Thus:\n{{begin-eqn}}\n{{eqn | l = \\int_a^b \\map f {\\map \\phi u} \\map {\\phi'} u \\rd u\n      | r = \\bigintlimits {\\map F {\\map \\phi u} } a b\n      | c = Fundamental Theorem of Calculus: Second Part\n}}\n{{eqn | n = 1\n      | r = \\map F {\\map \\phi b} - \\map F {\\map \\phi a}\n      | c = \n}}\n{{end-eqn}}\nHowever, also:\n{{begin-eqn}}\n{{eqn | l = \\int_{\\map \\phi a}^{\\map \\phi b} \\map f t \\rd t\n      | r = \\bigintlimits {\\map F t} {\\map \\phi a} {\\map \\phi b}\n      | c = \n}}\n{{eqn | r = \\map F {\\map \\phi b} - \\map F {\\map \\phi a}\n      | c = \n}}\n{{eqn | r = \\int_a^b \\map f {\\map \\phi u} \\map {\\phi'} u \\rd u\n      | c = from $(1)$\n}}\n{{end-eqn}}\nwhich was to be proved. \n{{qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 3143,
+            "end": 3220,
+            "label": "context",
+            "text": "[Document 4]\n\\section{Equal Surfaces do not Intersect}\nTags: Equal Surfaces\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 3220,
+            "end": 3559,
+            "label": "context",
+            "text": "\\begin{theorem}\nLet $R$ be a region of space, which may be the interior of a body.\nLet there exist a point-function $F$ on $R$ giving rise to a scalar field.\nLet $S_1$ and $S_2$ be equal surfaces in $R$ upon which the value of $F$ on $S_1$ is different from the value of $F$ on $S_2$.\nThen $S_1$ and $S_2$ do not intersect.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 3559,
+            "end": 3682,
+            "label": "context",
+            "text": "\\begin{proof}\nLet:\n:$\\forall p \\in S_1: \\map F p = C_1$\n:$\\forall p \\in S_2: \\map F p = C_2$\nBy hypothesis, $C_1 \\ne C_2$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 3682,
+            "end": 3773,
+            "label": "context",
+            "text": "{{AimForCont}} there exists a point $P$ in $R$ such that both $P \\in S_1$ and $P \\in S_2$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 3773,
+            "end": 3822,
+            "label": "context",
+            "text": "Then $\\map F p = C_1$ and also $\\map F p = C_2$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 3822,
+            "end": 3872,
+            "label": "context",
+            "text": "This contradicts the fact that $F$ is a function.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 3872,
+            "end": 3939,
+            "label": "context",
+            "text": "Hence the result by Proof by Contradiction.\n{{qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 3939,
+            "end": 4134,
+            "label": "context",
+            "text": "[Document 5]\n\\begin{definition}[Definition:Infinity]\nInformally, the term '''infinity''' is used to mean '''some infinite number''', but this concept falls very far short of a usable definition.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 4134,
+            "end": 4269,
+            "label": "context",
+            "text": "The symbol $\\infty$ (supposedly invented by {{AuthorRef|John Wallis}}) is often used in this context to mean '''an infinite number'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 4269,
+            "end": 4406,
+            "label": "context",
+            "text": "However, outside of its formal use in the definition of limits its use is strongly discouraged until you know what you're talking about.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 4406,
+            "end": 4843,
+            "label": "context",
+            "text": "It is defined as having the following properties:\n:$\\forall n \\in \\Z: n < \\infty$\n:$\\forall n \\in \\Z: n + \\infty = \\infty$\n:$\\forall n \\in \\Z: n \\times \\infty = \\infty$\n:$\\infty^2 = \\infty$\nSimilarly, the quantity written as $-\\infty$ is defined as having the following properties:\n:$\\forall n \\in \\Z: -\\infty< n$\n:$\\forall n \\in \\Z: -\\infty + n = -\\infty$\n:$\\forall n \\in \\Z: -\\infty \\times n = -\\infty$\n:$\\paren {-\\infty}^2 = -\\infty$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 4843,
+            "end": 4953,
+            "label": "context",
+            "text": "The latter result seems wrong when you think of the rule that a negative number square equals a positive one, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 4953,
+            "end": 5029,
+            "label": "context",
+            "text": "but remember that infinity is not exactly a number as such.\n\\end{definition}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 121,
+            "label": "reasoning",
+            "text": "The integral  \n\n\\[\nI=\\int_{a}^{b}\\frac{dx}{\\sqrt{(x-a)(\\,b-x\\,)}}\n\\]\n\ndoes not depend on the particular numbers \\(a<b\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 121,
+            "end": 191,
+            "label": "fact",
+            "text": "it is a **standard beta‑integral** that always evaluates to \\(\\pi\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 191,
+            "end": 196,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 196,
+            "end": 238,
+            "label": "planning",
+            "text": "### 1.  Reduce the interval to \\([0,1]\\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 238,
+            "end": 305,
+            "label": "reasoning",
+            "text": "Put  \n\n\\[\nx = a+(b-a)u ,\\qquad u\\in[0,1],\\qquad dx=(b-a)\\,du .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 305,
+            "end": 390,
+            "label": "reasoning",
+            "text": "Then  \n\n\\[\n\\begin{aligned}\n(x-a) &= (b-a)u,\\\\\n(b-x) &= (b-a)(1-u),\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 390,
+            "end": 511,
+            "label": "reasoning",
+            "text": "so  \n\n\\[\n\\frac{dx}{\\sqrt{(x-a)(b-x)}}=\n\\frac{(b-a)\\,du}{\\sqrt{(b-a)u\\;(b-a)(1-u)}}\n      =\\frac{du}{\\sqrt{u(1-u)}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 511,
+            "end": 568,
+            "label": "conclusion",
+            "text": "Hence  \n\n\\[\nI=\\int_{0}^{1}\\frac{du}{\\sqrt{u(1-u)}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 568,
+            "end": 573,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 573,
+            "end": 611,
+            "label": "planning",
+            "text": "### 2.  Trigonometric substitution  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 611,
+            "end": 688,
+            "label": "reasoning",
+            "text": "Let  \n\n\\[\nu=\\sin^{2}\\theta ,\\qquad \\theta\\in\\Bigl[0,\\frac{\\pi}{2}\\Bigr].\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 688,
+            "end": 823,
+            "label": "reasoning",
+            "text": "Then  \n\n\\[\ndu = 2\\sin\\theta\\cos\\theta\\,d\\theta,\n\\qquad\n\\sqrt{u(1-u)} = \\sqrt{\\sin^{2}\\theta\\cos^{2}\\theta}= \\sin\\theta\\cos\\theta .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 823,
+            "end": 937,
+            "label": "reasoning",
+            "text": "Thus  \n\n\\[\n\\frac{du}{\\sqrt{u(1-u)}}=\n\\frac{2\\sin\\theta\\cos\\theta\\,d\\theta}{\\sin\\theta\\cos\\theta}=2\\,d\\theta .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 937,
+            "end": 972,
+            "label": "reasoning",
+            "text": "When \\(u=0\\) we have \\(\\theta=0\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 972,
+            "end": 1013,
+            "label": "reasoning",
+            "text": "when \\(u=1\\) we have \\(\\theta=\\pi/2\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1013,
+            "end": 1106,
+            "label": "conclusion",
+            "text": "Therefore  \n\n\\[\nI = \\int_{0}^{\\pi/2} 2\\,d\\theta = 2\\Bigl[\\theta\\Bigr]_{0}^{\\pi/2}= \\pi .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1106,
+            "end": 1111,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1111,
+            "end": 1208,
+            "label": "fact",
+            "text": "### 3.  Numerical value rounded to the thousandths place  \n\n\\[\n\\pi \\approx 3.141592653\\ldots\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1208,
+            "end": 1299,
+            "label": "conclusion",
+            "text": "Rounded to the **thousandths place** (three decimal places) gives  \n\n\\[\n\\boxed{3.142}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1299,
+            "end": 1304,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1304,
+            "end": 1443,
+            "label": "conclusion",
+            "text": "**Result:**  \n\n\\[\n\\displaystyle\\int_{a}^{b}\\frac{dx}{\\sqrt{(x-a)(b-x)}} = \\pi \\;\\;\\Longrightarrow\\;\\; 3.142\\text{ (to the thousandths).}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp1",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp3",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp3",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp9",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp9",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp15",
+            "label": "validate:support"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp19",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp20",
+            "label": "validate:support"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "validate:support"
+        }
+    ]
+}

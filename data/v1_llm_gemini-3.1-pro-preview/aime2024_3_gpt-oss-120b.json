@@ -1,0 +1,2727 @@
+{
+    "doc_id": "aime2024_3_gpt-oss-120b",
+    "raw_text": {
+        "question": "Alice and Bob play the following game. A stack of $n$ tokens lies before them. The players take turns with Alice going first. On each turn, the player removes either $1$ token or $4$ tokens from the stack. Whoever removes the last token wins. Find the number of positive integers $n$ less than or equal to $2024$ for which there exists a strategy for Bob that guarantees that Bob will win the game regardless of Alice's play.",
+        "response": "<think>We need to find n such that the second player (Bob) has a winning strategy in impartial combinatorial game where moves are removing 1 or 4 tokens. This is a normal-play subtraction game with subtraction set S = {1,4}. The positions are P-positions (previous player wins) and N-positions (next player wins). For impartial normal-play, P-positions are those where the next player loses assuming optimal play. Since Alice moves first, Bob wins if the starting position is a P-position (i.e., losing for the next player). So we need to count n ≤ 2024 that are P-positions.\n\nWe can compute Grundy or just recurrence: position n is P if all moves from n go to N positions; N if there exists a move to a P position.\n\nBase: n=0 (no tokens) is P (previous player already won; next player cannot move). But game starts with positive n.\n\nCompute pattern for subtraction set {1,4}. Let's compute modulo something? Usually subtraction games have periodic pattern after some point. Let's compute small n.\n\nLet P = losing positions.\n\nn=0: P\nn=1: can move to 0 (P) by removing 1, so there is a move to P => N.\nn=2: moves: remove1 ->1 (N). remove4 not possible. All moves go to N => P.\nn=3: moves: remove1 ->2 (P) => N.\nn=4: moves: remove1 ->3 (N), remove4 ->0 (P). Since there is a move to P (remove4), N? Wait condition: N if there exists a move to P. Yes, there is remove4 to 0 (P). So n=4 is N.\nn=5: moves: remove1 ->4 (N), remove4 ->1 (N). All moves to N => P.\nn=6: moves: remove1 ->5 (P) => N.\nn=7: moves: remove1 ->6 (N), remove4 ->3 (N) => P.\nn=8: moves: remove1 ->7 (P) => N.\nn=9: moves: remove1 ->8 (N), remove4 ->5 (P) => N? Wait there is a move to P (remove4 to 5 which is P). So N.\nn=10: moves: remove1 ->9 (N), remove4 ->6 (N) => P.\nn=11: moves: remove1 ->10 (P) => N.\nn=12: moves: remove1 ->11 (N), remove4 ->8 (N) => P.\nn=13: moves: remove1 ->12 (P) => N.\nn=14: moves: remove1 ->13 (N), remove4 ->10 (P) => N (since move to P). Actually there is a move to P, so N.\nn=15: moves: remove1 ->14 (N), remove4 ->11 (N) => P.\nn=16: moves: remove1 ->15 (P) => N.\nn=17: moves: remove1 ->16 (N), remove4 ->13 (N) => P.\nn=18: moves: remove1 ->17 (P) => N.\nn=19: moves: remove1 ->18 (N), remove4 ->15 (P) => N.\nn=20: moves: remove1 ->19 (N), remove4 ->16 (N) => P.\n\nLet's list P positions: n = 0,2,5,7,10,12,15,17,20,... pattern? Let's compute differences: 2-0=2,5-2=3,7-5=2,10-7=3,12-10=2,15-12=3,17-15=2,20-17=3. So pattern of 2,3 repeating. So seems P positions are numbers congruent to? Starting from 0, then +2, +3 alternating. So sequence: 0,2,5,7,10,12,15,17,20,22,25,... So pattern period 5? Let's see modulo 5: 0 mod5, 2 mod5, 0? 5 mod5=0, 7 mod5=2, 10 mod5=0, 12 mod5=2, 15 mod5=0, 17 mod5=2, 20 mod5=0, 22 mod5=2. So indeed P positions are numbers congruent to 0 or 2 modulo 5. Let's verify further: n=22 predicted P (since 22 mod5=2). Let's compute quickly: n=21? Not needed. Let's test n=22: moves: 22-1=21, 22-4=18. Need to know if 21 and 18 are N. 18 we have N. 21? Let's compute: 21 moves to 20 (P) or 17 (P). Since there is move to P, 21 is N. So both moves from 22 go to N => P. Works.\n\nThus pattern holds: P positions are n ≡ 0 or 2 (mod 5). Let's prove: For subtraction set {1,4}, the mex leads to periodic of length 5. Indeed.\n\nThus Bob (second player) wins when starting n is P, i.e., n ≡ 0 or 2 mod 5.\n\nWe need count of positive integers n ≤ 2024 with n ≡ 0 or 2 mod 5.\n\nCount numbers ≤2024 congruent to 0 mod5: floor(2024/5) = 404 (since 5*404=2020). So 404 numbers.\n\nNumbers ≡2 mod5: numbers of form 5k+2 ≤2024. Largest k such that 5k+2 ≤2024 => 5k ≤2022 => k ≤ 404.4 => k_max = 404. So k from 0 to 404 inclusive? Wait k=0 gives n=2 (positive). So count = 405? Let's compute: k=0 gives 2, k=1 gives 7, ... up to k=404 gives 5*404+2 = 2022. That's ≤2024. So there are 405 numbers.\n\nBut note we counted n=0 earlier but not positive. For 0 mod5 we counted numbers 5,10,...,2020? Actually includes 5*1=5 up to 2020. Also includes n=0? floor(2024/5)=404 counts multiples of 5 up to 2020 inclusive, not zero. So that's correct.\n\nThus total = 404 + 405 = 809.\n\nCheck if n=2 counted? Yes in second set. So answer 809.\n\nLet's double-check edge cases: n=2024 mod5 = 2024 - 5*404 = 2024-2020=4, not counted. So fine.\n\nThus answer: 809.\n\nProvide reasoning: compute P positions via recursion or using Sprague-Grundy, show pattern 0,2 mod5.\n\nLet's craft final answer.\n</think>\nIn this impartial game a position is **P** (previous player wins) if every legal move\nleads to an **N**‑position, and it is **N** (next player wins) if there is at least one move\nto a **P**‑position.\n\n--------------------------------------------------------------------\n### 1.  Determine the P‑positions\n\nLet \\(P(n)\\) denote “the position with \\(n\\) tokens is a P‑position”.\n\n* \\(P(0)\\) is true (the player to move has no move, so he loses).\n\nFor \\(n\\ge 1\\) the possible moves are to \\(n-1\\) or to \\(n-4\\) (the latter only if \\(n\\ge4\\)).\nHence  \n\n\\[\n\\begin{aligned}\n\\text{N}(n) &\\iff \\bigl(P(n-1)\\text{ or }P(n-4)\\bigr),\\\\[2mm]\n\\text{P}(n) &\\iff \\bigl(\\neg P(n-1)\\text{ and } \\neg P(n-4)\\bigr).\n\\end{aligned}\n\\]\n\nCompute the first few values:\n\n\\[\n\\begin{array}{c|c}\nn & \\text{type}\\\\ \\hline\n0 & P\\\\\n1 & N\\;(0\\text{ is }P)\\\\\n2 & P\\;(1\\text{ is }N)\\\\\n3 & N\\;(2\\text{ is }P)\\\\\n4 & N\\;(0\\text{ is }P)\\\\\n5 & P\\;(4\\text{ is }N)\\\\\n6 & N\\;(5\\text{ is }P)\\\\\n7 & P\\;(6\\text{ is }N)\\\\\n8 & N\\;(7\\text{ is }P)\\\\\n9 & N\\;(5\\text{ is }P)\\\\\n10& P\\;(9\\text{ is }N)\\\\\n\\vdots & \\vdots\n\\end{array}\n\\]\n\nThe P‑positions obtained are  \n\n\\[\n0,\\;2,\\;5,\\;7,\\;10,\\;12,\\;15,\\;17,\\;20,\\dots\n\\]\n\nThe gaps between successive P‑positions are \\(2,3,2,3,\\dots\\); thus the pattern repeats\nevery \\(5\\) numbers.  Consequently\n\n\\[\n\\boxed{n\\text{ is a P‑position } \\Longleftrightarrow n\\equiv 0\\text{ or }2\\pmod 5 } .\n\\]\n\n--------------------------------------------------------------------\n### 2.  When does Bob (the second player) win?\n\nBob wins exactly when the initial number of tokens is a P‑position, because then the\nfirst player (Alice) is in a losing position.  \nHence we must count the positive integers \\(n\\le 2024\\) with  \n\n\\[\nn\\equiv 0\\pmod 5\\quad\\text{or}\\quad n\\equiv 2\\pmod 5 .\n\\]\n\n* Multiples of \\(5\\) not exceeding \\(2024\\):  \n  \\(\\displaystyle \\left\\lfloor\\frac{2024}{5}\\right\\rfloor = 404\\) numbers.\n\n* Numbers congruent to \\(2\\) modulo \\(5\\): they are of the form \\(5k+2\\) with\n  \\(0\\le k\\le 404\\) (since \\(5\\cdot404+2=2022\\)).  \n  This gives \\(404-0+1 = 405\\) numbers.\n\nAdding them,\n\n\\[\n404+405 = 809 .\n\\]\n\n--------------------------------------------------------------------\n\\[\n\\boxed{809}\n\\]\n\nThus, for exactly **809** positive integers \\(n\\le 2024\\) Bob has a forced winning\nstrategy."
+    },
+    "metadata": {
+        "batch": 3,
+        "domain": "aime2024",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "aime2024-3",
+        "correct_answer": "809",
+        "is_human_annotated": false,
+        "correctness": true
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 39,
+            "label": "context",
+            "text": "Alice and Bob play the following game. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 39,
+            "end": 79,
+            "label": "context",
+            "text": "A stack of $n$ tokens lies before them. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 79,
+            "end": 126,
+            "label": "context",
+            "text": "The players take turns with Alice going first. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 126,
+            "end": 206,
+            "label": "context",
+            "text": "On each turn, the player removes either $1$ token or $4$ tokens from the stack. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 206,
+            "end": 243,
+            "label": "context",
+            "text": "Whoever removes the last token wins. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 243,
+            "end": 425,
+            "label": "context",
+            "text": "Find the number of positive integers $n$ less than or equal to $2024$ for which there exists a strategy for Bob that guarantees that Bob will win the game regardless of Alice's play.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 154,
+            "label": "restatement",
+            "text": "We need to find n such that the second player (Bob) has a winning strategy in impartial combinatorial game where moves are removing 1 or 4 tokens. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 154,
+            "end": 225,
+            "label": "reasoning",
+            "text": "This is a normal-play subtraction game with subtraction set S = {1,4}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 225,
+            "end": 314,
+            "label": "fact",
+            "text": "The positions are P-positions (previous player wins) and N-positions (next player wins). ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 314,
+            "end": 414,
+            "label": "fact",
+            "text": "For impartial normal-play, P-positions are those where the next player loses assuming optimal play. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 414,
+            "end": 439,
+            "label": "restatement",
+            "text": "Since Alice moves first, ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 439,
+            "end": 525,
+            "label": "reasoning",
+            "text": "Bob wins if the starting position is a P-position (i.e., losing for the next player). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 525,
+            "end": 577,
+            "label": "planning",
+            "text": "So we need to count n ≤ 2024 that are P-positions.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 577,
+            "end": 619,
+            "label": "planning",
+            "text": "We can compute Grundy or just recurrence: ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 619,
+            "end": 717,
+            "label": "fact",
+            "text": "position n is P if all moves from n go to N positions; N if there exists a move to a P position.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 717,
+            "end": 800,
+            "label": "reasoning",
+            "text": "Base: n=0 (no tokens) is P (previous player already won; next player cannot move). ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 800,
+            "end": 834,
+            "label": "restatement",
+            "text": "But game starts with positive n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 834,
+            "end": 877,
+            "label": "planning",
+            "text": "Compute pattern for subtraction set {1,4}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 877,
+            "end": 909,
+            "label": "planning",
+            "text": "Let's compute modulo something? ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 909,
+            "end": 975,
+            "label": "fact",
+            "text": "Usually subtraction games have periodic pattern after some point. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 975,
+            "end": 999,
+            "label": "planning",
+            "text": "Let's compute small n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 999,
+            "end": 1026,
+            "label": "reasoning",
+            "text": "Let P = losing positions.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1026,
+            "end": 1033,
+            "label": "reasoning",
+            "text": "n=0: P\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1033,
+            "end": 1101,
+            "label": "reasoning",
+            "text": "n=1: can move to 0 (P) by removing 1, so there is a move to P => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1101,
+            "end": 1130,
+            "label": "reasoning",
+            "text": "n=2: moves: remove1 ->1 (N). ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1130,
+            "end": 1152,
+            "label": "reasoning",
+            "text": "remove4 not possible. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1152,
+            "end": 1176,
+            "label": "reasoning",
+            "text": "All moves go to N => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1176,
+            "end": 1210,
+            "label": "reasoning",
+            "text": "n=3: moves: remove1 ->2 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1210,
+            "end": 1256,
+            "label": "reasoning",
+            "text": "n=4: moves: remove1 ->3 (N), remove4 ->0 (P). ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1256,
+            "end": 1297,
+            "label": "reflection",
+            "text": "Since there is a move to P (remove4), N? ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1297,
+            "end": 1344,
+            "label": "restatement",
+            "text": "Wait condition: N if there exists a move to P. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1344,
+            "end": 1376,
+            "label": "reasoning",
+            "text": "Yes, there is remove4 to 0 (P). ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1376,
+            "end": 1389,
+            "label": "reasoning",
+            "text": "So n=4 is N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1389,
+            "end": 1435,
+            "label": "reasoning",
+            "text": "n=5: moves: remove1 ->4 (N), remove4 ->1 (N). ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1435,
+            "end": 1456,
+            "label": "reasoning",
+            "text": "All moves to N => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1456,
+            "end": 1490,
+            "label": "reasoning",
+            "text": "n=6: moves: remove1 ->5 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1490,
+            "end": 1541,
+            "label": "reasoning",
+            "text": "n=7: moves: remove1 ->6 (N), remove4 ->3 (N) => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1541,
+            "end": 1575,
+            "label": "reasoning",
+            "text": "n=8: moves: remove1 ->7 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1575,
+            "end": 1626,
+            "label": "reasoning",
+            "text": "n=9: moves: remove1 ->8 (N), remove4 ->5 (P) => N? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1626,
+            "end": 1679,
+            "label": "reasoning",
+            "text": "Wait there is a move to P (remove4 to 5 which is P). ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1679,
+            "end": 1685,
+            "label": "reasoning",
+            "text": "So N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1685,
+            "end": 1737,
+            "label": "reasoning",
+            "text": "n=10: moves: remove1 ->9 (N), remove4 ->6 (N) => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1737,
+            "end": 1773,
+            "label": "reasoning",
+            "text": "n=11: moves: remove1 ->10 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1773,
+            "end": 1826,
+            "label": "reasoning",
+            "text": "n=12: moves: remove1 ->11 (N), remove4 ->8 (N) => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 1826,
+            "end": 1862,
+            "label": "reasoning",
+            "text": "n=13: moves: remove1 ->12 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 1862,
+            "end": 1934,
+            "label": "reasoning",
+            "text": "n=14: moves: remove1 ->13 (N), remove4 ->10 (P) => N (since move to P). ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 1934,
+            "end": 1971,
+            "label": "reasoning",
+            "text": "Actually there is a move to P, so N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 1971,
+            "end": 2025,
+            "label": "reasoning",
+            "text": "n=15: moves: remove1 ->14 (N), remove4 ->11 (N) => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2025,
+            "end": 2061,
+            "label": "reasoning",
+            "text": "n=16: moves: remove1 ->15 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2061,
+            "end": 2115,
+            "label": "reasoning",
+            "text": "n=17: moves: remove1 ->16 (N), remove4 ->13 (N) => P.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2115,
+            "end": 2151,
+            "label": "reasoning",
+            "text": "n=18: moves: remove1 ->17 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2151,
+            "end": 2205,
+            "label": "reasoning",
+            "text": "n=19: moves: remove1 ->18 (N), remove4 ->15 (P) => N.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2205,
+            "end": 2260,
+            "label": "reasoning",
+            "text": "n=20: moves: remove1 ->19 (N), remove4 ->16 (N) => P.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2260,
+            "end": 2324,
+            "label": "planning",
+            "text": "Let's list P positions: n = 0,2,5,7,10,12,15,17,20,... pattern? ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2324,
+            "end": 2409,
+            "label": "reasoning",
+            "text": "Let's compute differences: 2-0=2,5-2=3,7-5=2,10-7=3,12-10=2,15-12=3,17-15=2,20-17=3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2409,
+            "end": 2438,
+            "label": "reasoning",
+            "text": "So pattern of 2,3 repeating. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2438,
+            "end": 2485,
+            "label": "planning",
+            "text": "So seems P positions are numbers congruent to? ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2485,
+            "end": 2527,
+            "label": "reasoning",
+            "text": "Starting from 0, then +2, +3 alternating. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2527,
+            "end": 2573,
+            "label": "reasoning",
+            "text": "So sequence: 0,2,5,7,10,12,15,17,20,22,25,... ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2573,
+            "end": 2594,
+            "label": "reasoning",
+            "text": "So pattern period 5? ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2594,
+            "end": 2633,
+            "label": "reasoning",
+            "text": "Let's see modulo 5: 0 mod5, 2 mod5, 0? ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 2633,
+            "end": 2719,
+            "label": "reasoning",
+            "text": "5 mod5=0, 7 mod5=2, 10 mod5=0, 12 mod5=2, 15 mod5=0, 17 mod5=2, 20 mod5=0, 22 mod5=2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 2719,
+            "end": 2783,
+            "label": "reasoning",
+            "text": "So indeed P positions are numbers congruent to 0 or 2 modulo 5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 2783,
+            "end": 2841,
+            "label": "planning",
+            "text": "Let's verify further: n=22 predicted P (since 22 mod5=2). ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 2841,
+            "end": 2870,
+            "label": "planning",
+            "text": "Let's compute quickly: n=21? ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 2870,
+            "end": 2882,
+            "label": "reflection",
+            "text": "Not needed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 2882,
+            "end": 2924,
+            "label": "reasoning",
+            "text": "Let's test n=22: moves: 22-1=21, 22-4=18. ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 2924,
+            "end": 2957,
+            "label": "planning",
+            "text": "Need to know if 21 and 18 are N. ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 2957,
+            "end": 2971,
+            "label": "reasoning",
+            "text": "18 we have N. ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 2971,
+            "end": 2975,
+            "label": "planning",
+            "text": "21? ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 2975,
+            "end": 3020,
+            "label": "reasoning",
+            "text": "Let's compute: 21 moves to 20 (P) or 17 (P). ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3020,
+            "end": 3046,
+            "label": "reasoning",
+            "text": "Since there is move to P, ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3046,
+            "end": 3055,
+            "label": "reasoning",
+            "text": "21 is N. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3055,
+            "end": 3091,
+            "label": "reasoning",
+            "text": "So both moves from 22 go to N => P. ",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 3091,
+            "end": 3099,
+            "label": "reflection",
+            "text": "Works.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 3099,
+            "end": 3155,
+            "label": "reasoning",
+            "text": "Thus pattern holds: P positions are n ≡ 0 or 2 (mod 5). ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 3155,
+            "end": 3234,
+            "label": "fact",
+            "text": "Let's prove: For subtraction set {1,4}, the mex leads to periodic of length 5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 3234,
+            "end": 3243,
+            "label": "reflection",
+            "text": "Indeed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 3243,
+            "end": 3295,
+            "label": "reasoning",
+            "text": "Thus Bob (second player) wins when starting n is P, ",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 3295,
+            "end": 3320,
+            "label": "reasoning",
+            "text": "i.e., n ≡ 0 or 2 mod 5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 3320,
+            "end": 3388,
+            "label": "planning",
+            "text": "We need count of positive integers n ≤ 2024 with n ≡ 0 or 2 mod 5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 3388,
+            "end": 3429,
+            "label": "planning",
+            "text": "Count numbers ≤2024 congruent to 0 mod5: ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 3429,
+            "end": 3469,
+            "label": "reasoning",
+            "text": "floor(2024/5) = 404 (since 5*404=2020). ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 3469,
+            "end": 3486,
+            "label": "reasoning",
+            "text": "So 404 numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 3486,
+            "end": 3531,
+            "label": "planning",
+            "text": "Numbers ≡2 mod5: numbers of form 5k+2 ≤2024. ",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 3531,
+            "end": 3603,
+            "label": "reasoning",
+            "text": "Largest k such that 5k+2 ≤2024 => 5k ≤2022 => k ≤ 404.4 => k_max = 404. ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 3603,
+            "end": 3633,
+            "label": "planning",
+            "text": "So k from 0 to 404 inclusive? ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 3633,
+            "end": 3664,
+            "label": "reasoning",
+            "text": "Wait k=0 gives n=2 (positive). ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 3664,
+            "end": 3680,
+            "label": "reasoning",
+            "text": "So count = 405? ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 3680,
+            "end": 3695,
+            "label": "planning",
+            "text": "Let's compute: ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 3695,
+            "end": 3759,
+            "label": "reasoning",
+            "text": "k=0 gives 2, k=1 gives 7, ... up to k=404 gives 5*404+2 = 2022. ",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 3759,
+            "end": 3773,
+            "label": "reasoning",
+            "text": "That's ≤2024. ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 3773,
+            "end": 3800,
+            "label": "reasoning",
+            "text": "So there are 405 numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 3800,
+            "end": 3850,
+            "label": "reflection",
+            "text": "But note we counted n=0 earlier but not positive. ",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 3850,
+            "end": 3895,
+            "label": "reasoning",
+            "text": "For 0 mod5 we counted numbers 5,10,...,2020? ",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 3895,
+            "end": 3931,
+            "label": "reasoning",
+            "text": "Actually includes 5*1=5 up to 2020. ",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 3931,
+            "end": 3950,
+            "label": "reflection",
+            "text": "Also includes n=0? ",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 3950,
+            "end": 4022,
+            "label": "reasoning",
+            "text": "floor(2024/5)=404 counts multiples of 5 up to 2020 inclusive, not zero. ",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 4022,
+            "end": 4042,
+            "label": "reflection",
+            "text": "So that's correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 4042,
+            "end": 4073,
+            "label": "reasoning",
+            "text": "Thus total = 404 + 405 = 809.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 4073,
+            "end": 4095,
+            "label": "planning",
+            "text": "Check if n=2 counted? ",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 4095,
+            "end": 4114,
+            "label": "reasoning",
+            "text": "Yes in second set. ",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 4114,
+            "end": 4130,
+            "label": "conclusion",
+            "text": "So answer 809.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 4130,
+            "end": 4161,
+            "label": "planning",
+            "text": "Let's double-check edge cases: ",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 4161,
+            "end": 4216,
+            "label": "reasoning",
+            "text": "n=2024 mod5 = 2024 - 5*404 = 2024-2020=4, not counted. ",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 4216,
+            "end": 4226,
+            "label": "reflection",
+            "text": "So fine.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 4226,
+            "end": 4245,
+            "label": "conclusion",
+            "text": "Thus answer: 809.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 4245,
+            "end": 4264,
+            "label": "planning",
+            "text": "Provide reasoning: ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 4264,
+            "end": 4323,
+            "label": "planning",
+            "text": "compute P positions via recursion or using Sprague-Grundy, ",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 4323,
+            "end": 4347,
+            "label": "planning",
+            "text": "show pattern 0,2 mod5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 4347,
+            "end": 4373,
+            "label": "planning",
+            "text": "Let's craft final answer.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 4373,
+            "end": 4382,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 4382,
+            "end": 4496,
+            "label": "fact",
+            "text": "In this impartial game a position is **P** (previous player wins) if every legal move\nleads to an **N**‑position, ",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 4496,
+            "end": 4583,
+            "label": "fact",
+            "text": "and it is **N** (next player wins) if there is at least one move\nto a **P**‑position.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 4583,
+            "end": 4652,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 4652,
+            "end": 4687,
+            "label": "planning",
+            "text": "### 1.  Determine the P‑positions\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 4687,
+            "end": 4758,
+            "label": "reasoning",
+            "text": "Let \\(P(n)\\) denote “the position with \\(n\\) tokens is a P‑position”.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 4758,
+            "end": 4825,
+            "label": "reasoning",
+            "text": "* \\(P(0)\\) is true (the player to move has no move, so he loses).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 4825,
+            "end": 4920,
+            "label": "restatement",
+            "text": "For \\(n\\ge 1\\) the possible moves are to \\(n-1\\) or to \\(n-4\\) (the latter only if \\(n\\ge4\\)).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 4920,
+            "end": 5095,
+            "label": "reasoning",
+            "text": "Hence  \n\n\\[\n\\begin{aligned}\n\\text{N}(n) &\\iff \\bigl(P(n-1)\\text{ or }P(n-4)\\bigr),\\\\[2mm]\n\\text{P}(n) &\\iff \\bigl(\\neg P(n-1)\\text{ and } \\neg P(n-4)\\bigr).\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 5095,
+            "end": 5126,
+            "label": "planning",
+            "text": "Compute the first few values:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 5126,
+            "end": 5463,
+            "label": "reasoning",
+            "text": "\\[\n\\begin{array}{c|c}\nn & \\text{type}\\\\ \\hline\n0 & P\\\\\n1 & N\\;(0\\text{ is }P)\\\\\n2 & P\\;(1\\text{ is }N)\\\\\n3 & N\\;(2\\text{ is }P)\\\\\n4 & N\\;(0\\text{ is }P)\\\\\n5 & P\\;(4\\text{ is }N)\\\\\n6 & N\\;(5\\text{ is }P)\\\\\n7 & P\\;(6\\text{ is }N)\\\\\n8 & N\\;(7\\text{ is }P)\\\\\n9 & N\\;(5\\text{ is }P)\\\\\n10& P\\;(9\\text{ is }N)\\\\\n\\vdots & \\vdots\n\\end{array}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 5463,
+            "end": 5547,
+            "label": "reasoning",
+            "text": "The P‑positions obtained are  \n\n\\[\n0,\\;2,\\;5,\\;7,\\;10,\\;12,\\;15,\\;17,\\;20,\\dots\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 5547,
+            "end": 5610,
+            "label": "reasoning",
+            "text": "The gaps between successive P‑positions are \\(2,3,2,3,\\dots\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 5610,
+            "end": 5657,
+            "label": "reasoning",
+            "text": "thus the pattern repeats\nevery \\(5\\) numbers.  ",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 5657,
+            "end": 5764,
+            "label": "reasoning",
+            "text": "Consequently\n\n\\[\n\\boxed{n\\text{ is a P‑position } \\Longleftrightarrow n\\equiv 0\\text{ or }2\\pmod 5 } .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 5764,
+            "end": 5833,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 5833,
+            "end": 5881,
+            "label": "planning",
+            "text": "### 2.  When does Bob (the second player) win?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": true,
+            "start": 5881,
+            "end": 5949,
+            "label": "reasoning",
+            "text": "Bob wins exactly when the initial number of tokens is a P‑position, ",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": true,
+            "start": 5949,
+            "end": 6014,
+            "label": "reasoning",
+            "text": "because then the\nfirst player (Alice) is in a losing position.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": true,
+            "start": 6014,
+            "end": 6140,
+            "label": "reasoning",
+            "text": "Hence we must count the positive integers \\(n\\le 2024\\) with  \n\n\\[\nn\\equiv 0\\pmod 5\\quad\\text{or}\\quad n\\equiv 2\\pmod 5 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": true,
+            "start": 6140,
+            "end": 6263,
+            "label": "reasoning",
+            "text": "* Multiples of \\(5\\) not exceeding \\(2024\\):  \n  \\(\\displaystyle \\left\\lfloor\\frac{2024}{5}\\right\\rfloor = 404\\) numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": true,
+            "start": 6263,
+            "end": 6306,
+            "label": "planning",
+            "text": "* Numbers congruent to \\(2\\) modulo \\(5\\): ",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": true,
+            "start": 6306,
+            "end": 6395,
+            "label": "reasoning",
+            "text": "they are of the form \\(5k+2\\) with\n  \\(0\\le k\\le 404\\) (since \\(5\\cdot404+2=2022\\)).  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": true,
+            "start": 6395,
+            "end": 6434,
+            "label": "reasoning",
+            "text": "This gives \\(404-0+1 = 405\\) numbers.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": true,
+            "start": 6434,
+            "end": 6471,
+            "label": "reasoning",
+            "text": "Adding them,\n\n\\[\n404+405 = 809 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": true,
+            "start": 6471,
+            "end": 6540,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": true,
+            "start": 6540,
+            "end": 6559,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{809}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": true,
+            "start": 6559,
+            "end": 6651,
+            "label": "conclusion",
+            "text": "Thus, for exactly **809** positive integers \\(n\\le 2024\\) Bob has a forced winning\nstrategy.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp5",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp10",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp11",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp12",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp14",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp15",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp19",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp25",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp61",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp64",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp71",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp72",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp76",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp79",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp80",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp81",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp81",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp82",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp82",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp82",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp83",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp83",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp84",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp86",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp88",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp91",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp93",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp95",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp96",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp98",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp99",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp100",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp101",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp101",
+            "label": "validate:support"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp104",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp105",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp107",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp108",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp109",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp110",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp110",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp111",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp112",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp112",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp113",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp115",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp116",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp117",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp118",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp121",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp122",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp123",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp127",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp126",
+            "dest_node_id": "resp127",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp128",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp128",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp128",
+            "dest_node_id": "resp129",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp126",
+            "dest_node_id": "resp130",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp129",
+            "dest_node_id": "resp130",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp131",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp132",
+            "label": "validate:support"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp132",
+            "label": "validate:support"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp132",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp133",
+            "label": "validate:support"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp133",
+            "label": "validate:support"
+        },
+        {
+            "id": "e238",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp133",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e239",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp133",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e240",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp133",
+            "label": "validate:support"
+        }
+    ]
+}

@@ -1,0 +1,2550 @@
+{
+    "doc_id": "bright-theoremqa_theorems_57_QwQ-32B",
+    "raw_text": {
+        "question": "Imagine you're creating a unique code for a special online discount. The code is 7 characters long and must be made using the numbers 1, 2 (twice), 3 (four times). How many different codes can you create ensuring each code uses all the numbers exactly as specified?\n\nRetrieved documents:\n[Document 1]\n\\section{Error Detection Capability of Linear Code}\nTags: Linear Codes\n\n\\begin{theorem}\nLet $C$ be a linear code.\nLet $C$ have a minimum distance $d$.\nThen $C$ detects $d - 1$ or fewer transmission errors.\n\\end{theorem}\n\n\\begin{proof}\nLet $C$ be a linear code whose master code is $V$.\nLet $c \\in C$ be a transmitted codeword.\nLet $v$ be the received word from $c$.\nBy definition, $v$ is an element of $V$.\nLet $v$ have a distance $f$ from $c$, where $f \\le d - 1$.\nThus there have been $f$ transmission errors.\nAs $d$ is the minimum distance it is clear that $v$ cannot be a codeword of $C$.\nHence it can be understood that $C$ has detected that $v$ has as many as $d - 1$ transmission errors.\n{{Qed}}\n\\end{proof}\n\n\n\n[Document 2]\n\\section{Conditions Satisfied by Linear Code}\nTags: Linear Codes\n\n\\begin{theorem}\nLet $p$ be a prime number.\nLet $\\Z_p$ be the set of residue classes modulo $p$.\nLet $C := \\tuple {n, k}$ be a linear code of a master code $\\map V {n, p}$.\nThen $C$ satisfies the following conditions:\n:$(C \\, 1): \\quad \\forall \\mathbf x, \\mathbf y \\in C: \\mathbf x + \\paren {-\\mathbf y} \\in C$\n:$(C \\, 2): \\quad \\forall \\mathbf x \\in C, m \\in \\Z_p: m \\times \\mathbf x \\in C$\nwhere $+$ and $\\times$ are the operations of codeword addition and codeword multiplication respectively.\n{{expand|Add a page defining the difference between codewords.}}\n\\end{theorem}\n\n\\begin{proof}\nFrom Master Code forms Vector Space, $\\map V {n, p}$ is a vector space.\nBy definition, $\\tuple {n, k}$ is a subspace of $\\map V {n, p}$.\nThe result follows by the fact that a subspace is itself a vector space.\n{{finish|I lose patience with the fine detail.}}\n\\end{proof}\n\n\n\n[Document 3]\n\\section{Not All URM Computable Functions are Primitive Recursive}\nTags: Primitive Recursive Functions, URM Programs\n\n\\begin{theorem}\nThere exist URM computable functions which are not primitive recursive.\n\\end{theorem}\n\n\\begin{proof}\nConsider the basic primitive recursive functions.\nTo each basic primitive recursive function $f$ let us assign a code number $\\map \\delta f$, as follows:\n* $\\map \\delta {\\operatorname{zero} } = 3$\n* $\\map \\delta {\\operatorname{succ} } = 9$\n* $\\forall k, m \\in \\N^*: m \\le k: \\map \\delta {\\pr^k_m} = 2^k 3^m$\nSuppose the function $h$ is defined by substitution from the functions $f, g_1, g_2, \\ldots, g_t$ to which we have already assigned code numbers.\nThen we put:\n:$\\map \\delta h = 2^{\\map \\delta f} 3^{\\map \\delta {g_1} } 5^{\\map \\delta {g_2} } \\cdots  p_{t + 1}^{\\map \\delta {g_t} } + 1$\nSuppose the function $h$ is defined by primitive recursion from the functions $f$ and $g$ to which we have already assigned code numbers.\nThen we put:\n:$\\map \\delta h = 2^{\\map \\delta f} 3^{\\map \\delta g} + 2$\nThus we assign a '''code number''' to every definition of a primitive recursive function.\nGiven any natural number $m$ we can determine whether $m$ is the code number for a definition of a primitive recursive function, and if so, work out what definition it encodes.\nIn particular, given any such $m$ we can work out whether it encodes a primitive recursive function $f: \\N \\to \\N$, and determine how $f$ is built up from basic primitive recursive functions on up.\nFrom this definition, we can compute all the values of $f$ for all inputs $n \\in \\N$.\nSo, we define the function $\\Phi: \\N^2 \\to \\N$ as follows:\n:$\\map \\Phi {m, n} = \\begin{cases}\n\\map f n & : \\text{if } m \\text { codes a definition of the primitive recursive function } f: \\N \\to \\N \\\\\n0 & : \\text{otherwise}\n\\end{cases}$\nIt is deducible by arguments derived from proofs of the various primitive recursive functions that there is a URM program for computing the values of $\\Phi$.\nThat is, $\\Phi$ can be shown to be URM computable\nNow we apply Cantor's Diagonal Argument to create the following URM computable function $g: \\N \\to \\N$:\n:$\\map g n = \\map \\Phi {n, n} + 1$\nWe have that $\\Phi$ is URM computable.\nSo it follows that $\\map g n$ is also URM computable.\nNow, let $f$ be a primitive recursive function and let $m$ code some definition of $f$.\nSo, for all $n \\in \\N$, we have:\n:$\\map f n = \\map \\Phi {m, n}$\nThus $\\map f m = \\map \\Phi {m, m}$.\nNow, since $\\map g m = \\map \\Phi {m, m} + 1$, we see that $\\map g m \\ne \\map f m$, whatever $f$ may happen to be.\nHence $g \\ne f$.\nSo $g$ is different from any primitive recursive function $f$ that we care to devise.\nTherefore $g$ is a URM computable function which is not primitive recursive.\nHence the result.\n{{qed}}\nCategory:URM Programs\nCategory:Primitive Recursive Functions\n\\end{proof}\n\n\n\n[Document 4]\n\\section{State Code Function is Primitive Recursive}\nTags: Primitive Recursive Functions, URM Programs\n\n\\begin{theorem}\nLet $k \\in \\N^*$.\nLet $e = \\gamma \\left({P}\\right)$ be the code number of a URM program $P$.\nLet $\\left({n_1, n_2, \\ldots, n_k}\\right)$ be the input of $P$.\nLet $S_k: \\N^{k+2} \\to \\N$ be the function defined as:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ is the state code for $P$ at stage $t$ of computation of $P$.\nIf $e$ does not code a URM Program then $S_k = 0$.\nAlso, if $P$ terminates at stage $t_0$, then we put:\n:$\\forall t > t_0: S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right) = S_k \\left({e, n_1, n_2, \\ldots, n_k, t_0}\\right)$.\nThen for all $k \\ge 1$, the function $S_k$ is primitive recursive.\n\\end{theorem}\n\n\\begin{proof}\nIt can easily be seen that $S_k$ is a total function.\nSuppose $e = \\gamma \\left({P}\\right)$ for some URM program $P$.\nAt stage $0$, we are about to carry out instruction $1$ with the input $\\left({n_1, n_2, \\ldots, n_k}\\right)$.\nSo we have:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right) = \\begin{cases}\n2^1 3^{n_1} 5^{n_2} \\cdots p_{k+1}^{n_k} & : e \\in \\operatorname{Prog} \\\\\n0 & : \\text{otherwise}\n\\end{cases}$\nwhere $\\operatorname{Prog}$ is the set of code numbers of all URM programs.\nWe see that $S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right)$ does not actually depend upon the actual program being run, beyond the fact that it matters whether it actually ''is'' a program or not.\nNow $\\operatorname{Prog}$ is a primitive recursive set.\nSo from results about primitive recursive functions, the relations defining the cases are primitive recursive.\nWe can also deduce from various results about primitive recursive functions that the functions given by the formulas $2^1 3^{n_1} 5^{n_2} \\cdots p_{k+1}^{n_k}$ and $0$ are primitive recursive.\nIn particular, we use the results:\n* Multiplication is Primitive Recursive;\n* Exponentiation is Primitive Recursive;\n* Prime Enumeration Function is Primitive Recursive.\nSo from Definition by Cases is Primitive Recursive, $S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right)$ is primitive recursive.\nNow we want to be able to express $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ in terms of $e, \\left({n_1, n_2, \\ldots, n_k}\\right), t$ and $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ using known primitive recursive functions.\nWe need to consider a number of cases:\n#$e$ does not code a URM program;\n#$e = \\gamma \\left({P}\\right)$ and the computation halts at stage $t$ or earlier;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Zero</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Successor</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Copy</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Jump</tt> instruction.\nThese cases are clearly mutually exclusive and exhaustive.\nFirst we need to check that each case corresponds to a primitive recursive relation.\n* The set $\\operatorname{Prog}$ is primitive recursive so its complement is also primitive recursive.\nSo 1. is a primitive recursive relation.\n* So we have that $e$ codes a URM program. Call that program $P$.\nFrom the definition of state code, we see that if a computation halts at stage $t$ or earlier, then the number of the instruction to be carried out at stage $t$ is greater than the number of instructions in $P$.\nFrom the definition of the code number of $P$, the number of instructions in $P$ is $\\operatorname{len} \\left({e}\\right)$ where $\\operatorname{len} \\left({e}\\right)$ is the length of $e$, which is primitive recursive.\nNow let $r = S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$.\nLet $\\left({r}\\right)_j$ be defined as the prime exponent function.\nBy the definition of the state code, the number of the instruction to be carried out at stage $t$ is $\\left({r}\\right)_1$, which is primitive recursive.\nSo 2. can be expressed as:\n:$e \\in \\operatorname{Prog} \\text { and } \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1 > \\operatorname{len} \\left({e}\\right)$\nBoth $\\operatorname{Prog}$ and $\\left({r}\\right)_1$ are primitive recursive, so from Set Operations on Primitive Recursive Relations, 2. is a primitive recursive relation.\n* So, let the number of the instruction to be carried out at stage $t$ be $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\nFrom the definition of the code number of $P$, the code number of this instruction is $\\left({e}\\right)_a$.\nNow from Set of Codes for URM Instructions is Primitive Recursive, each of the sets $\\operatorname{Zinstr}$, $\\operatorname{Sinstr}$, $\\operatorname{Cinstr}$ and $\\operatorname{Jinstr}$ are primitive recursive.\nSo each of 3. to 6. above can be expressed as:\n:$e \\in \\operatorname{Prog} \\text { and } a \\le \\operatorname{len} \\left({e}\\right) \\text { and } \\left({e}\\right)_a \\in \\operatorname{Instr}$\nand is a primitive recursive relation.\nSo relations 1. to 6. are all primitive recursive.\nNow we need to show how, in each case, $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ can be obtained from $e, \\left({n_1, n_2, \\ldots, n_k}\\right), t$ and $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ using known primitive recursive functions.\nFirst, if $e$ does not code a URM program then $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = 0$, which is primitive recursive.\nSecond, we have adopted the convention that if $P$ has halted, then $S_k$ does not change.\nSo if $P$ halts at or before stage $t$, we have that $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$\nNext, we look at the individual commands.\nAs an example we will investigate the <tt>Successor</tt> command. The others are treated similarly.\nSuppose the instruction to be carried out at stage $t$ is a <tt>Successor</tt> command.\nWe know that the code number $c$ is given by $c = \\left({e}\\right)_a$ where $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\nSuppose the instruction is $S \\left({n}\\right)$. Then $c = 6 n$.\nSo $n = \\operatorname{quot} \\left({6, n}\\right)$ which is recursive from Quotient is Primitive Recursive.\nThis instruction adds $1$ to the number in $R_n$.\nThis increases the exponent $p_{n+1}$ in the state code by $1$.\nThis is achieved by multiplying $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ by $p \\left({n+1}\\right)$, where $p \\left({n+1}\\right)$ is the prime enumeration function which is primitive recursive.\nSince the instruction to be carried out at stage $t$ is a <tt>Successor</tt> the instruction number at stage $t+1$ is $a+1$ so the factor $2^a$ in $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ is replaced by $2^{a+1}$.\nSo:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = 2 \\times p_{n+1} \\times S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$\nwhere $n = \\operatorname{quot} \\left({6, n}\\right)$, $c = \\left({e}\\right)_a$ and $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\nThis is the required expression for $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ obtained by substitution from primitive recursive functions.\nThe proofs for $\\operatorname{Zinstr}$, $\\operatorname{Cinstr}$ and $\\operatorname{Jinstr}$ are along the same lines.\nIn each case, the value of $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ can be obtained by substitution from primitive recursive functions (but I'd hate to have to do the calculations on my fingers).\nThus by Definition by Cases is Primitive Recursive, $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ is primitive recursive.\nHence $S_k$ is defined by primitive recursion from functions known to be primitive recursive.\nHence the result.\n{{qed}}\n\\end{proof}\n\n\n\n[Document 5]\n\\section{Multinomial Theorem}\nTags: Multinomial Coefficients, Binomial Coefficients, Discrete Mathematics, Proofs by Induction, Algebra\n\n\\begin{theorem}\nLet $x_1, x_2, \\ldots, x_k \\in F$, where $F$ is a field.\nThen:\n:$\\ds \\paren {x_1 + x_2 + \\cdots + x_m}^n = \\sum_{k_1 \\mathop + k_2 \\mathop + \\mathop \\cdots \\mathop + k_m \\mathop = n} \\binom n {k_1, k_2, \\ldots, k_m} {x_1}^{k_1} {x_2}^{k_2} \\cdots {x_m}^{k_m}$\nwhere:\n:$m \\in \\Z_{> 0}$ is a positive integer\n:$n \\in \\Z_{\\ge 0}$ is a non-negative integer\n:$\\dbinom n {k_1, k_2, \\ldots, k_m} = \\dfrac {n!} {k_1! \\, k_2! \\, \\cdots k_m!}$ denotes a multinomial coefficient.\nThe sum is taken for all non-negative integers $k_1, k_2, \\ldots, k_m$ such that $k_1 + k_2 + \\cdots + k_m = n$, and with the understanding that wherever $0^0$ may appear  it shall be considered to have a value of $1$.\nThe '''multinomial theorem''' is a generalization of the Binomial Theorem.\n\\end{theorem}\n\n\\begin{proof}\nThe proof proceeds by induction on $m$.\nFor each $m \\in \\N_{\\ge 1}$, let $\\map P m$ be the proposition:\n:$\\ds \\forall n \\in \\N: \\paren {x_1 + x_2 + \\cdots + x_m}^n = \\sum_{k_1 \\mathop + k_2 \\mathop + \\mathop \\cdots \\mathop + k_m \\mathop = n} \\binom n {k_1, k_2, \\ldots, k_m} {x_1}^{k_1} {x_2}^{k_2} \\cdots {x_m}^{k_m}$\n\\end{proof}\n\n",
+        "response": "<think>\nOkay, let's see. The problem is about creating a unique code for a discount. The code has to be 7 characters long and use the numbers 1, 2 (twice), and 3 (four times). Wait, hold on. Let me parse that again. The code is made using the numbers 1, 2 (twice), 3 (four times). So does that mean we have to use each of these numbers exactly as specified? Like, the number 1 once, 2 twice, and 3 four times? But wait, 1 + 2 + 4 equals 7. Oh right, because the code is 7 characters long. So we have to arrange these numbers where 1 appears once, 2 appears twice, and 3 appears four times. So the problem is essentially asking how many distinct permutations there are of the multiset {1, 2, 2, 3, 3, 3, 3}.\n\nSo the formula for permutations of a multiset is n! divided by the product of the factorials of the counts of each distinct element. In this case, n is 7 (total characters), and the counts are 1 for 1, 2 for 2, and 4 for 3. Therefore, the number of different codes is 7! divided by (1! * 2! * 4!). Let me compute that.\n\nFirst, 7! is 5040. Then 1! is 1, 2! is 2, 4! is 24. Multiplying those denominators: 1 * 2 * 24 = 48. Then 5040 divided by 48. Let me do that division. 5040 / 48. Let's divide 5040 by 48. 48 * 100 is 4800. 5040 - 4800 is 240. 48 * 5 is 240. So total is 100 + 5 = 105. So the answer should be 105 different codes.\n\nWait, but let me check if I interpreted the problem correctly. The problem says \"using the numbers 1, 2 (twice), 3 (four times)\". So does that mean exactly those counts? Yes, because the total is 1 + 2 + 4 = 7, which matches the code length. So each code must contain exactly one 1, two 2s, and four 3s. Therefore, the number of permutations is indeed 7! / (1! 2! 4!) = 105. \n\nLooking at the documents provided, none of them directly relate to permutations of a multiset. Document 5 is about the multinomial theorem, which is related. The multinomial coefficient is exactly what we need here. The multinomial coefficient for dividing n items into groups of sizes k1, k2, ..., km is n! / (k1! k2! ... km!), which is exactly the formula I used. So that confirms that the answer is 105. Therefore, the number of different codes is 105.\n</think>\n\nTo determine the number of unique 7-character codes that can be created using the numbers **1 (once), 2 (twice), and 3 (four times)**, we are essentially calculating the number of **distinct permutations** of a multiset.\n\n---\n\n### Step-by-Step Breakdown\n\nWe are given:\n- The total number of characters in the code: **7**\n- The number of times each digit appears:\n  - **1** appears **1** time\n  - **2** appears **2** times\n  - **3** appears **4** times\n\nThis is a classic problem of **permuting a multiset**, where some elements are repeated. The formula for the number of distinct permutations of a multiset is:\n\n$$\n\\text{Number of permutations} = \\frac{n!}{k_1! \\cdot k_2! \\cdot \\ldots \\cdot k_m!}\n$$\n\nWhere:\n- $ n $ is the total number of items (characters in the code),\n- $ k_1, k_2, \\ldots, k_m $ are the frequencies of each distinct item.\n\n---\n\n### Applying the Formula\n\nIn our case:\n- $ n = 7 $\n- $ k_1 = 1 $ (for the digit 1)\n- $ k_2 = 2 $ (for the digit 2)\n- $ k_3 = 4 $ (for the digit 3)\n\n$$\n\\text{Number of codes} = \\frac{7!}{1! \\cdot 2! \\cdot 4!}\n$$\n\nNow compute the factorials:\n- $ 7! = 5040 $\n- $ 1! = 1 $\n- $ 2! = 2 $\n- $ 4! = 24 $\n\n$$\n\\text{Number of codes} = \\frac{5040}{1 \\cdot 2 \\cdot 24} = \\frac{5040}{48} = 105\n$$\n\n---\n\n### Final Answer\n\n$$\n\\boxed{105}\n$$\n\nThere are **105** different 7-character codes that can be created using the numbers **1 (once), 2 (twice), and 3 (four times)**."
+    },
+    "metadata": {
+        "batch": 57,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "QwQ-32B",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_jianyu_xu/Multinomial_4.json",
+        "correct_answer": null,
+        "is_human_annotated": false,
+        "correctness": null
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 69,
+            "label": "context",
+            "text": "Imagine you're creating a unique code for a special online discount. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 69,
+            "end": 164,
+            "label": "context",
+            "text": "The code is 7 characters long and must be made using the numbers 1, 2 (twice), 3 (four times). ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 164,
+            "end": 267,
+            "label": "context",
+            "text": "How many different codes can you create ensuring each code uses all the numbers exactly as specified?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 267,
+            "end": 288,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 288,
+            "end": 415,
+            "label": "context",
+            "text": "[Document 1]\n\\section{Error Detection Capability of Linear Code}\nTags: Linear Codes\n\n\\begin{theorem}\nLet $C$ be a linear code.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 415,
+            "end": 452,
+            "label": "context",
+            "text": "Let $C$ have a minimum distance $d$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 452,
+            "end": 507,
+            "label": "context",
+            "text": "Then $C$ detects $d - 1$ or fewer transmission errors.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 507,
+            "end": 522,
+            "label": "context",
+            "text": "\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 522,
+            "end": 587,
+            "label": "context",
+            "text": "\\begin{proof}\nLet $C$ be a linear code whose master code is $V$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 587,
+            "end": 628,
+            "label": "context",
+            "text": "Let $c \\in C$ be a transmitted codeword.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 628,
+            "end": 667,
+            "label": "context",
+            "text": "Let $v$ be the received word from $c$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 667,
+            "end": 708,
+            "label": "context",
+            "text": "By definition, $v$ is an element of $V$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 708,
+            "end": 767,
+            "label": "context",
+            "text": "Let $v$ have a distance $f$ from $c$, where $f \\le d - 1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 767,
+            "end": 813,
+            "label": "context",
+            "text": "Thus there have been $f$ transmission errors.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 813,
+            "end": 894,
+            "label": "context",
+            "text": "As $d$ is the minimum distance it is clear that $v$ cannot be a codeword of $C$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 894,
+            "end": 996,
+            "label": "context",
+            "text": "Hence it can be understood that $C$ has detected that $v$ has as many as $d - 1$ transmission errors.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 996,
+            "end": 1019,
+            "label": "context",
+            "text": "{{Qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 1019,
+            "end": 1141,
+            "label": "context",
+            "text": "[Document 2]\n\\section{Conditions Satisfied by Linear Code}\nTags: Linear Codes\n\n\\begin{theorem}\nLet $p$ be a prime number.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 1141,
+            "end": 1194,
+            "label": "context",
+            "text": "Let $\\Z_p$ be the set of residue classes modulo $p$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 1194,
+            "end": 1270,
+            "label": "context",
+            "text": "Let $C := \\tuple {n, k}$ be a linear code of a master code $\\map V {n, p}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 1270,
+            "end": 1594,
+            "label": "context",
+            "text": "Then $C$ satisfies the following conditions:\n:$(C \\, 1): \\quad \\forall \\mathbf x, \\mathbf y \\in C: \\mathbf x + \\paren {-\\mathbf y} \\in C$\n:$(C \\, 2): \\quad \\forall \\mathbf x \\in C, m \\in \\Z_p: m \\times \\mathbf x \\in C$\nwhere $+$ and $\\times$ are the operations of codeword addition and codeword multiplication respectively.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 1594,
+            "end": 1674,
+            "label": "context",
+            "text": "{{expand|Add a page defining the difference between codewords.}}\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 1674,
+            "end": 1760,
+            "label": "context",
+            "text": "\\begin{proof}\nFrom Master Code forms Vector Space, $\\map V {n, p}$ is a vector space.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 1760,
+            "end": 1825,
+            "label": "context",
+            "text": "By definition, $\\tuple {n, k}$ is a subspace of $\\map V {n, p}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 1825,
+            "end": 1898,
+            "label": "context",
+            "text": "The result follows by the fact that a subspace is itself a vector space.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 1898,
+            "end": 1962,
+            "label": "context",
+            "text": "{{finish|I lose patience with the fine detail.}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 1962,
+            "end": 2181,
+            "label": "context",
+            "text": "[Document 3]\n\\section{Not All URM Computable Functions are Primitive Recursive}\nTags: Primitive Recursive Functions, URM Programs\n\n\\begin{theorem}\nThere exist URM computable functions which are not primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 2181,
+            "end": 2196,
+            "label": "context",
+            "text": "\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 2196,
+            "end": 2260,
+            "label": "context",
+            "text": "\\begin{proof}\nConsider the basic primitive recursive functions.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 2260,
+            "end": 2518,
+            "label": "context",
+            "text": "To each basic primitive recursive function $f$ let us assign a code number $\\map \\delta f$, as follows:\n* $\\map \\delta {\\operatorname{zero} } = 3$\n* $\\map \\delta {\\operatorname{succ} } = 9$\n* $\\forall k, m \\in \\N^*: m \\le k: \\map \\delta {\\pr^k_m} = 2^k 3^m$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 2518,
+            "end": 2664,
+            "label": "context",
+            "text": "Suppose the function $h$ is defined by substitution from the functions $f, g_1, g_2, \\ldots, g_t$ to which we have already assigned code numbers.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 2664,
+            "end": 2803,
+            "label": "context",
+            "text": "Then we put:\n:$\\map \\delta h = 2^{\\map \\delta f} 3^{\\map \\delta {g_1} } 5^{\\map \\delta {g_2} } \\cdots  p_{t + 1}^{\\map \\delta {g_t} } + 1$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 2803,
+            "end": 2941,
+            "label": "context",
+            "text": "Suppose the function $h$ is defined by primitive recursion from the functions $f$ and $g$ to which we have already assigned code numbers.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 2941,
+            "end": 3013,
+            "label": "context",
+            "text": "Then we put:\n:$\\map \\delta h = 2^{\\map \\delta f} 3^{\\map \\delta g} + 2$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 3013,
+            "end": 3103,
+            "label": "context",
+            "text": "Thus we assign a '''code number''' to every definition of a primitive recursive function.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 3103,
+            "end": 3280,
+            "label": "context",
+            "text": "Given any natural number $m$ we can determine whether $m$ is the code number for a definition of a primitive recursive function, and if so, work out what definition it encodes.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 3280,
+            "end": 3478,
+            "label": "context",
+            "text": "In particular, given any such $m$ we can work out whether it encodes a primitive recursive function $f: \\N \\to \\N$, and determine how $f$ is built up from basic primitive recursive functions on up.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 3478,
+            "end": 3564,
+            "label": "context",
+            "text": "From this definition, we can compute all the values of $f$ for all inputs $n \\in \\N$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 3564,
+            "end": 3801,
+            "label": "context",
+            "text": "So, we define the function $\\Phi: \\N^2 \\to \\N$ as follows:\n:$\\map \\Phi {m, n} = \\begin{cases}\n\\map f n & : \\text{if } m \\text { codes a definition of the primitive recursive function } f: \\N \\to \\N \\\\\n0 & : \\text{otherwise}\n\\end{cases}$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 3801,
+            "end": 3959,
+            "label": "context",
+            "text": "It is deducible by arguments derived from proofs of the various primitive recursive functions that there is a URM program for computing the values of $\\Phi$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 3959,
+            "end": 4009,
+            "label": "context",
+            "text": "That is, $\\Phi$ can be shown to be URM computable\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx41",
+            "annotation": false,
+            "start": 4009,
+            "end": 4148,
+            "label": "context",
+            "text": "Now we apply Cantor's Diagonal Argument to create the following URM computable function $g: \\N \\to \\N$:\n:$\\map g n = \\map \\Phi {n, n} + 1$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx42",
+            "annotation": false,
+            "start": 4148,
+            "end": 4187,
+            "label": "context",
+            "text": "We have that $\\Phi$ is URM computable.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx43",
+            "annotation": false,
+            "start": 4187,
+            "end": 4241,
+            "label": "context",
+            "text": "So it follows that $\\map g n$ is also URM computable.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx44",
+            "annotation": false,
+            "start": 4241,
+            "end": 4329,
+            "label": "context",
+            "text": "Now, let $f$ be a primitive recursive function and let $m$ code some definition of $f$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx45",
+            "annotation": false,
+            "start": 4329,
+            "end": 4393,
+            "label": "context",
+            "text": "So, for all $n \\in \\N$, we have:\n:$\\map f n = \\map \\Phi {m, n}$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx46",
+            "annotation": false,
+            "start": 4393,
+            "end": 4429,
+            "label": "context",
+            "text": "Thus $\\map f m = \\map \\Phi {m, m}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx47",
+            "annotation": false,
+            "start": 4429,
+            "end": 4475,
+            "label": "context",
+            "text": "Now, since $\\map g m = \\map \\Phi {m, m} + 1$, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx48",
+            "annotation": false,
+            "start": 4475,
+            "end": 4543,
+            "label": "context",
+            "text": "we see that $\\map g m \\ne \\map f m$, whatever $f$ may happen to be.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx49",
+            "annotation": false,
+            "start": 4543,
+            "end": 4560,
+            "label": "context",
+            "text": "Hence $g \\ne f$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx50",
+            "annotation": false,
+            "start": 4560,
+            "end": 4646,
+            "label": "context",
+            "text": "So $g$ is different from any primitive recursive function $f$ that we care to devise.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx51",
+            "annotation": false,
+            "start": 4646,
+            "end": 4723,
+            "label": "context",
+            "text": "Therefore $g$ is a URM computable function which is not primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx52",
+            "annotation": false,
+            "start": 4723,
+            "end": 4741,
+            "label": "context",
+            "text": "Hence the result.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx53",
+            "annotation": false,
+            "start": 4741,
+            "end": 4825,
+            "label": "context",
+            "text": "{{qed}}\nCategory:URM Programs\nCategory:Primitive Recursive Functions\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx54",
+            "annotation": false,
+            "start": 4825,
+            "end": 4976,
+            "label": "context",
+            "text": "[Document 4]\n\\section{State Code Function is Primitive Recursive}\nTags: Primitive Recursive Functions, URM Programs\n\n\\begin{theorem}\nLet $k \\in \\N^*$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx55",
+            "annotation": false,
+            "start": 4976,
+            "end": 5051,
+            "label": "context",
+            "text": "Let $e = \\gamma \\left({P}\\right)$ be the code number of a URM program $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx56",
+            "annotation": false,
+            "start": 5051,
+            "end": 5115,
+            "label": "context",
+            "text": "Let $\\left({n_1, n_2, \\ldots, n_k}\\right)$ be the input of $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx57",
+            "annotation": false,
+            "start": 5115,
+            "end": 5282,
+            "label": "context",
+            "text": "Let $S_k: \\N^{k+2} \\to \\N$ be the function defined as:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ is the state code for $P$ at stage $t$ of computation of $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx58",
+            "annotation": false,
+            "start": 5282,
+            "end": 5333,
+            "label": "context",
+            "text": "If $e$ does not code a URM Program then $S_k = 0$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx59",
+            "annotation": false,
+            "start": 5333,
+            "end": 5505,
+            "label": "context",
+            "text": "Also, if $P$ terminates at stage $t_0$, then we put:\n:$\\forall t > t_0: S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right) = S_k \\left({e, n_1, n_2, \\ldots, n_k, t_0}\\right)$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx60",
+            "annotation": false,
+            "start": 5505,
+            "end": 5572,
+            "label": "context",
+            "text": "Then for all $k \\ge 1$, the function $S_k$ is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx61",
+            "annotation": false,
+            "start": 5572,
+            "end": 5587,
+            "label": "context",
+            "text": "\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx62",
+            "annotation": false,
+            "start": 5587,
+            "end": 5655,
+            "label": "context",
+            "text": "\\begin{proof}\nIt can easily be seen that $S_k$ is a total function.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx63",
+            "annotation": false,
+            "start": 5655,
+            "end": 5719,
+            "label": "context",
+            "text": "Suppose $e = \\gamma \\left({P}\\right)$ for some URM program $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx64",
+            "annotation": false,
+            "start": 5719,
+            "end": 5830,
+            "label": "context",
+            "text": "At stage $0$, we are about to carry out instruction $1$ with the input $\\left({n_1, n_2, \\ldots, n_k}\\right)$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx65",
+            "annotation": false,
+            "start": 5830,
+            "end": 6093,
+            "label": "context",
+            "text": "So we have:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right) = \\begin{cases}\n2^1 3^{n_1} 5^{n_2} \\cdots p_{k+1}^{n_k} & : e \\in \\operatorname{Prog} \\\\\n0 & : \\text{otherwise}\n\\end{cases}$\nwhere $\\operatorname{Prog}$ is the set of code numbers of all URM programs.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx66",
+            "annotation": false,
+            "start": 6093,
+            "end": 6291,
+            "label": "context",
+            "text": "We see that $S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right)$ does not actually depend upon the actual program being run, beyond the fact that it matters whether it actually ''is'' a program or not.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx67",
+            "annotation": false,
+            "start": 6291,
+            "end": 6347,
+            "label": "context",
+            "text": "Now $\\operatorname{Prog}$ is a primitive recursive set.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx68",
+            "annotation": false,
+            "start": 6347,
+            "end": 6458,
+            "label": "context",
+            "text": "So from results about primitive recursive functions, the relations defining the cases are primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx69",
+            "annotation": false,
+            "start": 6458,
+            "end": 6651,
+            "label": "context",
+            "text": "We can also deduce from various results about primitive recursive functions that the functions given by the formulas $2^1 3^{n_1} 5^{n_2} \\cdots p_{k+1}^{n_k}$ and $0$ are primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx70",
+            "annotation": false,
+            "start": 6651,
+            "end": 6821,
+            "label": "context",
+            "text": "In particular, we use the results:\n* Multiplication is Primitive Recursive;\n* Exponentiation is Primitive Recursive;\n* Prime Enumeration Function is Primitive Recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx71",
+            "annotation": false,
+            "start": 6821,
+            "end": 6946,
+            "label": "context",
+            "text": "So from Definition by Cases is Primitive Recursive, $S_k \\left({e, n_1, n_2, \\ldots, n_k, 0}\\right)$ is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx72",
+            "annotation": false,
+            "start": 6946,
+            "end": 7184,
+            "label": "context",
+            "text": "Now we want to be able to express $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ in terms of $e, \\left({n_1, n_2, \\ldots, n_k}\\right), t$ and $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ using known primitive recursive functions.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx73",
+            "annotation": false,
+            "start": 7184,
+            "end": 7800,
+            "label": "context",
+            "text": "We need to consider a number of cases:\n#$e$ does not code a URM program;\n#$e = \\gamma \\left({P}\\right)$ and the computation halts at stage $t$ or earlier;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Zero</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Successor</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Copy</tt> instruction;\n#$e = \\gamma \\left({P}\\right)$ and the instruction to be carried out at stage $t$ is a <tt>Jump</tt> instruction.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx74",
+            "annotation": false,
+            "start": 7800,
+            "end": 7859,
+            "label": "context",
+            "text": "These cases are clearly mutually exclusive and exhaustive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx75",
+            "annotation": false,
+            "start": 7859,
+            "end": 7944,
+            "label": "context",
+            "text": "First we need to check that each case corresponds to a primitive recursive relation.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx76",
+            "annotation": false,
+            "start": 7944,
+            "end": 8046,
+            "label": "context",
+            "text": "* The set $\\operatorname{Prog}$ is primitive recursive so its complement is also primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx77",
+            "annotation": false,
+            "start": 8046,
+            "end": 8087,
+            "label": "context",
+            "text": "So 1. is a primitive recursive relation.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx78",
+            "annotation": false,
+            "start": 8087,
+            "end": 8130,
+            "label": "context",
+            "text": "* So we have that $e$ codes a URM program. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx79",
+            "annotation": false,
+            "start": 8130,
+            "end": 8153,
+            "label": "context",
+            "text": "Call that program $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx80",
+            "annotation": false,
+            "start": 8153,
+            "end": 8365,
+            "label": "context",
+            "text": "From the definition of state code, we see that if a computation halts at stage $t$ or earlier, then the number of the instruction to be carried out at stage $t$ is greater than the number of instructions in $P$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx81",
+            "annotation": false,
+            "start": 8365,
+            "end": 8583,
+            "label": "context",
+            "text": "From the definition of the code number of $P$, the number of instructions in $P$ is $\\operatorname{len} \\left({e}\\right)$ where $\\operatorname{len} \\left({e}\\right)$ is the length of $e$, which is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx82",
+            "annotation": false,
+            "start": 8583,
+            "end": 8645,
+            "label": "context",
+            "text": "Now let $r = S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx83",
+            "annotation": false,
+            "start": 8645,
+            "end": 8713,
+            "label": "context",
+            "text": "Let $\\left({r}\\right)_j$ be defined as the prime exponent function.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx84",
+            "annotation": false,
+            "start": 8713,
+            "end": 8866,
+            "label": "context",
+            "text": "By the definition of the state code, the number of the instruction to be carried out at stage $t$ is $\\left({r}\\right)_1$, which is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx85",
+            "annotation": false,
+            "start": 8866,
+            "end": 9038,
+            "label": "context",
+            "text": "So 2. can be expressed as:\n:$e \\in \\operatorname{Prog} \\text { and } \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1 > \\operatorname{len} \\left({e}\\right)$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx86",
+            "annotation": false,
+            "start": 9038,
+            "end": 9210,
+            "label": "context",
+            "text": "Both $\\operatorname{Prog}$ and $\\left({r}\\right)_1$ are primitive recursive, so from Set Operations on Primitive Recursive Relations, 2. is a primitive recursive relation.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx87",
+            "annotation": false,
+            "start": 9210,
+            "end": 9355,
+            "label": "context",
+            "text": "* So, let the number of the instruction to be carried out at stage $t$ be $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx88",
+            "annotation": false,
+            "start": 9355,
+            "end": 9463,
+            "label": "context",
+            "text": "From the definition of the code number of $P$, the code number of this instruction is $\\left({e}\\right)_a$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx89",
+            "annotation": false,
+            "start": 9463,
+            "end": 9674,
+            "label": "context",
+            "text": "Now from Set of Codes for URM Instructions is Primitive Recursive, each of the sets $\\operatorname{Zinstr}$, $\\operatorname{Sinstr}$, $\\operatorname{Cinstr}$ and $\\operatorname{Jinstr}$ are primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx90",
+            "annotation": false,
+            "start": 9674,
+            "end": 9903,
+            "label": "context",
+            "text": "So each of 3. to 6. above can be expressed as:\n:$e \\in \\operatorname{Prog} \\text { and } a \\le \\operatorname{len} \\left({e}\\right) \\text { and } \\left({e}\\right)_a \\in \\operatorname{Instr}$\nand is a primitive recursive relation.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx91",
+            "annotation": false,
+            "start": 9903,
+            "end": 9954,
+            "label": "context",
+            "text": "So relations 1. to 6. are all primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx92",
+            "annotation": false,
+            "start": 9954,
+            "end": 10206,
+            "label": "context",
+            "text": "Now we need to show how, in each case, $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ can be obtained from $e, \\left({n_1, n_2, \\ldots, n_k}\\right), t$ and $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ using known primitive recursive functions.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx93",
+            "annotation": false,
+            "start": 10206,
+            "end": 10339,
+            "label": "context",
+            "text": "First, if $e$ does not code a URM program then $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = 0$, which is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx94",
+            "annotation": false,
+            "start": 10339,
+            "end": 10430,
+            "label": "context",
+            "text": "Second, we have adopted the convention that if $P$ has halted, then $S_k$ does not change.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx95",
+            "annotation": false,
+            "start": 10430,
+            "end": 10583,
+            "label": "context",
+            "text": "So if $P$ halts at or before stage $t$, we have that $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx96",
+            "annotation": false,
+            "start": 10583,
+            "end": 10625,
+            "label": "context",
+            "text": "Next, we look at the individual commands.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx97",
+            "annotation": false,
+            "start": 10625,
+            "end": 10691,
+            "label": "context",
+            "text": "As an example we will investigate the <tt>Successor</tt> command. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx98",
+            "annotation": false,
+            "start": 10691,
+            "end": 10725,
+            "label": "context",
+            "text": "The others are treated similarly.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx99",
+            "annotation": false,
+            "start": 10725,
+            "end": 10813,
+            "label": "context",
+            "text": "Suppose the instruction to be carried out at stage $t$ is a <tt>Successor</tt> command.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx100",
+            "annotation": false,
+            "start": 10813,
+            "end": 10960,
+            "label": "context",
+            "text": "We know that the code number $c$ is given by $c = \\left({e}\\right)_a$ where $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx101",
+            "annotation": false,
+            "start": 10960,
+            "end": 11009,
+            "label": "context",
+            "text": "Suppose the instruction is $S \\left({n}\\right)$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx102",
+            "annotation": false,
+            "start": 11009,
+            "end": 11025,
+            "label": "context",
+            "text": "Then $c = 6 n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx103",
+            "annotation": false,
+            "start": 11025,
+            "end": 11131,
+            "label": "context",
+            "text": "So $n = \\operatorname{quot} \\left({6, n}\\right)$ which is recursive from Quotient is Primitive Recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx104",
+            "annotation": false,
+            "start": 11131,
+            "end": 11181,
+            "label": "context",
+            "text": "This instruction adds $1$ to the number in $R_n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx105",
+            "annotation": false,
+            "start": 11181,
+            "end": 11245,
+            "label": "context",
+            "text": "This increases the exponent $p_{n+1}$ in the state code by $1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx106",
+            "annotation": false,
+            "start": 11245,
+            "end": 11446,
+            "label": "context",
+            "text": "This is achieved by multiplying $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ by $p \\left({n+1}\\right)$, where $p \\left({n+1}\\right)$ is the prime enumeration function which is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx107",
+            "annotation": false,
+            "start": 11446,
+            "end": 11668,
+            "label": "context",
+            "text": "Since the instruction to be carried out at stage $t$ is a <tt>Successor</tt> the instruction number at stage $t+1$ is $a+1$ so the factor $2^a$ in $S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$ is replaced by $2^{a+1}$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx108",
+            "annotation": false,
+            "start": 11668,
+            "end": 11950,
+            "label": "context",
+            "text": "So:\n:$S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right) = 2 \\times p_{n+1} \\times S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)$\nwhere $n = \\operatorname{quot} \\left({6, n}\\right)$, $c = \\left({e}\\right)_a$ and $a = \\left({S_k \\left({e, n_1, n_2, \\ldots, n_k, t}\\right)}\\right)_1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx109",
+            "annotation": false,
+            "start": 11950,
+            "end": 12098,
+            "label": "context",
+            "text": "This is the required expression for $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ obtained by substitution from primitive recursive functions.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx110",
+            "annotation": false,
+            "start": 12098,
+            "end": 12216,
+            "label": "context",
+            "text": "The proofs for $\\operatorname{Zinstr}$, $\\operatorname{Cinstr}$ and $\\operatorname{Jinstr}$ are along the same lines.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx111",
+            "annotation": false,
+            "start": 12216,
+            "end": 12422,
+            "label": "context",
+            "text": "In each case, the value of $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ can be obtained by substitution from primitive recursive functions (but I'd hate to have to do the calculations on my fingers).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx112",
+            "annotation": false,
+            "start": 12422,
+            "end": 12549,
+            "label": "context",
+            "text": "Thus by Definition by Cases is Primitive Recursive, $S_k \\left({e, n_1, n_2, \\ldots, n_k, t+1}\\right)$ is primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx113",
+            "annotation": false,
+            "start": 12549,
+            "end": 12643,
+            "label": "context",
+            "text": "Hence $S_k$ is defined by primitive recursion from functions known to be primitive recursive.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx114",
+            "annotation": false,
+            "start": 12643,
+            "end": 12661,
+            "label": "context",
+            "text": "Hence the result.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx115",
+            "annotation": false,
+            "start": 12661,
+            "end": 12684,
+            "label": "context",
+            "text": "{{qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx116",
+            "annotation": false,
+            "start": 12684,
+            "end": 12907,
+            "label": "context",
+            "text": "[Document 5]\n\\section{Multinomial Theorem}\nTags: Multinomial Coefficients, Binomial Coefficients, Discrete Mathematics, Proofs by Induction, Algebra\n\n\\begin{theorem}\nLet $x_1, x_2, \\ldots, x_k \\in F$, where $F$ is a field.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx117",
+            "annotation": false,
+            "start": 12907,
+            "end": 13319,
+            "label": "context",
+            "text": "Then:\n:$\\ds \\paren {x_1 + x_2 + \\cdots + x_m}^n = \\sum_{k_1 \\mathop + k_2 \\mathop + \\mathop \\cdots \\mathop + k_m \\mathop = n} \\binom n {k_1, k_2, \\ldots, k_m} {x_1}^{k_1} {x_2}^{k_2} \\cdots {x_m}^{k_m}$\nwhere:\n:$m \\in \\Z_{> 0}$ is a positive integer\n:$n \\in \\Z_{\\ge 0}$ is a non-negative integer\n:$\\dbinom n {k_1, k_2, \\ldots, k_m} = \\dfrac {n!} {k_1! \\, k_2! \\, \\cdots k_m!}$ denotes a multinomial coefficient.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx118",
+            "annotation": false,
+            "start": 13319,
+            "end": 13538,
+            "label": "context",
+            "text": "The sum is taken for all non-negative integers $k_1, k_2, \\ldots, k_m$ such that $k_1 + k_2 + \\cdots + k_m = n$, and with the understanding that wherever $0^0$ may appear  it shall be considered to have a value of $1$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx119",
+            "annotation": false,
+            "start": 13538,
+            "end": 13613,
+            "label": "context",
+            "text": "The '''multinomial theorem''' is a generalization of the Binomial Theorem.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx120",
+            "annotation": false,
+            "start": 13613,
+            "end": 13628,
+            "label": "context",
+            "text": "\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx121",
+            "annotation": false,
+            "start": 13628,
+            "end": 13682,
+            "label": "context",
+            "text": "\\begin{proof}\nThe proof proceeds by induction on $m$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx122",
+            "annotation": false,
+            "start": 13682,
+            "end": 13974,
+            "label": "context",
+            "text": "For each $m \\in \\N_{\\ge 1}$, let $\\map P m$ be the proposition:\n:$\\ds \\forall n \\in \\N: \\paren {x_1 + x_2 + \\cdots + x_m}^n = \\sum_{k_1 \\mathop + k_2 \\mathop + \\mathop \\cdots \\mathop + k_m \\mathop = n} \\binom n {k_1, k_2, \\ldots, k_m} {x_1}^{k_1} {x_2}^{k_2} \\cdots {x_m}^{k_m}$\n\\end{proof}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 8,
+            "label": "planning",
+            "text": "<think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 8,
+            "end": 25,
+            "label": "reflection",
+            "text": "Okay, let's see. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 25,
+            "end": 85,
+            "label": "restatement",
+            "text": "The problem is about creating a unique code for a discount. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 85,
+            "end": 176,
+            "label": "restatement",
+            "text": "The code has to be 7 characters long and use the numbers 1, 2 (twice), and 3 (four times). ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 176,
+            "end": 191,
+            "label": "reflection",
+            "text": "Wait, hold on. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 191,
+            "end": 216,
+            "label": "planning",
+            "text": "Let me parse that again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 216,
+            "end": 281,
+            "label": "restatement",
+            "text": "The code is made using the numbers 1, 2 (twice), 3 (four times). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 281,
+            "end": 358,
+            "label": "reasoning",
+            "text": "So does that mean we have to use each of these numbers exactly as specified? ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 358,
+            "end": 410,
+            "label": "reasoning",
+            "text": "Like, the number 1 once, 2 twice, and 3 four times? ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 410,
+            "end": 440,
+            "label": "reasoning",
+            "text": "But wait, 1 + 2 + 4 equals 7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 440,
+            "end": 489,
+            "label": "reasoning",
+            "text": "Oh right, because the code is 7 characters long. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 489,
+            "end": 590,
+            "label": "reasoning",
+            "text": "So we have to arrange these numbers where 1 appears once, 2 appears twice, and 3 appears four times. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 590,
+            "end": 708,
+            "label": "reasoning",
+            "text": "So the problem is essentially asking how many distinct permutations there are of the multiset {1, 2, 2, 3, 3, 3, 3}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 708,
+            "end": 841,
+            "label": "fact",
+            "text": "So the formula for permutations of a multiset is n! divided by the product of the factorials of the counts of each distinct element. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 841,
+            "end": 932,
+            "label": "reasoning",
+            "text": "In this case, n is 7 (total characters), and the counts are 1 for 1, 2 for 2, and 4 for 3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 932,
+            "end": 1006,
+            "label": "reasoning",
+            "text": "Therefore, the number of different codes is 7! divided by (1! * 2! * 4!). ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1006,
+            "end": 1028,
+            "label": "planning",
+            "text": "Let me compute that.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1028,
+            "end": 1047,
+            "label": "fact",
+            "text": "First, 7! is 5040. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1047,
+            "end": 1080,
+            "label": "fact",
+            "text": "Then 1! is 1, 2! is 2, 4! is 24. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1080,
+            "end": 1129,
+            "label": "reasoning",
+            "text": "Multiplying those denominators: 1 * 2 * 24 = 48. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1129,
+            "end": 1154,
+            "label": "reasoning",
+            "text": "Then 5040 divided by 48. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1154,
+            "end": 1179,
+            "label": "planning",
+            "text": "Let me do that division. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1179,
+            "end": 1190,
+            "label": "reasoning",
+            "text": "5040 / 48. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1190,
+            "end": 1215,
+            "label": "planning",
+            "text": "Let's divide 5040 by 48. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1215,
+            "end": 1233,
+            "label": "reasoning",
+            "text": "48 * 100 is 4800. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1233,
+            "end": 1253,
+            "label": "reasoning",
+            "text": "5040 - 4800 is 240. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1253,
+            "end": 1268,
+            "label": "reasoning",
+            "text": "48 * 5 is 240. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1268,
+            "end": 1295,
+            "label": "reasoning",
+            "text": "So total is 100 + 5 = 105. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1295,
+            "end": 1341,
+            "label": "conclusion",
+            "text": "So the answer should be 105 different codes.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1341,
+            "end": 1404,
+            "label": "planning",
+            "text": "Wait, but let me check if I interpreted the problem correctly. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1404,
+            "end": 1471,
+            "label": "restatement",
+            "text": "The problem says \"using the numbers 1, 2 (twice), 3 (four times)\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1471,
+            "end": 1511,
+            "label": "reasoning",
+            "text": "So does that mean exactly those counts? ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1511,
+            "end": 1583,
+            "label": "reasoning",
+            "text": "Yes, because the total is 1 + 2 + 4 = 7, which matches the code length. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1583,
+            "end": 1645,
+            "label": "reasoning",
+            "text": "So each code must contain exactly one 1, two 2s, and four 3s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1645,
+            "end": 1718,
+            "label": "conclusion",
+            "text": "Therefore, the number of permutations is indeed 7! / (1! 2! 4!) = 105. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1718,
+            "end": 1813,
+            "label": "reflection",
+            "text": "Looking at the documents provided, none of them directly relate to permutations of a multiset. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1813,
+            "end": 1876,
+            "label": "restatement",
+            "text": "Document 5 is about the multinomial theorem, which is related. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1876,
+            "end": 1934,
+            "label": "reasoning",
+            "text": "The multinomial coefficient is exactly what we need here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1934,
+            "end": 2047,
+            "label": "restatement",
+            "text": "The multinomial coefficient for dividing n items into groups of sizes k1, k2, ..., km is n! / (k1! k2! ... km!), ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2047,
+            "end": 2084,
+            "label": "reasoning",
+            "text": "which is exactly the formula I used. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2084,
+            "end": 2125,
+            "label": "conclusion",
+            "text": "So that confirms that the answer is 105. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2125,
+            "end": 2174,
+            "label": "conclusion",
+            "text": "Therefore, the number of different codes is 105.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2174,
+            "end": 2184,
+            "label": "planning",
+            "text": "</think>\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2184,
+            "end": 2406,
+            "label": "reasoning",
+            "text": "To determine the number of unique 7-character codes that can be created using the numbers **1 (once), 2 (twice), and 3 (four times)**, we are essentially calculating the number of **distinct permutations** of a multiset.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2406,
+            "end": 2411,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2411,
+            "end": 2439,
+            "label": "planning",
+            "text": "### Step-by-Step Breakdown\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2439,
+            "end": 2453,
+            "label": "restatement",
+            "text": "We are given:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2453,
+            "end": 2505,
+            "label": "restatement",
+            "text": "- The total number of characters in the code: **7**\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2505,
+            "end": 2549,
+            "label": "restatement",
+            "text": "- The number of times each digit appears:\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2549,
+            "end": 2578,
+            "label": "restatement",
+            "text": "- **1** appears **1** time\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2578,
+            "end": 2608,
+            "label": "restatement",
+            "text": "- **2** appears **2** times\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2608,
+            "end": 2637,
+            "label": "restatement",
+            "text": "- **3** appears **4** times\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2637,
+            "end": 2726,
+            "label": "reasoning",
+            "text": "This is a classic problem of **permuting a multiset**, where some elements are repeated. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2726,
+            "end": 2801,
+            "label": "fact",
+            "text": "The formula for the number of distinct permutations of a multiset is:\n\n$$\n\\",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2801,
+            "end": 2887,
+            "label": "fact",
+            "text": "text{Number of permutations} = \\frac{n!}{k_1! \\cdot k_2! \\cdot \\ldots \\cdot k_m!}\n$$\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2887,
+            "end": 2894,
+            "label": "fact",
+            "text": "Where:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 2894,
+            "end": 2957,
+            "label": "fact",
+            "text": "- $ n $ is the total number of items (characters in the code),\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 2957,
+            "end": 3029,
+            "label": "fact",
+            "text": "- $ k_1, k_2, \\ldots, k_m $ are the frequencies of each distinct item.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 3029,
+            "end": 3034,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 3034,
+            "end": 3060,
+            "label": "planning",
+            "text": "### Applying the Formula\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3060,
+            "end": 3073,
+            "label": "reasoning",
+            "text": "In our case:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3073,
+            "end": 3085,
+            "label": "reasoning",
+            "text": "- $ n = 7 $\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3085,
+            "end": 3117,
+            "label": "reasoning",
+            "text": "- $ k_1 = 1 $ (for the digit 1)\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3117,
+            "end": 3149,
+            "label": "reasoning",
+            "text": "- $ k_2 = 2 $ (for the digit 2)\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3149,
+            "end": 3186,
+            "label": "reasoning",
+            "text": "- $ k_3 = 4 $ (for the digit 3)\n\n$$\n\\",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3186,
+            "end": 3246,
+            "label": "reasoning",
+            "text": "text{Number of codes} = \\frac{7!}{1! \\cdot 2! \\cdot 4!}\n$$\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3246,
+            "end": 3274,
+            "label": "planning",
+            "text": "Now compute the factorials:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3274,
+            "end": 3290,
+            "label": "reasoning",
+            "text": "- $ 7! = 5040 $\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3290,
+            "end": 3303,
+            "label": "reasoning",
+            "text": "- $ 1! = 1 $\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 3303,
+            "end": 3316,
+            "label": "reasoning",
+            "text": "- $ 2! = 2 $\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 3316,
+            "end": 3335,
+            "label": "reasoning",
+            "text": "- $ 4! = 24 $\n\n$$\n\\",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 3335,
+            "end": 3419,
+            "label": "reasoning",
+            "text": "text{Number of codes} = \\frac{5040}{1 \\cdot 2 \\cdot 24} = \\frac{5040}{48} = 105\n$$\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 3419,
+            "end": 3424,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 3424,
+            "end": 3446,
+            "label": "planning",
+            "text": "### Final Answer\n\n$$\n\\",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 3446,
+            "end": 3461,
+            "label": "conclusion",
+            "text": "boxed{105}\n$$\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 3461,
+            "end": 3589,
+            "label": "conclusion",
+            "text": "There are **105** different 7-character codes that can be created using the numbers **1 (once), 2 (twice), and 3 (four times)**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp6",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp30",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp34",
+            "label": "validate:support"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp35",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "ctx116",
+            "dest_node_id": "resp36",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "ctx117",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "ctx117",
+            "dest_node_id": "resp38",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp40",
+            "label": "validate:support"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp40",
+            "label": "validate:support"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp45",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp47",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp48",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp49",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp50",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp51",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp57",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp69",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp73",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp75",
+            "label": "validate:support"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp75",
+            "label": "validate:support"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp75",
+            "label": "validate:support"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp75",
+            "label": "validate:support"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "validate:support"
+        }
+    ]
+}

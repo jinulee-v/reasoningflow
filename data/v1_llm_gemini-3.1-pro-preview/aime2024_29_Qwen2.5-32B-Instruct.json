@@ -1,0 +1,435 @@
+{
+    "doc_id": "aime2024_29_Qwen2.5-32B-Instruct",
+    "raw_text": {
+        "question": "Let $\\omega \\neq 1$ be a 13th root of unity. Find the remainder when \n\\[ \\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k}) \\] is divided by 1000.",
+        "response": "Given that \\(\\omega\\) is a primitive 13th root of unity, we know that \\(\\omega^{13} = 1\\) and \\(\\omega^k \\neq 1\\) for \\(1 \\leq k \\leq 12\\). We need to find the remainder when the product \\(\\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is divided by 1000.\n\nFirst, observe that \\(\\omega^0 = 1\\), so the term corresponding to \\(k=0\\) in the product is:\n\\[2 - 2\\cdot 1 + 1^2 = 1.\\]\nThus, the product simplifies to:\n\\[\\prod_{k=1}^{12}(2 - 2\\omega^k + \\omega^{2k}).\\]\n\nNext, consider the polynomial \\(P(x) = x^{13} - 1\\). The roots of this polynomial are the 13th roots of unity, i.e., \\(1, \\omega, \\omega^2, \\ldots, \\omega^{12}\\). We can factorize \\(P(x)\\) as:\n\\[P(x) = (x-1)(x-\\omega)(x-\\omega^2) \\cdots (x-\\omega^{12}).\\]\n\nWe are interested in the polynomial \\(Q(x) = 2 - 2x + x^2\\). Notice that if we substitute \\(\\omega^k\\) into \\(Q(x)\\), we get the terms in our product. To understand the behavior of \\(Q(x)\\) over the roots of unity, we can rewrite \\(Q(x)\\) as:\n\\[Q(x) = (x-1)^2 + 1.\\]\n\nNow, let's consider the polynomial \\(R(x) = Q(x^{1/2}) = 2 - 2x^{1/2} + x\\). If we let \\(y = x^{1/2}\\), then \\(R(y^2) = 2 - 2y + y^2\\). The polynomial whose roots are \\(\\omega^k\\) for \\(k=1,2,\\ldots,12\\) is \\(x^{12} + x^{11} + \\cdots + x + 1\\). Therefore, we need to evaluate the product of \\(Q(\\omega^k)\\) for \\(k=1,2,\\ldots,12\\).\n\nThe polynomial whose roots are \\(\\omega^k\\) for \\(k=1,2,\\ldots,12\\) is \\(x^{12} + x^{11} + \\cdots + x + 1\\). We need to find the value of the product of \\(Q(\\omega^k)\\) for these roots. This is equivalent to evaluating the resultant of the polynomials \\(x^{12} + x^{11} + \\cdots + x + 1\\) and \\(2 - 2x + x^2\\).\n\nBy properties of resultants and symmetric functions, it can be shown that the product \\(\\prod_{k=1}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is equal to the constant term of the polynomial obtained by substituting \\(x = 1\\) in the polynomial \\(x^{12} + x^{11} + \\cdots + x + 1\\) after applying the transformation \\(x \\to 2 - 2x + x^2\\). This constant term is found to be 13.\n\nTherefore, the remainder when \\(\\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is divided by 1000 is:\n\\[\n\\boxed{13}.\n\\]"
+    },
+    "metadata": {
+        "batch": 29,
+        "domain": "aime2024",
+        "generator": "Qwen2.5-32B-Instruct",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "aime2024-29",
+        "correct_answer": "321",
+        "is_human_annotated": false,
+        "correctness": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 45,
+            "label": "context",
+            "text": "Let $\\omega \\neq 1$ be a 13th root of unity. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 45,
+            "end": 141,
+            "label": "context",
+            "text": "Find the remainder when \n\\[ \\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k}) \\] is divided by 1000.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 140,
+            "label": "restatement",
+            "text": "Given that \\(\\omega\\) is a primitive 13th root of unity, we know that \\(\\omega^{13} = 1\\) and \\(\\omega^k \\neq 1\\) for \\(1 \\leq k \\leq 12\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 140,
+            "end": 258,
+            "label": "restatement",
+            "text": "We need to find the remainder when the product \\(\\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is divided by 1000.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 258,
+            "end": 296,
+            "label": "planning",
+            "text": "First, observe that \\(\\omega^0 = 1\\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 296,
+            "end": 380,
+            "label": "reasoning",
+            "text": "so the term corresponding to \\(k=0\\) in the product is:\n\\[2 - 2\\cdot 1 + 1^2 = 1.\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 380,
+            "end": 465,
+            "label": "reasoning",
+            "text": "Thus, the product simplifies to:\n\\[\\prod_{k=1}^{12}(2 - 2\\omega^k + \\omega^{2k}).\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 465,
+            "end": 518,
+            "label": "planning",
+            "text": "Next, consider the polynomial \\(P(x) = x^{13} - 1\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 518,
+            "end": 628,
+            "label": "fact",
+            "text": "The roots of this polynomial are the 13th roots of unity, i.e., \\(1, \\omega, \\omega^2, \\ldots, \\omega^{12}\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 628,
+            "end": 722,
+            "label": "fact",
+            "text": "We can factorize \\(P(x)\\) as:\n\\[P(x) = (x-1)(x-\\omega)(x-\\omega^2) \\cdots (x-\\omega^{12}).\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 722,
+            "end": 783,
+            "label": "planning",
+            "text": "We are interested in the polynomial \\(Q(x) = 2 - 2x + x^2\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 783,
+            "end": 873,
+            "label": "reasoning",
+            "text": "Notice that if we substitute \\(\\omega^k\\) into \\(Q(x)\\), we get the terms in our product. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 873,
+            "end": 990,
+            "label": "reasoning",
+            "text": "To understand the behavior of \\(Q(x)\\) over the roots of unity, we can rewrite \\(Q(x)\\) as:\n\\[Q(x) = (x-1)^2 + 1.\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 990,
+            "end": 1067,
+            "label": "planning",
+            "text": "Now, let's consider the polynomial \\(R(x) = Q(x^{1/2}) = 2 - 2x^{1/2} + x\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1067,
+            "end": 1094,
+            "label": "reasoning",
+            "text": "If we let \\(y = x^{1/2}\\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1094,
+            "end": 1126,
+            "label": "reasoning",
+            "text": "then \\(R(y^2) = 2 - 2y + y^2\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1126,
+            "end": 1235,
+            "label": "fact",
+            "text": "The polynomial whose roots are \\(\\omega^k\\) for \\(k=1,2,\\ldots,12\\) is \\(x^{12} + x^{11} + \\cdots + x + 1\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1235,
+            "end": 1323,
+            "label": "planning",
+            "text": "Therefore, we need to evaluate the product of \\(Q(\\omega^k)\\) for \\(k=1,2,\\ldots,12\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1323,
+            "end": 1432,
+            "label": "restatement",
+            "text": "The polynomial whose roots are \\(\\omega^k\\) for \\(k=1,2,\\ldots,12\\) is \\(x^{12} + x^{11} + \\cdots + x + 1\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1432,
+            "end": 1509,
+            "label": "planning",
+            "text": "We need to find the value of the product of \\(Q(\\omega^k)\\) for these roots. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1509,
+            "end": 1635,
+            "label": "reasoning",
+            "text": "This is equivalent to evaluating the resultant of the polynomials \\(x^{12} + x^{11} + \\cdots + x + 1\\) and \\(2 - 2x + x^2\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1635,
+            "end": 1967,
+            "label": "reasoning",
+            "text": "By properties of resultants and symmetric functions, it can be shown that the product \\(\\prod_{k=1}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is equal to the constant term of the polynomial obtained by substituting \\(x = 1\\) in the polynomial \\(x^{12} + x^{11} + \\cdots + x + 1\\) after applying the transformation \\(x \\to 2 - 2x + x^2\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1967,
+            "end": 2006,
+            "label": "reasoning",
+            "text": "This constant term is found to be 13.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 2006,
+            "end": 2126,
+            "label": "conclusion",
+            "text": "Therefore, the remainder when \\(\\prod_{k=0}^{12}(2 - 2\\omega^k + \\omega^{2k})\\) is divided by 1000 is:\n\\[\n\\boxed{13}.\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp14",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp15",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp15",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp16",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        }
+    ]
+}

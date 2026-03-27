@@ -1,0 +1,645 @@
+{
+    "doc_id": "aime2024_11_Qwen2.5-32B-Instruct",
+    "raw_text": {
+        "question": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+        "response": "To solve this problem, we need to find the number of ways to fill a 2x3 grid with digits such that the sum of the two 3-digit numbers formed by reading left to right is 999, and the sum of the three 2-digit numbers formed by reading top to bottom is 99. Let's denote the grid as follows:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\na & b & c \\\\\n\\hline\nd & e & f \\\\\n\\hline\n\\end{array}\n\\]\n\nThe conditions given are:\n1. \\(abc + def = 999\\)\n2. \\(ad + be + cf = 99\\)\n\nFirst, let's analyze the first condition. Since \\(abc\\) and \\(def\\) are 3-digit numbers and their sum is 999, it means that \\(abc\\) and \\(def\\) must be complementary in the sense that if \\(abc = x\\), then \\(def = 999 - x\\). This implies that the digits of \\(abc\\) and \\(def\\) must complement each other in a specific way. Specifically, if \\(abc = 100a + 10b + c\\), then \\(def = 999 - (100a + 10b + c) = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c\\).\n\nThis means that \\(d = 9 - a\\), \\(e = 9 - b\\), and \\(f = 9 - c\\). Now, let's substitute these into the second condition:\n\n\\[ad + be + cf = a(9-a) + b(9-b) + c(9-c) = 9a - a^2 + 9b - b^2 + 9c - c^2 = 99.\\]\n\nRearranging terms, we get:\n\n\\[9(a + b + c) - (a^2 + b^2 + c^2) = 99.\\]\n\nWe need to find all possible values of \\(a, b, c\\) that satisfy this equation. Let's test some values:\n\nIf \\(a + b + c = 15\\), then:\n\n\\[9 \\cdot 15 - (a^2 + b^2 + c^2) = 135 - (a^2 + b^2 + c^2) = 99 \\implies a^2 + b^2 + c^2 = 36.\\]\n\nWe need to find all sets of digits \\(a, b, c\\) such that \\(a + b + c = 15\\) and \\(a^2 + b^2 + c^2 = 36\\). Testing possible values, we find:\n\n- If \\(a = 9, b = 5, c = 1\\), then \\(9 + 5 + 1 = 15\\) and \\(9^2 + 5^2 + 1^2 = 81 + 25 + 1 = 107\\) (not valid).\n- If \\(a = 8, b = 6, c = 1\\), then \\(8 + 6 + 1 = 15\\) and \\(8^2 + 6^2 + 1^2 = 64 + 36 + 1 = 101\\) (not valid).\n- If \\(a = 7, b = 7, c = 1\\), then \\(7 + 7 + 1 = 15\\) and \\(7^2 + 7^2 + 1^2 = 49 + 49 + 1 = 99\\) (valid).\n- If \\(a = 7, b = 6, c = 2\\), then \\(7 + 6 + 2 = 15\\) and \\(7^2 + 6^2 + 2^2 = 49 + 36 + 4 = 89\\) (not valid).\n- If \\(a = 6, b = 6, c = 3\\), then \\(6 + 6 + 3 = 15\\) and \\(6^2 + 6^2 + 3^2 = 36 + 36 + 9 = 81\\) (not valid).\n\nThe only valid solution is \\(a = 7, b = 7, c = 1\\). Therefore, the corresponding values for \\(d, e, f\\) are \\(d = 2, e = 2, f = 8\\). This gives us the grid:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\n7 & 7 & 1 \\\\\n\\hline\n2 & 2 & 8 \\\\\n\\hline\n\\end{array}\n\\]\n\nBy symmetry, we can also have the grid:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\n2 & 2 & 8 \\\\\n\\hline\n7 & 7 & 1 \\\\\n\\hline\n\\end{array}\n\\]\n\nThus, there are exactly 2 ways to fill the grid. The answer is:\n\n\\[\n\\boxed{2}\n\\]"
+    },
+    "metadata": {
+        "batch": 11,
+        "domain": "aime2024",
+        "generator": "Qwen2.5-32B-Instruct",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "aime2024-11",
+        "correct_answer": "45",
+        "is_human_annotated": false,
+        "correctness": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 219,
+            "label": "context",
+            "text": "Find the number of ways to place a digit in each cell of a 2x3 grid so that the sum of the two numbers formed by reading left to right is $999$, and the sum of the three numbers formed by reading top to bottom is $99$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 219,
+            "end": 307,
+            "label": "context",
+            "text": "The grid below is an example of such an arrangement because $8+991=999$ and $9+9+81=99$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 307,
+            "end": 394,
+            "label": "context",
+            "text": "\n\n\\[\\begin{array}{|c|c|c|} \\hline 0 & 0 & 8 \\\\ \\hline 9 & 9 & 1 \\\\ \\hline \\end{array}\\]",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 254,
+            "label": "restatement",
+            "text": "To solve this problem, we need to find the number of ways to fill a 2x3 grid with digits such that the sum of the two 3-digit numbers formed by reading left to right is 999, and the sum of the three 2-digit numbers formed by reading top to bottom is 99. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 254,
+            "end": 378,
+            "label": "reasoning",
+            "text": "Let's denote the grid as follows:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\na & b & c \\\\\n\\hline\nd & e & f \\\\\n\\hline\n\\end{array}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 378,
+            "end": 404,
+            "label": "planning",
+            "text": "The conditions given are:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 404,
+            "end": 427,
+            "label": "reasoning",
+            "text": "1. \\(abc + def = 999\\)\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 427,
+            "end": 453,
+            "label": "reasoning",
+            "text": "2. \\(ad + be + cf = 99\\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 453,
+            "end": 495,
+            "label": "planning",
+            "text": "First, let's analyze the first condition. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 495,
+            "end": 563,
+            "label": "reasoning",
+            "text": "Since \\(abc\\) and \\(def\\) are 3-digit numbers and their sum is 999, ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 563,
+            "end": 677,
+            "label": "reasoning",
+            "text": "it means that \\(abc\\) and \\(def\\) must be complementary in the sense that if \\(abc = x\\), then \\(def = 999 - x\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 677,
+            "end": 775,
+            "label": "reasoning",
+            "text": "This implies that the digits of \\(abc\\) and \\(def\\) must complement each other in a specific way. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 775,
+            "end": 818,
+            "label": "reasoning",
+            "text": "Specifically, if \\(abc = 100a + 10b + c\\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 818,
+            "end": 1050,
+            "label": "reasoning",
+            "text": "then \\(def = 999 - (100a + 10b + c) = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c = 900 - 100a + 90 - 10b + 9 - c\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 1050,
+            "end": 1115,
+            "label": "reasoning",
+            "text": "This means that \\(d = 9 - a\\), \\(e = 9 - b\\), and \\(f = 9 - c\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1115,
+            "end": 1255,
+            "label": "reasoning",
+            "text": "Now, let's substitute these into the second condition:\n\n\\[ad + be + cf = a(9-a) + b(9-b) + c(9-c) = 9a - a^2 + 9b - b^2 + 9c - c^2 = 99.\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1255,
+            "end": 1327,
+            "label": "reasoning",
+            "text": "Rearranging terms, we get:\n\n\\[9(a + b + c) - (a^2 + b^2 + c^2) = 99.\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1327,
+            "end": 1406,
+            "label": "planning",
+            "text": "We need to find all possible values of \\(a, b, c\\) that satisfy this equation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1406,
+            "end": 1431,
+            "label": "planning",
+            "text": "Let's test some values:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1431,
+            "end": 1454,
+            "label": "assumption",
+            "text": "If \\(a + b + c = 15\\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1454,
+            "end": 1559,
+            "label": "reasoning",
+            "text": "then:\n\n\\[9 \\cdot 15 - (a^2 + b^2 + c^2) = 135 - (a^2 + b^2 + c^2) = 99 \\implies a^2 + b^2 + c^2 = 36.\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1559,
+            "end": 1665,
+            "label": "planning",
+            "text": "We need to find all sets of digits \\(a, b, c\\) such that \\(a + b + c = 15\\) and \\(a^2 + b^2 + c^2 = 36\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1665,
+            "end": 1700,
+            "label": "planning",
+            "text": "Testing possible values, we find:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1700,
+            "end": 1811,
+            "label": "example",
+            "text": "- If \\(a = 9, b = 5, c = 1\\), then \\(9 + 5 + 1 = 15\\) and \\(9^2 + 5^2 + 1^2 = 81 + 25 + 1 = 107\\) (not valid).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1811,
+            "end": 1922,
+            "label": "example",
+            "text": "- If \\(a = 8, b = 6, c = 1\\), then \\(8 + 6 + 1 = 15\\) and \\(8^2 + 6^2 + 1^2 = 64 + 36 + 1 = 101\\) (not valid).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1922,
+            "end": 2028,
+            "label": "example",
+            "text": "- If \\(a = 7, b = 7, c = 1\\), then \\(7 + 7 + 1 = 15\\) and \\(7^2 + 7^2 + 1^2 = 49 + 49 + 1 = 99\\) (valid).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 2028,
+            "end": 2138,
+            "label": "example",
+            "text": "- If \\(a = 7, b = 6, c = 2\\), then \\(7 + 6 + 2 = 15\\) and \\(7^2 + 6^2 + 2^2 = 49 + 36 + 4 = 89\\) (not valid).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 2138,
+            "end": 2249,
+            "label": "example",
+            "text": "- If \\(a = 6, b = 6, c = 3\\), then \\(6 + 6 + 3 = 15\\) and \\(6^2 + 6^2 + 3^2 = 36 + 36 + 9 = 81\\) (not valid).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 2249,
+            "end": 2301,
+            "label": "reasoning",
+            "text": "The only valid solution is \\(a = 7, b = 7, c = 1\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 2301,
+            "end": 2382,
+            "label": "reasoning",
+            "text": "Therefore, the corresponding values for \\(d, e, f\\) are \\(d = 2, e = 2, f = 8\\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2382,
+            "end": 2496,
+            "label": "reasoning",
+            "text": "This gives us the grid:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\n7 & 7 & 1 \\\\\n\\hline\n2 & 2 & 8 \\\\\n\\hline\n\\end{array}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2496,
+            "end": 2626,
+            "label": "reasoning",
+            "text": "By symmetry, we can also have the grid:\n\n\\[\n\\begin{array}{|c|c|c|}\n\\hline\n2 & 2 & 8 \\\\\n\\hline\n7 & 7 & 1 \\\\\n\\hline\n\\end{array}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2626,
+            "end": 2675,
+            "label": "reasoning",
+            "text": "Thus, there are exactly 2 ways to fill the grid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2675,
+            "end": 2706,
+            "label": "conclusion",
+            "text": "The answer is:\n\n\\[\n\\boxed{2}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp21",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp22",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp23",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp23",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp24",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        }
+    ]
+}

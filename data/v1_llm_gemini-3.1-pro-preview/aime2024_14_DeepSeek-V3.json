@@ -1,0 +1,2886 @@
+{
+    "doc_id": "aime2024_14_DeepSeek-V3",
+    "raw_text": {
+        "question": "Consider the paths of length $16$ that follow the lines from the lower left corner to the upper right corner on an $8\\times 8$ grid. Find the number of such paths that change direction exactly four times, as in the examples shown below.",
+        "response": "Alright, let's tackle this problem step by step. I'm still getting the hang of combinatorics, but I'll try my best to understand and solve this.\n\n**Problem Statement:**\n\nWe have an \\(8 \\times 8\\) grid, and we need to find the number of paths of length 16 that start at the lower left corner and end at the upper right corner. These paths must change direction exactly four times.\n\n**Understanding the Problem:**\n\nFirst, let's visualize the grid. It's an 8x8 grid, so there are 8 rows and 8 columns. The path starts at the bottom-left corner and ends at the top-right corner. The total length of the path is 16, which makes sense because to go from the bottom-left to the top-right, we need to move right 8 times and up 8 times, totaling 16 moves.\n\nThe path must change direction exactly four times. Changing direction means switching from moving right to moving up or vice versa.\n\n**Breaking Down the Problem:**\n\n1. **Total Moves:** 16 moves (8 right and 8 up).\n2. **Direction Changes:** Exactly 4 times.\n\nLet's think about what a path with exactly 4 direction changes looks like.\n\n**Visualizing Direction Changes:**\n\nA path with 4 direction changes will alternate between moving right and moving up. For example:\n\n- Start by moving right, then up, then right, then up, then right, then up, and so on.\n\nBut since we have exactly 4 direction changes, the path will have 5 segments (since each direction change separates segments).\n\nWait, let's clarify:\n\n- If we change direction 4 times, the path will have 5 segments.\n\nFor example:\n\n1. Move right\n2. Change direction to up\n3. Move up\n4. Change direction to right\n5. Move right\n6. Change direction to up\n7. Move up\n8. Change direction to right\n9. Move right\n\nWait, that's more than 4 direction changes. Let's correct that.\n\nIf we have exactly 4 direction changes, the path will have 5 segments.\n\nFor example:\n\n1. Move right\n2. Change direction to up\n3. Move up\n4. Change direction to right\n5. Move right\n6. Change direction to up\n7. Move up\n8. Change direction to right\n9. Move right\n\nWait, that's still more than 4 direction changes. Let's think differently.\n\nIf we have exactly 4 direction changes, the path will alternate directions 4 times, resulting in 5 segments.\n\nFor example:\n\n1. Move right\n2. Change direction to up\n3. Move up\n4. Change direction to right\n5. Move right\n6. Change direction to up\n7. Move up\n8. Change direction to right\n9. Move right\n\nWait, that's still more than 4 direction changes. I think I'm miscounting.\n\nLet's try this:\n\nIf we have exactly 4 direction changes, the path will have 5 segments.\n\nFor example:\n\n1. Move right\n2. Change direction to up\n3. Move up\n4. Change direction to right\n5. Move right\n6. Change direction to up\n7. Move up\n8. Change direction to right\n9. Move right\n\nWait, that's still more than 4 direction changes. I think I'm misunderstanding.\n\nLet's try a different approach.\n\n**Alternative Approach:**\n\nLet's think of the path as a sequence of moves: right (R) and up (U). The total number of moves is 16, with 8 R's and 8 U's.\n\nWe need exactly 4 direction changes. A direction change occurs when we switch from R to U or from U to R.\n\nSo, the sequence will have 4 points where the direction changes.\n\nLet's think of the sequence as having 5 segments (since 4 direction changes separate them).\n\nFor example:\n\n1. Segment 1: R's\n2. Segment 2: U's\n3. Segment 3: R's\n4. Segment 4: U's\n5. Segment 5: R's\n\nBut wait, the total number of R's is 8, and U's is 8.\n\nSo, the sum of R's in all segments should be 8, and the sum of U's should be 8.\n\nLet's denote the number of R's in each segment as \\( r_1, r_2, r_3, r_4, r_5 \\), and U's as \\( u_1, u_2, u_3, u_4, u_5 \\).\n\nBut since the segments alternate between R's and U's, some of these will be zero.\n\nWait, let's clarify:\n\nIf we start with R's, the segments will be:\n\n1. R's (\\( r_1 \\))\n2. U's (\\( u_1 \\))\n3. R's (\\( r_2 \\))\n4. U's (\\( u_2 \\))\n5. R's (\\( r_3 \\))\n\nSimilarly, if we start with U's, the segments will be:\n\n1. U's (\\( u_1 \\))\n2. R's (\\( r_1 \\))\n3. U's (\\( u_2 \\))\n4. R's (\\( r_2 \\))\n5. U's (\\( u_3 \\))\n\nWait, but we have exactly 4 direction changes, so the number of segments should be 5.\n\nLet's consider both cases:\n\n**Case 1:** Starting with R's.\n\nSegments:\n\n1. R's (\\( r_1 \\))\n2. U's (\\( u_1 \\))\n3. R's (\\( r_2 \\))\n4. U's (\\( u_2 \\))\n5. R's (\\( r_3 \\))\n\nTotal R's: \\( r_1 + r_2 + r_3 = 8 \\)\n\nTotal U's: \\( u_1 + u_2 = 8 \\)\n\n**Case 2:** Starting with U's.\n\nSegments:\n\n1. U's (\\( u_1 \\))\n2. R's (\\( r_1 \\))\n3. U's (\\( u_2 \\))\n4. R's (\\( r_2 \\))\n5. U's (\\( u_3 \\))\n\nTotal R's: \\( r_1 + r_2 = 8 \\)\n\nTotal U's: \\( u_1 + u_2 + u_3 = 8 \\)\n\nNow, we need to find the number of solutions for each case.\n\n**Case 1:** Starting with R's.\n\nWe have:\n\n\\( r_1 + r_2 + r_3 = 8 \\)\n\n\\( u_1 + u_2 = 8 \\)\n\nEach \\( r_i \\) and \\( u_i \\) must be at least 1 because each segment must have at least one move.\n\nSo, we can use the stars and bars method.\n\nFor \\( r_1 + r_2 + r_3 = 8 \\), with \\( r_i \\geq 1 \\):\n\nNumber of solutions: \\( \\binom{8-1}{3-1} = \\binom{7}{2} = 21 \\)\n\nFor \\( u_1 + u_2 = 8 \\), with \\( u_i \\geq 1 \\):\n\nNumber of solutions: \\( \\binom{8-1}{2-1} = \\binom{7}{1} = 7 \\)\n\nTotal for Case 1: \\( 21 \\times 7 = 147 \\)\n\n**Case 2:** Starting with U's.\n\nWe have:\n\n\\( r_1 + r_2 = 8 \\)\n\n\\( u_1 + u_2 + u_3 = 8 \\)\n\nAgain, each \\( r_i \\) and \\( u_i \\geq 1 \\).\n\nFor \\( r_1 + r_2 = 8 \\), with \\( r_i \\geq 1 \\):\n\nNumber of solutions: \\( \\binom{8-1}{2-1} = \\binom{7}{1} = 7 \\)\n\nFor \\( u_1 + u_2 + u_3 = 8 \\), with \\( u_i \\geq 1 \\):\n\nNumber of solutions: \\( \\binom{8-1}{3-1} = \\binom{7}{2} = 21 \\)\n\nTotal for Case 2: \\( 7 \\times 21 = 147 \\)\n\n**Total Number of Paths:**\n\nTotal paths = Case 1 + Case 2 = \\( 147 + 147 = 294 \\)\n\n**Conclusion:**\n\nAfter carefully analyzing both cases and applying the stars and bars method, we find that the number of paths of length 16 on an \\(8 \\times 8\\) grid that change direction exactly four times is **294**."
+    },
+    "metadata": {
+        "batch": 14,
+        "domain": "aime2024",
+        "generator": "DeepSeek-V3",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "aime2024-14",
+        "correct_answer": "294",
+        "is_human_annotated": false,
+        "correctness": true
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 133,
+            "label": "context",
+            "text": "Consider the paths of length $16$ that follow the lines from the lower left corner to the upper right corner on an $8\\times 8$ grid. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 133,
+            "end": 236,
+            "label": "context",
+            "text": "Find the number of such paths that change direction exactly four times, as in the examples shown below.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 49,
+            "label": "planning",
+            "text": "Alright, let's tackle this problem step by step. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 49,
+            "end": 146,
+            "label": "reflection",
+            "text": "I'm still getting the hang of combinatorics, but I'll try my best to understand and solve this.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 146,
+            "end": 170,
+            "label": "planning",
+            "text": "**Problem Statement:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 170,
+            "end": 326,
+            "label": "restatement",
+            "text": "We have an \\(8 \\times 8\\) grid, and we need to find the number of paths of length 16 that start at the lower left corner and end at the upper right corner. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 326,
+            "end": 381,
+            "label": "restatement",
+            "text": "These paths must change direction exactly four times.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 381,
+            "end": 413,
+            "label": "planning",
+            "text": "**Understanding the Problem:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 413,
+            "end": 446,
+            "label": "planning",
+            "text": "First, let's visualize the grid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 446,
+            "end": 499,
+            "label": "reasoning",
+            "text": "It's an 8x8 grid, so there are 8 rows and 8 columns. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 499,
+            "end": 575,
+            "label": "reasoning",
+            "text": "The path starts at the bottom-left corner and ends at the top-right corner. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 575,
+            "end": 748,
+            "label": "reasoning",
+            "text": "The total length of the path is 16, which makes sense because to go from the bottom-left to the top-right, we need to move right 8 times and up 8 times, totaling 16 moves.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 748,
+            "end": 799,
+            "label": "restatement",
+            "text": "The path must change direction exactly four times. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 799,
+            "end": 881,
+            "label": "fact",
+            "text": "Changing direction means switching from moving right to moving up or vice versa.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 881,
+            "end": 913,
+            "label": "planning",
+            "text": "**Breaking Down the Problem:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 913,
+            "end": 962,
+            "label": "restatement",
+            "text": "1. **Total Moves:** 16 moves (8 right and 8 up).\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 962,
+            "end": 1006,
+            "label": "restatement",
+            "text": "2. **Direction Changes:** Exactly 4 times.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1006,
+            "end": 1082,
+            "label": "planning",
+            "text": "Let's think about what a path with exactly 4 direction changes looks like.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1082,
+            "end": 1118,
+            "label": "planning",
+            "text": "**Visualizing Direction Changes:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1118,
+            "end": 1201,
+            "label": "reasoning",
+            "text": "A path with 4 direction changes will alternate between moving right and moving up. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1201,
+            "end": 1215,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1215,
+            "end": 1303,
+            "label": "example",
+            "text": "- Start by moving right, then up, then right, then up, then right, then up, and so on.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1303,
+            "end": 1431,
+            "label": "reasoning",
+            "text": "But since we have exactly 4 direction changes, the path will have 5 segments (since each direction change separates segments).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1431,
+            "end": 1453,
+            "label": "planning",
+            "text": "Wait, let's clarify:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1453,
+            "end": 1519,
+            "label": "reasoning",
+            "text": "- If we change direction 4 times, the path will have 5 segments.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1519,
+            "end": 1533,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1533,
+            "end": 1547,
+            "label": "example",
+            "text": "1. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1547,
+            "end": 1573,
+            "label": "reasoning",
+            "text": "2. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1573,
+            "end": 1584,
+            "label": "reasoning",
+            "text": "3. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1584,
+            "end": 1613,
+            "label": "reasoning",
+            "text": "4. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1613,
+            "end": 1627,
+            "label": "reasoning",
+            "text": "5. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1627,
+            "end": 1653,
+            "label": "reasoning",
+            "text": "6. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1653,
+            "end": 1664,
+            "label": "reasoning",
+            "text": "7. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1664,
+            "end": 1693,
+            "label": "reasoning",
+            "text": "8. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1693,
+            "end": 1708,
+            "label": "reasoning",
+            "text": "9. Move right\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1708,
+            "end": 1752,
+            "label": "reflection",
+            "text": "Wait, that's more than 4 direction changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1752,
+            "end": 1773,
+            "label": "planning",
+            "text": "Let's correct that.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1773,
+            "end": 1845,
+            "label": "reasoning",
+            "text": "If we have exactly 4 direction changes, the path will have 5 segments.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1845,
+            "end": 1859,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1859,
+            "end": 1873,
+            "label": "example",
+            "text": "1. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1873,
+            "end": 1899,
+            "label": "reasoning",
+            "text": "2. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 1899,
+            "end": 1910,
+            "label": "reasoning",
+            "text": "3. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 1910,
+            "end": 1939,
+            "label": "reasoning",
+            "text": "4. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 1939,
+            "end": 1953,
+            "label": "reasoning",
+            "text": "5. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 1953,
+            "end": 1979,
+            "label": "reasoning",
+            "text": "6. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 1979,
+            "end": 1990,
+            "label": "reasoning",
+            "text": "7. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 1990,
+            "end": 2019,
+            "label": "reasoning",
+            "text": "8. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2019,
+            "end": 2034,
+            "label": "reasoning",
+            "text": "9. Move right\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2034,
+            "end": 2084,
+            "label": "reflection",
+            "text": "Wait, that's still more than 4 direction changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2084,
+            "end": 2110,
+            "label": "planning",
+            "text": "Let's think differently.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2110,
+            "end": 2220,
+            "label": "reasoning",
+            "text": "If we have exactly 4 direction changes, the path will alternate directions 4 times, resulting in 5 segments.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2220,
+            "end": 2234,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2234,
+            "end": 2248,
+            "label": "example",
+            "text": "1. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2248,
+            "end": 2274,
+            "label": "reasoning",
+            "text": "2. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2274,
+            "end": 2285,
+            "label": "reasoning",
+            "text": "3. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2285,
+            "end": 2314,
+            "label": "reasoning",
+            "text": "4. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2314,
+            "end": 2328,
+            "label": "reasoning",
+            "text": "5. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2328,
+            "end": 2354,
+            "label": "reasoning",
+            "text": "6. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 2354,
+            "end": 2365,
+            "label": "reasoning",
+            "text": "7. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 2365,
+            "end": 2394,
+            "label": "reasoning",
+            "text": "8. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 2394,
+            "end": 2409,
+            "label": "reasoning",
+            "text": "9. Move right\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 2409,
+            "end": 2459,
+            "label": "reflection",
+            "text": "Wait, that's still more than 4 direction changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 2459,
+            "end": 2485,
+            "label": "reflection",
+            "text": "I think I'm miscounting.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 2485,
+            "end": 2502,
+            "label": "planning",
+            "text": "Let's try this:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 2502,
+            "end": 2574,
+            "label": "reasoning",
+            "text": "If we have exactly 4 direction changes, the path will have 5 segments.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 2574,
+            "end": 2588,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 2588,
+            "end": 2602,
+            "label": "example",
+            "text": "1. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 2602,
+            "end": 2628,
+            "label": "reasoning",
+            "text": "2. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 2628,
+            "end": 2639,
+            "label": "reasoning",
+            "text": "3. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 2639,
+            "end": 2668,
+            "label": "reasoning",
+            "text": "4. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 2668,
+            "end": 2682,
+            "label": "reasoning",
+            "text": "5. Move right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 2682,
+            "end": 2708,
+            "label": "reasoning",
+            "text": "6. Change direction to up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 2708,
+            "end": 2719,
+            "label": "reasoning",
+            "text": "7. Move up\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 2719,
+            "end": 2748,
+            "label": "reasoning",
+            "text": "8. Change direction to right\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 2748,
+            "end": 2763,
+            "label": "reasoning",
+            "text": "9. Move right\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 2763,
+            "end": 2813,
+            "label": "reflection",
+            "text": "Wait, that's still more than 4 direction changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 2813,
+            "end": 2844,
+            "label": "reflection",
+            "text": "I think I'm misunderstanding.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 2844,
+            "end": 2877,
+            "label": "planning",
+            "text": "Let's try a different approach.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 2877,
+            "end": 2904,
+            "label": "planning",
+            "text": "**Alternative Approach:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 2904,
+            "end": 2974,
+            "label": "reasoning",
+            "text": "Let's think of the path as a sequence of moves: right (R) and up (U). ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 2974,
+            "end": 3030,
+            "label": "reasoning",
+            "text": "The total number of moves is 16, with 8 R's and 8 U's.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 3030,
+            "end": 3067,
+            "label": "restatement",
+            "text": "We need exactly 4 direction changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 3067,
+            "end": 3137,
+            "label": "fact",
+            "text": "A direction change occurs when we switch from R to U or from U to R.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 3137,
+            "end": 3203,
+            "label": "reasoning",
+            "text": "So, the sequence will have 4 points where the direction changes.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 3203,
+            "end": 3296,
+            "label": "reasoning",
+            "text": "Let's think of the sequence as having 5 segments (since 4 direction changes separate them).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 3296,
+            "end": 3310,
+            "label": "planning",
+            "text": "For example:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 3310,
+            "end": 3328,
+            "label": "example",
+            "text": "1. Segment 1: R's\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 3328,
+            "end": 3346,
+            "label": "reasoning",
+            "text": "2. Segment 2: U's\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 3346,
+            "end": 3364,
+            "label": "reasoning",
+            "text": "3. Segment 3: R's\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 3364,
+            "end": 3382,
+            "label": "reasoning",
+            "text": "4. Segment 4: U's\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 3382,
+            "end": 3401,
+            "label": "reasoning",
+            "text": "5. Segment 5: R's\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 3401,
+            "end": 3456,
+            "label": "reasoning",
+            "text": "But wait, the total number of R's is 8, and U's is 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 3456,
+            "end": 3537,
+            "label": "reasoning",
+            "text": "So, the sum of R's in all segments should be 8, and the sum of U's should be 8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 3537,
+            "end": 3661,
+            "label": "reasoning",
+            "text": "Let's denote the number of R's in each segment as \\( r_1, r_2, r_3, r_4, r_5 \\), and U's as \\( u_1, u_2, u_3, u_4, u_5 \\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 3661,
+            "end": 3744,
+            "label": "reasoning",
+            "text": "But since the segments alternate between R's and U's, some of these will be zero.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 3744,
+            "end": 3766,
+            "label": "planning",
+            "text": "Wait, let's clarify:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 3766,
+            "end": 3811,
+            "label": "planning",
+            "text": "If we start with R's, the segments will be:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 3811,
+            "end": 3830,
+            "label": "assumption",
+            "text": "1. R's (\\( r_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 3830,
+            "end": 3849,
+            "label": "reasoning",
+            "text": "2. U's (\\( u_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 3849,
+            "end": 3868,
+            "label": "reasoning",
+            "text": "3. R's (\\( r_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 3868,
+            "end": 3887,
+            "label": "reasoning",
+            "text": "4. U's (\\( u_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 3887,
+            "end": 3907,
+            "label": "reasoning",
+            "text": "5. R's (\\( r_3 \\))\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 3907,
+            "end": 3963,
+            "label": "planning",
+            "text": "Similarly, if we start with U's, the segments will be:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 3963,
+            "end": 3982,
+            "label": "assumption",
+            "text": "1. U's (\\( u_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 3982,
+            "end": 4001,
+            "label": "reasoning",
+            "text": "2. R's (\\( r_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 4001,
+            "end": 4020,
+            "label": "reasoning",
+            "text": "3. U's (\\( u_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 4020,
+            "end": 4039,
+            "label": "reasoning",
+            "text": "4. R's (\\( r_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 4039,
+            "end": 4059,
+            "label": "reasoning",
+            "text": "5. U's (\\( u_3 \\))\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 4059,
+            "end": 4146,
+            "label": "reasoning",
+            "text": "Wait, but we have exactly 4 direction changes, so the number of segments should be 5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 4146,
+            "end": 4174,
+            "label": "planning",
+            "text": "Let's consider both cases:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 4174,
+            "end": 4206,
+            "label": "planning",
+            "text": "**Case 1:** Starting with R's.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 4206,
+            "end": 4217,
+            "label": "planning",
+            "text": "Segments:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 4217,
+            "end": 4236,
+            "label": "assumption",
+            "text": "1. R's (\\( r_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 4236,
+            "end": 4255,
+            "label": "reasoning",
+            "text": "2. U's (\\( u_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 4255,
+            "end": 4274,
+            "label": "reasoning",
+            "text": "3. R's (\\( r_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 4274,
+            "end": 4293,
+            "label": "reasoning",
+            "text": "4. U's (\\( u_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 4293,
+            "end": 4313,
+            "label": "reasoning",
+            "text": "5. R's (\\( r_3 \\))\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 4313,
+            "end": 4351,
+            "label": "reasoning",
+            "text": "Total R's: \\( r_1 + r_2 + r_3 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 4351,
+            "end": 4383,
+            "label": "reasoning",
+            "text": "Total U's: \\( u_1 + u_2 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 4383,
+            "end": 4415,
+            "label": "planning",
+            "text": "**Case 2:** Starting with U's.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 4415,
+            "end": 4426,
+            "label": "planning",
+            "text": "Segments:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 4426,
+            "end": 4445,
+            "label": "assumption",
+            "text": "1. U's (\\( u_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 4445,
+            "end": 4464,
+            "label": "reasoning",
+            "text": "2. R's (\\( r_1 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 4464,
+            "end": 4483,
+            "label": "reasoning",
+            "text": "3. U's (\\( u_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 4483,
+            "end": 4502,
+            "label": "reasoning",
+            "text": "4. R's (\\( r_2 \\))\n",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": true,
+            "start": 4502,
+            "end": 4522,
+            "label": "reasoning",
+            "text": "5. U's (\\( u_3 \\))\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": true,
+            "start": 4522,
+            "end": 4554,
+            "label": "reasoning",
+            "text": "Total R's: \\( r_1 + r_2 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": true,
+            "start": 4554,
+            "end": 4592,
+            "label": "reasoning",
+            "text": "Total U's: \\( u_1 + u_2 + u_3 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": true,
+            "start": 4592,
+            "end": 4653,
+            "label": "planning",
+            "text": "Now, we need to find the number of solutions for each case.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": true,
+            "start": 4653,
+            "end": 4685,
+            "label": "planning",
+            "text": "**Case 1:** Starting with R's.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": true,
+            "start": 4685,
+            "end": 4695,
+            "label": "planning",
+            "text": "We have:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": true,
+            "start": 4695,
+            "end": 4722,
+            "label": "restatement",
+            "text": "\\( r_1 + r_2 + r_3 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": true,
+            "start": 4722,
+            "end": 4743,
+            "label": "restatement",
+            "text": "\\( u_1 + u_2 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": true,
+            "start": 4743,
+            "end": 4842,
+            "label": "reasoning",
+            "text": "Each \\( r_i \\) and \\( u_i \\) must be at least 1 because each segment must have at least one move.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": true,
+            "start": 4842,
+            "end": 4885,
+            "label": "fact",
+            "text": "So, we can use the stars and bars method.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": true,
+            "start": 4885,
+            "end": 4940,
+            "label": "planning",
+            "text": "For \\( r_1 + r_2 + r_3 = 8 \\), with \\( r_i \\geq 1 \\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp134",
+            "annotation": true,
+            "start": 4940,
+            "end": 5005,
+            "label": "reasoning",
+            "text": "Number of solutions: \\( \\binom{8-1}{3-1} = \\binom{7}{2} = 21 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp135",
+            "annotation": true,
+            "start": 5005,
+            "end": 5054,
+            "label": "planning",
+            "text": "For \\( u_1 + u_2 = 8 \\), with \\( u_i \\geq 1 \\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp136",
+            "annotation": true,
+            "start": 5054,
+            "end": 5118,
+            "label": "reasoning",
+            "text": "Number of solutions: \\( \\binom{8-1}{2-1} = \\binom{7}{1} = 7 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp137",
+            "annotation": true,
+            "start": 5118,
+            "end": 5161,
+            "label": "reasoning",
+            "text": "Total for Case 1: \\( 21 \\times 7 = 147 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp138",
+            "annotation": true,
+            "start": 5161,
+            "end": 5193,
+            "label": "planning",
+            "text": "**Case 2:** Starting with U's.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp139",
+            "annotation": true,
+            "start": 5193,
+            "end": 5203,
+            "label": "planning",
+            "text": "We have:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp140",
+            "annotation": true,
+            "start": 5203,
+            "end": 5224,
+            "label": "restatement",
+            "text": "\\( r_1 + r_2 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp141",
+            "annotation": true,
+            "start": 5224,
+            "end": 5251,
+            "label": "restatement",
+            "text": "\\( u_1 + u_2 + u_3 = 8 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp142",
+            "annotation": true,
+            "start": 5251,
+            "end": 5296,
+            "label": "reasoning",
+            "text": "Again, each \\( r_i \\) and \\( u_i \\geq 1 \\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp143",
+            "annotation": true,
+            "start": 5296,
+            "end": 5345,
+            "label": "planning",
+            "text": "For \\( r_1 + r_2 = 8 \\), with \\( r_i \\geq 1 \\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp144",
+            "annotation": true,
+            "start": 5345,
+            "end": 5409,
+            "label": "reasoning",
+            "text": "Number of solutions: \\( \\binom{8-1}{2-1} = \\binom{7}{1} = 7 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp145",
+            "annotation": true,
+            "start": 5409,
+            "end": 5464,
+            "label": "planning",
+            "text": "For \\( u_1 + u_2 + u_3 = 8 \\), with \\( u_i \\geq 1 \\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp146",
+            "annotation": true,
+            "start": 5464,
+            "end": 5529,
+            "label": "reasoning",
+            "text": "Number of solutions: \\( \\binom{8-1}{3-1} = \\binom{7}{2} = 21 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp147",
+            "annotation": true,
+            "start": 5529,
+            "end": 5572,
+            "label": "reasoning",
+            "text": "Total for Case 2: \\( 7 \\times 21 = 147 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp148",
+            "annotation": true,
+            "start": 5572,
+            "end": 5600,
+            "label": "planning",
+            "text": "**Total Number of Paths:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp149",
+            "annotation": true,
+            "start": 5600,
+            "end": 5655,
+            "label": "reasoning",
+            "text": "Total paths = Case 1 + Case 2 = \\( 147 + 147 = 294 \\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp150",
+            "annotation": true,
+            "start": 5655,
+            "end": 5672,
+            "label": "planning",
+            "text": "**Conclusion:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp151",
+            "annotation": true,
+            "start": 5672,
+            "end": 5749,
+            "label": "reflection",
+            "text": "After carefully analyzing both cases and applying the stars and bars method, ",
+            "source": "response"
+        },
+        {
+            "id": "resp152",
+            "annotation": true,
+            "start": 5749,
+            "end": 5873,
+            "label": "conclusion",
+            "text": "we find that the number of paths of length 16 on an \\(8 \\times 8\\) grid that change direction exactly four times is **294**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp1",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp4",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp10",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp12",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp13",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp14",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp19",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp24",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp25",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp46",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp47",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp50",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp50",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp59",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp59",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp59",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp59",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp60",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp61",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp61",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp61",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp62",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp64",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp73",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp74",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp75",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp76",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp79",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp82",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp83",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp84",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp86",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp93",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp94",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp95",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp95",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp96",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp100",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp101",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp102",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp104",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp108",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp110",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp113",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp117",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp118",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp118",
+            "dest_node_id": "resp119",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp121",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp118",
+            "dest_node_id": "resp123",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp126",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp126",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp126",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp126",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp127",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp128",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp129",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp130",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp131",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp131",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp129",
+            "dest_node_id": "resp133",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp133",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp133",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp134",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp133",
+            "dest_node_id": "resp134",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp135",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp135",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp133",
+            "dest_node_id": "resp135",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp136",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp135",
+            "dest_node_id": "resp136",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp134",
+            "dest_node_id": "resp137",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp136",
+            "dest_node_id": "resp137",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp138",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "resp137",
+            "dest_node_id": "resp138",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "resp138",
+            "dest_node_id": "resp139",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp140",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp141",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp142",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp140",
+            "dest_node_id": "resp142",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp142",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "resp140",
+            "dest_node_id": "resp143",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp143",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp144",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp145",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp145",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp145",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp146",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp146",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp132",
+            "dest_node_id": "resp146",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp133",
+            "dest_node_id": "resp146",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp144",
+            "dest_node_id": "resp147",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp146",
+            "dest_node_id": "resp147",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp137",
+            "dest_node_id": "resp148",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp148",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e238",
+            "source_node_id": "resp137",
+            "dest_node_id": "resp149",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e239",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp149",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e240",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp149",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e241",
+            "source_node_id": "resp149",
+            "dest_node_id": "resp150",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e242",
+            "source_node_id": "resp149",
+            "dest_node_id": "resp151",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e243",
+            "source_node_id": "resp149",
+            "dest_node_id": "resp152",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e244",
+            "source_node_id": "resp150",
+            "dest_node_id": "resp152",
+            "label": "reason:execute"
+        }
+    ]
+}
