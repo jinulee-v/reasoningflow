@@ -1,0 +1,1267 @@
+{
+    "doc_id": "gpqa-diamond_104_gpt-oss-120b",
+    "raw_text": {
+        "question": "Astronomers are currently observing a star with a radius equal to that of the Sun. One  hemisphere of the star is covered in dark spots with a filling factor of 20%. The star has an effective temperature (Teff) of 6000K, and the spots exhibit a temperature difference of 1000K. As only one hemisphere is spotty, photometric time-series observations will reveal periodic variations in brightness due to rotational modulation. Interestingly, this situation can closely resemble the presence of an exoplanet. To produce the same amplitude signal in the star's light curve (if the star was not covered by spots!), what should be the radius of a hypothetical exoplanet relative to the radius of the host star (i.e. Rpl/Rstar)?\nA. ~0.32\nB. ~0.11\nC. ~0.39\nD. ~0.07",
+        "response": "<think>We need to compute amplitude of brightness variation due to spots covering 20% of one hemisphere (i.e., half the star). So total star flux variation as it rotates: when spotty hemisphere faces us, we see reduced flux; when opposite hemisphere (spot-free) faces us, we see full flux. So amplitude = (F_max - F_min)/F_max? Usually photometric variation amplitude is relative change. For a planet transit, depth = (Rpl/Rstar)^2 (assuming no limb darkening). So we need to equate the relative flux drop due to spots (when spotty side is visible) to transit depth.\n\nCompute flux from star with spots: The star's total luminosity (or flux) is integrated over surface. For a uniform temperature T=6000K, flux per unit area = sigma T^4. With spots covering fraction f=0.2 of hemisphere (i.e., 20% of that hemisphere). But only one hemisphere has spots; the other hemisphere is spotless. So overall visible hemisphere at any time: either spotty hemisphere (with spots) or spotless hemisphere. When spotty hemisphere faces us, the observed flux = flux from spotless hemisphere (full) + flux from spotty hemisphere (with spots). But we only see one hemisphere at a time. Actually we see the hemisphere facing us; the other side is hidden. So when spotty side faces us, we see that hemisphere which has 20% spots at T_spot = T - 1000K = 5000K, and 80% normal at 6000K. When the spotless side faces us, we see a hemisphere with 100% normal at 6000K.\n\nThus flux observed (relative to full star flux) is proportional to average surface flux of visible hemisphere.\n\nLet sigma = Stefan-Boltzmann constant. Compute flux per unit area: F_star = sigma * T^4.\n\nSpot temperature: T_spot = 5000K.\n\nCompute ratio: (F_spot / F_star) = (5000/6000)^4 = (5/6)^4 = (0.83333)^4. 0.8333^2 = 0.6944; squared again = 0.4823 approx. So spot flux is ~0.48 of normal.\n\nNow visible hemisphere flux when spotty side faces us: average flux = 0.8 * 1 + 0.2 * 0.4823 = 0.8 + 0.09646 = 0.89646 of normal flux per unit area. So total observed flux = 0.89646 * (area of hemisphere) * sigma T^4? Actually relative to full star flux (which would be average over whole sphere). But we compare to maximum flux when spotless hemisphere faces us: that hemisphere has 100% normal flux, so average = 1. So relative flux variation amplitude = (F_max - F_min)/F_max = (1 - 0.89646) = 0.10354, i.e., about 10.35% drop.\n\nThus the photometric variation amplitude is ~10% (peak-to-peak? Actually amplitude is half the peak-to-peak? Usually amplitude is the depth relative to max. For transit depth, it's drop relative to out-of-transit flux. So we set depth = 0.1035.\n\nNow for a planet transit, depth = (Rpl/Rstar)^2 (ignoring limb darkening). So (Rpl/Rstar) = sqrt(0.1035) = sqrt(0.1035). sqrt 0.1 = 0.316. Slightly higher: sqrt 0.1035 ≈ 0.3217. So about 0.32.\n\nThus answer A ~0.32.\n\nCheck options: A ~0.32, B ~0.11, C ~0.39, D ~0.07. So answer A.\n\nThus radius ratio ~0.32.\n</think>\nThe spotted hemisphere is dimmer because 20 % of it is covered by spots that are 1 000 K cooler.\n\n* Flux from the unspotted photosphere: \\(F_\\star \\propto T^4\\) with \\(T=6000\\) K.  \n* Flux from a spot: \\(F_{\\rm spot}\\propto (5000/6000)^4 = (5/6)^4 \\approx 0.48\\,F_\\star\\).\n\nWhen the spotted hemisphere faces us, the average surface flux we see is  \n\n\\[\n\\langle F\\rangle = 0.8\\,(1) + 0.2\\,(0.48) \\approx 0.896\\,F_\\star .\n\\]\n\nWhen the spotless hemisphere faces us, the average flux is simply \\(1\\,F_\\star\\).\n\nThus the relative drop in brightness (the photometric “depth”) caused by rotation is  \n\n\\[\n\\Delta = \\frac{F_{\\max}-F_{\\min}}{F_{\\max}} = 1 - 0.896 \\approx 0.104 .\n\\]\n\nFor a transiting planet (ignoring limb darkening) the transit depth is  \n\n\\[\n\\Delta = \\left(\\frac{R_{\\rm pl}}{R_\\star}\\right)^2 .\n\\]\n\nHence  \n\n\\[\n\\frac{R_{\\rm pl}}{R_\\star}= \\sqrt{0.104}\\approx 0.32 .\n\\]\n\nSo a planet would need a radius about **32 % of the stellar radius** to mimic the spot‑induced modulation.\n\n**Answer: A. ~0.32**."
+    },
+    "metadata": {
+        "batch": 104,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "gpqa-104",
+        "correct_answer": "A",
+        "is_human_annotated": false,
+        "correctness": true,
+        "topic": "physics"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 83,
+            "label": "context",
+            "text": "Astronomers are currently observing a star with a radius equal to that of the Sun. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 83,
+            "end": 166,
+            "label": "context",
+            "text": "One  hemisphere of the star is covered in dark spots with a filling factor of 20%. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 166,
+            "end": 278,
+            "label": "context",
+            "text": "The star has an effective temperature (Teff) of 6000K, and the spots exhibit a temperature difference of 1000K. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 278,
+            "end": 425,
+            "label": "context",
+            "text": "As only one hemisphere is spotty, photometric time-series observations will reveal periodic variations in brightness due to rotational modulation. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 425,
+            "end": 506,
+            "label": "context",
+            "text": "Interestingly, this situation can closely resemble the presence of an exoplanet. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 506,
+            "end": 722,
+            "label": "context",
+            "text": "To produce the same amplitude signal in the star's light curve (if the star was not covered by spots!), what should be the radius of a hypothetical exoplanet relative to the radius of the host star (i.e. Rpl/Rstar)?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 722,
+            "end": 731,
+            "label": "context",
+            "text": "A. ~0.32\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 731,
+            "end": 740,
+            "label": "context",
+            "text": "B. ~0.11\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 740,
+            "end": 749,
+            "label": "context",
+            "text": "C. ~0.39\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 749,
+            "end": 757,
+            "label": "context",
+            "text": "D. ~0.07",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 127,
+            "label": "planning",
+            "text": "We need to compute amplitude of brightness variation due to spots covering 20% of one hemisphere (i.e., half the star). ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 127,
+            "end": 290,
+            "label": "reasoning",
+            "text": "So total star flux variation as it rotates: when spotty hemisphere faces us, we see reduced flux; when opposite hemisphere (spot-free) faces us, we see full flux. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 290,
+            "end": 328,
+            "label": "reasoning",
+            "text": "So amplitude = (F_max - F_min)/F_max? ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 328,
+            "end": 388,
+            "label": "reasoning",
+            "text": "Usually photometric variation amplitude is relative change. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 388,
+            "end": 462,
+            "label": "fact",
+            "text": "For a planet transit, depth = (Rpl/Rstar)^2 (assuming no limb darkening). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 462,
+            "end": 568,
+            "label": "planning",
+            "text": "So we need to equate the relative flux drop due to spots (when spotty side is visible) to transit depth.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 568,
+            "end": 603,
+            "label": "planning",
+            "text": "Compute flux from star with spots: ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 603,
+            "end": 669,
+            "label": "reasoning",
+            "text": "The star's total luminosity (or flux) is integrated over surface. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 669,
+            "end": 736,
+            "label": "fact",
+            "text": "For a uniform temperature T=6000K, flux per unit area = sigma T^4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 736,
+            "end": 817,
+            "label": "restatement",
+            "text": "With spots covering fraction f=0.2 of hemisphere (i.e., 20% of that hemisphere). ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 817,
+            "end": 886,
+            "label": "restatement",
+            "text": "But only one hemisphere has spots; the other hemisphere is spotless. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 886,
+            "end": 991,
+            "label": "reasoning",
+            "text": "So overall visible hemisphere at any time: either spotty hemisphere (with spots) or spotless hemisphere. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 991,
+            "end": 1125,
+            "label": "reasoning",
+            "text": "When spotty hemisphere faces us, the observed flux = flux from spotless hemisphere (full) + flux from spotty hemisphere (with spots). ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1125,
+            "end": 1167,
+            "label": "reasoning",
+            "text": "But we only see one hemisphere at a time. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1167,
+            "end": 1235,
+            "label": "reasoning",
+            "text": "Actually we see the hemisphere facing us; the other side is hidden. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1235,
+            "end": 1364,
+            "label": "reasoning",
+            "text": "So when spotty side faces us, we see that hemisphere which has 20% spots at T_spot = T - 1000K = 5000K, and 80% normal at 6000K. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1364,
+            "end": 1445,
+            "label": "reasoning",
+            "text": "When the spotless side faces us, we see a hemisphere with 100% normal at 6000K.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1445,
+            "end": 1557,
+            "label": "reasoning",
+            "text": "Thus flux observed (relative to full star flux) is proportional to average surface flux of visible hemisphere.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1557,
+            "end": 1596,
+            "label": "fact",
+            "text": "Let sigma = Stefan-Boltzmann constant. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1596,
+            "end": 1647,
+            "label": "reasoning",
+            "text": "Compute flux per unit area: F_star = sigma * T^4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1647,
+            "end": 1682,
+            "label": "reasoning",
+            "text": "Spot temperature: T_spot = 5000K.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1682,
+            "end": 1756,
+            "label": "reasoning",
+            "text": "Compute ratio: (F_spot / F_star) = (5000/6000)^4 = (5/6)^4 = (0.83333)^4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1756,
+            "end": 1806,
+            "label": "reasoning",
+            "text": "0.8333^2 = 0.6944; squared again = 0.4823 approx. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1806,
+            "end": 1840,
+            "label": "reasoning",
+            "text": "So spot flux is ~0.48 of normal.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1840,
+            "end": 1895,
+            "label": "planning",
+            "text": "Now visible hemisphere flux when spotty side faces us: ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1895,
+            "end": 1989,
+            "label": "reasoning",
+            "text": "average flux = 0.8 * 1 + 0.2 * 0.4823 = 0.8 + 0.09646 = 0.89646 of normal flux per unit area. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1989,
+            "end": 2058,
+            "label": "reasoning",
+            "text": "So total observed flux = 0.89646 * (area of hemisphere) * sigma T^4? ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2058,
+            "end": 2138,
+            "label": "reasoning",
+            "text": "Actually relative to full star flux (which would be average over whole sphere). ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2138,
+            "end": 2204,
+            "label": "planning",
+            "text": "But we compare to maximum flux when spotless hemisphere faces us: ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2204,
+            "end": 2258,
+            "label": "reasoning",
+            "text": "that hemisphere has 100% normal flux, so average = 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2258,
+            "end": 2372,
+            "label": "reasoning",
+            "text": "So relative flux variation amplitude = (F_max - F_min)/F_max = (1 - 0.89646) = 0.10354, i.e., about 10.35% drop.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2372,
+            "end": 2436,
+            "label": "reflection",
+            "text": "Thus the photometric variation amplitude is ~10% (peak-to-peak? ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2436,
+            "end": 2481,
+            "label": "reflection",
+            "text": "Actually amplitude is half the peak-to-peak? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 2481,
+            "end": 2529,
+            "label": "reasoning",
+            "text": "Usually amplitude is the depth relative to max. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 2529,
+            "end": 2591,
+            "label": "reasoning",
+            "text": "For transit depth, it's drop relative to out-of-transit flux. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2591,
+            "end": 2618,
+            "label": "reasoning",
+            "text": "So we set depth = 0.1035.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 2618,
+            "end": 2693,
+            "label": "fact",
+            "text": "Now for a planet transit, depth = (Rpl/Rstar)^2 (ignoring limb darkening). ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2693,
+            "end": 2739,
+            "label": "reasoning",
+            "text": "So (Rpl/Rstar) = sqrt(0.1035) = sqrt(0.1035). ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2739,
+            "end": 2757,
+            "label": "reasoning",
+            "text": "sqrt 0.1 = 0.316. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2757,
+            "end": 2796,
+            "label": "reasoning",
+            "text": "Slightly higher: sqrt 0.1035 ≈ 0.3217. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2796,
+            "end": 2812,
+            "label": "reasoning",
+            "text": "So about 0.32.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2812,
+            "end": 2834,
+            "label": "conclusion",
+            "text": "Thus answer A ~0.32.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2834,
+            "end": 2885,
+            "label": "restatement",
+            "text": "Check options: A ~0.32, B ~0.11, C ~0.39, D ~0.07. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2885,
+            "end": 2899,
+            "label": "reasoning",
+            "text": "So answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2899,
+            "end": 2924,
+            "label": "reasoning",
+            "text": "Thus radius ratio ~0.32.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2924,
+            "end": 2933,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2933,
+            "end": 3031,
+            "label": "reasoning",
+            "text": "The spotted hemisphere is dimmer because 20 % of it is covered by spots that are 1 000 K cooler.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 3031,
+            "end": 3115,
+            "label": "reasoning",
+            "text": "* Flux from the unspotted photosphere: \\(F_\\star \\propto T^4\\) with \\(T=6000\\) K.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 3115,
+            "end": 3207,
+            "label": "reasoning",
+            "text": "* Flux from a spot: \\(F_{\\rm spot}\\propto (5000/6000)^4 = (5/6)^4 \\approx 0.48\\,F_\\star\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 3207,
+            "end": 3357,
+            "label": "reasoning",
+            "text": "When the spotted hemisphere faces us, the average surface flux we see is  \n\n\\[\n\\langle F\\rangle = 0.8\\,(1) + 0.2\\,(0.48) \\approx 0.896\\,F_\\star .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 3357,
+            "end": 3440,
+            "label": "reasoning",
+            "text": "When the spotless hemisphere faces us, the average flux is simply \\(1\\,F_\\star\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 3440,
+            "end": 3607,
+            "label": "reasoning",
+            "text": "Thus the relative drop in brightness (the photometric “depth”) caused by rotation is  \n\n\\[\n\\Delta = \\frac{F_{\\max}-F_{\\min}}{F_{\\max}} = 1 - 0.896 \\approx 0.104 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 3607,
+            "end": 3741,
+            "label": "fact",
+            "text": "For a transiting planet (ignoring limb darkening) the transit depth is  \n\n\\[\n\\Delta = \\left(\\frac{R_{\\rm pl}}{R_\\star}\\right)^2 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 3741,
+            "end": 3812,
+            "label": "reasoning",
+            "text": "Hence  \n\n\\[\n\\frac{R_{\\rm pl}}{R_\\star}= \\sqrt{0.104}\\approx 0.32 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 3812,
+            "end": 3920,
+            "label": "conclusion",
+            "text": "So a planet would need a radius about **32 % of the stellar radius** to mimic the spot‑induced modulation.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 3920,
+            "end": 3941,
+            "label": "conclusion",
+            "text": "**Answer: A. ~0.32**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "validate:support"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp9",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp10",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp11",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp12",
+            "label": "validate:support"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp12",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp13",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp15",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp19",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp25",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp35",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp37",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp42",
+            "label": "validate:support"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "ctx9",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp44",
+            "label": "validate:support"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp48",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp51",
+            "label": "validate:support"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp53",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp55",
+            "label": "validate:support"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp56",
+            "label": "validate:support"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "validate:support"
+        }
+    ]
+}

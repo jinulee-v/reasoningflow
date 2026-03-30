@@ -1,0 +1,736 @@
+{
+    "doc_id": "bright-theoremqa_theorems_38_gpt-oss-120b",
+    "raw_text": {
+        "question": "Imagine you're a scientist studying a special function f that is bounded and entire. You're analyzing how this signal interacts with two specific points on the radius-r ball. What is the value of the integral $\\int_{|z|=r} f(z)/(z-z_1)(z-z_2) dz$?\n\nRetrieved documents:\n[Document 1]\n\\begin{definition}[Definition:Valid Time Indication]\nConsider an analogue clock with an hour hand $H$ and a minute hand $M$.\nA '''valid time indication''' is an arrangement of $H$ and $M$ which indicates a specific time of day (either a.m. or p.m.).\n{{handwaving|It is not at all clear what it means to \"indicate a specific time of day\" since we have not defined how a clock works. I can imagine we don't want to go that far because it would be beside the point, but then we should explain that it is different from a random orientation of H and M which does not correspond to normal operation of a clock.}}\nCategory:Definitions/Clocks\n\\end{definition}\n\n[Document 2]\n\\begin{definition}[Definition:Set/Uniqueness of Elements/Multiple Specification]\nFor a given '''set''', an object is either '''in''' the set or '''not in''' the set.\nSo, if an element is in a set, then it is in the set '''only once''', however many times it may appear in the definition of the set.\nThus, the set $\\set {1, 2, 2, 3, 3, 4}$ is the same set as $\\set {1, 2, 3, 4}$.\n$2$ and $3$ are in the set, and '''listing''' them twice makes no difference to the set's '''contents'''.\nLike the membership of a club, if you're in, you're in -- however many membership cards you have to prove it.\n\\end{definition}\n\n[Document 3]\n\\begin{definition}[Definition:Infinity]\nInformally, the term '''infinity''' is used to mean '''some infinite number''', but this concept falls very far short of a usable definition.\nThe symbol $\\infty$ (supposedly invented by {{AuthorRef|John Wallis}}) is often used in this context to mean '''an infinite number'''.\nHowever, outside of its formal use in the definition of limits its use is strongly discouraged until you know what you're talking about.\nIt is defined as having the following properties:\n:$\\forall n \\in \\Z: n < \\infty$\n:$\\forall n \\in \\Z: n + \\infty = \\infty$\n:$\\forall n \\in \\Z: n \\times \\infty = \\infty$\n:$\\infty^2 = \\infty$\nSimilarly, the quantity written as $-\\infty$ is defined as having the following properties:\n:$\\forall n \\in \\Z: -\\infty< n$\n:$\\forall n \\in \\Z: -\\infty + n = -\\infty$\n:$\\forall n \\in \\Z: -\\infty \\times n = -\\infty$\n:$\\paren {-\\infty}^2 = -\\infty$\nThe latter result seems wrong when you think of the rule that a negative number square equals a positive one, but remember that infinity is not exactly a number as such.\n\\end{definition}\n\n[Document 4]\n\\begin{definition}[Definition:Primitive (Calculus)/Indefinite Integral]\nSuppose that the real or complex function $F$ is a primitive of the function $f$.\nFrom the Fundamental Theorem of Calculus, it is apparent that to find the value of a definite integral for a function between two points, one can find the value of the primitive of the function at those points and subtract one from the other.\nThus arises the notation:\n:$\\ds \\int \\map f x \\rd x = \\map F x + C$\nwhere $C$ is the arbitrary constant.\nIn this context, the expression $\\ds \\int \\map f x \\rd x$ is known as the '''indefinite integral''' of $f$.\n\\end{definition}\n\n[Document 5]\n\\section{Cauchy-Goursat Theorem}\nTags: Complex Analysis\n\n\\begin{theorem}\nLet $D$ be a simply connected open subset of the complex plane $\\C$.\nLet $\\partial D$ denote the closed contour bounding $D$.\nLet $f: D \\to \\C$ be holomorphic everywhere in $D$.\nThen:\n:$\\ds \\oint_{\\partial D} \\map f z \\rd z = 0$\n\\end{theorem}\n\n\\begin{proof}\nBegin by rewriting the function $f$ and differential $\\rd z$ in terms of their real and complex parts:\n:$f = u + iv$\n:$\\d z = \\d x + i \\rd y$\nThen we have:\n:$\\ds \\oint_{\\partial D} \\map f z \\rd z = \\oint_{\\partial D} \\paren {u + iv} \\paren {\\d x + i \\rd y}$\nExpanding the result and again separating into real and complex parts yields two integrals of real variables:\n:$\\ds \\oint_{\\partial D} \\paren {u \\rd x - v \\rd y} + i \\oint_{\\partial D} \\paren {v \\rd x + u \\rd y}$\nWe next apply Green's Theorem to each integral term to convert the contour integrals to surface integrals over $D$:\n:$\\ds \\iint_D \\paren {-\\dfrac {\\partial v} {\\partial x} - \\dfrac {\\partial u} {\\partial y} } \\rd x \\rd y + \\iint_D \\paren {\\dfrac {\\partial u} {\\partial x} - \\dfrac {\\partial v} {\\partial y} } \\rd x \\rd y$\nBy the assumption that $f$ is holomorphic, it satisfies the Cauchy-Riemann Equations\n:$\\dfrac {\\partial v} {\\partial x} + \\dfrac {\\partial u} {\\partial y} = 0$\n:$\\dfrac {\\partial u} {\\partial x} - \\dfrac {\\partial v} {\\partial y} = 0$\nThe integrands are therefore zero and hence the integral is zero.\n{{qed}}\n\\end{proof}\n\n",
+        "response": "Let  \n\n\\[\nI(r)=\\int_{|z|=r}\\frac{f(z)}{(z-z_{1})(z-z_{2})}\\,dz ,\n\\qquad |z_{1}|<r,\\;|z_{2}|<r .\n\\]\n\n---\n\n### 1.  Bounded entire \\(\\Rightarrow\\) constant  \n\nSince \\(f\\) is entire and bounded, Liouville’s theorem gives  \n\n\\[\nf(z)\\equiv C\\qquad (C\\in\\mathbb C).\n\\]\n\nHence  \n\n\\[\nI(r)=C\\int_{|z|=r}\\frac{dz}{(z-z_{1})(z-z_{2})}.\n\\]\n\n---\n\n### 2.  Partial‑fraction decomposition  \n\n\\[\n\\frac{1}{(z-z_{1})(z-z_{2})}\n   =\\frac{1}{z_{1}-z_{2}}\\Bigl(\\frac{1}{z-z_{1}}-\\frac{1}{z-z_{2}}\\Bigr).\n\\]\n\nTherefore  \n\n\\[\nI(r)=\\frac{C}{z_{1}-z_{2}}\n      \\Bigl(\\int_{|z|=r}\\frac{dz}{z-z_{1}}\n            -\\int_{|z|=r}\\frac{dz}{z-z_{2}}\\Bigr).\n\\]\n\n---\n\n### 3.  Apply Cauchy’s integral formula (or the residue theorem)\n\nBoth \\(z_{1}\\) and \\(z_{2}\\) lie inside the circle \\(|z|=r\\); for a constant function the Cauchy integral formula gives  \n\n\\[\n\\int_{|z|=r}\\frac{dz}{z-a}=2\\pi i\\qquad (a\\text{ inside }|z|=r).\n\\]\n\nThus  \n\n\\[\n\\int_{|z|=r}\\frac{dz}{z-z_{1}}=2\\pi i,\n\\qquad\n\\int_{|z|=r}\\frac{dz}{z-z_{2}}=2\\pi i .\n\\]\n\nThe two contributions cancel:\n\n\\[\nI(r)=\\frac{C}{z_{1}-z_{2}}\\bigl(2\\pi i-2\\pi i\\bigr)=0 .\n\\]\n\n---\n\n### 4.  Result  \n\n\\[\n\\boxed{\\displaystyle \\int_{|z|=r}\\frac{f(z)}{(z-z_{1})(z-z_{2})}\\,dz = 0 }.\n\\]\n\n(If only one of the points were inside the circle, the integral would be \\(2\\pi i\\,C/(z_{1}-z_{2})\\) or its negative; with both inside it vanishes.)"
+    },
+    "metadata": {
+        "batch": 38,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_mingyin/cauchy-integral-theorem1.json",
+        "correct_answer": null,
+        "is_human_annotated": false,
+        "correctness": null,
+        "topic": "math"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 85,
+            "label": "context",
+            "text": "Imagine you're a scientist studying a special function f that is bounded and entire. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 85,
+            "end": 175,
+            "label": "context",
+            "text": "You're analyzing how this signal interacts with two specific points on the radius-r ball. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 175,
+            "end": 249,
+            "label": "context",
+            "text": "What is the value of the integral $\\int_{|z|=r} f(z)/(z-z_1)(z-z_2) dz$?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 249,
+            "end": 270,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 270,
+            "end": 407,
+            "label": "context",
+            "text": "[Document 1]\n\\begin{definition}[Definition:Valid Time Indication]\nConsider an analogue clock with an hour hand $H$ and a minute hand $M$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 407,
+            "end": 532,
+            "label": "context",
+            "text": "\nA '''valid time indication''' is an arrangement of $H$ and $M$ which indicates a specific time of day (either a.m. or p.m.).",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 532,
+            "end": 665,
+            "label": "context",
+            "text": "\n{{handwaving|It is not at all clear what it means to \"indicate a specific time of day\" since we have not defined how a clock works. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 665,
+            "end": 746,
+            "label": "context",
+            "text": "I can imagine we don't want to go that far because it would be beside the point, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 746,
+            "end": 890,
+            "label": "context",
+            "text": "but then we should explain that it is different from a random orientation of H and M which does not correspond to normal operation of a clock.}}",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 890,
+            "end": 937,
+            "label": "context",
+            "text": "\nCategory:Definitions/Clocks\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 937,
+            "end": 1115,
+            "label": "context",
+            "text": "[Document 2]\n\\begin{definition}[Definition:Set/Uniqueness of Elements/Multiple Specification]\nFor a given '''set''', an object is either '''in''' the set or '''not in''' the set.",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 1115,
+            "end": 1147,
+            "label": "context",
+            "text": "\nSo, if an element is in a set, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 1147,
+            "end": 1248,
+            "label": "context",
+            "text": "then it is in the set '''only once''', however many times it may appear in the definition of the set.",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 1248,
+            "end": 1328,
+            "label": "context",
+            "text": "\nThus, the set $\\set {1, 2, 2, 3, 3, 4}$ is the same set as $\\set {1, 2, 3, 4}$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 1328,
+            "end": 1357,
+            "label": "context",
+            "text": "\n$2$ and $3$ are in the set, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 1357,
+            "end": 1434,
+            "label": "context",
+            "text": "and '''listing''' them twice makes no difference to the set's '''contents'''.",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 1434,
+            "end": 1544,
+            "label": "context",
+            "text": "\nLike the membership of a club, if you're in, you're in -- however many membership cards you have to prove it.",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 1544,
+            "end": 1563,
+            "label": "context",
+            "text": "\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 1563,
+            "end": 1757,
+            "label": "context",
+            "text": "[Document 3]\n\\begin{definition}[Definition:Infinity]\nInformally, the term '''infinity''' is used to mean '''some infinite number''', but this concept falls very far short of a usable definition.",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 1757,
+            "end": 1892,
+            "label": "context",
+            "text": "\nThe symbol $\\infty$ (supposedly invented by {{AuthorRef|John Wallis}}) is often used in this context to mean '''an infinite number'''.",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 1892,
+            "end": 2029,
+            "label": "context",
+            "text": "\nHowever, outside of its formal use in the definition of limits its use is strongly discouraged until you know what you're talking about.",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 2029,
+            "end": 2219,
+            "label": "context",
+            "text": "\nIt is defined as having the following properties:\n:$\\forall n \\in \\Z: n < \\infty$\n:$\\forall n \\in \\Z: n + \\infty = \\infty$\n:$\\forall n \\in \\Z: n \\times \\infty = \\infty$\n:$\\infty^2 = \\infty$",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 2219,
+            "end": 2466,
+            "label": "context",
+            "text": "\nSimilarly, the quantity written as $-\\infty$ is defined as having the following properties:\n:$\\forall n \\in \\Z: -\\infty< n$\n:$\\forall n \\in \\Z: -\\infty + n = -\\infty$\n:$\\forall n \\in \\Z: -\\infty \\times n = -\\infty$\n:$\\paren {-\\infty}^2 = -\\infty$",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 2466,
+            "end": 2577,
+            "label": "context",
+            "text": "\nThe latter result seems wrong when you think of the rule that a negative number square equals a positive one, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 2577,
+            "end": 2636,
+            "label": "context",
+            "text": "but remember that infinity is not exactly a number as such.",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 2636,
+            "end": 2655,
+            "label": "context",
+            "text": "\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 2655,
+            "end": 2821,
+            "label": "context",
+            "text": "[Document 4]\n\\begin{definition}[Definition:Primitive (Calculus)/Indefinite Integral]\nSuppose that the real or complex function $F$ is a primitive of the function $f$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 2821,
+            "end": 3064,
+            "label": "context",
+            "text": "\nFrom the Fundamental Theorem of Calculus, it is apparent that to find the value of a definite integral for a function between two points, one can find the value of the primitive of the function at those points and subtract one from the other.",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 3064,
+            "end": 3169,
+            "label": "context",
+            "text": "\nThus arises the notation:\n:$\\ds \\int \\map f x \\rd x = \\map F x + C$\nwhere $C$ is the arbitrary constant.",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 3169,
+            "end": 3277,
+            "label": "context",
+            "text": "\nIn this context, the expression $\\ds \\int \\map f x \\rd x$ is known as the '''indefinite integral''' of $f$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 3277,
+            "end": 3296,
+            "label": "context",
+            "text": "\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 3296,
+            "end": 3450,
+            "label": "context",
+            "text": "[Document 5]\n\\section{Cauchy-Goursat Theorem}\nTags: Complex Analysis\n\n\\begin{theorem}\nLet $D$ be a simply connected open subset of the complex plane $\\C$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 3450,
+            "end": 3507,
+            "label": "context",
+            "text": "\nLet $\\partial D$ denote the closed contour bounding $D$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 3507,
+            "end": 3559,
+            "label": "context",
+            "text": "\nLet $f: D \\to \\C$ be holomorphic everywhere in $D$.",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 3559,
+            "end": 3781,
+            "label": "context",
+            "text": "\nThen:\n:$\\ds \\oint_{\\partial D} \\map f z \\rd z = 0$\n\\end{theorem}\n\n\\begin{proof}\nBegin by rewriting the function $f$ and differential $\\rd z$ in terms of their real and complex parts:\n:$f = u + iv$\n:$\\d z = \\d x + i \\rd y$",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 3781,
+            "end": 3897,
+            "label": "context",
+            "text": "\nThen we have:\n:$\\ds \\oint_{\\partial D} \\map f z \\rd z = \\oint_{\\partial D} \\paren {u + iv} \\paren {\\d x + i \\rd y}$",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 3897,
+            "end": 4110,
+            "label": "context",
+            "text": "\nExpanding the result and again separating into real and complex parts yields two integrals of real variables:\n:$\\ds \\oint_{\\partial D} \\paren {u \\rd x - v \\rd y} + i \\oint_{\\partial D} \\paren {v \\rd x + u \\rd y}$",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 4110,
+            "end": 4432,
+            "label": "context",
+            "text": "\nWe next apply Green's Theorem to each integral term to convert the contour integrals to surface integrals over $D$:\n:$\\ds \\iint_D \\paren {-\\dfrac {\\partial v} {\\partial x} - \\dfrac {\\partial u} {\\partial y} } \\rd x \\rd y + \\iint_D \\paren {\\dfrac {\\partial u} {\\partial x} - \\dfrac {\\partial v} {\\partial y} } \\rd x \\rd y$",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 4432,
+            "end": 4476,
+            "label": "context",
+            "text": "\nBy the assumption that $f$ is holomorphic, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 4476,
+            "end": 4667,
+            "label": "context",
+            "text": "it satisfies the Cauchy-Riemann Equations\n:$\\dfrac {\\partial v} {\\partial x} + \\dfrac {\\partial u} {\\partial y} = 0$\n:$\\dfrac {\\partial u} {\\partial x} - \\dfrac {\\partial v} {\\partial y} = 0$",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 4667,
+            "end": 4733,
+            "label": "context",
+            "text": "\nThe integrands are therefore zero and hence the integral is zero.",
+            "source": "question"
+        },
+        {
+            "id": "ctx41",
+            "annotation": false,
+            "start": 4733,
+            "end": 4755,
+            "label": "context",
+            "text": "\n{{qed}}\n\\end{proof}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 100,
+            "label": "restatement",
+            "text": "Let  \n\n\\[\nI(r)=\\int_{|z|=r}\\frac{f(z)}{(z-z_{1})(z-z_{2})}\\,dz ,\n\\qquad |z_{1}|<r,\\;|z_{2}|<r .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 100,
+            "end": 105,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 105,
+            "end": 156,
+            "label": "planning",
+            "text": "### 1.  Bounded entire \\(\\Rightarrow\\) constant  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 156,
+            "end": 191,
+            "label": "restatement",
+            "text": "Since \\(f\\) is entire and bounded, ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 191,
+            "end": 263,
+            "label": "fact",
+            "text": "Liouville’s theorem gives  \n\n\\[\nf(z)\\equiv C\\qquad (C\\in\\mathbb C).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 263,
+            "end": 328,
+            "label": "reasoning",
+            "text": "Hence  \n\n\\[\nI(r)=C\\int_{|z|=r}\\frac{dz}{(z-z_{1})(z-z_{2})}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 328,
+            "end": 333,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 333,
+            "end": 375,
+            "label": "planning",
+            "text": "### 2.  Partial‑fraction decomposition  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 375,
+            "end": 485,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{1}{(z-z_{1})(z-z_{2})}\n   =\\frac{1}{z_{1}-z_{2}}\\Bigl(\\frac{1}{z-z_{1}}-\\frac{1}{z-z_{2}}\\Bigr).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 485,
+            "end": 626,
+            "label": "reasoning",
+            "text": "Therefore  \n\n\\[\nI(r)=\\frac{C}{z_{1}-z_{2}}\n      \\Bigl(\\int_{|z|=r}\\frac{dz}{z-z_{1}}\n            -\\int_{|z|=r}\\frac{dz}{z-z_{2}}\\Bigr).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 626,
+            "end": 631,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 631,
+            "end": 697,
+            "label": "planning",
+            "text": "### 3.  Apply Cauchy’s integral formula (or the residue theorem)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 697,
+            "end": 892,
+            "label": "fact",
+            "text": "Both \\(z_{1}\\) and \\(z_{2}\\) lie inside the circle \\(|z|=r\\); for a constant function the Cauchy integral formula gives  \n\n\\[\n\\int_{|z|=r}\\frac{dz}{z-a}=2\\pi i\\qquad (a\\text{ inside }|z|=r).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 892,
+            "end": 993,
+            "label": "reasoning",
+            "text": "Thus  \n\n\\[\n\\int_{|z|=r}\\frac{dz}{z-z_{1}}=2\\pi i,\n\\qquad\n\\int_{|z|=r}\\frac{dz}{z-z_{2}}=2\\pi i .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 993,
+            "end": 1024,
+            "label": "reasoning",
+            "text": "The two contributions cancel:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1024,
+            "end": 1087,
+            "label": "reasoning",
+            "text": "\\[\nI(r)=\\frac{C}{z_{1}-z_{2}}\\bigl(2\\pi i-2\\pi i\\bigr)=0 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1087,
+            "end": 1092,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1092,
+            "end": 1110,
+            "label": "planning",
+            "text": "### 4.  Result  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1110,
+            "end": 1193,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{\\displaystyle \\int_{|z|=r}\\frac{f(z)}{(z-z_{1})(z-z_{2})}\\,dz = 0 }.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1193,
+            "end": 1341,
+            "label": "reasoning",
+            "text": "(If only one of the points were inside the circle, the integral would be \\(2\\pi i\\,C/(z_{1}-z_{2})\\) or its negative; with both inside it vanishes.)",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp10",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        }
+    ]
+}

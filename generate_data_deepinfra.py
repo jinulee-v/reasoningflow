@@ -7,6 +7,9 @@ import requests
 from datasets import load_dataset, get_dataset_config_names
 import multiprocessing
 
+import dotenv
+dotenv.load_dotenv()  # Load environment variables from .env file
+
 # export DEEPINFRA_API_KEY=your_api_key_here
 
 class DeepInfraClient:
@@ -41,6 +44,8 @@ class DeepInfraClient:
             response.raise_for_status()
             
             result = response.json()
+            if "reasoning_content" in result["choices"][0]["message"]:
+                return "<think>" + result["choices"][0]["message"]["reasoning_content"] + "\n</think>\n" + result["choices"][0]["message"]["content"]
             return result["choices"][0]["message"]["content"]
             
         except requests.exceptions.RequestException as e:
@@ -74,10 +79,11 @@ def main():
     client = DeepInfraClient(api_key)
     
     models = [
-        "deepseek-ai/DeepSeek-R1",
-        "deepseek-ai/DeepSeek-V3",
-        "Qwen/QwQ-32B",
-        # "Qwen/Qwen2.5-32B-Instruct"
+        # "deepseek-ai/DeepSeek-R1",
+        # "deepseek-ai/DeepSeek-V3",
+        # "Qwen/QwQ-32B",
+        # "Qwen/Qwen2.5-32B-Instruct",
+        "openai/gpt-oss-120b"
     ]
     dataset_names = [
         "jinulee-v/aime2024",
@@ -99,10 +105,10 @@ def main():
                 )
             model_short = model.split("/")[-1]
             dataset_name_short = dataset_name.split("/")[-1]
-            with open(f"v1_data/{model_short}_{dataset_name_short}_responses.jsonl", 'w', encoding='utf-8') as f:
+            with open(f"data_raw/v1/{model_short}_{dataset_name_short}_responses.jsonl", 'w', encoding='utf-8') as f:
                 for response in model_responses:
                     f.write(json.dumps(response, ensure_ascii=False) + "\n")
-            print(f"Responses saved to v1_data/{model_short}_{dataset_name_short}_responses.jsonl")
+            print(f"Responses saved to data_raw/v1/{model_short}_{dataset_name_short}_responses.jsonl")
 
 
 if __name__ == "__main__":

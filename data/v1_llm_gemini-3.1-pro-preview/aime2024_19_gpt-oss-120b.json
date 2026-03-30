@@ -1,0 +1,2500 @@
+{
+    "doc_id": "aime2024_19_gpt-oss-120b",
+    "raw_text": {
+        "question": "There is a collection of $25$ indistinguishable white chips and $25$ indistinguishable black chips. Find the number of ways to place some of these chips in the $25$ unit cells of a $5\\times5$ grid such that:\n\neach cell contains at most one chip\nall chips in the same row and all chips in the same column have the same colour\nany additional chip placed on the grid would violate one or more of the previous two conditions.",
+        "response": "<think>We need to count maximal placements under constraints: each row and column must be monochromatic (all chips in a row same colour, same for column). Also each cell at most one chip. And we have limited supply: at most 25 of each colour, but grid has 25 cells, so supply not restrictive unless we try to place >25 of a colour, but max per colour is 25, same as number of rows/columns? Actually each row can have multiple chips (in different columns) but they must be same colour across row. Similarly each column must be monochrome. This implies that the colour of a cell is determined by its row and column colours: if row i is colour R_i (white or black) and column j is colour C_j, then the chip placed at (i,j) must be of colour that matches both? Actually condition: \"all chips in the same row and all chips in the same column have the same colour\". Means within a row, any chips placed in that row must be same colour. Similarly within a column. If a cell has a chip, its colour must be consistent with both its row and column. So for a chip to exist at (i,j), the row colour and column colour must be same (both white or both black). If they differ, you cannot place a chip there because would violate one of the row/column uniformity.\n\nThus the placement corresponds to selecting a set of rows colored white, some rows colored black (maybe some rows empty? Actually rows may have no chips; then the condition about \"all chips in the same row have same colour\" is vacuously true. So rows without chips have no assigned colour? Could be considered uncolored. Similarly columns.\n\nWe need maximal placement: any additional chip would violate condition. So we need a placement that is maximal under the constraints given the limited chips.\n\nInterpretation: We have a grid; we can place chips such that each row that has at least one chip is monochrome, each column that has at least one chip is monochrome, and the chip colour at (i,j) must match both row and column colour (so they must be same). Also we cannot exceed 25 of each colour.\n\nMaximal means you cannot add another chip anywhere without breaking the row/column uniformity (or exceeding chip count). So the configuration must be \"saturated\": for any empty cell, either its row already has a chip of opposite colour, or its column already has a chip of opposite colour, or adding would exceed chip count? But chip count limit is 25 each, but we have at most 25 cells total, so we will never exceed unless we try to place >25 of a colour, which could happen if we fill many cells with same colour. But we have at most 25 cells, so max per colour is 25, okay.\n\nThus maximal condition reduces to: For any empty cell (i,j), either row i has a chip of colour opposite to column j's colour (or row i has a chip of colour X and column j has a chip of colour Y with X≠Y), or one of row i or column j already has a chip of a colour that would conflict with placing a chip there. More concretely, if row i has a chip colour R (or none), column j has colour C (or none). To place a chip at (i,j), we need R and C to be same (or both undefined). If both undefined, we could assign a colour and place chip, so not maximal. So maximal means there is no empty cell where both row and column are currently undefined (no chips) because then we could place a chip of either colour. Also cannot have both defined but equal? If both defined and equal, we could place chip of that colour (if not exceeding count). So maximal means for each empty cell, either row defined with colour X and column defined with colour Y where X≠Y, or one defined and the other undefined but we cannot place because row defined with X, column undefined: we could place chip of colour X in column j, but that would set column colour to X, which would be okay unless column already has a chip of opposite colour. Since column undefined, we could set it to X and place chip, so not maximal. So maximal requires that for any empty cell, at least one of its row or column already has a chip of opposite colour (i.e., defined with colour opposite to the other defined colour). But if one is undefined and the other defined, we could still place chip of the defined colour, making column defined. So maximal would require that both row and column are defined, and they have opposite colours. Because then you cannot place chip (would conflict). Also if both undefined, you could place chip, not maximal. So maximal configurations correspond to a partition of rows and columns into two colour groups such that each row and column is assigned a colour (white or black), and the cells that are occupied are exactly those where row colour = column colour. Moreover, we must ensure that we have enough chips of each colour: number of occupied cells of colour white = (#white rows)*(#white columns). Similarly black cells = (#black rows)*(#black columns). Must be ≤25 each, but total cells = 25, so each ≤25 automatically. However we also have limited supply: we have exactly 25 white chips and 25 black chips available, but we may use fewer. That's okay.\n\nNow maximal condition also requires that we cannot add any chip to a cell where row colour = column colour but cell currently empty. So we must fill all such cells. So the occupied cells are exactly the Cartesian product of rows of each colour with columns of same colour, fully filled. So the configuration is determined by a bipartition of rows into W rows and B rows, and columns similarly, and we fill all matching-colour intersections.\n\nThus number of ways = number of ways to assign each of 5 rows a colour (W/B) and each of 5 columns a colour (W/B). That's 2^5 * 2^5 = 2^10 = 1024. But we must consider that configurations that are identical up to swapping colours? No, chips are distinguishable by colour, so swapping colours yields different placement (white vs black). So count 1024.\n\nBut need to ensure chip count constraints: For each colour, number of chips used = (#rows of that colour)*(#columns of that colour). Must be ≤25. Since max rows=5, columns=5, product max 25, okay. So all assignments are feasible.\n\nEdge case: all rows white, all columns white => all 25 cells white, uses 25 white chips, 0 black chips. That's allowed. Similarly all black. Also mixed.\n\nThus answer 1024.\n\nCheck maximal condition: Suppose we have assignment where some row is white, some column black, then intersection cell is empty (since colours differ). Could we add a chip there? No because would conflict with row/column colours. So maximal satisfied.\n\nThus answer 1024.\n\nBut need to consider that we could also have rows or columns with no chips (i.e., undefined). However maximal condition forces each row and column to have at least one chip? Let's see: If a row has no chips, then its colour undefined. Then any column with same undefined? Actually column may have chips. Consider a row with no chips, column j has a chip of colour X. Then cell (row, column) is empty, row undefined, column defined X. Could we place a chip of colour X there? Row would then become colour X, consistent. So not maximal. Therefore maximal requires every row and column to have at least one chip, i.e., be defined. So our model with all rows/columns assigned colours is correct.\n\nThus answer 1024.\n\nProvide reasoning.\n</think>\nLet  \n\n* the five rows be \\(R_{1},\\dots ,R_{5}\\);\n* the five columns be \\(C_{1},\\dots ,C_{5}\\).\n\n--------------------------------------------------------------------\n### 1.  What does “all chips in the same row (column) have the same colour’’ mean?\n\nIf a row contains at least one chip, then every chip in that row must be\neither all white or all black.  \nThe same holds for a column.\n\nConsequently, if a chip is placed in the cell \\((R_i ,C_j)\\) its colour must\nagree with the colour of row \\(R_i\\) **and** with the colour of column\n\\(C_j\\).  \nHence a chip can be placed in \\((i,j)\\) **iff** the colour assigned to\n\\(R_i\\) equals the colour assigned to \\(C_j\\).\n\n--------------------------------------------------------------------\n### 2.  Maximality\n\nSuppose a configuration satisfies the row‑/column‑monochrome condition but\nis **not** maximal. Then there is an empty cell \\((i,j)\\) where we could add a\nchip without breaking the condition.  \n\n*If either row \\(R_i\\) or column \\(C_j\\) has no chip at all*, we could put a\nchip of any colour there, colour the empty line accordingly, and the\ncondition would still hold.  \nThus in a maximal configuration **every row and every column must already\ncontain at least one chip**; i.e. each row and each column is assigned a\ndefinite colour (white or black).\n\n*If both \\(R_i\\) and \\(C_j\\) already have chips*, then they already have\ncolours, say \\(c(R_i)\\) and \\(c(C_j)\\).  \nA chip could be added at \\((i,j)\\) exactly when these two colours are the\nsame. Therefore, for maximality we must have  \n\n\\[\nc(R_i)\\neq c(C_j)\\qquad\\text{for every empty cell }(i,j).\n\\]\n\nThus the empty cells are precisely those where the row colour and the\ncolumn colour differ.\n\n--------------------------------------------------------------------\n### 3.  Description of a maximal configuration\n\nAssign a colour (white or black) to each of the five rows and to each of\nthe five columns.  \nThen fill **all** cells whose row‑colour equals their column‑colour.\nThe resulting placement automatically satisfies\n\n* each row is monochrome,\n* each column is monochrome,\n* it is maximal (any empty cell has opposite row/column colours).\n\nConversely, any maximal placement must arise in this way, because the\nargument above forces every row and column to have a colour and forces us\nto fill every cell where the two colours coincide.\n\n--------------------------------------------------------------------\n### 4.  Counting the assignments\n\nEach of the five rows can be coloured independently white or black:\n\\(2^{5}\\) possibilities.\n\nEach of the five columns can be coloured independently white or black:\nanother \\(2^{5}\\) possibilities.\n\nHence the number of colour assignments – and therefore the number of\nmaximal placements – is  \n\n\\[\n2^{5}\\times 2^{5}=2^{10}=1024 .\n\\]\n\nThe chip‑supply restriction is never violated: the number of white chips\nused is \\((\\#\\text{white rows})(\\#\\text{white columns})\\le 5\\cdot5=25\\),\nand similarly for black chips.\n\n--------------------------------------------------------------------\n\\[\n\\boxed{1024}\n\\]"
+    },
+    "metadata": {
+        "batch": 19,
+        "domain": "aime2024",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "aime2024-19",
+        "correct_answer": "902",
+        "is_human_annotated": false,
+        "correctness": false,
+        "topic": "math"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 100,
+            "label": "context",
+            "text": "There is a collection of $25$ indistinguishable white chips and $25$ indistinguishable black chips. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 100,
+            "end": 209,
+            "label": "context",
+            "text": "Find the number of ways to place some of these chips in the $25$ unit cells of a $5\\times5$ grid such that:\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 209,
+            "end": 245,
+            "label": "context",
+            "text": "each cell contains at most one chip\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 245,
+            "end": 325,
+            "label": "context",
+            "text": "all chips in the same row and all chips in the same column have the same colour\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 325,
+            "end": 421,
+            "label": "context",
+            "text": "any additional chip placed on the grid would violate one or more of the previous two conditions.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 155,
+            "label": "restatement",
+            "text": "We need to count maximal placements under constraints: each row and column must be monochromatic (all chips in a row same colour, same for column). ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 155,
+            "end": 188,
+            "label": "restatement",
+            "text": "Also each cell at most one chip. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 188,
+            "end": 390,
+            "label": "reasoning",
+            "text": "And we have limited supply: at most 25 of each colour, but grid has 25 cells, so supply not restrictive unless we try to place >25 of a colour, but max per colour is 25, same as number of rows/columns? ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 390,
+            "end": 496,
+            "label": "reasoning",
+            "text": "Actually each row can have multiple chips (in different columns) but they must be same colour across row. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 496,
+            "end": 538,
+            "label": "reasoning",
+            "text": "Similarly each column must be monochrome. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 538,
+            "end": 622,
+            "label": "reasoning",
+            "text": "This implies that the colour of a cell is determined by its row and column colours: ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 622,
+            "end": 757,
+            "label": "reasoning",
+            "text": "if row i is colour R_i (white or black) and column j is colour C_j, then the chip placed at (i,j) must be of colour that matches both? ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 757,
+            "end": 860,
+            "label": "restatement",
+            "text": "Actually condition: \"all chips in the same row and all chips in the same column have the same colour\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 860,
+            "end": 930,
+            "label": "reasoning",
+            "text": "Means within a row, any chips placed in that row must be same colour. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 930,
+            "end": 957,
+            "label": "reasoning",
+            "text": "Similarly within a column. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 957,
+            "end": 1039,
+            "label": "reasoning",
+            "text": "If a cell has a chip, its colour must be consistent with both its row and column. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1039,
+            "end": 1146,
+            "label": "reasoning",
+            "text": "So for a chip to exist at (i,j), the row colour and column colour must be same (both white or both black). ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1146,
+            "end": 1249,
+            "label": "reasoning",
+            "text": "If they differ, you cannot place a chip there because would violate one of the row/column uniformity.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1249,
+            "end": 1370,
+            "label": "reasoning",
+            "text": "Thus the placement corresponds to selecting a set of rows colored white, some rows colored black (maybe some rows empty? ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1370,
+            "end": 1403,
+            "label": "reasoning",
+            "text": "Actually rows may have no chips; ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1403,
+            "end": 1492,
+            "label": "reasoning",
+            "text": "then the condition about \"all chips in the same row have same colour\" is vacuously true. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1492,
+            "end": 1539,
+            "label": "reasoning",
+            "text": "So rows without chips have no assigned colour? ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1539,
+            "end": 1570,
+            "label": "reasoning",
+            "text": "Could be considered uncolored. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1570,
+            "end": 1590,
+            "label": "reasoning",
+            "text": "Similarly columns.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1590,
+            "end": 1617,
+            "label": "restatement",
+            "text": "We need maximal placement: ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1617,
+            "end": 1662,
+            "label": "restatement",
+            "text": "any additional chip would violate condition. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1662,
+            "end": 1749,
+            "label": "reasoning",
+            "text": "So we need a placement that is maximal under the constraints given the limited chips.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1749,
+            "end": 1781,
+            "label": "restatement",
+            "text": "Interpretation: We have a grid; ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1781,
+            "end": 2006,
+            "label": "reasoning",
+            "text": "we can place chips such that each row that has at least one chip is monochrome, each column that has at least one chip is monochrome, and the chip colour at (i,j) must match both row and column colour (so they must be same). ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 2006,
+            "end": 2048,
+            "label": "restatement",
+            "text": "Also we cannot exceed 25 of each colour.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 2048,
+            "end": 2169,
+            "label": "reasoning",
+            "text": "Maximal means you cannot add another chip anywhere without breaking the row/column uniformity (or exceeding chip count). ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2169,
+            "end": 2211,
+            "label": "reasoning",
+            "text": "So the configuration must be \"saturated\": ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2211,
+            "end": 2373,
+            "label": "reasoning",
+            "text": "for any empty cell, either its row already has a chip of opposite colour, or its column already has a chip of opposite colour, or adding would exceed chip count? ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2373,
+            "end": 2565,
+            "label": "reasoning",
+            "text": "But chip count limit is 25 each, but we have at most 25 cells total, so we will never exceed unless we try to place >25 of a colour, which could happen if we fill many cells with same colour. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2565,
+            "end": 2627,
+            "label": "reasoning",
+            "text": "But we have at most 25 cells, so max per colour is 25, okay.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2627,
+            "end": 2938,
+            "label": "reasoning",
+            "text": "Thus maximal condition reduces to: For any empty cell (i,j), either row i has a chip of colour opposite to column j's colour (or row i has a chip of colour X and column j has a chip of colour Y with X≠Y), or one of row i or column j already has a chip of a colour that would conflict with placing a chip there. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2938,
+            "end": 3028,
+            "label": "reasoning",
+            "text": "More concretely, if row i has a chip colour R (or none), column j has colour C (or none). ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 3028,
+            "end": 3102,
+            "label": "reasoning",
+            "text": "To place a chip at (i,j), we need R and C to be same (or both undefined). ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 3102,
+            "end": 3178,
+            "label": "reasoning",
+            "text": "If both undefined, we could assign a colour and place chip, so not maximal. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 3178,
+            "end": 3332,
+            "label": "reasoning",
+            "text": "So maximal means there is no empty cell where both row and column are currently undefined (no chips) because then we could place a chip of either colour. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 3332,
+            "end": 3373,
+            "label": "reasoning",
+            "text": "Also cannot have both defined but equal? ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 3373,
+            "end": 3461,
+            "label": "reasoning",
+            "text": "If both defined and equal, we could place chip of that colour (if not exceeding count). ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 3461,
+            "end": 3838,
+            "label": "reasoning",
+            "text": "So maximal means for each empty cell, either row defined with colour X and column defined with colour Y where X≠Y, or one defined and the other undefined but we cannot place because row defined with X, column undefined: we could place chip of colour X in column j, but that would set column colour to X, which would be okay unless column already has a chip of opposite colour. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 3838,
+            "end": 3915,
+            "label": "reasoning",
+            "text": "Since column undefined, we could set it to X and place chip, so not maximal. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 3915,
+            "end": 4098,
+            "label": "reasoning",
+            "text": "So maximal requires that for any empty cell, at least one of its row or column already has a chip of opposite colour (i.e., defined with colour opposite to the other defined colour). ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 4098,
+            "end": 4217,
+            "label": "reasoning",
+            "text": "But if one is undefined and the other defined, we could still place chip of the defined colour, making column defined. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 4217,
+            "end": 4312,
+            "label": "reasoning",
+            "text": "So maximal would require that both row and column are defined, and they have opposite colours. ",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 4312,
+            "end": 4365,
+            "label": "reasoning",
+            "text": "Because then you cannot place chip (would conflict). ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 4365,
+            "end": 4424,
+            "label": "reasoning",
+            "text": "Also if both undefined, you could place chip, not maximal. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 4424,
+            "end": 4672,
+            "label": "reasoning",
+            "text": "So maximal configurations correspond to a partition of rows and columns into two colour groups such that each row and column is assigned a colour (white or black), and the cells that are occupied are exactly those where row colour = column colour. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 4672,
+            "end": 4814,
+            "label": "reasoning",
+            "text": "Moreover, we must ensure that we have enough chips of each colour: number of occupied cells of colour white = (#white rows)*(#white columns). ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 4814,
+            "end": 4870,
+            "label": "reasoning",
+            "text": "Similarly black cells = (#black rows)*(#black columns). ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 4870,
+            "end": 4937,
+            "label": "reasoning",
+            "text": "Must be ≤25 each, but total cells = 25, so each ≤25 automatically. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 4937,
+            "end": 4974,
+            "label": "restatement",
+            "text": "However we also have limited supply: ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 4974,
+            "end": 5057,
+            "label": "restatement",
+            "text": "we have exactly 25 white chips and 25 black chips available, but we may use fewer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 5057,
+            "end": 5071,
+            "label": "reflection",
+            "text": "That's okay.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 5071,
+            "end": 5204,
+            "label": "reasoning",
+            "text": "Now maximal condition also requires that we cannot add any chip to a cell where row colour = column colour but cell currently empty. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 5204,
+            "end": 5236,
+            "label": "reasoning",
+            "text": "So we must fill all such cells. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 5236,
+            "end": 5358,
+            "label": "reasoning",
+            "text": "So the occupied cells are exactly the Cartesian product of rows of each colour with columns of same colour, fully filled. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 5358,
+            "end": 5465,
+            "label": "reasoning",
+            "text": "So the configuration is determined by a bipartition of rows into W rows and B rows, and columns similarly, ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 5465,
+            "end": 5513,
+            "label": "reasoning",
+            "text": "and we fill all matching-colour intersections.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 5513,
+            "end": 5628,
+            "label": "reasoning",
+            "text": "Thus number of ways = number of ways to assign each of 5 rows a colour (W/B) and each of 5 columns a colour (W/B). ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 5628,
+            "end": 5660,
+            "label": "reasoning",
+            "text": "That's 2^5 * 2^5 = 2^10 = 1024. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 5660,
+            "end": 5744,
+            "label": "reasoning",
+            "text": "But we must consider that configurations that are identical up to swapping colours? ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 5744,
+            "end": 5785,
+            "label": "restatement",
+            "text": "No, chips are distinguishable by colour, ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 5785,
+            "end": 5850,
+            "label": "reasoning",
+            "text": "so swapping colours yields different placement (white vs black). ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 5850,
+            "end": 5866,
+            "label": "conclusion",
+            "text": "So count 1024.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 5866,
+            "end": 5909,
+            "label": "planning",
+            "text": "But need to ensure chip count constraints: ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 5909,
+            "end": 5999,
+            "label": "reasoning",
+            "text": "For each colour, number of chips used = (#rows of that colour)*(#columns of that colour). ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 5999,
+            "end": 6012,
+            "label": "reasoning",
+            "text": "Must be ≤25. ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 6012,
+            "end": 6057,
+            "label": "reasoning",
+            "text": "Since max rows=5, columns=5, product max 25, ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 6057,
+            "end": 6063,
+            "label": "reflection",
+            "text": "okay. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 6063,
+            "end": 6097,
+            "label": "reasoning",
+            "text": "So all assignments are feasible.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 6097,
+            "end": 6201,
+            "label": "example",
+            "text": "Edge case: all rows white, all columns white => all 25 cells white, uses 25 white chips, 0 black chips. ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 6201,
+            "end": 6217,
+            "label": "reasoning",
+            "text": "That's allowed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 6217,
+            "end": 6238,
+            "label": "example",
+            "text": "Similarly all black. ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 6238,
+            "end": 6251,
+            "label": "example",
+            "text": "Also mixed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 6251,
+            "end": 6270,
+            "label": "conclusion",
+            "text": "Thus answer 1024.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 6270,
+            "end": 6295,
+            "label": "planning",
+            "text": "Check maximal condition: ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 6295,
+            "end": 6422,
+            "label": "assumption",
+            "text": "Suppose we have assignment where some row is white, some column black, then intersection cell is empty (since colours differ). ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 6422,
+            "end": 6449,
+            "label": "planning",
+            "text": "Could we add a chip there? ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 6449,
+            "end": 6500,
+            "label": "reasoning",
+            "text": "No because would conflict with row/column colours. ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 6500,
+            "end": 6523,
+            "label": "reasoning",
+            "text": "So maximal satisfied.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 6523,
+            "end": 6542,
+            "label": "conclusion",
+            "text": "Thus answer 1024.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 6542,
+            "end": 6636,
+            "label": "planning",
+            "text": "But need to consider that we could also have rows or columns with no chips (i.e., undefined). ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 6636,
+            "end": 6716,
+            "label": "reasoning",
+            "text": "However maximal condition forces each row and column to have at least one chip? ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 6716,
+            "end": 6727,
+            "label": "planning",
+            "text": "Let's see: ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 6727,
+            "end": 6777,
+            "label": "assumption",
+            "text": "If a row has no chips, then its colour undefined. ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 6777,
+            "end": 6814,
+            "label": "reasoning",
+            "text": "Then any column with same undefined? ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 6814,
+            "end": 6846,
+            "label": "reasoning",
+            "text": "Actually column may have chips. ",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 6846,
+            "end": 6909,
+            "label": "assumption",
+            "text": "Consider a row with no chips, column j has a chip of colour X. ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 6909,
+            "end": 6976,
+            "label": "reasoning",
+            "text": "Then cell (row, column) is empty, row undefined, column defined X. ",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 6976,
+            "end": 7017,
+            "label": "planning",
+            "text": "Could we place a chip of colour X there? ",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 7017,
+            "end": 7061,
+            "label": "reasoning",
+            "text": "Row would then become colour X, consistent. ",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 7061,
+            "end": 7077,
+            "label": "reasoning",
+            "text": "So not maximal. ",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 7077,
+            "end": 7170,
+            "label": "reasoning",
+            "text": "Therefore maximal requires every row and column to have at least one chip, i.e., be defined. ",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 7170,
+            "end": 7235,
+            "label": "reasoning",
+            "text": "So our model with all rows/columns assigned colours is correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 7235,
+            "end": 7254,
+            "label": "conclusion",
+            "text": "Thus answer 1024.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 7254,
+            "end": 7273,
+            "label": "planning",
+            "text": "Provide reasoning.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 7273,
+            "end": 7282,
+            "label": "reflection",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 7282,
+            "end": 7289,
+            "label": "planning",
+            "text": "Let  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 7289,
+            "end": 7332,
+            "label": "reasoning",
+            "text": "* the five rows be \\(R_{1},\\dots ,R_{5}\\);\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 7332,
+            "end": 7379,
+            "label": "reasoning",
+            "text": "* the five columns be \\(C_{1},\\dots ,C_{5}\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 7379,
+            "end": 7532,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n### 1.  What does “all chips in the same row (column) have the same colour’’ mean?\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 7532,
+            "end": 7638,
+            "label": "reasoning",
+            "text": "If a row contains at least one chip, then every chip in that row must be\neither all white or all black.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 7638,
+            "end": 7668,
+            "label": "reasoning",
+            "text": "The same holds for a column.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 7668,
+            "end": 7827,
+            "label": "reasoning",
+            "text": "Consequently, if a chip is placed in the cell \\((R_i ,C_j)\\) its colour must\nagree with the colour of row \\(R_i\\) **and** with the colour of column\n\\(C_j\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 7827,
+            "end": 7946,
+            "label": "reasoning",
+            "text": "Hence a chip can be placed in \\((i,j)\\) **iff** the colour assigned to\n\\(R_i\\) equals the colour assigned to \\(C_j\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 7946,
+            "end": 8035,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n### 2.  Maximality\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 8035,
+            "end": 8130,
+            "label": "assumption",
+            "text": "Suppose a configuration satisfies the row‑/column‑monochrome condition but\nis **not** maximal. ",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 8130,
+            "end": 8229,
+            "label": "reasoning",
+            "text": "Then there is an empty cell \\((i,j)\\) where we could add a\nchip without breaking the condition.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 8229,
+            "end": 8291,
+            "label": "assumption",
+            "text": "*If either row \\(R_i\\) or column \\(C_j\\) has no chip at all*, ",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 8291,
+            "end": 8405,
+            "label": "reasoning",
+            "text": "we could put a\nchip of any colour there, colour the empty line accordingly, and the\ncondition would still hold.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 8405,
+            "end": 8587,
+            "label": "reasoning",
+            "text": "Thus in a maximal configuration **every row and every column must already\ncontain at least one chip**; i.e. each row and each column is assigned a\ndefinite colour (white or black).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 8587,
+            "end": 8637,
+            "label": "assumption",
+            "text": "*If both \\(R_i\\) and \\(C_j\\) already have chips*, ",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 8637,
+            "end": 8702,
+            "label": "reasoning",
+            "text": "then they already have\ncolours, say \\(c(R_i)\\) and \\(c(C_j)\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 8702,
+            "end": 8782,
+            "label": "reasoning",
+            "text": "A chip could be added at \\((i,j)\\) exactly when these two colours are the\nsame. ",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 8782,
+            "end": 8889,
+            "label": "reasoning",
+            "text": "Therefore, for maximality we must have  \n\n\\[\nc(R_i)\\neq c(C_j)\\qquad\\text{for every empty cell }(i,j).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 8889,
+            "end": 8982,
+            "label": "reasoning",
+            "text": "Thus the empty cells are precisely those where the row colour and the\ncolumn colour differ.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 8982,
+            "end": 9099,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n### 3.  Description of a maximal configuration\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 9099,
+            "end": 9192,
+            "label": "reasoning",
+            "text": "Assign a colour (white or black) to each of the five rows and to each of\nthe five columns.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 9192,
+            "end": 9261,
+            "label": "reasoning",
+            "text": "Then fill **all** cells whose row‑colour equals their column‑colour.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 9261,
+            "end": 9432,
+            "label": "reasoning",
+            "text": "The resulting placement automatically satisfies\n\n* each row is monochrome,\n* each column is monochrome,\n* it is maximal (any empty cell has opposite row/column colours).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 9432,
+            "end": 9628,
+            "label": "reasoning",
+            "text": "Conversely, any maximal placement must arise in this way, because the\nargument above forces every row and column to have a colour and forces us\nto fill every cell where the two colours coincide.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 9628,
+            "end": 9731,
+            "label": "planning",
+            "text": "--------------------------------------------------------------------\n### 4.  Counting the assignments\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 9731,
+            "end": 9799,
+            "label": "reasoning",
+            "text": "Each of the five rows can be coloured independently white or black:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 9799,
+            "end": 9825,
+            "label": "reasoning",
+            "text": "\\(2^{5}\\) possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": true,
+            "start": 9825,
+            "end": 9896,
+            "label": "reasoning",
+            "text": "Each of the five columns can be coloured independently white or black:\n",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": true,
+            "start": 9896,
+            "end": 9930,
+            "label": "reasoning",
+            "text": "another \\(2^{5}\\) possibilities.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": true,
+            "start": 9930,
+            "end": 10065,
+            "label": "conclusion",
+            "text": "Hence the number of colour assignments – and therefore the number of\nmaximal placements – is  \n\n\\[\n2^{5}\\times 2^{5}=2^{10}=1024 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": true,
+            "start": 10065,
+            "end": 10112,
+            "label": "reasoning",
+            "text": "The chip‑supply restriction is never violated: ",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": true,
+            "start": 10112,
+            "end": 10243,
+            "label": "reasoning",
+            "text": "the number of white chips\nused is \\((\\#\\text{white rows})(\\#\\text{white columns})\\le 5\\cdot5=25\\),\nand similarly for black chips.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": true,
+            "start": 10243,
+            "end": 10330,
+            "label": "conclusion",
+            "text": "--------------------------------------------------------------------\n\\[\n\\boxed{1024}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp8",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp20",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp21",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp23",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp25",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp49",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp50",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp60",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp62",
+            "label": "validate:support"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp63",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp69",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp71",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp72",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp73",
+            "label": "validate:support"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp76",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp79",
+            "label": "validate:support"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp79",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp80",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp81",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp82",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp83",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp86",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp86",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp89",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp93",
+            "label": "validate:support"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp93",
+            "label": "validate:support"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp93",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp94",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp95",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp96",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp96",
+            "dest_node_id": "resp97",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp96",
+            "dest_node_id": "resp98",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp99",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp99",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp100",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp101",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp101",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp102",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp104",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp105",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp110",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp113",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp113",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp115",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp116",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp117",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp117",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp120",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp120",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp121",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp121",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp123",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp124",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp125",
+            "label": "validate:support"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp125",
+            "label": "validate:support"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp125",
+            "label": "validate:support"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp125",
+            "label": "validate:support"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp126",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp126",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp126",
+            "dest_node_id": "resp127",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp128",
+            "label": "validate:support"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp128",
+            "label": "validate:support"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp128",
+            "label": "validate:support"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp128",
+            "label": "validate:support"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp128",
+            "label": "validate:support"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp128",
+            "label": "reason:infer"
+        }
+    ]
+}

@@ -1,0 +1,790 @@
+{
+    "doc_id": "bright-theoremqa_theorems_59_gpt-oss-120b",
+    "raw_text": {
+        "question": "In a school's basketball team selection process, there are 12 candidates, out of which 5 are being considered for guard positions and 7 for forward positions. If the team needs to select 3 guards and 2 forwards for the starting lineup, in how many different ways can the selection committee form the starting lineup?\n\nRetrieved documents:\n[Document 1]\n\\section{Binomial Coefficient n Choose j in terms of n-2 Choose r}\nTags: Binomial Coefficients\n\n\\begin{theorem}\nLet $n \\in \\Z$ such that $n \\ge 4$.\nLet $\\dbinom n k$ denote a binomial coefficient for $k \\in \\Z$.\nThen:\n:$\\dbinom n k = \\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k$\nfor $2 \\le k \\le n - 2$.\n\\end{theorem}\n\n\\begin{proof}\n{{begin-eqn}}\n{{eqn | l = \\dbinom n k\n      | r = \\dbinom {n - 1} k + \\dbinom {n - 1} {k - 1}\n      | c = Pascal's Rule\n}}\n{{eqn | r = \\paren {\\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k} + \\paren {\\dbinom {n - 2} {k - 2} + \\dbinom {n - 2} {k - 1} }\n      | c = Pascal's Rule (twice)\n}}\n{{eqn | r = \\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k\n      | c = simplifying\n}}\n{{end-eqn}}\nIn the expression $\\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k$ we note that:\n:if $k < 2$ then $\\dbinom {n - 2} {k - 2}$ has a negative coefficient on the bottom\n:if $k > n - 2$ then $\\dbinom {n - 2} k$ has a coefficient on the bottom that is greater than $n$.\nHence the usual comfortable range of $k$ is exceeded and so it cannot be guaranteed that the conditions are satisfied for the equation to be true.\nIf $n \\le 3$ then $2 \\le k \\le n - 2$ cannot be fulfilled.\nHence the bounds on both $k$ and $n$.\n{{qed}}\n\\end{proof}\n\n\n\n[Document 2]\n\\section{Number of Different Ways to play First n Moves in Chess}\nTags: Chess, Chess Problems\n\n\\begin{theorem}\nThe sequence formed from the number of ways to play the first $n$ moves in chess begins:\n:$20, 400, 8902, 197 \\, 742, \\ldots$\n{{OEIS|A007545}}\nThe count for the fourth move is already ambiguous, as it depends on whether only legal moves count, or whether all moves, legal or illegal, are included.\nThe count as given here does include illegal moves in addition to legal ones.\n\\end{theorem}\n\n\\begin{proof}\nThere are $20$ ways to make the $1$st move by White:\n:Each of the $8$ pawns may be moved either $1$ or $2$ squares forward, making $16$ moves\n:Each of the $2$ knights may be moved to either of $2$ squares before it, making $4$ moves.\nFor each of those $20$ first moves by White, Black has the same $20$ options.\nThus there are $20 \\times 20$ possible different games after the $2$nd move.\nTo count the $3$rd moves, one needs to consider cases.\nFirst note that after the $1$st move, whatever it was, there are $7$ pawns on the $2$nd rank, each of which can be moved $1$ or $2$ squares forward, making $14$ moves for each of those $400$ possibilities.\nNote that if a knight was one of the pieces to have moved first, the pawn in the square behind where it ends up cannot move -- hence the $7$ pawns on the $2$nd rank that can move.\nThus there are $400 \\times 14 = 5600$ possible moves involving a so-far unmoved pawn.\nFor each of the $400$ positions, there are exactly $8$ which consist of two pawns in opposition on the $4$th and $5$th rank.\nThere are also another $4 \\times 20 = 80$ positions in which white moved a knight.\nFor all other $400 - 88 = 312$ positions, the already-moved pawn has the option of moving another square forward.\nThis gives another $312$ options for the $3$rd move.\nWe now need to take into account the possibility that White may be able to capture a Black pawn.\n{{finish|Each case needs to be investigated.}}\n\\end{proof}\n\n\n\n[Document 3]\n\\section{Bernoulli Process as Binomial Distribution}\nTags: Binomial Distribution, Probability Theory, Bernoulli Distribution\n\n\\begin{theorem}\nLet $\\sequence {X_i}$ be a finite Bernoulli process of length $n$ such that each of the $X_i$ in the sequence is a Bernoulli trial with parameter $p$.\nThen the number of successes in $\\sequence {X_i}$ is modelled by a binomial distribution with parameters $n$ and $p$.\nHence it can be seen that:\n:$X \\sim \\Binomial 1 p$ is the same thing as $X \\sim \\Bernoulli p$\n\\end{theorem}\n\n\\begin{proof}\nConsider the sample space $\\Omega$ of all sequences $\\sequence {X_i}$ of length $n$.\nThe $i$th entry of any such sequence is the result of the $i$th trial.\nWe have that $\\Omega$ is finite.\nLet us take the event space $\\Sigma$ to be the power set of $\\Omega$.\nAs the elements of $\\Omega$ are independent, by definition of the Bernoulli process, we have that:\n:$\\forall \\omega \\in \\Omega: \\map \\Pr \\omega = p^{\\map s \\omega} \\paren {1 - p}^{n - \\map s \\omega}$\nwhere $\\map s \\omega$ is the number of successes in $\\omega$.\nIn the same way:\n:$\\ds \\forall A \\in \\Sigma: \\map \\Pr A = \\sum_{\\omega \\mathop \\in A} \\map \\Pr \\omega$\nNow, let us define the discrete random variable $Y_i$ as follows:\n:$\\map {Y_i} \\omega = \\begin{cases}\n1 & : \\text {$\\omega_i$ is a success} \\\\\n0 & : \\text {$\\omega_i$ is a failure}\n\\end{cases}$\nwhere $\\omega_i$ is the $i$th element of $\\omega$.\nThus, each $Y_i$ has image $\\set {0, 1}$ and a probability mass function:\n:$\\map \\Pr {Y_i = 0} = \\map \\Pr {\\set {\\omega \\in \\Omega: \\text {$\\omega_i$ is a success} } }$\nThus we have:\n{{begin-eqn}}\n{{eqn | l = \\map \\Pr {Y_i = 1}\n      | r = \\sum_{\\omega: \\text {$\\omega_i$ success} } p^{\\map s \\omega} \\paren {1 - p}^{n - \\map s \\omega}\n}}\n{{eqn | r = \\sum_{r \\mathop = 1}^n \\sum_{\\substack {\\omega: \\text {$\\omega_i$ success} \\\\ \\map s \\omega = r} } p^r \\paren {1 - p}^{n - r}\n}}\n{{eqn | r = \\sum_{r \\mathop = 1}^n \\binom {n - 1} {r - 1} p^r \\paren {1 - p}^{n - r}\n      | c = as we already know the position of one success (namely $i$)\n}}\n{{eqn | r = p \\sum_{r \\mathop = 0}^{n - 1} \\binom {n - 1} r p^r \\paren {1 - p}^{\\paren {n - 1} - r}\n      | c = switching summation index\n}}\n{{eqn | r = p \\paren {p + \\paren {1 - p} }^{n - 1}\n      | c = Binomial Theorem\n}}\n{{eqn | r = p\n}}\n{{end-eqn}}\nThen:\n:$\\map \\Pr {Y_i = 0} = 1 - \\map \\Pr {Y_i = 1} = 1 - p$\nSo (by a roundabout route) we have confirmed that $Y_i$ has the Bernoulli distribution with parameter $p$.\nNow, let us define the random variable:\n:$\\ds \\map {S_n} \\omega = \\sum_{i \\mathop = 1}^n \\map {Y_i} \\omega$\nBy definition:\n:$\\map {S_n} \\omega$ is the number of successes in $\\omega$\n:$S_n$ takes values in $\\set {0, 1, 2, \\ldots, n}$ (as each $Y_i$ can be $0$ or $1$).\nAlso, we have that:\n{{begin-eqn}}\n{{eqn | l = \\map \\Pr {S_n = k}\n      | r = \\map \\Pr {\\set {\\omega \\in \\Omega: \\map s \\omega = k} }\n}}\n{{eqn | r = \\sum_{\\omega: \\map s \\omega \\mathop = k} \\map \\Pr \\omega\n}}\n{{eqn | r = \\sum_{\\omega: \\map s \\omega \\mathop = k} p^k \\paren {1 - p}^{n - k}\n}}\n{{eqn | r = \\binom n k p^k \\paren {1 - p}^{n - k}\n}}\n{{end-eqn}}\nHence the result.\n{{qed}}\n\\end{proof}\n\n\n\n[Document 4]\n\\begin{definition}[Definition:Percentage]\nA '''percentage''' is a convenient way of expressing (usually) a fraction as an easily-grasped number, by multiplying it by $100$ and appending the symbol $\\%$ which means '''per cent'''.\nAs conventionally understood, the number being rendered as a '''percentage''' is between $0$ and $1$, thus determining the range of a '''percentage''' to be $0 \\%$ to $100 \\%$.\nHowever in many contexts that range is frequently extended (in particular, in the field of rhetoric):\n:''I want every member of this team to give one hundred and ten percent.''\n\\end{definition}\n\n[Document 5]\n\\begin{definition}[Definition:Bozo Bit]\nThe concept of '''bozo bit''' was adopted by the computer industry in the following manner.\nThe typical stereotype of a worker in the computer software industry is that he (usually male) is limited in his ability to interact skilfully with his colleagues.\nIn a team of people, there are bound to be clashes of personality. During the course of interactions with one of your colleagues, one of them sticks in your mind for making unhelpful suggestions, or crafting inept designs, or otherwise demonstrating a modicum of stupidity that is likely to become a hindrance to the task in progress.\nWhat can happen is for a team leader, or someone else whose input is influential, to register this person as a bozo, and prejudge every contribution of that person to be worthless. When the bozo is speaking, the listener mentally tunes out the sound of his voice and is instead thinking of something completely different.\nSuch behaviour is known as '''flipping the bozo bit''' on that person.\n\\end{definition}",
+        "response": "The selection is a straightforward application of **binomial (choose) coefficients**.\n\n* There are \\(5\\) candidates who can play guard.  \n  To pick the three guards we need  \n\n\\[\n\\binom{5}{3}= \\frac{5!}{3!\\,2!}=10\n\\]\n\ndifferent guard groups.\n\n* There are \\(7\\) candidates who can play forward.  \n  To pick the two forwards we need  \n\n\\[\n\\binom{7}{2}= \\frac{7!}{2!\\,5!}=21\n\\]\n\ndifferent forward groups.\n\nSince the choices of guards and forwards are independent, the total number of possible starting line‑ups is the product of the two counts:\n\n\\[\n\\boxed{\\binom{5}{3}\\times\\binom{7}{2}=10 \\times 21 = 210 }.\n\\]\n\nThus the selection committee can form the starting lineup in **210 different ways**."
+    },
+    "metadata": {
+        "batch": 59,
+        "domain": "bright-theoremqa_theorems",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3-pro-preview",
+        "question_id": "bright-theoremqa_theorems-TheoremQA_jianyu_xu/Binomial_3.json",
+        "correct_answer": null,
+        "is_human_annotated": false,
+        "correctness": null,
+        "topic": "math"
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 159,
+            "label": "context",
+            "text": "In a school's basketball team selection process, there are 12 candidates, out of which 5 are being considered for guard positions and 7 for forward positions. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 159,
+            "end": 236,
+            "label": "context",
+            "text": "If the team needs to select 3 guards and 2 forwards for the starting lineup, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 236,
+            "end": 318,
+            "label": "context",
+            "text": "in how many different ways can the selection committee form the starting lineup?\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 318,
+            "end": 339,
+            "label": "context",
+            "text": "Retrieved documents:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 339,
+            "end": 448,
+            "label": "context",
+            "text": "[Document 1]\n\\section{Binomial Coefficient n Choose j in terms of n-2 Choose r}\nTags: Binomial Coefficients\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 448,
+            "end": 500,
+            "label": "context",
+            "text": "\\begin{theorem}\nLet $n \\in \\Z$ such that $n \\ge 4$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 500,
+            "end": 564,
+            "label": "context",
+            "text": "Let $\\dbinom n k$ denote a binomial coefficient for $k \\in \\Z$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 564,
+            "end": 699,
+            "label": "context",
+            "text": "Then:\n:$\\dbinom n k = \\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k$\nfor $2 \\le k \\le n - 2$.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 699,
+            "end": 1123,
+            "label": "context",
+            "text": "\\begin{proof}\n{{begin-eqn}}\n{{eqn | l = \\dbinom n k\n      | r = \\dbinom {n - 1} k + \\dbinom {n - 1} {k - 1}\n      | c = Pascal's Rule\n}}\n{{eqn | r = \\paren {\\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k} + \\paren {\\dbinom {n - 2} {k - 2} + \\dbinom {n - 2} {k - 1} }\n      | c = Pascal's Rule (twice)\n}}\n{{eqn | r = \\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k\n      | c = simplifying\n}}\n{{end-eqn}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 1123,
+            "end": 1229,
+            "label": "context",
+            "text": "In the expression $\\dbinom {n - 2} {k - 2} + 2 \\dbinom {n - 2} {k - 1} + \\dbinom {n - 2} k$ we note that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 1229,
+            "end": 1313,
+            "label": "context",
+            "text": ":if $k < 2$ then $\\dbinom {n - 2} {k - 2}$ has a negative coefficient on the bottom\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 1313,
+            "end": 1412,
+            "label": "context",
+            "text": ":if $k > n - 2$ then $\\dbinom {n - 2} k$ has a coefficient on the bottom that is greater than $n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 1412,
+            "end": 1559,
+            "label": "context",
+            "text": "Hence the usual comfortable range of $k$ is exceeded and so it cannot be guaranteed that the conditions are satisfied for the equation to be true.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 1559,
+            "end": 1618,
+            "label": "context",
+            "text": "If $n \\le 3$ then $2 \\le k \\le n - 2$ cannot be fulfilled.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 1618,
+            "end": 1679,
+            "label": "context",
+            "text": "Hence the bounds on both $k$ and $n$.\n{{qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx15",
+            "annotation": false,
+            "start": 1679,
+            "end": 1787,
+            "label": "context",
+            "text": "[Document 2]\n\\section{Number of Different Ways to play First n Moves in Chess}\nTags: Chess, Chess Problems\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx16",
+            "annotation": false,
+            "start": 1787,
+            "end": 1946,
+            "label": "context",
+            "text": "\\begin{theorem}\nThe sequence formed from the number of ways to play the first $n$ moves in chess begins:\n:$20, 400, 8902, 197 \\, 742, \\ldots$\n{{OEIS|A007545}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx17",
+            "annotation": false,
+            "start": 1946,
+            "end": 2101,
+            "label": "context",
+            "text": "The count for the fourth move is already ambiguous, as it depends on whether only legal moves count, or whether all moves, legal or illegal, are included.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx18",
+            "annotation": false,
+            "start": 2101,
+            "end": 2194,
+            "label": "context",
+            "text": "The count as given here does include illegal moves in addition to legal ones.\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx19",
+            "annotation": false,
+            "start": 2194,
+            "end": 2261,
+            "label": "context",
+            "text": "\\begin{proof}\nThere are $20$ ways to make the $1$st move by White:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx20",
+            "annotation": false,
+            "start": 2261,
+            "end": 2350,
+            "label": "context",
+            "text": ":Each of the $8$ pawns may be moved either $1$ or $2$ squares forward, making $16$ moves\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx21",
+            "annotation": false,
+            "start": 2350,
+            "end": 2442,
+            "label": "context",
+            "text": ":Each of the $2$ knights may be moved to either of $2$ squares before it, making $4$ moves.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx22",
+            "annotation": false,
+            "start": 2442,
+            "end": 2520,
+            "label": "context",
+            "text": "For each of those $20$ first moves by White, Black has the same $20$ options.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx23",
+            "annotation": false,
+            "start": 2520,
+            "end": 2597,
+            "label": "context",
+            "text": "Thus there are $20 \\times 20$ possible different games after the $2$nd move.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx24",
+            "annotation": false,
+            "start": 2597,
+            "end": 2652,
+            "label": "context",
+            "text": "To count the $3$rd moves, one needs to consider cases.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx25",
+            "annotation": false,
+            "start": 2652,
+            "end": 2858,
+            "label": "context",
+            "text": "First note that after the $1$st move, whatever it was, there are $7$ pawns on the $2$nd rank, each of which can be moved $1$ or $2$ squares forward, making $14$ moves for each of those $400$ possibilities.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx26",
+            "annotation": false,
+            "start": 2858,
+            "end": 3038,
+            "label": "context",
+            "text": "Note that if a knight was one of the pieces to have moved first, the pawn in the square behind where it ends up cannot move -- hence the $7$ pawns on the $2$nd rank that can move.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx27",
+            "annotation": false,
+            "start": 3038,
+            "end": 3124,
+            "label": "context",
+            "text": "Thus there are $400 \\times 14 = 5600$ possible moves involving a so-far unmoved pawn.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx28",
+            "annotation": false,
+            "start": 3124,
+            "end": 3249,
+            "label": "context",
+            "text": "For each of the $400$ positions, there are exactly $8$ which consist of two pawns in opposition on the $4$th and $5$th rank.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx29",
+            "annotation": false,
+            "start": 3249,
+            "end": 3332,
+            "label": "context",
+            "text": "There are also another $4 \\times 20 = 80$ positions in which white moved a knight.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx30",
+            "annotation": false,
+            "start": 3332,
+            "end": 3446,
+            "label": "context",
+            "text": "For all other $400 - 88 = 312$ positions, the already-moved pawn has the option of moving another square forward.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx31",
+            "annotation": false,
+            "start": 3446,
+            "end": 3499,
+            "label": "context",
+            "text": "This gives another $312$ options for the $3$rd move.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx32",
+            "annotation": false,
+            "start": 3499,
+            "end": 3596,
+            "label": "context",
+            "text": "We now need to take into account the possibility that White may be able to capture a Black pawn.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx33",
+            "annotation": false,
+            "start": 3596,
+            "end": 3658,
+            "label": "context",
+            "text": "{{finish|Each case needs to be investigated.}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx34",
+            "annotation": false,
+            "start": 3658,
+            "end": 3797,
+            "label": "context",
+            "text": "[Document 3]\n\\section{Bernoulli Process as Binomial Distribution}\nTags: Binomial Distribution, Probability Theory, Bernoulli Distribution\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx35",
+            "annotation": false,
+            "start": 3797,
+            "end": 3964,
+            "label": "context",
+            "text": "\\begin{theorem}\nLet $\\sequence {X_i}$ be a finite Bernoulli process of length $n$ such that each of the $X_i$ in the sequence is a Bernoulli trial with parameter $p$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx36",
+            "annotation": false,
+            "start": 3964,
+            "end": 4082,
+            "label": "context",
+            "text": "Then the number of successes in $\\sequence {X_i}$ is modelled by a binomial distribution with parameters $n$ and $p$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx37",
+            "annotation": false,
+            "start": 4082,
+            "end": 4191,
+            "label": "context",
+            "text": "Hence it can be seen that:\n:$X \\sim \\Binomial 1 p$ is the same thing as $X \\sim \\Bernoulli p$\n\\end{theorem}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx38",
+            "annotation": false,
+            "start": 4191,
+            "end": 4290,
+            "label": "context",
+            "text": "\\begin{proof}\nConsider the sample space $\\Omega$ of all sequences $\\sequence {X_i}$ of length $n$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx39",
+            "annotation": false,
+            "start": 4290,
+            "end": 4361,
+            "label": "context",
+            "text": "The $i$th entry of any such sequence is the result of the $i$th trial.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx40",
+            "annotation": false,
+            "start": 4361,
+            "end": 4394,
+            "label": "context",
+            "text": "We have that $\\Omega$ is finite.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx41",
+            "annotation": false,
+            "start": 4394,
+            "end": 4464,
+            "label": "context",
+            "text": "Let us take the event space $\\Sigma$ to be the power set of $\\Omega$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx42",
+            "annotation": false,
+            "start": 4464,
+            "end": 4563,
+            "label": "context",
+            "text": "As the elements of $\\Omega$ are independent, by definition of the Bernoulli process, we have that:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx43",
+            "annotation": false,
+            "start": 4563,
+            "end": 4726,
+            "label": "context",
+            "text": ":$\\forall \\omega \\in \\Omega: \\map \\Pr \\omega = p^{\\map s \\omega} \\paren {1 - p}^{n - \\map s \\omega}$\nwhere $\\map s \\omega$ is the number of successes in $\\omega$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx44",
+            "annotation": false,
+            "start": 4726,
+            "end": 4829,
+            "label": "context",
+            "text": "In the same way:\n:$\\ds \\forall A \\in \\Sigma: \\map \\Pr A = \\sum_{\\omega \\mathop \\in A} \\map \\Pr \\omega$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx45",
+            "annotation": false,
+            "start": 4829,
+            "end": 4895,
+            "label": "context",
+            "text": "Now, let us define the discrete random variable $Y_i$ as follows:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx46",
+            "annotation": false,
+            "start": 4895,
+            "end": 5074,
+            "label": "context",
+            "text": ":$\\map {Y_i} \\omega = \\begin{cases}\n1 & : \\text {$\\omega_i$ is a success} \\\\\n0 & : \\text {$\\omega_i$ is a failure}\n\\end{cases}$\nwhere $\\omega_i$ is the $i$th element of $\\omega$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx47",
+            "annotation": false,
+            "start": 5074,
+            "end": 5243,
+            "label": "context",
+            "text": "Thus, each $Y_i$ has image $\\set {0, 1}$ and a probability mass function:\n:$\\map \\Pr {Y_i = 0} = \\map \\Pr {\\set {\\omega \\in \\Omega: \\text {$\\omega_i$ is a success} } }$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx48",
+            "annotation": false,
+            "start": 5243,
+            "end": 5967,
+            "label": "context",
+            "text": "Thus we have:\n{{begin-eqn}}\n{{eqn | l = \\map \\Pr {Y_i = 1}\n      | r = \\sum_{\\omega: \\text {$\\omega_i$ success} } p^{\\map s \\omega} \\paren {1 - p}^{n - \\map s \\omega}\n}}\n{{eqn | r = \\sum_{r \\mathop = 1}^n \\sum_{\\substack {\\omega: \\text {$\\omega_i$ success} \\\\ \\map s \\omega = r} } p^r \\paren {1 - p}^{n - r}\n}}\n{{eqn | r = \\sum_{r \\mathop = 1}^n \\binom {n - 1} {r - 1} p^r \\paren {1 - p}^{n - r}\n      | c = as we already know the position of one success (namely $i$)\n}}\n{{eqn | r = p \\sum_{r \\mathop = 0}^{n - 1} \\binom {n - 1} r p^r \\paren {1 - p}^{\\paren {n - 1} - r}\n      | c = switching summation index\n}}\n{{eqn | r = p \\paren {p + \\paren {1 - p} }^{n - 1}\n      | c = Binomial Theorem\n}}\n{{eqn | r = p\n}}\n{{end-eqn}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx49",
+            "annotation": false,
+            "start": 5967,
+            "end": 6028,
+            "label": "context",
+            "text": "Then:\n:$\\map \\Pr {Y_i = 0} = 1 - \\map \\Pr {Y_i = 1} = 1 - p$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx50",
+            "annotation": false,
+            "start": 6028,
+            "end": 6135,
+            "label": "context",
+            "text": "So (by a roundabout route) we have confirmed that $Y_i$ has the Bernoulli distribution with parameter $p$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx51",
+            "annotation": false,
+            "start": 6135,
+            "end": 6243,
+            "label": "context",
+            "text": "Now, let us define the random variable:\n:$\\ds \\map {S_n} \\omega = \\sum_{i \\mathop = 1}^n \\map {Y_i} \\omega$\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx52",
+            "annotation": false,
+            "start": 6243,
+            "end": 6404,
+            "label": "context",
+            "text": "By definition:\n:$\\map {S_n} \\omega$ is the number of successes in $\\omega$\n:$S_n$ takes values in $\\set {0, 1, 2, \\ldots, n}$ (as each $Y_i$ can be $0$ or $1$).\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx53",
+            "annotation": false,
+            "start": 6404,
+            "end": 6760,
+            "label": "context",
+            "text": "Also, we have that:\n{{begin-eqn}}\n{{eqn | l = \\map \\Pr {S_n = k}\n      | r = \\map \\Pr {\\set {\\omega \\in \\Omega: \\map s \\omega = k} }\n}}\n{{eqn | r = \\sum_{\\omega: \\map s \\omega \\mathop = k} \\map \\Pr \\omega\n}}\n{{eqn | r = \\sum_{\\omega: \\map s \\omega \\mathop = k} p^k \\paren {1 - p}^{n - k}\n}}\n{{eqn | r = \\binom n k p^k \\paren {1 - p}^{n - k}\n}}\n{{end-eqn}}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx54",
+            "annotation": false,
+            "start": 6760,
+            "end": 6801,
+            "label": "context",
+            "text": "Hence the result.\n{{qed}}\n\\end{proof}\n\n\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx55",
+            "annotation": false,
+            "start": 6801,
+            "end": 7044,
+            "label": "context",
+            "text": "[Document 4]\n\\begin{definition}[Definition:Percentage]\nA '''percentage''' is a convenient way of expressing (usually) a fraction as an easily-grasped number, by multiplying it by $100$ and appending the symbol $\\%$ which means '''per cent'''.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx56",
+            "annotation": false,
+            "start": 7044,
+            "end": 7221,
+            "label": "context",
+            "text": "As conventionally understood, the number being rendered as a '''percentage''' is between $0$ and $1$, thus determining the range of a '''percentage''' to be $0 \\%$ to $100 \\%$.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx57",
+            "annotation": false,
+            "start": 7221,
+            "end": 7323,
+            "label": "context",
+            "text": "However in many contexts that range is frequently extended (in particular, in the field of rhetoric):\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx58",
+            "annotation": false,
+            "start": 7323,
+            "end": 7416,
+            "label": "context",
+            "text": ":''I want every member of this team to give one hundred and ten percent.''\n\\end{definition}\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx59",
+            "annotation": false,
+            "start": 7416,
+            "end": 7561,
+            "label": "context",
+            "text": "[Document 5]\n\\begin{definition}[Definition:Bozo Bit]\nThe concept of '''bozo bit''' was adopted by the computer industry in the following manner.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx60",
+            "annotation": false,
+            "start": 7561,
+            "end": 7725,
+            "label": "context",
+            "text": "The typical stereotype of a worker in the computer software industry is that he (usually male) is limited in his ability to interact skilfully with his colleagues.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx61",
+            "annotation": false,
+            "start": 7725,
+            "end": 7792,
+            "label": "context",
+            "text": "In a team of people, there are bound to be clashes of personality. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx62",
+            "annotation": false,
+            "start": 7792,
+            "end": 8060,
+            "label": "context",
+            "text": "During the course of interactions with one of your colleagues, one of them sticks in your mind for making unhelpful suggestions, or crafting inept designs, or otherwise demonstrating a modicum of stupidity that is likely to become a hindrance to the task in progress.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx63",
+            "annotation": false,
+            "start": 8060,
+            "end": 8241,
+            "label": "context",
+            "text": "What can happen is for a team leader, or someone else whose input is influential, to register this person as a bozo, and prejudge every contribution of that person to be worthless. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx64",
+            "annotation": false,
+            "start": 8241,
+            "end": 8382,
+            "label": "context",
+            "text": "When the bozo is speaking, the listener mentally tunes out the sound of his voice and is instead thinking of something completely different.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx65",
+            "annotation": false,
+            "start": 8382,
+            "end": 8469,
+            "label": "context",
+            "text": "Such behaviour is known as '''flipping the bozo bit''' on that person.\n\\end{definition}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 87,
+            "label": "planning",
+            "text": "The selection is a straightforward application of **binomial (choose) coefficients**.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 87,
+            "end": 140,
+            "label": "restatement",
+            "text": "* There are \\(5\\) candidates who can play guard.  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 140,
+            "end": 243,
+            "label": "reasoning",
+            "text": "To pick the three guards we need  \n\n\\[\n\\binom{5}{3}= \\frac{5!}{3!\\,2!}=10\n\\]\n\ndifferent guard groups.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 243,
+            "end": 298,
+            "label": "restatement",
+            "text": "* There are \\(7\\) candidates who can play forward.  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 298,
+            "end": 403,
+            "label": "reasoning",
+            "text": "To pick the two forwards we need  \n\n\\[\n\\binom{7}{2}= \\frac{7!}{2!\\,5!}=21\n\\]\n\ndifferent forward groups.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 403,
+            "end": 461,
+            "label": "reasoning",
+            "text": "Since the choices of guards and forwards are independent, ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 461,
+            "end": 610,
+            "label": "reasoning",
+            "text": "the total number of possible starting line‑ups is the product of the two counts:\n\n\\[\n\\boxed{\\binom{5}{3}\\times\\binom{7}{2}=10 \\times 21 = 210 }.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 610,
+            "end": 694,
+            "label": "conclusion",
+            "text": "Thus the selection committee can form the starting lineup in **210 different ways**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp0",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp4",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "validate:support"
+        }
+    ]
+}

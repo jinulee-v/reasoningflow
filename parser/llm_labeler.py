@@ -7,6 +7,7 @@ from enum import Enum
 from typing import List
 from collections import defaultdict
 import yaml
+from tqdm import tqdm
 
 from pydantic import BaseModel
 
@@ -112,6 +113,186 @@ def fuzzy_find(sentence, text, start_pos=0):
     return None
 
 
+def _dp_boundaries(text, sentences, n, k):
+    """DP to find optimal split of text[0:n] into k parts, maximising
+    total subsequence-match count between sentences[i] and each part.
+    Only called when n*k is small enough to be tractable.
+    """
+    # nxt[j][c] = smallest index >= j where text[index] == c, or n if absent
+    nxt = [None] * (n + 1)
+    nxt[n] = {}
+    for j in range(n - 1, -1, -1):
+        d = dict(nxt[j + 1])
+        d[text[j]] = j
+        nxt[j] = d
+
+    def subseq_count(sent, j1, j2):
+        pos, cnt = j1, 0
+        for c in sent:
+            p = nxt[pos].get(c, n)
+            if p >= j2:
+                break
+            pos = p + 1
+            cnt += 1
+        return cnt
+
+    NEG_INF = float('-inf')
+    dp   = [[NEG_INF] * (n + 1) for _ in range(k + 1)]
+    back = [[-1]      * (n + 1) for _ in range(k + 1)]
+    dp[0][0] = 0
+
+    for i in range(1, k + 1):
+        lo = i              # must have used at least i characters
+        hi = n - (k - i)   # leave at least 1 char per remaining sentence
+        for j in range(lo, hi + 1):
+            for pj in range(i - 1, j):
+                if dp[i - 1][pj] == NEG_INF:
+                    continue
+                sc = dp[i - 1][pj] + subseq_count(sentences[i - 1], pj, j)
+                if sc > dp[i][j]:
+                    dp[i][j] = sc
+                    back[i][j] = pj
+
+    bounds = [0] * (k + 1)
+    j = n
+    for i in range(k, 0, -1):
+        bounds[i] = j
+        j = back[i][j]
+    bounds[0] = 0
+    return bounds
+
+
+
+def optimal_alignment(text, sentences, beam_width=50, window_factor=4.0):
+    """Segment *text* into exactly len(sentences) contiguous non-overlapping
+    parts that best match the given (possibly imperfect) sentences.
+
+    Strategy
+    --------
+    1. Find every exact-match position for each sentence.
+    2. Greedy left-to-right pass: assign each sentence its first valid exact
+       match (i.e. starting at or after the previous match's end).
+    3. Turn confirmed matches into "anchor" boundaries.
+    4. Between consecutive anchors, interpolate with a DP that maximises the
+       total subsequence-character overlap between each sentence and its
+       assigned text slice.
+
+    Returns (segments, char_boundaries) where char_boundaries has length N+1,
+    char_boundaries[0] == 0, and char_boundaries[N] == len(text).
+    """
+    N = len(sentences)
+    if N == 0:
+        return [], [0]
+
+    # ------------------------------------------------------------------
+    # Phase 1 – collect all exact match positions for each sentence
+    # ------------------------------------------------------------------
+    candidates = []
+    for sent in sentences:
+        positions = []
+        start = 0
+        while sent:
+            idx = text.find(sent, start)
+            if idx == -1:
+                break
+            positions.append((idx, idx + len(sent)))
+            start = idx + 1
+        candidates.append(positions)
+
+    # ------------------------------------------------------------------
+    # Phase 2 – greedy left-to-right assignment
+    # end_pos tracks the RAW end of the last match (not whitespace-extended)
+    # so subsequent searches are not confused by extension.
+    # ------------------------------------------------------------------
+    matched = [None] * N   # (raw_start, raw_end) tuple or None
+    end_pos = 0
+    gaps_since_last_match = 0   # unmatched sentences after the last anchor
+    for i in range(N):
+        # Reserve at least 1 character per unmatched sentence that precedes i
+        min_start = end_pos + gaps_since_last_match
+        valid = [(s, e) for s, e in candidates[i] if s >= min_start]
+        if valid:
+            matched[i] = valid[0]
+            end_pos = valid[0][1]   # raw end; extension happens in Phase 3
+            gaps_since_last_match = 0
+        else:
+            gaps_since_last_match += 1
+
+    # ------------------------------------------------------------------
+    # Phase 3 – build anchor map  {boundary_index: char_position}
+    #
+    # Each matched sentence i contributes two candidate boundary positions:
+    #   start_anchors[i]   = raw match start  (so sentence i has no leading ws)
+    #   end_anchors[i+1]   = match end extended past trailing whitespace
+    #                        (so sentence i owns its trailing ws)
+    #
+    # When both sources exist for the same boundary index, take the minimum.
+    # This correctly handles the case where the next sentence itself begins
+    # with whitespace that belongs to it (min = start of next sentence).
+    # ------------------------------------------------------------------
+    start_anchors = {}
+    end_anchors   = {}
+    for i in range(N):
+        if matched[i] is not None:
+            s, e = matched[i]
+            e_ext = e
+            while e_ext < len(text) and text[e_ext].isspace():
+                e_ext += 1
+            start_anchors[i]   = s
+            end_anchors[i + 1] = e_ext
+
+    anchors = {}
+    for idx in set(start_anchors) | set(end_anchors):
+        s = start_anchors.get(idx)
+        e = end_anchors.get(idx)
+        anchors[idx] = min(v for v in (s, e) if v is not None)
+
+    # Hard constraints: first and last boundary
+    anchors[0] = 0
+    anchors[N] = len(text)
+
+    # Enforce strict monotonicity (drop anchors that would invert the order)
+    valid_anchors = {0: 0}
+    prev_pos = 0
+    for idx in range(1, N + 1):
+        if idx in anchors and anchors[idx] >= prev_pos:
+            valid_anchors[idx] = anchors[idx]
+            prev_pos = anchors[idx]
+    valid_anchors[N] = len(text)   # always override to enforce full coverage
+
+    # ------------------------------------------------------------------
+    # Phase 4 – fill boundaries; interpolate gaps
+    # ------------------------------------------------------------------
+    char_boundaries = [None] * (N + 1)
+    sorted_keys = sorted(valid_anchors.keys())
+
+    for ki in range(len(sorted_keys) - 1):
+        li = sorted_keys[ki]
+        ri = sorted_keys[ki + 1]
+        lp = valid_anchors[li]
+        rp = valid_anchors[ri]
+        char_boundaries[li] = lp
+
+        gap = ri - li
+        if gap <= 1:
+            continue
+
+        # Split text[lp:rp] among sentences[li:ri]
+        sub_text = text[lp:rp]
+        sub_sents = sentences[li:ri]
+        sub_n, sub_k = len(sub_text), len(sub_sents)
+        sub_bounds = [0, sub_n] if sub_k == 1 else _dp_boundaries(sub_text, sub_sents, sub_n, sub_k)
+        for j in range(1, gap):
+            char_boundaries[li + j] = lp + sub_bounds[j]
+
+    char_boundaries[N] = len(text)
+
+    assert all(b is not None for b in char_boundaries), \
+        "BUG: some char_boundaries entries were not filled."
+    segments = [text[char_boundaries[i]:char_boundaries[i + 1]] for i in range(N)]
+    return segments, char_boundaries
+
+
 def get_node_sort_key(node_id):
     """Get sort key for node ID (context nodes first, then response nodes)."""
     try:
@@ -130,6 +311,8 @@ def model_id_map(file):
         return "Qwen/Qwen2.5-32B-Instruct"
     elif "QwQ-32B" in file:
         return "Qwen/QwQ-32B"
+    elif "gpt-oss-120b" in file:
+        return "openai/gpt-oss-120b"
     return None
 
 
@@ -205,9 +388,6 @@ def _load_prompts_and_examples():
 
 
 PROMPTS, EXAMPLES = _load_prompts_and_examples()
-
-# Maximum number of previous nodes to consider for edge detection
-MAX_CONTEXT_WINDOW = 10
 
 
 # =============================================================================
@@ -334,32 +514,81 @@ def edge_detection_and_classification(node_idx, nodes):
     ]
 
 
+def _needs_resegment(text):
+    """Return True if a node is long enough and paragraph-rich enough to warrant re-segmentation."""
+    return len(text) > 300 and text.strip().count('\n\n') > 1 and ". " in text
+
+
 def tokenize_and_align(text, tokenize_func):
     """Tokenize text and find character indices for each sentence.
 
-    Returns (sentences, sentence_indices) where sentence_indices has length
-    len(sentences) + 1, with the last element being the text length.
-    Returns (None, None) if alignment fails.
+    Uses globally optimal DP alignment (optimal_alignment) to segment the text
+    into exactly len(sentences) contiguous parts.  Any resulting segment that is
+    longer than 300 characters AND whose stripped text contains more than one
+    blank line (\\n\\n) is recursively re-segmented until either the recursive
+    call returns a single segment (cannot split further) or all segments satisfy
+    the size/paragraph criteria.
+
+    Returns (segments, char_boundaries) where char_boundaries has length
+    len(segments) + 1, char_boundaries[0] == 0, char_boundaries[-1] == len(text).
+    Returns (None, None) if alignment fails entirely.
     """
+    print("tokenize_and_align(), len(text):", len(text))
     sentences = tokenize_func(text)
-    sentence_indices = []
-    last_idx = 0
+    segments, boundaries = optimal_alignment(text, sentences)
 
-    for sent in sentences:
-        try:
-            idx = text.index(sent[:10], max(0, last_idx - 5))
-            matched_end = idx + len(sent)
-        except ValueError:
-            result = fuzzy_find(sent, text, max(0, last_idx - 5))
-            if result is None:
-                print(f"Warning: Sentence '{sent}' not found in text.")
-                return None, None
-            idx, matched_end = result
-        last_idx = matched_end
-        sentence_indices.append(idx)
+    if len(segments) == 1:
+        # directly return if only one segment (no alignment needed)
+        return segments, boundaries
 
-    sentence_indices.append(len(text))
-    return sentences, sentence_indices
+    final_segments = []
+    final_boundaries = [0]
+
+    for i, seg in enumerate(segments):
+        seg_start = boundaries[i]
+        seg_end = boundaries[i + 1]
+        seg_text = text[seg_start:seg_end]
+
+        if _needs_resegment(seg_text):
+            # Split by double newlines and recursively process each paragraph
+            para_ranges = []
+            pos = 0
+            for m in re.finditer(r'\n\n', seg_text):
+                para_ranges.append((pos, m.end()))
+                pos = m.end()
+            if pos < len(seg_text):
+                para_ranges.append((pos, len(seg_text)))
+
+            sub_expanded = False
+            if len(para_ranges) > 1:
+                combined_segs = []
+                combined_bounds = [0]
+                for para_start, para_end in para_ranges:
+                    para_text = seg_text[para_start:para_end]
+                    sub_segs, sub_bounds = tokenize_and_align(para_text, tokenize_func)
+                    if sub_segs is None or len(sub_segs) == 0:
+                        combined_segs.append(para_text)
+                        combined_bounds.append(para_end)
+                    else:
+                        for j, sub_seg in enumerate(sub_segs):
+                            combined_segs.append(sub_seg)
+                            combined_bounds.append(para_start + sub_bounds[j + 1])
+
+                if len(combined_segs) > 1:
+                    sub_expanded = True
+                    for j, sub_seg in enumerate(combined_segs):
+                        final_segments.append(sub_seg)
+                        final_boundaries.append(seg_start + combined_bounds[j + 1])
+
+            if not sub_expanded:
+                # Cannot split further – keep as-is
+                final_segments.append(seg_text)
+                final_boundaries.append(seg_end)
+        else:
+            final_segments.append(seg_text)
+            final_boundaries.append(seg_end)
+
+    return final_segments, final_boundaries
 
 
 # =============================================================================
@@ -396,7 +625,7 @@ def _create_response_node(index, start, end, label, text):
 # Main Processing Function
 # =============================================================================
 
-MAX_WORKERS = 2
+MAX_WORKERS = 64
 
 
 def main_predict(data, output_dir=""):
@@ -404,7 +633,7 @@ def main_predict(data, output_dir=""):
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
 
-    for datum in data:
+    for datum in tqdm(data):
         try:
             print(f"Processing document: {datum['doc_id']}")
 
@@ -460,6 +689,8 @@ def main_predict(data, output_dir=""):
             for node in datum["nodes"]:
                 if node["id"] in conclusion_node_ids:
                     node["label"] = "conclusion"
+            
+            print("Reach here: node count", len(nodes))
 
             # Annotate edges in parallel
             edge_func = partial(edge_detection_and_classification, nodes=nodes)
@@ -513,21 +744,24 @@ if __name__ == "__main__":
     print("<Load data...>")
     data = []
     # Make directory for output if not exists
-    os.makedirs(f"data/v0_llm_{LLM_MODEL_NAME}", exist_ok=True)
-    for file in sorted(os.listdir("data/v0_raw_data")):
+    os.makedirs(f"data/v1_llm_{LLM_MODEL_NAME}", exist_ok=True)
+    for file in sorted(os.listdir("data/v1_raw_data")):
+        # DEBUG
+        # if file != "aime2024_11_QwQ-32B.json":
+        #     continue
         if file.endswith(".json"):
             output_path = os.path.join(
                 "data",
-                f"v0_llm_{LLM_MODEL_NAME}",
+                f"v1_llm_{LLM_MODEL_NAME}",
                 file
             )
             if os.path.exists(output_path):
                 print(f"Data for {file} already exists, skipping.")
                 continue
 
-            with open(os.path.join("data/v0_raw_data", file), "r") as f:
+            with open(os.path.join("data/v1_raw_data", file), "r") as f:
                 datum = json.load(f)
                 data.append(datum)
 
     print(f"Loaded {len(data)} data samples.")
-    main_predict(data, output_dir=f"data/v0_llm_{LLM_MODEL_NAME}")
+    main_predict(data, output_dir=f"data/v1_llm_{LLM_MODEL_NAME}")
