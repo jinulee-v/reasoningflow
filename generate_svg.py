@@ -17,13 +17,13 @@ with open("schema/edge_labels.yaml", 'r', encoding='utf-8') as f:
     edge_color_map = {e['name']: e['color'] for e in _edge_schema['edges']}
 
 # ── Layout constants ───────────────────────────────────────────────────────────
-NODE_W      = 390   # node box width in pixels
+NODE_W      = 320   # node box width in pixels
 DPI         = 96    # rendering resolution
 NODE_MARGIN = 15    # vertical gap between nodes
 FONT_SIZE   = 8     # points
 LINE_H      = 13    # pixels per rendered line
 TEXT_PAD    = 5     # pixels of padding inside node boxes
-WRAP_CHARS  = 58    # target max characters per line (non-math tokens)
+WRAP_CHARS  = 55    # target max characters per line (non-math tokens)
 
 # ── LaTeX helpers ──────────────────────────────────────────────────────────────
 def to_mathtext(text: str) -> str:
@@ -211,12 +211,7 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
 
     svg_w = attach_x + max_bulge + LABEL_MARGIN
 
-    # 3. Collect unique edge colors for arrowhead markers
-    edge_colors: set = set()
-    for edge in edges:
-        edge_colors.add(edge_color_map.get(edge.get("label", ""), "#888888"))
-
-    # 4. Build SVG
+    # 3. Build SVG
     parts = []
     parts.append(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -225,15 +220,8 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
         f'width="{svg_w}" height="{total_h}">'
     )
 
-    # <defs>: arrowhead markers + all hoisted glyph/font defs from node SVGs
+    # <defs>: hoisted glyph/font defs from node SVGs only
     parts.append('<defs>')
-    for color in sorted(edge_colors):
-        cid = color_to_id(color)
-        parts.append(
-            f'  <marker id="arr-{cid}" markerWidth="8" markerHeight="6" '
-            f'refX="7" refY="3" orient="auto">'
-            f'<path d="M0,0 L0,6 L8,3 z" fill="{color}"/></marker>'
-        )
     for defs_str in all_defs_parts:
         parts.append(defs_str)
     parts.append('</defs>')
@@ -268,7 +256,7 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
         )
 
     # Edges as cubic Bezier curves routed to the right of the nodes.
-    # All paths are emitted first, then all labels on top (SVG painter's order).
+    # Pass 1: draw all arrow paths (each grouped with its arrowhead marker)
     valid_edges = []
     for edge in edges:
         src_id = edge.get("source_node_id", "")
@@ -277,7 +265,6 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
             continue
         valid_edges.append(edge)
 
-    # Pass 1: draw all arrow paths
     for edge in valid_edges:
         src_id  = edge.get("source_node_id", "")
         dst_id  = edge.get("dest_node_id", "")
@@ -293,10 +280,17 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
         cx2, cy2 = attach_x + bulge, y1
         path = f"M{attach_x},{y0} C{cx1},{cy1} {cx2},{cy2} {attach_x},{y1}"
 
+        parts.append('<g>')
         parts.append(
-            f'<path d="{path}" fill="none" stroke="{color}" stroke-width="2" '
+            f'  <defs><marker id="arr-{cid}" markerWidth="8" markerHeight="6" '
+            f'refX="7" refY="3" orient="auto">'
+            f'<path d="M0,0 L0,6 L8,3 z" fill="{color}"/></marker></defs>'
+        )
+        parts.append(
+            f'  <path d="{path}" fill="none" stroke="{color}" stroke-width="2" '
             f'marker-end="url(#arr-{cid})"/>'
         )
+        parts.append('</g>')
 
     # Pass 2: draw all edge labels on top of the paths
     for edge in valid_edges:
@@ -313,16 +307,19 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
         mid_x = int(attach_x + 0.75 * bulge)
         mid_y = int((y0 + y1) / 2)
         lw    = len(short) * 5 + 8
+
+        parts.append('<g>')
         parts.append(
-            f'<rect x="{mid_x - lw // 2}" y="{mid_y - 7}" '
+            f'  <rect x="{mid_x - lw // 2}" y="{mid_y - 7}" '
             f'width="{lw}" height="13" fill="{color}" rx="3"/>'
         )
         parts.append(
-            f'<text x="{mid_x}" y="{mid_y + 1}" '
+            f'  <text x="{mid_x}" y="{mid_y + 1}" '
             f'font-family="sans-serif" font-size="9" '
             f'fill="#111111" text-anchor="middle" dominant-baseline="middle">'
             f'{short}</text>'
         )
+        parts.append('</g>')
 
     parts.append('</svg>')
 
