@@ -2,7 +2,7 @@ import json
 import time
 import threading
 from google import genai
-from google.genai.errors import ClientError
+from google.genai.errors import ClientError, ServerError
 from google.genai.types import HttpOptions
 import dotenv
 import os
@@ -62,7 +62,7 @@ def call_llm(prompt: str, schema=None, **args):
 
     for attempt, delay in enumerate([None] + _RETRY_DELAYS):
         if delay is not None:
-            print(f"429 Resource Exhausted. Retrying in {delay}s (attempt {attempt}/{len(_RETRY_DELAYS)})...")
+            print(f"Error. Retrying in {delay}s (attempt {attempt}/{len(_RETRY_DELAYS)})...")
             time.sleep(delay)
         try:
             response = client.models.generate_content(
@@ -72,7 +72,11 @@ def call_llm(prompt: str, schema=None, **args):
             )
             break
         except ClientError as e:
-            if e.code == 429 and attempt < len(_RETRY_DELAYS):
+            if e.code in [429] and attempt < len(_RETRY_DELAYS):
+                continue
+            raise
+        except ServerError as e:
+            if e.code in [503] and attempt < len(_RETRY_DELAYS):
                 continue
             raise
     with _token_lock:

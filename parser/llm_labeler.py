@@ -8,12 +8,14 @@ from typing import List
 from collections import defaultdict
 import yaml
 from tqdm import tqdm
+from random import shuffle
 
 from pydantic import BaseModel
 
 # from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
 # from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
 from utils.vertexai import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.vllm import LLM_MODEL_NAME, call_llm, get_metadata
 
 
 # =============================================================================
@@ -116,7 +118,6 @@ def fuzzy_find(sentence, text, start_pos=0):
 def _dp_boundaries(text, sentences, n, k):
     """DP to find optimal split of text[0:n] into k parts, maximising
     total subsequence-match count between sentences[i] and each part.
-    Only called when n*k is small enough to be tractable.
     """
     # nxt[j][c] = smallest index >= j where text[index] == c, or n if absent
     nxt = [None] * (n + 1)
@@ -169,11 +170,10 @@ def optimal_alignment(text, sentences, beam_width=50, window_factor=4.0):
 
     Strategy
     --------
-    1. Find every exact-match position for each sentence.
-    2. Greedy left-to-right pass: assign each sentence its first valid exact
+    1. Greedy left-to-right pass: assign each sentence its first valid exact
        match (i.e. starting at or after the previous match's end).
-    3. Turn confirmed matches into "anchor" boundaries.
-    4. Between consecutive anchors, interpolate with a DP that maximises the
+    2. Turn confirmed matches into "anchor" boundaries.
+    3. Between consecutive anchors, interpolate with a DP that maximises the
        total subsequence-character overlap between each sentence and its
        assigned text slice.
 
@@ -516,7 +516,7 @@ def edge_detection_and_classification(node_idx, nodes):
 
 def _needs_resegment(text):
     """Return True if a node is long enough and paragraph-rich enough to warrant re-segmentation."""
-    return len(text) > 300 and text.strip().count('\n\n') > 1 and ". " in text
+    return len(text) > 300 or text.strip().count('\n\n') > 1 or ". " in text
 
 
 def tokenize_and_align(text, tokenize_func):
@@ -549,7 +549,7 @@ def tokenize_and_align(text, tokenize_func):
         seg_end = boundaries[i + 1]
         seg_text = text[seg_start:seg_end]
 
-        if _needs_resegment(seg_text):
+        if len(seg_text) > 300:
             # Split by double newlines and recursively process each paragraph
             para_ranges = []
             pos = 0
@@ -565,7 +565,10 @@ def tokenize_and_align(text, tokenize_func):
                 combined_bounds = [0]
                 for para_start, para_end in para_ranges:
                     para_text = seg_text[para_start:para_end]
-                    sub_segs, sub_bounds = tokenize_and_align(para_text, tokenize_func)
+                    if _needs_resegment(para_text):
+                        sub_segs, sub_bounds = tokenize_and_align(para_text, tokenize_func)
+                    else:
+                        sub_segs, sub_bounds = [para_text], [0, len(para_text)]
                     if sub_segs is None or len(sub_segs) == 0:
                         combined_segs.append(para_text)
                         combined_bounds.append(para_end)
@@ -625,7 +628,7 @@ def _create_response_node(index, start, end, label, text):
 # Main Processing Function
 # =============================================================================
 
-MAX_WORKERS = 64
+MAX_WORKERS = 4
 
 
 def main_predict(data, output_dir=""):
@@ -745,10 +748,13 @@ if __name__ == "__main__":
     data = []
     # Make directory for output if not exists
     os.makedirs(f"data/v1_llm_{LLM_MODEL_NAME}", exist_ok=True)
-    for file in sorted(os.listdir("data/v1_raw_data")):
+    # for file in sorted(os.listdir("data/v1_raw_data")):
+    shuffled_files = os.listdir("data/v1_raw_data")
+    shuffle(shuffled_files)
+    for file in shuffled_files:
         # DEBUG
-        # if file != "aime2024_11_QwQ-32B.json":
-        #     continue
+        if "QwQ" not in file and "R1" not in file:
+            continue
         if file.endswith(".json"):
             output_path = os.path.join(
                 "data",

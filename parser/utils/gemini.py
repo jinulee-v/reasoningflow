@@ -22,9 +22,13 @@ def call_llm(prompt: str, schema=None, **args): # Gemini API
         } if schema is not None else {"temperature": 0}
     )
     global in_token, out_token, price
-    in_token += response.usage_metadata.prompt_token_count
-    out_token += response.usage_metadata.candidates_token_count
-    price += response.usage_metadata.prompt_token_count * 0.3/1000000 + response.usage_metadata.candidates_token_count * 2.5/1000000
+    try:
+        in_token += response.usage_metadata.prompt_token_count
+        out_token += response.usage_metadata.candidates_token_count
+        price += response.usage_metadata.prompt_token_count * 0.3/1000000 + response.usage_metadata.candidates_token_count * 2.5/1000000
+    except Exception as e:
+        print(f"Error accessing usage metadata: {e}")
+        pass
     
     # print(response.text); exit()
     response_text = response.text.split("```json")[-1].split("```")[0]
