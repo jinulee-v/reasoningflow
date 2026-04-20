@@ -255,7 +255,7 @@ def optimal_alignment(text, sentences, beam_width=50, window_factor=4.0):
     valid_anchors = {0: 0}
     prev_pos = 0
     for idx in range(1, N + 1):
-        if idx in anchors and anchors[idx] >= prev_pos:
+        if idx in anchors and anchors[idx] > prev_pos:
             valid_anchors[idx] = anchors[idx]
             prev_pos = anchors[idx]
     valid_anchors[N] = len(text)   # always override to enforce full coverage
@@ -516,7 +516,7 @@ def edge_detection_and_classification(node_idx, nodes):
 
 def _needs_resegment(text):
     """Return True if a node is long enough and paragraph-rich enough to warrant re-segmentation."""
-    return len(text) > 300 or text.strip().count('\n\n') > 1 or ". " in text
+    return len(text) > 300 or text.strip().count('\n\n') > 1 or ". " in text.strip()
 
 
 def tokenize_and_align(text, tokenize_func):
@@ -628,7 +628,7 @@ def _create_response_node(index, start, end, label, text):
 # Main Processing Function
 # =============================================================================
 
-MAX_WORKERS = 4
+MAX_WORKERS = 32
 
 
 def main_predict(data, output_dir=""):
@@ -676,6 +676,9 @@ def main_predict(data, output_dir=""):
                 for i in range(len(response_indices) - 1)
             ])
             
+            # Remove nodes with empty text before classification
+            nodes = [node for node in nodes if node["text"].strip()]
+
             # annotate node labels together
             node_to_labels_list = node_classification(nodes, question=question_text)
             node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
@@ -753,8 +756,8 @@ if __name__ == "__main__":
     shuffle(shuffled_files)
     for file in shuffled_files:
         # DEBUG
-        if "QwQ" not in file and "R1" not in file:
-            continue
+        # if "gpt-oss" not in file:
+        #     continue
         if file.endswith(".json"):
             output_path = os.path.join(
                 "data",

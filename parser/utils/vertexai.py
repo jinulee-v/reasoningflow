@@ -42,13 +42,12 @@ candidates_token_rate = {
 
 _RETRY_DELAYS = [5, 20, 80, 320]
 
-def call_llm(prompt: str, schema=None, **args):
+def call_llm(prompt: str, schema=None, llm_model_name=None, **args):
     thinking_level = args.get("thinking_level", "minimal")
-    if "pro" in LLM_MODEL_NAME and thinking_level == "minimal":
+    llm_model_name = llm_model_name or LLM_MODEL_NAME
+    if "pro" in llm_model_name and thinking_level == "minimal":
         # Gemini-3-Pro does not support minimal, so we use Gemini-3-flash
         llm_model_name = LLM_MODEL_NAME.replace("3-pro", "3-flash").replace("3.1-pro", "3-flash")
-    else:
-        llm_model_name = LLM_MODEL_NAME
 
     config = {
         "response_mime_type": "application/json",
@@ -84,6 +83,9 @@ def call_llm(prompt: str, schema=None, **args):
         in_token += response.usage_metadata.prompt_token_count
         out_token += response.usage_metadata.candidates_token_count
         price += response.usage_metadata.prompt_token_count * prompt_token_rate.get(LLM_MODEL_NAME, 0) + response.usage_metadata.candidates_token_count * candidates_token_rate.get(LLM_MODEL_NAME, 0)
+
+    if response.text is None:
+        raise ValueError("Response text is None")
 
     response_text = response.text.split("```json")[-1].split("```")[0]
     response_text = response_text.strip()

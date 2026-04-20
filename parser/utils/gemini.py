@@ -5,8 +5,8 @@ import os
 import json_repair
 dotenv.load_dotenv()
 client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
-LLM_MODEL_NAME = "gemini-2.5-flash"
-# LLM_MODEL_NAME = "gemini-3-flash-preview"
+# LLM_MODEL_NAME = "gemini-2.5-flash"
+LLM_MODEL_NAME = "gemini-3-flash-preview"
 
 in_token = 0
 out_token = 0
@@ -34,7 +34,7 @@ def call_llm(prompt: str, schema=None, **args): # Gemini API
     response_text = response.text.split("```json")[-1].split("```")[0]
     response_text = response_text.strip()
     response_text = json_repair.repair_json(response_text)
-    print(response_text)
+    # print(response_text)
 
     if schema is not None:
         return json.loads(response_text)
