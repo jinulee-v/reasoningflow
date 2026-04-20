@@ -1,0 +1,4711 @@
+{
+    "doc_id": "gpqa-diamond_197_gpt-oss-120b",
+    "raw_text": {
+        "question": "We have a solution containing Co(II) ions and thiocyanate, where the total cobalt concentration is c(Co) = 10^-2 M and the [SCN-] concentration is 0.1 M. The stability constants of the cobalt(II) thiocyanato complexes are \u03b21=9, \u03b22=40, \u03b23=63 and \u03b24=16. What will be the percentage of the blue dithiocyanato cobalt(II) complexes among all cobalt containing species in the solution?\nA. 16.9%\nB. 42.3%\nC. 38.1%\nD. 25.6%",
+        "response": "<think>We need to parse the problem: solution containing Co(II) and thiocyanate (SCN-). Total cobalt concentration c(Co) = 10^-2 M (0.01 M). SCN- concentration = 0.1 M. Stability constants (overall formation constants) for complexes: \u03b21 = 9, \u03b22 = 40, \u03b23 = 63, \u03b24 = 16. These are presumably cumulative formation constants for Co(SCN)_n complexes: Co(SCN)+ (n=1), Co(SCN)2 (n=2), Co(SCN)3 (n=3), Co(SCN)4 (n=4). The question: \"percentage of the blue dithiocyanato cobalt(II) complexes among all cobalt containing species\". Dithiocyanato means two SCN ligands: Co(SCN)2 (maybe blue). So we need fraction of total cobalt present as Co(SCN)2.\n\nWe have equilibrium: Co2+ + n SCN- \u21cc Co(SCN)_n^(2-n?) Actually charge changes but not needed.\n\nGiven total cobalt concentration C_T = [Co2+] + \u03a3_{n=1}^4 [Co(SCN)_n]. We have total SCN concentration: C_S = [SCN-] + \u03a3 n [Co(SCN)_n] (since each complex consumes n SCN). But SCN is in large excess (0.1 M vs 0.01 M cobalt). So we can approximate free SCN- concentration \u2248 total SCN (0.1 M) because only small amount bound. But we can compute more precisely.\n\nWe have formation constants: \u03b2_n = [Co(SCN)_n] / ([Co2+][SCN-]^n). So we can express each complex concentration in terms of free Co2+ and free SCN-.\n\nLet x = [Co2+]; let s = [SCN-] free.\n\nThen [Co(SCN)_n] = \u03b2_n * x * s^n.\n\nTotal cobalt: C_T = x + \u03a3_{n=1}^4 \u03b2_n x s^n = x (1 + \u03a3 \u03b2_n s^n).\n\nThus x = C_T / (1 + \u03a3 \u03b2_n s^n).\n\nWe need fraction of cobalt as Co(SCN)_2: f = [Co(SCN)_2] / C_T = \u03b2_2 x s^2 / C_T = \u03b2_2 s^2 * x / C_T = \u03b2_2 s^2 / (1 + \u03a3 \u03b2_n s^n).\n\nThus we need s (free SCN). Since SCN total is C_S = s + \u03a3 n \u03b2_n x s^n = s + x \u03a3 n \u03b2_n s^n.\n\nBut x = C_T / (1 + \u03a3 \u03b2_n s^n). So C_S = s + (C_T / (1 + \u03a3 \u03b2_n s^n)) \u03a3 n \u03b2_n s^n.\n\nWe can solve for s numerically.\n\nGiven C_T = 0.01 M, C_S = 0.1 M. \u03b2 values: \u03b21=9, \u03b22=40, \u03b23=63, \u03b24=16.\n\nLet\u2019s compute.\n\nDefine A = \u03a3 \u03b2_n s^n = 9 s + 40 s^2 + 63 s^3 + 16 s^4.\n\nDefine B = \u03a3 n \u03b2_n s^n = 1*9 s + 2*40 s^2 + 3*63 s^3 + 4*16 s^4 = 9 s + 80 s^2 + 189 s^3 + 64 s^4.\n\nEquation: C_S = s + C_T * B / (1 + A).\n\nPlug numbers: 0.1 = s + 0.01 * B / (1 + A).\n\nWe need to solve for s.\n\nBecause C_T is small relative to C_S, s likely close to 0.1. Let's try s = 0.09.\n\nCompute s=0.09:\n\ns=0.09\n\ns^2=0.0081\n\ns^3=0.000729\n\ns^4=0.00006561\n\nA = 9*0.09 + 40*0.0081 + 63*0.000729 + 16*0.00006561\n\n= 0.81 + 0.324 + 0.045927 + 0.0010498 \u2248 1.180977\n\nB = 9*0.09 + 80*0.0081 + 189*0.000729 + 64*0.00006561\n\n= 0.81 + 0.648 + 0.137841 + 0.004199 \u2248 1.60004\n\nNow compute RHS: s + 0.01 * B / (1 + A) = 0.09 + 0.01 * 1.60004 / (1 + 1.180977) = 0.09 + 0.01 * 1.60004 / 2.180977 = 0.09 + 0.01 * 0.7339 = 0.09 + 0.007339 = 0.097339.\n\nClose to 0.1 but a bit low. Need RHS = 0.1, so s should be slightly higher.\n\nTry s = 0.095.\n\nCompute s=0.095\n\ns^2=0.009025\n\ns^3=0.000857375\n\ns^4=0.0000814506\n\nA = 9*0.095 + 40*0.009025 + 63*0.000857375 + 16*0.0000814506\n\n= 0.855 + 0.361 + 0.0540126 + 0.0013032 \u2248 1.2713158\n\nB = 9*0.095 + 80*0.009025 + 189*0.000857375 + 64*0.0000814506\n\n= 0.855 + 0.722 + 0.162 (approx) + 0.0052128\n\nCompute precisely: 80*0.009025=0.722; 189*0.000857375=0.162, let's compute: 0.000857375*189 = 0.162, yes. 64*0.0000814506=0.00521244.\n\nSum B = 0.855 + 0.722 + 0.162 + 0.005212 = 1.744212.\n\nNow RHS: s + 0.01 * B / (1 + A) = 0.095 + 0.01 * 1.744212 / (1 + 1.271316) = 0.095 + 0.01 * 1.744212 / 2.271316 = 0.095 + 0.01 * 0.768 = 0.095 + 0.00768 = 0.10268.\n\nNow RHS > 0.1, so s is between 0.09 and 0.095. Let's interpolate.\n\nWe need RHS = 0.1. At s=0.09 RHS=0.09734; at s=0.095 RHS=0.10268. Linear interpolation: target 0.1 is about (0.1-0.09734)/(0.10268-0.09734)=0.00266/0.00534\u22480.498. So s \u2248 0.09 + 0.005*0.498 \u2248 0.0925.\n\nLet's test s=0.0925.\n\nCompute s=0.0925\n\ns^2=0.00855625\n\ns^3=0.000791... compute: 0.00855625*0.0925 = 0.000791... Let's compute precisely: 0.00855625*0.0925 = 0.000791... 0.00855625*0.09=0.0007700625, plus 0.00855625*0.0025=0.0000213906, sum 0.0007914531.\n\ns^4 = s^3 * s = 0.0007914531 * 0.0925 \u2248 0.000073... compute: 0.0007914531*0.09=0.0000712308, plus *0.0025=0.0000019786, total 0.0000732094.\n\nNow A = 9*s + 40*s^2 + 63*s^3 + 16*s^4\n\n9*s = 0.8325\n\n40*s^2 = 40*0.00855625 = 0.34225\n\n63*s^3 = 63*0.0007914531 = 0.049862\n\n16*s^4 = 16*0.0000732094 = 0.00117135\n\nSum A = 0.8325+0.34225+0.049862+0.001171 = 1.22578\n\nB = 9*s + 80*s^2 + 189*s^3 + 64*s^4\n\n9*s = 0.8325\n\n80*s^2 = 80*0.00855625 = 0.6845\n\n189*s^3 = 189*0.0007914531 = 0.1496 (compute: 0.0007914531*200=0.15829 minus 0.0007914531*11=0.008706 =0.14958)\n\n64*s^4 = 64*0.0000732094 = 0.004685\n\nSum B = 0.8325+0.6845+0.14958+0.004685 = 1.67127\n\nNow RHS = s + 0.01 * B / (1 + A) = 0.0925 + 0.01 * 1.67127 / (1 + 1.22578) = 0.0925 + 0.01 * 1.67127 / 2.22578 = 0.0925 + 0.01 * 0.751 = 0.0925 + 0.00751 = 0.10001 approx. Good! So s \u2248 0.0925 M.\n\nThus free SCN- concentration ~0.0925 M. Bound SCN = total - free = 0.1 - 0.0925 = 0.0075 M. That matches small consumption.\n\nNow compute fraction of cobalt as Co(SCN)2:\n\nf = \u03b22 s^2 / (1 + A) where A = \u03a3 \u03b2_n s^n = 1.22578.\n\n\u03b22 s^2 = 40 * 0.00855625 = 0.34225.\n\nThus f = 0.34225 / (1 + 1.22578) = 0.34225 / 2.22578 = 0.1537.\n\nSo about 15.4% of cobalt is in dithiocyanato complex.\n\nBut answer options: 16.9%, 42.3%, 38.1%, 25.6%. Closest is 16.9% (A). Our estimate 15.4% maybe due to rounding; maybe more precise calculation yields ~16.9%.\n\nLet's compute more precisely using exact s solving maybe yields slightly higher fraction.\n\nWe can solve more accurately using iteration.\n\nWe have equation: s = C_S - C_T * B/(1+A). Actually from earlier: C_S = s + C_T * B/(1+A). So s = C_S - C_T * B/(1+A). Could iterate.\n\nLet's start with s0 = 0.0925. Compute A and B as above. Then compute s1 = 0.1 - 0.01 * B/(1+A) = 0.1 - 0.01 * 1.67127 / 2.22578 = 0.1 - 0.00751 = 0.09249. So stable.\n\nThus s \u22480.09249.\n\nNow compute fraction f = \u03b22 s^2 / (1 + A). Use s=0.09249.\n\ns^2 = 0.008553 (since earlier 0.008556). Let's compute precisely: 0.09249^2 = (0.09+0.00249)^2 = 0.0081 + 2*0.09*0.00249 + 0.00249^2 = 0.0081 + 0.0004482 + 0.0000062001 = 0.0085544. Good.\n\n\u03b22 s^2 = 40 * 0.0085544 = 0.342176.\n\nNow compute A = 9 s + 40 s^2 + 63 s^3 + 16 s^4.\n\nWe have s=0.09249.\n\n9s = 0.83241.\n\n40 s^2 = 0.342176 (same as above).\n\ns^3 = s^2 * s = 0.0085544 * 0.09249 = 0.000791... compute: 0.0085544*0.09=0.0007699, plus *0.00249=0.0000213, total 0.0007912.\n\n63 s^3 = 0.0007912*63 = 0.04985.\n\ns^4 = s^3 * s = 0.0007912*0.09249 = 0.0000732.\n\n16 s^4 = 0.001171.\n\nSum A = 0.83241+0.342176+0.04985+0.001171 = 1.225607.\n\n1 + A = 2.225607.\n\nThus f = 0.342176 / 2.225607 = 0.1537 (same). So 15.4%.\n\nBut answer options none close except 16.9% (difference 1.5%). Could be due to using stepwise formation constants rather than cumulative? The given \u03b2 values maybe stepwise (K1, K2, K3, K4) not cumulative. If they are stepwise, then cumulative \u03b2_n = K1*K2*...*Kn. But they gave \u03b21=9, \u03b22=40, \u03b23=63, \u03b24=16. Usually \u03b2_n denote cumulative formation constants. But if they are stepwise, then cumulative would be: \u03b21 = K1 = 9; \u03b22 (cumulative) = K1*K2 = 9*40 = 360; \u03b23 cumulative = 9*40*63 = 22680; \u03b24 cumulative = 9*40*63*16 = 362880. That would drastically increase complexation, leading to higher fraction of higher complexes, maybe shifting distribution.\n\nBut typical notation: \u03b21, \u03b22, \u03b23, \u03b24 are cumulative. However values 9, 40, 63, 16 seem not monotonic (should increase). So they might be stepwise formation constants (K1, K2, K3, K4). Indeed stepwise constants often decrease after first. So likely they are stepwise. Then cumulative \u03b21 = 9, \u03b22 = 9*40 = 360, \u03b23 = 360*63 = 22680, \u03b24 = 22680*16 = 362880. That would make complexes strongly favored, especially higher ones. Then fraction of dithiocyanato may be different.\n\nLet's compute using cumulative \u03b2_n as above.\n\nDefine cumulative \u03b21 = 9, \u03b22 = 360, \u03b23 = 22680, \u03b24 = 362880.\n\nNow compute A = \u03a3 \u03b2_n s^n = 9 s + 360 s^2 + 22680 s^3 + 362880 s^4.\n\nGiven s ~ free SCN ~? Since strong binding, more SCN bound, free s will be lower.\n\nWe need to solve again.\n\nLet\u2019s attempt.\n\nWe have C_T = 0.01, C_S = 0.1.\n\nEquation: C_S = s + C_T * \u03a3 n \u03b2_n s^n / (1 + \u03a3 \u03b2_n s^n).\n\nLet\u2019s compute with unknown s.\n\nWe can try to solve numerically.\n\nGiven large \u03b2, s likely small. Let's guess s = 0.01.\n\nCompute s=0.01:\n\ns^2=1e-4, s^3=1e-6, s^4=1e-8.\n\nA = 9*0.01 + 360*1e-4 + 22680*1e-6 + 362880*1e-8 = 0.09 + 0.036 + 0.02268 + 0.0036288 = 0.1523088.\n\nB = \u03a3 n \u03b2_n s^n = 1*9*0.01 + 2*360*1e-4 + 3*22680*1e-6 + 4*362880*1e-8 = 0.09 + 0.072 + 0.06804 + 0.0145152 = 0.2445552.\n\nNow RHS: s + 0.01 * B / (1 + A) = 0.01 + 0.01 * 0.2445552 / (1.1523088) = 0.01 + 0.01 * 0.2123 = 0.01 + 0.002123 = 0.012123.\n\nBut C_S = 0.1, so RHS far lower. Means s must be larger to increase RHS.\n\nTry s = 0.05.\n\nCompute s=0.05; s^2=0.0025; s^3=0.000125; s^4=6.25e-6.\n\nA = 9*0.05 + 360*0.0025 + 22680*0.000125 + 362880*6.25e-6\n\n= 0.45 + 0.9 + 2.835 + 2.268 = 6.453\n\nB = 9*0.05 + 2*360*0.0025 + 3*22680*0.000125 + 4*362880*6.25e-6\n\n= 0.45 + 1.8 + 8.505 + 9.072 = 19.827\n\nNow RHS = s + 0.01 * B / (1 + A) = 0.05 + 0.01 * 19.827 / (7.453) = 0.05 + 0.01 * 2.661 = 0.05 + 0.02661 = 0.07661.\n\nStill below 0.1. Increase s.\n\nTry s = 0.07.\n\ns^2=0.0049; s^3=0.000343; s^4=2.401e-5.\n\nA = 9*0.07 + 360*0.0049 + 22680*0.000343 + 362880*2.401e-5\n\n= 0.63 + 1.764 + 7.777 + 8.714 \u2248 18.885\n\nB = 9*0.07 + 2*360*0.0049 + 3*22680*0.000343 + 4*362880*2.401e-5\n\n= 0.63 + 3.528 + 23.331 + 34.856 \u2248 62.345\n\nRHS = 0.07 + 0.01 * 62.345 / (1+18.885=19.885) = 0.07 + 0.01 * 3.136 = 0.07 + 0.03136 = 0.10136.\n\nNow RHS slightly above 0.1. So s around 0.069 maybe.\n\nLet's try s=0.069.\n\ns^2=0.004761; s^3=0.0003285; s^4=2.265e-5.\n\nA = 9*0.069 + 360*0.004761 + 22680*0.0003285 + 362880*2.265e-5\n\n= 0.621 + 1.714 + 7.452 + 8.219 \u2248 17.996\n\nB = 9*0.069 + 2*360*0.004761 + 3*22680*0.0003285 + 4*362880*2.265e-5\n\n= 0.621 + 3.428 + 22.357 + 32.876 \u2248 59.282\n\nRHS = 0.069 + 0.01 * 59.282 / (1+17.996=18.996) = 0.069 + 0.01 * 3.122 = 0.069 + 0.03122 = 0.10022.\n\nClose to 0.1. So s \u2248 0.069 M.\n\nThus free SCN ~0.069 M, bound SCN = 0.031 M.\n\nNow compute fraction of Co(SCN)2.\n\nWe need cumulative \u03b22 = 360.\n\nFraction f = \u03b22 s^2 / (1 + A) = 360 * s^2 / (1 + A).\n\ns^2 = 0.004761.\n\n\u03b22 s^2 = 360 * 0.004761 = 1.714.\n\n1 + A = 1 + 17.996 = 18.996.\n\nThus f = 1.714 / 18.996 = 0.0902 = 9.0%.\n\nNot matching options.\n\nBut maybe they ask for \"blue dithiocyanato cobalt(II) complexes\" which could be Co(SCN)2- (maybe monodentate? Actually dithiocyanato means two SCN ligands). So fraction 9% not in options.\n\nThus likely the earlier assumption (\u03b2 are cumulative) is correct, giving ~15% which is close to 16.9% answer A.\n\nMaybe we need to consider activity coefficients? Or maybe they approximate free SCN as total (0.1 M) because binding small, then fraction = \u03b22 * (0.1)^2 / (1 + \u03a3 \u03b2_n (0.1)^n). Let's compute that simple approximation.\n\nTake s = 0.1.\n\nCompute A = 9*0.1 + 40*0.01 + 63*0.001 + 16*0.0001 = 0.9 + 0.4 + 0.063 + 0.0016 = 1.3646.\n\n1 + A = 2.3646.\n\n\u03b22 s^2 = 40 * 0.01 = 0.4.\n\nf = 0.4 / 2.3646 = 0.1692 = 16.9%. That's exactly answer A.\n\nThus they assumed free SCN \u2248 total SCN (0.1 M) because cobalt is low concentration relative to SCN, and binding does not significantly change SCN concentration. So they ignore SCN depletion. Then answer 16.9% matches option A.\n\nThus answer: A.\n</think>\nThe cobalt(II) ions can bind up to four thiocyanate ligands:\n\n\\[\n\\mathrm{Co^{2+}+nSCN^- \\rightleftharpoons Co(SCN)_n^{2-n}}\\qquad \n\\beta_n=\\frac{[Co(SCN)_n]}{[Co^{2+}][SCN^-]^n}\n\\]\n\nThe total cobalt concentration is  \n\n\\[\nc_{\\text{Co}} = [\\mathrm{Co^{2+}}] + \\sum_{n=1}^{4}[Co(SCN)_n]\n\\]\n\nIf the concentration of free SCN\u207b is taken as the analytical concentration (the amount bound to cobalt is negligible because \\([Co]_{\\text{tot}} =10^{-2}\\,\\text{M}\\) while \\([SCN^-]_{\\text{tot}} =0.1\\,\\text{M}\\)), then  \n\n\\[\n[SCN^-] \\approx 0.10\\ \\text{M}\n\\]\n\nUsing the cumulative formation constants (\u03b2\u2081 = 9, \u03b2\u2082 = 40, \u03b2\u2083 = 63, \u03b2\u2084 = 16),\n\n\\[\n\\begin{aligned}\n\\beta_1[SCN^-] &= 9(0.10)=0.90\\\\\n\\beta_2[SCN^-]^2 &= 40(0.10)^2 = 0.40\\\\\n\\beta_3[SCN^-]^3 &= 63(0.10)^3 = 0.063\\\\\n\\beta_4[SCN^-]^4 &= 16(0.10)^4 = 0.0016\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\nc_{\\text{Co}} = [\\mathrm{Co^{2+}}]\\Bigl[1+\\beta_1[SCN^-]+\\beta_2[SCN^-]^2+\\beta_3[SCN^-]^3+\\beta_4[SCN^-]^4\\Bigr]\n\\]\n\nThe fraction of cobalt present as the dithiocyanato complex \\(\\mathrm{Co(SCN)_2}\\) is\n\n\\[\n\\frac{[\\mathrm{Co(SCN)_2}]}{c_{\\text{Co}}}\n= \\frac{\\beta_2[SCN^-]^2}{1+\\beta_1[SCN^-]+\\beta_2[SCN^-]^2+\\beta_3[SCN^-]^3+\\beta_4[SCN^-]^4}\n= \\frac{0.40}{1+0.90+0.40+0.063+0.0016}\n= \\frac{0.40}{2.3646}\n\\approx 0.169\\;.\n\\]\n\nThus about **16.9\u202f%** of the cobalt is present as the blue dithiocyanato complex.\n\n**Answer: A. 16.9\u202f%**"
+    },
+    "metadata": {
+        "batch": 197,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-197",
+        "correct_answer": "A",
+        "topic": "chemistry",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 154,
+            "label": "context",
+            "text": "We have a solution containing Co(II) ions and thiocyanate, where the total cobalt concentration is c(Co) = 10^-2 M and the [SCN-] concentration is 0.1 M. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 154,
+            "end": 252,
+            "label": "context",
+            "text": "The stability constants of the cobalt(II) thiocyanato complexes are \u03b21=9, \u03b22=40, \u03b23=63 and \u03b24=16. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 252,
+            "end": 380,
+            "label": "context",
+            "text": "What will be the percentage of the blue dithiocyanato cobalt(II) complexes among all cobalt containing species in the solution?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 380,
+            "end": 389,
+            "label": "context",
+            "text": "A. 16.9%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 389,
+            "end": 398,
+            "label": "context",
+            "text": "B. 42.3%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 398,
+            "end": 407,
+            "label": "context",
+            "text": "C. 38.1%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 407,
+            "end": 415,
+            "label": "context",
+            "text": "D. 25.6%",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 88,
+            "label": "restatement",
+            "text": "We need to parse the problem: solution containing Co(II) and thiocyanate (SCN-). ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 88,
+            "end": 141,
+            "label": "restatement",
+            "text": "Total cobalt concentration c(Co) = 10^-2 M (0.01 M). ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 141,
+            "end": 169,
+            "label": "restatement",
+            "text": "SCN- concentration = 0.1 M. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 169,
+            "end": 269,
+            "label": "restatement",
+            "text": "Stability constants (overall formation constants) for complexes: \u03b21 = 9, \u03b22 = 40, \u03b23 = 63, \u03b24 = 16. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 269,
+            "end": 410,
+            "label": "assumption",
+            "text": "These are presumably cumulative formation constants for Co(SCN)_n complexes: Co(SCN)+ (n=1), Co(SCN)2 (n=2), Co(SCN)3 (n=3), Co(SCN)4 (n=4). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 410,
+            "end": 521,
+            "label": "restatement",
+            "text": "The question: \"percentage of the blue dithiocyanato cobalt(II) complexes among all cobalt containing species\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 521,
+            "end": 581,
+            "label": "reasoning",
+            "text": "Dithiocyanato means two SCN ligands: Co(SCN)2 (maybe blue). ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 581,
+            "end": 639,
+            "label": "planning",
+            "text": "So we need fraction of total cobalt present as Co(SCN)2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 639,
+            "end": 734,
+            "label": "fact",
+            "text": "We have equilibrium: Co2+ + n SCN- \u21cc Co(SCN)_n^(2-n?) Actually charge changes but not needed.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 734,
+            "end": 805,
+            "label": "fact",
+            "text": "Given total cobalt concentration C_T = [Co2+] + \u03a3_{n=1}^4 [Co(SCN)_n]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 805,
+            "end": 906,
+            "label": "fact",
+            "text": "We have total SCN concentration: C_S = [SCN-] + \u03a3 n [Co(SCN)_n] (since each complex consumes n SCN). ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 906,
+            "end": 959,
+            "label": "reasoning",
+            "text": "But SCN is in large excess (0.1 M vs 0.01 M cobalt). ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 959,
+            "end": 1058,
+            "label": "assumption",
+            "text": "So we can approximate free SCN- concentration \u2248 total SCN (0.1 M) because only small amount bound. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1058,
+            "end": 1094,
+            "label": "planning",
+            "text": "But we can compute more precisely.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1094,
+            "end": 1161,
+            "label": "fact",
+            "text": "We have formation constants: \u03b2_n = [Co(SCN)_n] / ([Co2+][SCN-]^n). ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1161,
+            "end": 1244,
+            "label": "reasoning",
+            "text": "So we can express each complex concentration in terms of free Co2+ and free SCN-.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1244,
+            "end": 1282,
+            "label": "reasoning",
+            "text": "Let x = [Co2+]; let s = [SCN-] free.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1282,
+            "end": 1317,
+            "label": "reasoning",
+            "text": "Then [Co(SCN)_n] = \u03b2_n * x * s^n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1317,
+            "end": 1383,
+            "label": "reasoning",
+            "text": "Total cobalt: C_T = x + \u03a3_{n=1}^4 \u03b2_n x s^n = x (1 + \u03a3 \u03b2_n s^n).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1383,
+            "end": 1416,
+            "label": "reasoning",
+            "text": "Thus x = C_T / (1 + \u03a3 \u03b2_n s^n).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1416,
+            "end": 1547,
+            "label": "reasoning",
+            "text": "We need fraction of cobalt as Co(SCN)_2: f = [Co(SCN)_2] / C_T = \u03b2_2 x s^2 / C_T = \u03b2_2 s^2 * x / C_T = \u03b2_2 s^2 / (1 + \u03a3 \u03b2_n s^n).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1547,
+            "end": 1574,
+            "label": "planning",
+            "text": "Thus we need s (free SCN). ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1574,
+            "end": 1639,
+            "label": "reasoning",
+            "text": "Since SCN total is C_S = s + \u03a3 n \u03b2_n x s^n = s + x \u03a3 n \u03b2_n s^n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1639,
+            "end": 1670,
+            "label": "reasoning",
+            "text": "But x = C_T / (1 + \u03a3 \u03b2_n s^n). ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1670,
+            "end": 1721,
+            "label": "reasoning",
+            "text": "So C_S = s + (C_T / (1 + \u03a3 \u03b2_n s^n)) \u03a3 n \u03b2_n s^n.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1721,
+            "end": 1754,
+            "label": "planning",
+            "text": "We can solve for s numerically.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1754,
+            "end": 1787,
+            "label": "restatement",
+            "text": "Given C_T = 0.01 M, C_S = 0.1 M. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1787,
+            "end": 1825,
+            "label": "restatement",
+            "text": "\u03b2 values: \u03b21=9, \u03b22=40, \u03b23=63, \u03b24=16.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1825,
+            "end": 1841,
+            "label": "planning",
+            "text": "Let\u2019s compute.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1841,
+            "end": 1897,
+            "label": "reasoning",
+            "text": "Define A = \u03a3 \u03b2_n s^n = 9 s + 40 s^2 + 63 s^3 + 16 s^4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1897,
+            "end": 1997,
+            "label": "reasoning",
+            "text": "Define B = \u03a3 n \u03b2_n s^n = 1*9 s + 2*40 s^2 + 3*63 s^3 + 4*16 s^4 = 9 s + 80 s^2 + 189 s^3 + 64 s^4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1997,
+            "end": 2037,
+            "label": "reasoning",
+            "text": "Equation: C_S = s + C_T * B / (1 + A).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2037,
+            "end": 2082,
+            "label": "reasoning",
+            "text": "Plug numbers: 0.1 = s + 0.01 * B / (1 + A).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 2082,
+            "end": 2107,
+            "label": "planning",
+            "text": "We need to solve for s.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 2107,
+            "end": 2168,
+            "label": "reasoning",
+            "text": "Because C_T is small relative to C_S, s likely close to 0.1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2168,
+            "end": 2189,
+            "label": "assumption",
+            "text": "Let's try s = 0.09.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 2189,
+            "end": 2206,
+            "label": "planning",
+            "text": "Compute s=0.09:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2206,
+            "end": 2214,
+            "label": "example",
+            "text": "s=0.09\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2214,
+            "end": 2226,
+            "label": "reasoning",
+            "text": "s^2=0.0081\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2226,
+            "end": 2240,
+            "label": "reasoning",
+            "text": "s^3=0.000729\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2240,
+            "end": 2256,
+            "label": "reasoning",
+            "text": "s^4=0.00006561\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2256,
+            "end": 2360,
+            "label": "reasoning",
+            "text": "A = 9*0.09 + 40*0.0081 + 63*0.000729 + 16*0.00006561\n\n= 0.81 + 0.324 + 0.045927 + 0.0010498 \u2248 1.180977\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2360,
+            "end": 2463,
+            "label": "reasoning",
+            "text": "B = 9*0.09 + 80*0.0081 + 189*0.000729 + 64*0.00006561\n\n= 0.81 + 0.648 + 0.137841 + 0.004199 \u2248 1.60004\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2463,
+            "end": 2633,
+            "label": "reasoning",
+            "text": "Now compute RHS: s + 0.01 * B / (1 + A) = 0.09 + 0.01 * 1.60004 / (1 + 1.180977) = 0.09 + 0.01 * 1.60004 / 2.180977 = 0.09 + 0.01 * 0.7339 = 0.09 + 0.007339 = 0.097339.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2633,
+            "end": 2661,
+            "label": "reflection",
+            "text": "Close to 0.1 but a bit low. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2661,
+            "end": 2710,
+            "label": "planning",
+            "text": "Need RHS = 0.1, so s should be slightly higher.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2710,
+            "end": 2726,
+            "label": "assumption",
+            "text": "Try s = 0.095.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2726,
+            "end": 2743,
+            "label": "planning",
+            "text": "Compute s=0.095\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2743,
+            "end": 2757,
+            "label": "reasoning",
+            "text": "s^2=0.009025\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2757,
+            "end": 2774,
+            "label": "reasoning",
+            "text": "s^3=0.000857375\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2774,
+            "end": 2792,
+            "label": "reasoning",
+            "text": "s^4=0.0000814506\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2792,
+            "end": 2907,
+            "label": "reasoning",
+            "text": "A = 9*0.095 + 40*0.009025 + 63*0.000857375 + 16*0.0000814506\n\n= 0.855 + 0.361 + 0.0540126 + 0.0013032 \u2248 1.2713158\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2907,
+            "end": 3016,
+            "label": "reasoning",
+            "text": "B = 9*0.095 + 80*0.009025 + 189*0.000857375 + 64*0.0000814506\n\n= 0.855 + 0.722 + 0.162 (approx) + 0.0052128\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 3016,
+            "end": 3122,
+            "label": "reasoning",
+            "text": "Compute precisely: 80*0.009025=0.722; 189*0.000857375=0.162, let's compute: 0.000857375*189 = 0.162, yes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 3122,
+            "end": 3151,
+            "label": "reasoning",
+            "text": "64*0.0000814506=0.00521244.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 3151,
+            "end": 3205,
+            "label": "reasoning",
+            "text": "Sum B = 0.855 + 0.722 + 0.162 + 0.005212 = 1.744212.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 3205,
+            "end": 3370,
+            "label": "reasoning",
+            "text": "Now RHS: s + 0.01 * B / (1 + A) = 0.095 + 0.01 * 1.744212 / (1 + 1.271316) = 0.095 + 0.01 * 1.744212 / 2.271316 = 0.095 + 0.01 * 0.768 = 0.095 + 0.00768 = 0.10268.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 3370,
+            "end": 3417,
+            "label": "reflection",
+            "text": "Now RHS > 0.1, so s is between 0.09 and 0.095. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 3417,
+            "end": 3437,
+            "label": "planning",
+            "text": "Let's interpolate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3437,
+            "end": 3456,
+            "label": "planning",
+            "text": "We need RHS = 0.1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3456,
+            "end": 3503,
+            "label": "reasoning",
+            "text": "At s=0.09 RHS=0.09734; at s=0.095 RHS=0.10268. ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3503,
+            "end": 3600,
+            "label": "reasoning",
+            "text": "Linear interpolation: target 0.1 is about (0.1-0.09734)/(0.10268-0.09734)=0.00266/0.00534\u22480.498. ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3600,
+            "end": 3637,
+            "label": "reasoning",
+            "text": "So s \u2248 0.09 + 0.005*0.498 \u2248 0.0925.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3637,
+            "end": 3659,
+            "label": "planning",
+            "text": "Let's test s=0.0925.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3659,
+            "end": 3677,
+            "label": "planning",
+            "text": "Compute s=0.0925\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3677,
+            "end": 3693,
+            "label": "reasoning",
+            "text": "s^2=0.00855625\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3693,
+            "end": 3893,
+            "label": "reasoning",
+            "text": "s^3=0.000791... compute: 0.00855625*0.0925 = 0.000791... Let's compute precisely: 0.00855625*0.0925 = 0.000791... 0.00855625*0.09=0.0007700625, plus 0.00855625*0.0025=0.0000213906, sum 0.0007914531.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3893,
+            "end": 4034,
+            "label": "reasoning",
+            "text": "s^4 = s^3 * s = 0.0007914531 * 0.0925 \u2248 0.000073... compute: 0.0007914531*0.09=0.0000712308, plus *0.0025=0.0000019786, total 0.0000732094.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 4034,
+            "end": 4074,
+            "label": "planning",
+            "text": "Now A = 9*s + 40*s^2 + 63*s^3 + 16*s^4\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 4074,
+            "end": 4088,
+            "label": "reasoning",
+            "text": "9*s = 0.8325\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 4088,
+            "end": 4122,
+            "label": "reasoning",
+            "text": "40*s^2 = 40*0.00855625 = 0.34225\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 4122,
+            "end": 4159,
+            "label": "reasoning",
+            "text": "63*s^3 = 63*0.0007914531 = 0.049862\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 4159,
+            "end": 4198,
+            "label": "reasoning",
+            "text": "16*s^4 = 16*0.0000732094 = 0.00117135\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 4198,
+            "end": 4250,
+            "label": "reasoning",
+            "text": "Sum A = 0.8325+0.34225+0.049862+0.001171 = 1.22578\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 4250,
+            "end": 4287,
+            "label": "planning",
+            "text": "B = 9*s + 80*s^2 + 189*s^3 + 64*s^4\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 4287,
+            "end": 4301,
+            "label": "reasoning",
+            "text": "9*s = 0.8325\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 4301,
+            "end": 4334,
+            "label": "reasoning",
+            "text": "80*s^2 = 80*0.00855625 = 0.6845\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 4334,
+            "end": 4447,
+            "label": "reasoning",
+            "text": "189*s^3 = 189*0.0007914531 = 0.1496 (compute: 0.0007914531*200=0.15829 minus 0.0007914531*11=0.008706 =0.14958)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 4447,
+            "end": 4484,
+            "label": "reasoning",
+            "text": "64*s^4 = 64*0.0000732094 = 0.004685\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 4484,
+            "end": 4534,
+            "label": "reasoning",
+            "text": "Sum B = 0.8325+0.6845+0.14958+0.004685 = 1.67127\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 4534,
+            "end": 4706,
+            "label": "reasoning",
+            "text": "Now RHS = s + 0.01 * B / (1 + A) = 0.0925 + 0.01 * 1.67127 / (1 + 1.22578) = 0.0925 + 0.01 * 1.67127 / 2.22578 = 0.0925 + 0.01 * 0.751 = 0.0925 + 0.00751 = 0.10001 approx. ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 4706,
+            "end": 4712,
+            "label": "reflection",
+            "text": "Good! ",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 4712,
+            "end": 4730,
+            "label": "reasoning",
+            "text": "So s \u2248 0.0925 M.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 4730,
+            "end": 4770,
+            "label": "reasoning",
+            "text": "Thus free SCN- concentration ~0.0925 M. ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 4770,
+            "end": 4822,
+            "label": "reasoning",
+            "text": "Bound SCN = total - free = 0.1 - 0.0925 = 0.0075 M. ",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 4822,
+            "end": 4855,
+            "label": "reflection",
+            "text": "That matches small consumption.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 4855,
+            "end": 4900,
+            "label": "planning",
+            "text": "Now compute fraction of cobalt as Co(SCN)2:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 4900,
+            "end": 4953,
+            "label": "reasoning",
+            "text": "f = \u03b22 s^2 / (1 + A) where A = \u03a3 \u03b2_n s^n = 1.22578.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 4953,
+            "end": 4990,
+            "label": "reasoning",
+            "text": "\u03b22 s^2 = 40 * 0.00855625 = 0.34225.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 4990,
+            "end": 5054,
+            "label": "reasoning",
+            "text": "Thus f = 0.34225 / (1 + 1.22578) = 0.34225 / 2.22578 = 0.1537.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 5054,
+            "end": 5109,
+            "label": "conclusion",
+            "text": "So about 15.4% of cobalt is in dithiocyanato complex.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 5109,
+            "end": 5157,
+            "label": "restatement",
+            "text": "But answer options: 16.9%, 42.3%, 38.1%, 25.6%. ",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 5157,
+            "end": 5179,
+            "label": "conclusion",
+            "text": "Closest is 16.9% (A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 5179,
+            "end": 5268,
+            "label": "reflection",
+            "text": "Our estimate 15.4% maybe due to rounding; maybe more precise calculation yields ~16.9%.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 5268,
+            "end": 5359,
+            "label": "planning",
+            "text": "Let's compute more precisely using exact s solving maybe yields slightly higher fraction.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 5359,
+            "end": 5406,
+            "label": "planning",
+            "text": "We can solve more accurately using iteration.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 5406,
+            "end": 5449,
+            "label": "reasoning",
+            "text": "We have equation: s = C_S - C_T * B/(1+A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 5449,
+            "end": 5497,
+            "label": "reasoning",
+            "text": "Actually from earlier: C_S = s + C_T * B/(1+A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 5497,
+            "end": 5525,
+            "label": "reasoning",
+            "text": "So s = C_S - C_T * B/(1+A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 5525,
+            "end": 5541,
+            "label": "planning",
+            "text": "Could iterate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 5541,
+            "end": 5571,
+            "label": "assumption",
+            "text": "Let's start with s0 = 0.0925. ",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 5571,
+            "end": 5597,
+            "label": "planning",
+            "text": "Compute A and B as above. ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 5597,
+            "end": 5696,
+            "label": "reasoning",
+            "text": "Then compute s1 = 0.1 - 0.01 * B/(1+A) = 0.1 - 0.01 * 1.67127 / 2.22578 = 0.1 - 0.00751 = 0.09249. ",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 5696,
+            "end": 5708,
+            "label": "reflection",
+            "text": "So stable.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 5708,
+            "end": 5726,
+            "label": "reasoning",
+            "text": "Thus s \u22480.09249.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 5726,
+            "end": 5769,
+            "label": "planning",
+            "text": "Now compute fraction f = \u03b22 s^2 / (1 + A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 5769,
+            "end": 5785,
+            "label": "planning",
+            "text": "Use s=0.09249.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 5785,
+            "end": 5826,
+            "label": "reasoning",
+            "text": "s^2 = 0.008553 (since earlier 0.008556). ",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 5826,
+            "end": 5967,
+            "label": "reasoning",
+            "text": "Let's compute precisely: 0.09249^2 = (0.09+0.00249)^2 = 0.0081 + 2*0.09*0.00249 + 0.00249^2 = 0.0081 + 0.0004482 + 0.0000062001 = 0.0085544. ",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 5967,
+            "end": 5974,
+            "label": "reflection",
+            "text": "Good.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 5974,
+            "end": 6011,
+            "label": "reasoning",
+            "text": "\u03b22 s^2 = 40 * 0.0085544 = 0.342176.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 6011,
+            "end": 6060,
+            "label": "planning",
+            "text": "Now compute A = 9 s + 40 s^2 + 63 s^3 + 16 s^4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp113",
+            "annotation": true,
+            "start": 6060,
+            "end": 6080,
+            "label": "planning",
+            "text": "We have s=0.09249.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp114",
+            "annotation": true,
+            "start": 6080,
+            "end": 6095,
+            "label": "reasoning",
+            "text": "9s = 0.83241.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp115",
+            "annotation": true,
+            "start": 6095,
+            "end": 6131,
+            "label": "reasoning",
+            "text": "40 s^2 = 0.342176 (same as above).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp116",
+            "annotation": true,
+            "start": 6131,
+            "end": 6259,
+            "label": "reasoning",
+            "text": "s^3 = s^2 * s = 0.0085544 * 0.09249 = 0.000791... compute: 0.0085544*0.09=0.0007699, plus *0.00249=0.0000213, total 0.0007912.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp117",
+            "annotation": true,
+            "start": 6259,
+            "end": 6293,
+            "label": "reasoning",
+            "text": "63 s^3 = 0.0007912*63 = 0.04985.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp118",
+            "annotation": true,
+            "start": 6293,
+            "end": 6341,
+            "label": "reasoning",
+            "text": "s^4 = s^3 * s = 0.0007912*0.09249 = 0.0000732.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp119",
+            "annotation": true,
+            "start": 6341,
+            "end": 6361,
+            "label": "reasoning",
+            "text": "16 s^4 = 0.001171.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp120",
+            "annotation": true,
+            "start": 6361,
+            "end": 6416,
+            "label": "reasoning",
+            "text": "Sum A = 0.83241+0.342176+0.04985+0.001171 = 1.225607.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp121",
+            "annotation": true,
+            "start": 6416,
+            "end": 6435,
+            "label": "reasoning",
+            "text": "1 + A = 2.225607.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp122",
+            "annotation": true,
+            "start": 6435,
+            "end": 6481,
+            "label": "reasoning",
+            "text": "Thus f = 0.342176 / 2.225607 = 0.1537 (same). ",
+            "source": "response"
+        },
+        {
+            "id": "resp123",
+            "annotation": true,
+            "start": 6481,
+            "end": 6492,
+            "label": "conclusion",
+            "text": "So 15.4%.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp124",
+            "annotation": true,
+            "start": 6492,
+            "end": 6554,
+            "label": "reflection",
+            "text": "But answer options none close except 16.9% (difference 1.5%). ",
+            "source": "response"
+        },
+        {
+            "id": "resp125",
+            "annotation": true,
+            "start": 6554,
+            "end": 6629,
+            "label": "reasoning",
+            "text": "Could be due to using stepwise formation constants rather than cumulative? ",
+            "source": "response"
+        },
+        {
+            "id": "resp126",
+            "annotation": true,
+            "start": 6629,
+            "end": 6696,
+            "label": "assumption",
+            "text": "The given \u03b2 values maybe stepwise (K1, K2, K3, K4) not cumulative. ",
+            "source": "response"
+        },
+        {
+            "id": "resp127",
+            "annotation": true,
+            "start": 6696,
+            "end": 6754,
+            "label": "reasoning",
+            "text": "If they are stepwise, then cumulative \u03b2_n = K1*K2*...*Kn. ",
+            "source": "response"
+        },
+        {
+            "id": "resp128",
+            "annotation": true,
+            "start": 6754,
+            "end": 6795,
+            "label": "restatement",
+            "text": "But they gave \u03b21=9, \u03b22=40, \u03b23=63, \u03b24=16. ",
+            "source": "response"
+        },
+        {
+            "id": "resp129",
+            "annotation": true,
+            "start": 6795,
+            "end": 6846,
+            "label": "fact",
+            "text": "Usually \u03b2_n denote cumulative formation constants. ",
+            "source": "response"
+        },
+        {
+            "id": "resp130",
+            "annotation": true,
+            "start": 6846,
+            "end": 6872,
+            "label": "assumption",
+            "text": "But if they are stepwise, ",
+            "source": "response"
+        },
+        {
+            "id": "resp131",
+            "annotation": true,
+            "start": 6872,
+            "end": 7019,
+            "label": "reasoning",
+            "text": "then cumulative would be: \u03b21 = K1 = 9; \u03b22 (cumulative) = K1*K2 = 9*40 = 360; \u03b23 cumulative = 9*40*63 = 22680; \u03b24 cumulative = 9*40*63*16 = 362880. ",
+            "source": "response"
+        },
+        {
+            "id": "resp132",
+            "annotation": true,
+            "start": 7019,
+            "end": 7143,
+            "label": "reasoning",
+            "text": "That would drastically increase complexation, leading to higher fraction of higher complexes, maybe shifting distribution.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp133",
+            "annotation": true,
+            "start": 7143,
+            "end": 7196,
+            "label": "fact",
+            "text": "But typical notation: \u03b21, \u03b22, \u03b23, \u03b24 are cumulative. ",
+            "source": "response"
+        },
+        {
+            "id": "resp134",
+            "annotation": true,
+            "start": 7196,
+            "end": 7263,
+            "label": "reasoning",
+            "text": "However values 9, 40, 63, 16 seem not monotonic (should increase). ",
+            "source": "response"
+        },
+        {
+            "id": "resp135",
+            "annotation": true,
+            "start": 7263,
+            "end": 7327,
+            "label": "reasoning",
+            "text": "So they might be stepwise formation constants (K1, K2, K3, K4). ",
+            "source": "response"
+        },
+        {
+            "id": "resp136",
+            "annotation": true,
+            "start": 7327,
+            "end": 7381,
+            "label": "fact",
+            "text": "Indeed stepwise constants often decrease after first. ",
+            "source": "response"
+        },
+        {
+            "id": "resp137",
+            "annotation": true,
+            "start": 7381,
+            "end": 7410,
+            "label": "reasoning",
+            "text": "So likely they are stepwise. ",
+            "source": "response"
+        },
+        {
+            "id": "resp138",
+            "annotation": true,
+            "start": 7410,
+            "end": 7496,
+            "label": "reasoning",
+            "text": "Then cumulative \u03b21 = 9, \u03b22 = 9*40 = 360, \u03b23 = 360*63 = 22680, \u03b24 = 22680*16 = 362880. ",
+            "source": "response"
+        },
+        {
+            "id": "resp139",
+            "annotation": true,
+            "start": 7496,
+            "end": 7564,
+            "label": "reasoning",
+            "text": "That would make complexes strongly favored, especially higher ones. ",
+            "source": "response"
+        },
+        {
+            "id": "resp140",
+            "annotation": true,
+            "start": 7564,
+            "end": 7614,
+            "label": "reasoning",
+            "text": "Then fraction of dithiocyanato may be different.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp141",
+            "annotation": true,
+            "start": 7614,
+            "end": 7660,
+            "label": "planning",
+            "text": "Let's compute using cumulative \u03b2_n as above.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp142",
+            "annotation": true,
+            "start": 7660,
+            "end": 7722,
+            "label": "reasoning",
+            "text": "Define cumulative \u03b21 = 9, \u03b22 = 360, \u03b23 = 22680, \u03b24 = 362880.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp143",
+            "annotation": true,
+            "start": 7722,
+            "end": 7791,
+            "label": "reasoning",
+            "text": "Now compute A = \u03a3 \u03b2_n s^n = 9 s + 360 s^2 + 22680 s^3 + 362880 s^4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp144",
+            "annotation": true,
+            "start": 7791,
+            "end": 7874,
+            "label": "reasoning",
+            "text": "Given s ~ free SCN ~? Since strong binding, more SCN bound, free s will be lower.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp145",
+            "annotation": true,
+            "start": 7874,
+            "end": 7899,
+            "label": "planning",
+            "text": "We need to solve again.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp146",
+            "annotation": true,
+            "start": 7899,
+            "end": 7915,
+            "label": "planning",
+            "text": "Let\u2019s attempt.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp147",
+            "annotation": true,
+            "start": 7915,
+            "end": 7947,
+            "label": "restatement",
+            "text": "We have C_T = 0.01, C_S = 0.1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp148",
+            "annotation": true,
+            "start": 7947,
+            "end": 8005,
+            "label": "reasoning",
+            "text": "Equation: C_S = s + C_T * \u03a3 n \u03b2_n s^n / (1 + \u03a3 \u03b2_n s^n).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp149",
+            "annotation": true,
+            "start": 8005,
+            "end": 8036,
+            "label": "planning",
+            "text": "Let\u2019s compute with unknown s.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp150",
+            "annotation": true,
+            "start": 8036,
+            "end": 8070,
+            "label": "planning",
+            "text": "We can try to solve numerically.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp151",
+            "annotation": true,
+            "start": 8070,
+            "end": 8101,
+            "label": "reasoning",
+            "text": "Given large \u03b2, s likely small. ",
+            "source": "response"
+        },
+        {
+            "id": "resp152",
+            "annotation": true,
+            "start": 8101,
+            "end": 8124,
+            "label": "assumption",
+            "text": "Let's guess s = 0.01.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp153",
+            "annotation": true,
+            "start": 8124,
+            "end": 8141,
+            "label": "planning",
+            "text": "Compute s=0.01:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp154",
+            "annotation": true,
+            "start": 8141,
+            "end": 8172,
+            "label": "reasoning",
+            "text": "s^2=1e-4, s^3=1e-6, s^4=1e-8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp155",
+            "annotation": true,
+            "start": 8172,
+            "end": 8272,
+            "label": "reasoning",
+            "text": "A = 9*0.01 + 360*1e-4 + 22680*1e-6 + 362880*1e-8 = 0.09 + 0.036 + 0.02268 + 0.0036288 = 0.1523088.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp156",
+            "annotation": true,
+            "start": 8272,
+            "end": 8394,
+            "label": "reasoning",
+            "text": "B = \u03a3 n \u03b2_n s^n = 1*9*0.01 + 2*360*1e-4 + 3*22680*1e-6 + 4*362880*1e-8 = 0.09 + 0.072 + 0.06804 + 0.0145152 = 0.2445552.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp157",
+            "annotation": true,
+            "start": 8394,
+            "end": 8520,
+            "label": "reasoning",
+            "text": "Now RHS: s + 0.01 * B / (1 + A) = 0.01 + 0.01 * 0.2445552 / (1.1523088) = 0.01 + 0.01 * 0.2123 = 0.01 + 0.002123 = 0.012123.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp158",
+            "annotation": true,
+            "start": 8520,
+            "end": 8553,
+            "label": "reflection",
+            "text": "But C_S = 0.1, so RHS far lower. ",
+            "source": "response"
+        },
+        {
+            "id": "resp159",
+            "annotation": true,
+            "start": 8553,
+            "end": 8594,
+            "label": "planning",
+            "text": "Means s must be larger to increase RHS.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp160",
+            "annotation": true,
+            "start": 8594,
+            "end": 8609,
+            "label": "assumption",
+            "text": "Try s = 0.05.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp161",
+            "annotation": true,
+            "start": 8609,
+            "end": 8665,
+            "label": "reasoning",
+            "text": "Compute s=0.05; s^2=0.0025; s^3=0.000125; s^4=6.25e-6.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp162",
+            "annotation": true,
+            "start": 8665,
+            "end": 8762,
+            "label": "reasoning",
+            "text": "A = 9*0.05 + 360*0.0025 + 22680*0.000125 + 362880*6.25e-6\n\n= 0.45 + 0.9 + 2.835 + 2.268 = 6.453\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp163",
+            "annotation": true,
+            "start": 8762,
+            "end": 8866,
+            "label": "reasoning",
+            "text": "B = 9*0.05 + 2*360*0.0025 + 3*22680*0.000125 + 4*362880*6.25e-6\n\n= 0.45 + 1.8 + 8.505 + 9.072 = 19.827\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp164",
+            "annotation": true,
+            "start": 8866,
+            "end": 8983,
+            "label": "reasoning",
+            "text": "Now RHS = s + 0.01 * B / (1 + A) = 0.05 + 0.01 * 19.827 / (7.453) = 0.05 + 0.01 * 2.661 = 0.05 + 0.02661 = 0.07661.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp165",
+            "annotation": true,
+            "start": 8983,
+            "end": 9000,
+            "label": "reflection",
+            "text": "Still below 0.1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp166",
+            "annotation": true,
+            "start": 9000,
+            "end": 9013,
+            "label": "planning",
+            "text": "Increase s.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp167",
+            "annotation": true,
+            "start": 9013,
+            "end": 9028,
+            "label": "assumption",
+            "text": "Try s = 0.07.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp168",
+            "annotation": true,
+            "start": 9028,
+            "end": 9069,
+            "label": "reasoning",
+            "text": "s^2=0.0049; s^3=0.000343; s^4=2.401e-5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp169",
+            "annotation": true,
+            "start": 9069,
+            "end": 9170,
+            "label": "reasoning",
+            "text": "A = 9*0.07 + 360*0.0049 + 22680*0.000343 + 362880*2.401e-5\n\n= 0.63 + 1.764 + 7.777 + 8.714 \u2248 18.885\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp170",
+            "annotation": true,
+            "start": 9170,
+            "end": 9279,
+            "label": "reasoning",
+            "text": "B = 9*0.07 + 2*360*0.0049 + 3*22680*0.000343 + 4*362880*2.401e-5\n\n= 0.63 + 3.528 + 23.331 + 34.856 \u2248 62.345\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp171",
+            "annotation": true,
+            "start": 9279,
+            "end": 9377,
+            "label": "reasoning",
+            "text": "RHS = 0.07 + 0.01 * 62.345 / (1+18.885=19.885) = 0.07 + 0.01 * 3.136 = 0.07 + 0.03136 = 0.10136.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp172",
+            "annotation": true,
+            "start": 9377,
+            "end": 9405,
+            "label": "reflection",
+            "text": "Now RHS slightly above 0.1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp173",
+            "annotation": true,
+            "start": 9405,
+            "end": 9431,
+            "label": "reasoning",
+            "text": "So s around 0.069 maybe.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp174",
+            "annotation": true,
+            "start": 9431,
+            "end": 9451,
+            "label": "assumption",
+            "text": "Let's try s=0.069.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp175",
+            "annotation": true,
+            "start": 9451,
+            "end": 9495,
+            "label": "reasoning",
+            "text": "s^2=0.004761; s^3=0.0003285; s^4=2.265e-5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp176",
+            "annotation": true,
+            "start": 9495,
+            "end": 9601,
+            "label": "reasoning",
+            "text": "A = 9*0.069 + 360*0.004761 + 22680*0.0003285 + 362880*2.265e-5\n\n= 0.621 + 1.714 + 7.452 + 8.219 \u2248 17.996\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp177",
+            "annotation": true,
+            "start": 9601,
+            "end": 9715,
+            "label": "reasoning",
+            "text": "B = 9*0.069 + 2*360*0.004761 + 3*22680*0.0003285 + 4*362880*2.265e-5\n\n= 0.621 + 3.428 + 22.357 + 32.876 \u2248 59.282\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp178",
+            "annotation": true,
+            "start": 9715,
+            "end": 9816,
+            "label": "reasoning",
+            "text": "RHS = 0.069 + 0.01 * 59.282 / (1+17.996=18.996) = 0.069 + 0.01 * 3.122 = 0.069 + 0.03122 = 0.10022.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp179",
+            "annotation": true,
+            "start": 9816,
+            "end": 9830,
+            "label": "reflection",
+            "text": "Close to 0.1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp180",
+            "annotation": true,
+            "start": 9830,
+            "end": 9847,
+            "label": "reasoning",
+            "text": "So s \u2248 0.069 M.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp181",
+            "annotation": true,
+            "start": 9847,
+            "end": 9893,
+            "label": "reasoning",
+            "text": "Thus free SCN ~0.069 M, bound SCN = 0.031 M.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp182",
+            "annotation": true,
+            "start": 9893,
+            "end": 9928,
+            "label": "planning",
+            "text": "Now compute fraction of Co(SCN)2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp183",
+            "annotation": true,
+            "start": 9928,
+            "end": 9958,
+            "label": "reasoning",
+            "text": "We need cumulative \u03b22 = 360.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp184",
+            "annotation": true,
+            "start": 9958,
+            "end": 10012,
+            "label": "reasoning",
+            "text": "Fraction f = \u03b22 s^2 / (1 + A) = 360 * s^2 / (1 + A).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp185",
+            "annotation": true,
+            "start": 10012,
+            "end": 10029,
+            "label": "reasoning",
+            "text": "s^2 = 0.004761.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp186",
+            "annotation": true,
+            "start": 10029,
+            "end": 10063,
+            "label": "reasoning",
+            "text": "\u03b22 s^2 = 360 * 0.004761 = 1.714.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp187",
+            "annotation": true,
+            "start": 10063,
+            "end": 10093,
+            "label": "reasoning",
+            "text": "1 + A = 1 + 17.996 = 18.996.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp188",
+            "annotation": true,
+            "start": 10093,
+            "end": 10135,
+            "label": "conclusion",
+            "text": "Thus f = 1.714 / 18.996 = 0.0902 = 9.0%.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp189",
+            "annotation": true,
+            "start": 10135,
+            "end": 10158,
+            "label": "reflection",
+            "text": "Not matching options.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp190",
+            "annotation": true,
+            "start": 10158,
+            "end": 10315,
+            "label": "reasoning",
+            "text": "But maybe they ask for \"blue dithiocyanato cobalt(II) complexes\" which could be Co(SCN)2- (maybe monodentate? Actually dithiocyanato means two SCN ligands). ",
+            "source": "response"
+        },
+        {
+            "id": "resp191",
+            "annotation": true,
+            "start": 10315,
+            "end": 10347,
+            "label": "reflection",
+            "text": "So fraction 9% not in options.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp192",
+            "annotation": true,
+            "start": 10347,
+            "end": 10460,
+            "label": "reasoning",
+            "text": "Thus likely the earlier assumption (\u03b2 are cumulative) is correct, giving ~15% which is close to 16.9% answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp193",
+            "annotation": true,
+            "start": 10460,
+            "end": 10509,
+            "label": "planning",
+            "text": "Maybe we need to consider activity coefficients? ",
+            "source": "response"
+        },
+        {
+            "id": "resp194",
+            "annotation": true,
+            "start": 10509,
+            "end": 10636,
+            "label": "assumption",
+            "text": "Or maybe they approximate free SCN as total (0.1 M) because binding small, then fraction = \u03b22 * (0.1)^2 / (1 + \u03a3 \u03b2_n (0.1)^n). ",
+            "source": "response"
+        },
+        {
+            "id": "resp195",
+            "annotation": true,
+            "start": 10636,
+            "end": 10678,
+            "label": "planning",
+            "text": "Let's compute that simple approximation.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp196",
+            "annotation": true,
+            "start": 10678,
+            "end": 10693,
+            "label": "assumption",
+            "text": "Take s = 0.1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp197",
+            "annotation": true,
+            "start": 10693,
+            "end": 10784,
+            "label": "reasoning",
+            "text": "Compute A = 9*0.1 + 40*0.01 + 63*0.001 + 16*0.0001 = 0.9 + 0.4 + 0.063 + 0.0016 = 1.3646.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp198",
+            "annotation": true,
+            "start": 10784,
+            "end": 10801,
+            "label": "reasoning",
+            "text": "1 + A = 2.3646.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp199",
+            "annotation": true,
+            "start": 10801,
+            "end": 10828,
+            "label": "reasoning",
+            "text": "\u03b22 s^2 = 40 * 0.01 = 0.4.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp200",
+            "annotation": true,
+            "start": 10828,
+            "end": 10863,
+            "label": "conclusion",
+            "text": "f = 0.4 / 2.3646 = 0.1692 = 16.9%. ",
+            "source": "response"
+        },
+        {
+            "id": "resp201",
+            "annotation": true,
+            "start": 10863,
+            "end": 10889,
+            "label": "reflection",
+            "text": "That's exactly answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp202",
+            "annotation": true,
+            "start": 10889,
+            "end": 11050,
+            "label": "reasoning",
+            "text": "Thus they assumed free SCN \u2248 total SCN (0.1 M) because cobalt is low concentration relative to SCN, and binding does not significantly change SCN concentration. ",
+            "source": "response"
+        },
+        {
+            "id": "resp203",
+            "annotation": true,
+            "start": 11050,
+            "end": 11080,
+            "label": "reasoning",
+            "text": "So they ignore SCN depletion. ",
+            "source": "response"
+        },
+        {
+            "id": "resp204",
+            "annotation": true,
+            "start": 11080,
+            "end": 11117,
+            "label": "conclusion",
+            "text": "Then answer 16.9% matches option A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp205",
+            "annotation": true,
+            "start": 11117,
+            "end": 11133,
+            "label": "conclusion",
+            "text": "Thus answer: A.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp206",
+            "annotation": true,
+            "start": 11133,
+            "end": 11142,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp207",
+            "annotation": true,
+            "start": 11142,
+            "end": 11204,
+            "label": "reasoning",
+            "text": "The cobalt(II) ions can bind up to four thiocyanate ligands:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp208",
+            "annotation": true,
+            "start": 11204,
+            "end": 11324,
+            "label": "reasoning",
+            "text": "\\[\n\\mathrm{Co^{2+}+nSCN^- \\rightleftharpoons Co(SCN)_n^{2-n}}\\qquad \n\\beta_n=\\frac{[Co(SCN)_n]}{[Co^{2+}][SCN^-]^n}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp209",
+            "annotation": true,
+            "start": 11324,
+            "end": 11361,
+            "label": "reasoning",
+            "text": "The total cobalt concentration is  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp210",
+            "annotation": true,
+            "start": 11361,
+            "end": 11431,
+            "label": "reasoning",
+            "text": "\\[\nc_{\\text{Co}} = [\\mathrm{Co^{2+}}] + \\sum_{n=1}^{4}[Co(SCN)_n]\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp211",
+            "annotation": true,
+            "start": 11431,
+            "end": 11645,
+            "label": "assumption",
+            "text": "If the concentration of free SCN\u207b is taken as the analytical concentration (the amount bound to cobalt is negligible because \\([Co]_{\\text{tot}} =10^{-2}\\,\\text{M}\\) while \\([SCN^-]_{\\text{tot}} =0.1\\,\\text{M}\\)), ",
+            "source": "response"
+        },
+        {
+            "id": "resp212",
+            "annotation": true,
+            "start": 11645,
+            "end": 11653,
+            "label": "planning",
+            "text": "then  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp213",
+            "annotation": true,
+            "start": 11653,
+            "end": 11691,
+            "label": "reasoning",
+            "text": "\\[\n[SCN^-] \\approx 0.10\\ \\text{M}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp214",
+            "annotation": true,
+            "start": 11691,
+            "end": 11770,
+            "label": "reasoning",
+            "text": "Using the cumulative formation constants (\u03b2\u2081 = 9, \u03b2\u2082 = 40, \u03b2\u2083 = 63, \u03b2\u2084 = 16),\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp215",
+            "annotation": true,
+            "start": 11770,
+            "end": 11961,
+            "label": "reasoning",
+            "text": "\\[\n\\begin{aligned}\n\\beta_1[SCN^-] &= 9(0.10)=0.90\\\\\n\\beta_2[SCN^-]^2 &= 40(0.10)^2 = 0.40\\\\\n\\beta_3[SCN^-]^3 &= 63(0.10)^3 = 0.063\\\\\n\\beta_4[SCN^-]^4 &= 16(0.10)^4 = 0.0016\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp216",
+            "annotation": true,
+            "start": 11961,
+            "end": 11970,
+            "label": "planning",
+            "text": "Hence  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp217",
+            "annotation": true,
+            "start": 11970,
+            "end": 12091,
+            "label": "reasoning",
+            "text": "\\[\nc_{\\text{Co}} = [\\mathrm{Co^{2+}}]\\Bigl[1+\\beta_1[SCN^-]+\\beta_2[SCN^-]^2+\\beta_3[SCN^-]^3+\\beta_4[SCN^-]^4\\Bigr]\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp218",
+            "annotation": true,
+            "start": 12091,
+            "end": 12178,
+            "label": "planning",
+            "text": "The fraction of cobalt present as the dithiocyanato complex \\(\\mathrm{Co(SCN)_2}\\) is\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp219",
+            "annotation": true,
+            "start": 12178,
+            "end": 12402,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{[\\mathrm{Co(SCN)_2}]}{c_{\\text{Co}}}\n= \\frac{\\beta_2[SCN^-]^2}{1+\\beta_1[SCN^-]+\\beta_2[SCN^-]^2+\\beta_3[SCN^-]^3+\\beta_4[SCN^-]^4}\n= \\frac{0.40}{1+0.90+0.40+0.063+0.0016}\n= \\frac{0.40}{2.3646}\n\\approx 0.169\\;.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp220",
+            "annotation": true,
+            "start": 12402,
+            "end": 12485,
+            "label": "conclusion",
+            "text": "Thus about **16.9\u202f%** of the cobalt is present as the blue dithiocyanato complex.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp221",
+            "annotation": true,
+            "start": 12485,
+            "end": 12506,
+            "label": "conclusion",
+            "text": "**Answer: A. 16.9\u202f%**",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp4",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp6",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp27",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp28",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp36",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp43",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp45",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp53",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp62",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp69",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp71",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp73",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp76",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp76",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp77",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp78",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp79",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp79",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp82",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp83",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp83",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp84",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp86",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp86",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp87",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp87",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp89",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp92",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp92",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp92",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp92",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp93",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp93",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp94",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp94",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp95",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp96",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp98",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp98",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp100",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp101",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp101",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp99",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp104",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "resp103",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp107",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp107",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp108",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp110",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp111",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp112",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp113",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp113",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp114",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp114",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp115",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp115",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp116",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp116",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp117",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp117",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp113",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp116",
+            "dest_node_id": "resp118",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp112",
+            "dest_node_id": "resp119",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp118",
+            "dest_node_id": "resp119",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp114",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp115",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp117",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp119",
+            "dest_node_id": "resp120",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp120",
+            "dest_node_id": "resp121",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp121",
+            "dest_node_id": "resp122",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp123",
+            "label": "validate:support"
+        },
+        {
+            "id": "e238",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp123",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e239",
+            "source_node_id": "resp122",
+            "dest_node_id": "resp123",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e240",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp124",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e241",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp124",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e242",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e243",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp125",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e244",
+            "source_node_id": "resp125",
+            "dest_node_id": "resp126",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e245",
+            "source_node_id": "resp126",
+            "dest_node_id": "resp127",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e246",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp128",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e247",
+            "source_node_id": "resp129",
+            "dest_node_id": "resp130",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e248",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp131",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e249",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp131",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e250",
+            "source_node_id": "resp130",
+            "dest_node_id": "resp131",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e251",
+            "source_node_id": "resp131",
+            "dest_node_id": "resp132",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e252",
+            "source_node_id": "resp129",
+            "dest_node_id": "resp133",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e253",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp134",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e254",
+            "source_node_id": "resp133",
+            "dest_node_id": "resp134",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e255",
+            "source_node_id": "resp134",
+            "dest_node_id": "resp135",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e256",
+            "source_node_id": "resp134",
+            "dest_node_id": "resp137",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e257",
+            "source_node_id": "resp136",
+            "dest_node_id": "resp137",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e258",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp138",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e259",
+            "source_node_id": "resp127",
+            "dest_node_id": "resp138",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e260",
+            "source_node_id": "resp137",
+            "dest_node_id": "resp138",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e261",
+            "source_node_id": "resp138",
+            "dest_node_id": "resp139",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e262",
+            "source_node_id": "resp139",
+            "dest_node_id": "resp140",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e263",
+            "source_node_id": "resp138",
+            "dest_node_id": "resp141",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e264",
+            "source_node_id": "resp140",
+            "dest_node_id": "resp141",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e265",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp142",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e266",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp143",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e267",
+            "source_node_id": "resp141",
+            "dest_node_id": "resp143",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e268",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp143",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e269",
+            "source_node_id": "resp139",
+            "dest_node_id": "resp144",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e270",
+            "source_node_id": "resp144",
+            "dest_node_id": "resp145",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e271",
+            "source_node_id": "resp145",
+            "dest_node_id": "resp146",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e272",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp147",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e273",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp148",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e274",
+            "source_node_id": "resp145",
+            "dest_node_id": "resp148",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e275",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp149",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e276",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp150",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e277",
+            "source_node_id": "resp149",
+            "dest_node_id": "resp150",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e278",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp151",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e279",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp151",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e280",
+            "source_node_id": "resp151",
+            "dest_node_id": "resp152",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e281",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp153",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e282",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp154",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e283",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp154",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e284",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp155",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e285",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp155",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e286",
+            "source_node_id": "resp153",
+            "dest_node_id": "resp155",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e287",
+            "source_node_id": "resp154",
+            "dest_node_id": "resp155",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e288",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp156",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e289",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp156",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e290",
+            "source_node_id": "resp154",
+            "dest_node_id": "resp156",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e291",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e292",
+            "source_node_id": "resp148",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e293",
+            "source_node_id": "resp152",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e294",
+            "source_node_id": "resp155",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e295",
+            "source_node_id": "resp156",
+            "dest_node_id": "resp157",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e296",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp158",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e297",
+            "source_node_id": "resp157",
+            "dest_node_id": "resp158",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e298",
+            "source_node_id": "resp158",
+            "dest_node_id": "resp159",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e299",
+            "source_node_id": "resp159",
+            "dest_node_id": "resp160",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e300",
+            "source_node_id": "resp160",
+            "dest_node_id": "resp161",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e301",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp162",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e302",
+            "source_node_id": "resp161",
+            "dest_node_id": "resp162",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e303",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e304",
+            "source_node_id": "resp156",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e305",
+            "source_node_id": "resp161",
+            "dest_node_id": "resp163",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e306",
+            "source_node_id": "resp161",
+            "dest_node_id": "resp164",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e307",
+            "source_node_id": "resp162",
+            "dest_node_id": "resp164",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e308",
+            "source_node_id": "resp163",
+            "dest_node_id": "resp164",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e309",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp165",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e310",
+            "source_node_id": "resp164",
+            "dest_node_id": "resp165",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e311",
+            "source_node_id": "resp165",
+            "dest_node_id": "resp166",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e312",
+            "source_node_id": "resp166",
+            "dest_node_id": "resp167",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e313",
+            "source_node_id": "resp167",
+            "dest_node_id": "resp168",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e314",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp169",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e315",
+            "source_node_id": "resp167",
+            "dest_node_id": "resp169",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e316",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp169",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e317",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e318",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e319",
+            "source_node_id": "resp167",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e320",
+            "source_node_id": "resp168",
+            "dest_node_id": "resp170",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e321",
+            "source_node_id": "resp167",
+            "dest_node_id": "resp171",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e322",
+            "source_node_id": "resp169",
+            "dest_node_id": "resp171",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e323",
+            "source_node_id": "resp170",
+            "dest_node_id": "resp171",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e324",
+            "source_node_id": "resp171",
+            "dest_node_id": "resp172",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e325",
+            "source_node_id": "resp164",
+            "dest_node_id": "resp173",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e326",
+            "source_node_id": "resp171",
+            "dest_node_id": "resp173",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e327",
+            "source_node_id": "resp172",
+            "dest_node_id": "resp173",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e328",
+            "source_node_id": "resp173",
+            "dest_node_id": "resp174",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e329",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp175",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e330",
+            "source_node_id": "resp143",
+            "dest_node_id": "resp176",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e331",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp176",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e332",
+            "source_node_id": "resp175",
+            "dest_node_id": "resp176",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e333",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp177",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e334",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp177",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e335",
+            "source_node_id": "resp175",
+            "dest_node_id": "resp177",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e336",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp178",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e337",
+            "source_node_id": "resp176",
+            "dest_node_id": "resp178",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e338",
+            "source_node_id": "resp177",
+            "dest_node_id": "resp178",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e339",
+            "source_node_id": "resp178",
+            "dest_node_id": "resp179",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e340",
+            "source_node_id": "resp178",
+            "dest_node_id": "resp180",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e341",
+            "source_node_id": "resp179",
+            "dest_node_id": "resp180",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e342",
+            "source_node_id": "resp147",
+            "dest_node_id": "resp181",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e343",
+            "source_node_id": "resp180",
+            "dest_node_id": "resp181",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e344",
+            "source_node_id": "resp180",
+            "dest_node_id": "resp182",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e345",
+            "source_node_id": "resp181",
+            "dest_node_id": "resp182",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e346",
+            "source_node_id": "resp142",
+            "dest_node_id": "resp183",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e347",
+            "source_node_id": "resp182",
+            "dest_node_id": "resp183",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e348",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp184",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e349",
+            "source_node_id": "resp182",
+            "dest_node_id": "resp184",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e350",
+            "source_node_id": "resp183",
+            "dest_node_id": "resp184",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e351",
+            "source_node_id": "resp174",
+            "dest_node_id": "resp185",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e352",
+            "source_node_id": "resp183",
+            "dest_node_id": "resp186",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e353",
+            "source_node_id": "resp185",
+            "dest_node_id": "resp186",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e354",
+            "source_node_id": "resp176",
+            "dest_node_id": "resp187",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e355",
+            "source_node_id": "resp184",
+            "dest_node_id": "resp188",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e356",
+            "source_node_id": "resp186",
+            "dest_node_id": "resp188",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e357",
+            "source_node_id": "resp187",
+            "dest_node_id": "resp188",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e358",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp189",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e359",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp189",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e360",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp190",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e361",
+            "source_node_id": "resp189",
+            "dest_node_id": "resp190",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e362",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp191",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e363",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp192",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e364",
+            "source_node_id": "resp124",
+            "dest_node_id": "resp192",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e365",
+            "source_node_id": "resp191",
+            "dest_node_id": "resp192",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e366",
+            "source_node_id": "resp192",
+            "dest_node_id": "resp193",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e367",
+            "source_node_id": "resp193",
+            "dest_node_id": "resp194",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e368",
+            "source_node_id": "resp194",
+            "dest_node_id": "resp195",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e369",
+            "source_node_id": "resp195",
+            "dest_node_id": "resp196",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e370",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp197",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e371",
+            "source_node_id": "resp196",
+            "dest_node_id": "resp197",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e372",
+            "source_node_id": "resp197",
+            "dest_node_id": "resp198",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e373",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp199",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e374",
+            "source_node_id": "resp196",
+            "dest_node_id": "resp199",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e375",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp200",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e376",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp200",
+            "label": "validate:support"
+        },
+        {
+            "id": "e377",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp200",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e378",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp200",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e379",
+            "source_node_id": "resp198",
+            "dest_node_id": "resp200",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e380",
+            "source_node_id": "resp199",
+            "dest_node_id": "resp200",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e381",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp201",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e382",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp201",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e383",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp202",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e384",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp202",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e385",
+            "source_node_id": "resp201",
+            "dest_node_id": "resp202",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e386",
+            "source_node_id": "resp202",
+            "dest_node_id": "resp203",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e387",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp204",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e388",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp204",
+            "label": "validate:support"
+        },
+        {
+            "id": "e389",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp204",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e390",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp204",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e391",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp204",
+            "label": "validate:support"
+        },
+        {
+            "id": "e392",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp205",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e393",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp205",
+            "label": "validate:support"
+        },
+        {
+            "id": "e394",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp205",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e395",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp205",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e396",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp205",
+            "label": "validate:support"
+        },
+        {
+            "id": "e397",
+            "source_node_id": "resp204",
+            "dest_node_id": "resp205",
+            "label": "validate:support"
+        },
+        {
+            "id": "e398",
+            "source_node_id": "resp205",
+            "dest_node_id": "resp206",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e399",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp207",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e400",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp208",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e401",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp208",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e402",
+            "source_node_id": "resp207",
+            "dest_node_id": "resp208",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e403",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp209",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e404",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp210",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e405",
+            "source_node_id": "resp209",
+            "dest_node_id": "resp210",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e406",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp211",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e407",
+            "source_node_id": "resp211",
+            "dest_node_id": "resp212",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e408",
+            "source_node_id": "resp211",
+            "dest_node_id": "resp213",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e409",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp214",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e410",
+            "source_node_id": "resp192",
+            "dest_node_id": "resp214",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e411",
+            "source_node_id": "resp213",
+            "dest_node_id": "resp215",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e412",
+            "source_node_id": "resp214",
+            "dest_node_id": "resp215",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e413",
+            "source_node_id": "resp215",
+            "dest_node_id": "resp216",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e414",
+            "source_node_id": "resp208",
+            "dest_node_id": "resp217",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e415",
+            "source_node_id": "resp210",
+            "dest_node_id": "resp217",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e416",
+            "source_node_id": "resp216",
+            "dest_node_id": "resp217",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e417",
+            "source_node_id": "resp215",
+            "dest_node_id": "resp218",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e418",
+            "source_node_id": "resp217",
+            "dest_node_id": "resp218",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e419",
+            "source_node_id": "resp215",
+            "dest_node_id": "resp219",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e420",
+            "source_node_id": "resp217",
+            "dest_node_id": "resp219",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e421",
+            "source_node_id": "resp218",
+            "dest_node_id": "resp219",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e422",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp220",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e423",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp220",
+            "label": "validate:support"
+        },
+        {
+            "id": "e424",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp220",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e425",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp220",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e426",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp220",
+            "label": "validate:support"
+        },
+        {
+            "id": "e427",
+            "source_node_id": "resp204",
+            "dest_node_id": "resp220",
+            "label": "validate:support"
+        },
+        {
+            "id": "e428",
+            "source_node_id": "resp205",
+            "dest_node_id": "resp220",
+            "label": "validate:support"
+        },
+        {
+            "id": "e429",
+            "source_node_id": "resp219",
+            "dest_node_id": "resp220",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e430",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp221",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e431",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp221",
+            "label": "validate:support"
+        },
+        {
+            "id": "e432",
+            "source_node_id": "resp123",
+            "dest_node_id": "resp221",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e433",
+            "source_node_id": "resp188",
+            "dest_node_id": "resp221",
+            "label": "validate:attack"
+        },
+        {
+            "id": "e434",
+            "source_node_id": "resp200",
+            "dest_node_id": "resp221",
+            "label": "validate:support"
+        },
+        {
+            "id": "e435",
+            "source_node_id": "resp204",
+            "dest_node_id": "resp221",
+            "label": "validate:support"
+        },
+        {
+            "id": "e436",
+            "source_node_id": "resp205",
+            "dest_node_id": "resp221",
+            "label": "validate:support"
+        },
+        {
+            "id": "e437",
+            "source_node_id": "resp220",
+            "dest_node_id": "resp221",
+            "label": "validate:support"
+        }
+    ]
+}

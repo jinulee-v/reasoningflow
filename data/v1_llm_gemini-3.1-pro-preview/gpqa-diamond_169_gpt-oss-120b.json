@@ -1,0 +1,847 @@
+{
+    "doc_id": "gpqa-diamond_169_gpt-oss-120b",
+    "raw_text": {
+        "question": "An electron is in the spin state (3i, 4). Find the expectation value of its spin along y-direction, S_y.\nNote: \\sigma_y (in latex format) is: \n\\begin{pmatrix}\n0 & -i \\\\\ni & 0\n\\end{pmatrix}\nA. 25*hbar/2\nB. -25*hbar/2\nC. 12*hbar/25\nD. -12*hbar/25",
+        "response": "<think>We need to compute expectation value of S_y = (\u0127/2) \u03c3_y. The spin state is given as (3i, 4). Probably column vector: |\u03c8> = (3i, 4)^T. Need to normalize? Expectation value = <\u03c8| S_y |\u03c8> / <\u03c8|\u03c8> if not normalized. Usually expectation value uses normalized state. So compute.\n\nLet \u03c8 = [3i, 4]. Compute norm: |3i|^2 = 9, |4|^2 = 16, total = 25. So normalization factor = sqrt(25)=5. Normalized state = (1/5)[3i, 4].\n\nNow compute expectation: <\u03c8| (\u0127/2) \u03c3_y |\u03c8>.\n\n\u03c3_y = [[0, -i],[i,0]].\n\nFirst compute \u03c3_y|\u03c8>:\n\n|\u03c8> = (1/5)[3i, 4].\n\nCompute product:\n\nFirst component: 0*(3i) + (-i)*4 = -4i.\n\nSecond component: i*(3i) + 0*4 = i*3i = 3 i^2 = -3.\n\nSo \u03c3_y|\u03c8> = (1/5)[-4i, -3].\n\nNow <\u03c8| = (1/5)[-3i?, wait conjugate transpose: (3i)^* = -3i, 4^* = 4. So row vector (1/5)[-3i, 4].\n\nNow compute inner product: <\u03c8| \u03c3_y |\u03c8> = (1/5)[-3i, 4] \u00b7 (1/5)[-4i, -3] = (1/25)[ (-3i)(-4i) + 4*(-3) ].\n\nCompute (-3i)(-4i) = 12 i^2 = -12. Then 4*(-3) = -12. Sum = -12 + (-12) = -24.\n\nThus <\u03c8| \u03c3_y |\u03c8> = -24/25.\n\nMultiply by \u0127/2: expectation S_y = (\u0127/2) * (-24/25) = -12 \u0127 /25.\n\nThus answer D: -12 \u0127 /25.\n\nCheck options: D is -12*hbar/25. Yes.\n\nThus answer D.\n</think>\nThe spin operator along the \\(y\\)-direction is  \n\n\\[\nS_y=\\frac{\\hbar}{2}\\,\\sigma_y,\\qquad \n\\sigma_y=\\begin{pmatrix}0&-i\\\\ i&0\\end{pmatrix}.\n\\]\n\nThe given (unnormalized) spinor is  \n\n\\[\n|\\psi\\rangle=\\begin{pmatrix}3i\\\\4\\end{pmatrix}.\n\\]\n\nFirst normalize it:\n\n\\[\n\\langle\\psi|\\psi\\rangle = |3i|^2+|4|^2 = 9+16 = 25,\n\\qquad \n|\\psi_{\\text{norm}}\\rangle = \\frac{1}{5}\\begin{pmatrix}3i\\\\4\\end{pmatrix}.\n\\]\n\nNow compute the expectation value:\n\n\\[\n\\langle S_y\\rangle = \n\\langle\\psi_{\\text{norm}}|\\,\\frac{\\hbar}{2}\\sigma_y\\,|\\psi_{\\text{norm}}\\rangle\n= \\frac{\\hbar}{2}\\,\\langle\\psi_{\\text{norm}}|\\sigma_y|\\psi_{\\text{norm}}\\rangle .\n\\]\n\nAct with \\(\\sigma_y\\) on the normalized state:\n\n\\[\n\\sigma_y|\\psi_{\\text{norm}}\\rangle\n= \\frac{1}{5}\n\\begin{pmatrix}\n0 & -i\\\\\ni & 0\n\\end{pmatrix}\n\\begin{pmatrix}3i\\\\4\\end{pmatrix}\n= \\frac{1}{5}\n\\begin{pmatrix}\n-4i\\\\\n-3\n\\end{pmatrix}.\n\\]\n\nTake the inner product with \\(\\langle\\psi_{\\text{norm}}|\\) (note the complex conjugate):\n\n\\[\n\\langle\\psi_{\\text{norm}}|\\sigma_y|\\psi_{\\text{norm}}\\rangle\n= \\frac{1}{5}\\bigl(-3i,\\,4\\bigr)\\cdot\\frac{1}{5}\\begin{pmatrix}-4i\\\\-3\\end{pmatrix}\n= \\frac{1}{25}\\bigl[(-3i)(-4i)+4(-3)\\bigr]\n= \\frac{1}{25}\\bigl[12i^{2}-12\\bigr]\n= \\frac{-24}{25}.\n\\]\n\nTherefore  \n\n\\[\n\\boxed{\\langle S_y\\rangle = \\frac{\\hbar}{2}\\left(-\\frac{24}{25}\\right)= -\\frac{12\\hbar}{25}}.\n\\]\n\nThe correct choice is **D. \\(-12\\hbar/25\\)**."
+    },
+    "metadata": {
+        "batch": 169,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-169",
+        "correct_answer": "D",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 42,
+            "label": "context",
+            "text": "An electron is in the spin state (3i, 4). ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 42,
+            "end": 105,
+            "label": "context",
+            "text": "Find the expectation value of its spin along y-direction, S_y.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 105,
+            "end": 189,
+            "label": "context",
+            "text": "Note: \\sigma_y (in latex format) is: \n\\begin{pmatrix}\n0 & -i \\\\\ni & 0\n\\end{pmatrix}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 189,
+            "end": 202,
+            "label": "context",
+            "text": "A. 25*hbar/2\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 202,
+            "end": 216,
+            "label": "context",
+            "text": "B. -25*hbar/2\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 216,
+            "end": 230,
+            "label": "context",
+            "text": "C. 12*hbar/25\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 230,
+            "end": 244,
+            "label": "context",
+            "text": "D. -12*hbar/25",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "reflection",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 64,
+            "label": "planning",
+            "text": "We need to compute expectation value of S_y = (\u0127/2) \u03c3_y. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 64,
+            "end": 100,
+            "label": "restatement",
+            "text": "The spin state is given as (3i, 4). ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 100,
+            "end": 141,
+            "label": "assumption",
+            "text": "Probably column vector: |\u03c8> = (3i, 4)^T. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 141,
+            "end": 160,
+            "label": "planning",
+            "text": "Need to normalize? ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 160,
+            "end": 219,
+            "label": "fact",
+            "text": "Expectation value = <\u03c8| S_y |\u03c8> / <\u03c8|\u03c8> if not normalized. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 219,
+            "end": 268,
+            "label": "fact",
+            "text": "Usually expectation value uses normalized state. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 268,
+            "end": 281,
+            "label": "planning",
+            "text": "So compute.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 281,
+            "end": 298,
+            "label": "reasoning",
+            "text": "Let \u03c8 = [3i, 4]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 298,
+            "end": 348,
+            "label": "reasoning",
+            "text": "Compute norm: |3i|^2 = 9, |4|^2 = 16, total = 25. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 348,
+            "end": 386,
+            "label": "reasoning",
+            "text": "So normalization factor = sqrt(25)=5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 386,
+            "end": 420,
+            "label": "reasoning",
+            "text": "Normalized state = (1/5)[3i, 4].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 420,
+            "end": 465,
+            "label": "planning",
+            "text": "Now compute expectation: <\u03c8| (\u0127/2) \u03c3_y |\u03c8>.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 465,
+            "end": 489,
+            "label": "restatement",
+            "text": "\u03c3_y = [[0, -i],[i,0]].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 489,
+            "end": 512,
+            "label": "planning",
+            "text": "First compute \u03c3_y|\u03c8>:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 512,
+            "end": 533,
+            "label": "restatement",
+            "text": "|\u03c8> = (1/5)[3i, 4].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 533,
+            "end": 551,
+            "label": "planning",
+            "text": "Compute product:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 551,
+            "end": 592,
+            "label": "reasoning",
+            "text": "First component: 0*(3i) + (-i)*4 = -4i.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 592,
+            "end": 645,
+            "label": "reasoning",
+            "text": "Second component: i*(3i) + 0*4 = i*3i = 3 i^2 = -3.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 645,
+            "end": 674,
+            "label": "reasoning",
+            "text": "So \u03c3_y|\u03c8> = (1/5)[-4i, -3].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 674,
+            "end": 745,
+            "label": "reasoning",
+            "text": "Now <\u03c8| = (1/5)[-3i?, wait conjugate transpose: (3i)^* = -3i, 4^* = 4. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 745,
+            "end": 775,
+            "label": "reasoning",
+            "text": "So row vector (1/5)[-3i, 4].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 775,
+            "end": 881,
+            "label": "reasoning",
+            "text": "Now compute inner product: <\u03c8| \u03c3_y |\u03c8> = (1/5)[-3i, 4] \u00b7 (1/5)[-4i, -3] = (1/25)[ (-3i)(-4i) + 4*(-3) ].\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 881,
+            "end": 916,
+            "label": "reasoning",
+            "text": "Compute (-3i)(-4i) = 12 i^2 = -12. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 916,
+            "end": 935,
+            "label": "reasoning",
+            "text": "Then 4*(-3) = -12. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 935,
+            "end": 961,
+            "label": "reasoning",
+            "text": "Sum = -12 + (-12) = -24.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 961,
+            "end": 989,
+            "label": "reasoning",
+            "text": "Thus <\u03c8| \u03c3_y |\u03c8> = -24/25.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 989,
+            "end": 1055,
+            "label": "reasoning",
+            "text": "Multiply by \u0127/2: expectation S_y = (\u0127/2) * (-24/25) = -12 \u0127 /25.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1055,
+            "end": 1082,
+            "label": "conclusion",
+            "text": "Thus answer D: -12 \u0127 /25.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1082,
+            "end": 1115,
+            "label": "planning",
+            "text": "Check options: D is -12*hbar/25. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1115,
+            "end": 1121,
+            "label": "reflection",
+            "text": "Yes.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1121,
+            "end": 1136,
+            "label": "conclusion",
+            "text": "Thus answer D.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1136,
+            "end": 1144,
+            "label": "reflection",
+            "text": "</think>",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1144,
+            "end": 1288,
+            "label": "fact",
+            "text": "\nThe spin operator along the \\(y\\)-direction is  \n\n\\[\nS_y=\\frac{\\hbar}{2}\\,\\sigma_y,\\qquad \n\\sigma_y=\\begin{pmatrix}0&-i\\\\ i&0\\end{pmatrix}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1288,
+            "end": 1381,
+            "label": "restatement",
+            "text": "\nThe given (unnormalized) spinor is  \n\n\\[\n|\\psi\\rangle=\\begin{pmatrix}3i\\\\4\\end{pmatrix}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1381,
+            "end": 1544,
+            "label": "reasoning",
+            "text": "\nFirst normalize it:\n\n\\[\n\\langle\\psi|\\psi\\rangle = |3i|^2+|4|^2 = 9+16 = 25,\n\\qquad \n|\\psi_{\\text{norm}}\\rangle = \\frac{1}{5}\\begin{pmatrix}3i\\\\4\\end{pmatrix}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1544,
+            "end": 1771,
+            "label": "reasoning",
+            "text": "\nNow compute the expectation value:\n\n\\[\n\\langle S_y\\rangle = \n\\langle\\psi_{\\text{norm}}|\\,\\frac{\\hbar}{2}\\sigma_y\\,|\\psi_{\\text{norm}}\\rangle\n= \\frac{\\hbar}{2}\\,\\langle\\psi_{\\text{norm}}|\\sigma_y|\\psi_{\\text{norm}}\\rangle .\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1771,
+            "end": 2008,
+            "label": "reasoning",
+            "text": "\nAct with \\(\\sigma_y\\) on the normalized state:\n\n\\[\n\\sigma_y|\\psi_{\\text{norm}}\\rangle\n= \\frac{1}{5}\n\\begin{pmatrix}\n0 & -i\\\\\ni & 0\n\\end{pmatrix}\n\\begin{pmatrix}3i\\\\4\\end{pmatrix}\n= \\frac{1}{5}\n\\begin{pmatrix}\n-4i\\\\\n-3\n\\end{pmatrix}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2008,
+            "end": 2099,
+            "label": "planning",
+            "text": "\nTake the inner product with \\(\\langle\\psi_{\\text{norm}}|\\) (note the complex conjugate):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2099,
+            "end": 2348,
+            "label": "reasoning",
+            "text": "\\[\n\\langle\\psi_{\\text{norm}}|\\sigma_y|\\psi_{\\text{norm}}\\rangle\n= \\frac{1}{5}\\bigl(-3i,\\,4\\bigr)\\cdot\\frac{1}{5}\\begin{pmatrix}-4i\\\\-3\\end{pmatrix}\n= \\frac{1}{25}\\bigl[(-3i)(-4i)+4(-3)\\bigr]\n= \\frac{1}{25}\\bigl[12i^{2}-12\\bigr]\n= \\frac{-24}{25}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2348,
+            "end": 2462,
+            "label": "conclusion",
+            "text": "\nTherefore  \n\n\\[\n\\boxed{\\langle S_y\\rangle = \\frac{\\hbar}{2}\\left(-\\frac{24}{25}\\right)= -\\frac{12\\hbar}{25}}.\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2462,
+            "end": 2508,
+            "label": "conclusion",
+            "text": "\nThe correct choice is **D. \\(-12\\hbar/25\\)**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp12",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp13",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp14",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp15",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp16",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp16",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp31",
+            "label": "validate:support"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp34",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp40",
+            "label": "validate:support"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp40",
+            "label": "validate:support"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "validate:support"
+        }
+    ]
+}

@@ -1,0 +1,2413 @@
+{
+    "doc_id": "gpqa-diamond_158_gpt-oss-120b",
+    "raw_text": {
+        "question": "Observations of a quasar across the electromagnetic spectrum are being carried out. Focusing on the near infrared and optical spectrum, there is a peak at wavelength of about 790 nm, and at shorter wavelengths < 790 nm the flux drops significantly.\n\nIf we lived in a universe defined by Lambda-CDM model such that the current Hubble constant is 70 km s^-1 Mpc^-1, matter density parameter is 0.3, dark energy density parameter is 0.7, and universe is flat,\nwhat can be assumed about the value of the comoving distance (for scale factor a=1) of this quasar from the Earth?\nA. 9 Gpc\nB. 7 Gpc\nC. 8 Gpc\nD. 6 Gpc",
+        "response": "<think>We need to interpret the problem: Observations of a quasar across EM spectrum, focusing on near infrared and optical, there is a peak at wavelength about 790 nm, and at shorter wavelengths <790 nm the flux drops significantly. So the observed peak is at 790 nm. Likely this is the Lyman-alpha break or Lyman limit? Quasars have strong emission lines, but the drop at shorter wavelengths could be due to Lyman-alpha forest absorption (the Gunn-Peterson trough) causing a drop blueward of Lyman-alpha (121.6 nm rest). So the observed break at 790 nm corresponds to redshifted Lyman-alpha: \u03bb_obs = \u03bb_rest * (1+z). So z = \u03bb_obs/\u03bb_rest - 1 = 790 nm / 121.6 nm - 1 \u2248 6.5 - 1 = 5.5? Let's compute: 790/121.6 = 6.496, minus 1 = 5.496. So z \u2248 5.5. Could also be Lyman limit at 91.2 nm? But the drop at shorter wavelengths suggests Lyman-alpha forest, so use 121.6 nm. So redshift ~5.5.\n\nNow we need comoving distance for a flat \u039bCDM with H0=70 km/s/Mpc, \u03a9_m=0.3, \u03a9_\u039b=0.7. Compute comoving distance D_C = c \u222b_0^z dz' / H(z'), where H(z)=H0 sqrt(\u03a9_m (1+z)^3 + \u03a9_\u039b). Use c=299792.458 km/s. Let's approximate.\n\nWe can use known values: At z=5.5, comoving distance ~? Use online calculators: For H0=70, \u03a9_m=0.3, \u03a9_\u039b=0.7, at z=5.5, comoving distance ~? I recall that at z=6, comoving distance ~ 28 Gpc? Wait, the particle horizon is ~ 46 Gly (14 Gpc). Actually comoving distance to CMB (z~1100) is about 14.4 Gpc (or 46 Gly). So at z=5.5, comoving distance should be less, maybe ~ 8 Gpc? Let's approximate.\n\nWe can integrate numerically roughly. Use dimensionless integral I = \u222b_0^z dz' / sqrt(\u03a9_m (1+z')^3 + \u03a9_\u039b). For z=5.5.\n\nWe can approximate using Simpson with few points.\n\nLet\u2019s compute values:\n\nDefine f(z) = 1/ sqrt(\u03a9_m (1+z)^3 + \u03a9_\u039b).\n\nWe need integral from 0 to 5.5.\n\nTake steps: maybe 0,0.5,1,2,3,4,5,5.5.\n\nCompute (1+z)^3:\n\nz=0: (1)^3=1 => \u03a9_m*1=0.3, +0.7=1.0 => sqrt=1 => f=1.\n\nz=0.5: (1.5)^3=3.375 => 0.3*3.375=1.0125 +0.7=1.7125 sqrt=1.3086 f=0.764.\n\nz=1: (2)^3=8 =>0.3*8=2.4+0.7=3.1 sqrt=1.7607 f=0.568.\n\nz=2: (3)^3=27 =>0.3*27=8.1+0.7=8.8 sqrt=2.9665 f=0.337.\n\nz=3: (4)^3=64 =>0.3*64=19.2+0.7=19.9 sqrt=4.461 f=0.224.\n\nz=4: (5)^3=125 =>0.3*125=37.5+0.7=38.2 sqrt=6.180 f=0.162.\n\nz=5: (6)^3=216 =>0.3*216=64.8+0.7=65.5 sqrt=8.094 f=0.124.\n\nz=5.5: (6.5)^3=274.625 =>0.3*274.625=82.3875+0.7=83.0875 sqrt=9.115 f=0.110.\n\nNow integrate using Simpson with uneven spacing? Let's use piecewise Simpson with intervals: 0-0.5,0.5-1,1-2,2-3,3-4,4-5,5-5.5.\n\nCompute each interval integral approx as (\u0394z/6)*(f0+4fmid+f1). For each interval we need midpoint value.\n\nWe need f at midpoints:\n\n0-0.5 midpoint 0.25: (1.25)^3=1.953125 =>0.3*1.953=0.5859+0.7=1.2859 sqrt=1.134 f=0.882.\n\n0.5-1 midpoint 0.75: (1.75)^3=5.359 =>0.3*5.359=1.6077+0.7=2.3077 sqrt=1.519 f=0.658.\n\n1-2 midpoint 1.5: (2.5)^3=15.625 =>0.3*15.625=4.6875+0.7=5.3875 sqrt=2.321 f=0.431.\n\n2-3 midpoint 2.5: (3.5)^3=42.875 =>0.3*42.875=12.8625+0.7=13.5625 sqrt=3.683 f=0.272.\n\n3-4 midpoint 3.5: (4.5)^3=91.125 =>0.3*91.125=27.3375+0.7=28.0375 sqrt=5.295 f=0.189.\n\n4-5 midpoint 4.5: (5.5)^3=166.375 =>0.3*166.375=49.9125+0.7=50.6125 sqrt=7.115 f=0.141.\n\n5-5.5 midpoint 5.25: (6.25)^3=244.141 =>0.3*244.141=73.242+0.7=73.942 sqrt=8.595 f=0.116.\n\nNow compute each interval integral:\n\n1) \u0394z=0.5: I1 = 0.5/6*(f0 +4fmid + f1) = 0.08333*(1 +4*0.882 +0.764) =0.08333*(1+3.528+0.764)=0.08333*5.292=0.441.\n\n2) \u0394z=0.5: I2 =0.08333*(0.764+4*0.658+0.568)=0.08333*(0.764+2.632+0.568)=0.08333*3.964=0.330.\n\n3) \u0394z=1: I3 =1/6*(0.568+4*0.431+0.337)=0.1667*(0.568+1.724+0.337)=0.1667*2.629=0.438.\n\n4) \u0394z=1: I4 =0.1667*(0.337+4*0.272+0.224)=0.1667*(0.337+1.088+0.224)=0.1667*1.649=0.275.\n\n5) \u0394z=1: I5 =0.1667*(0.224+4*0.189+0.162)=0.1667*(0.224+0.756+0.162)=0.1667*1.142=0.190.\n\n6) \u0394z=1: I6 =0.1667*(0.162+4*0.141+0.124)=0.1667*(0.162+0.564+0.124)=0.1667*0.850=0.142.\n\n7) \u0394z=0.5: I7 =0.08333*(0.124+4*0.116+0.110)=0.08333*(0.124+0.464+0.110)=0.08333*0.698=0.058.\n\nSum I = 0.441+0.330+0.438+0.275+0.190+0.142+0.058 = 1.874.\n\nThus integral I \u2248 1.874.\n\nNow comoving distance D_C = (c/H0) * I. c/H0 = 299792.458 km/s / (70 km/s/Mpc) = 4282.749 Mpc \u2248 4.283 Gpc.\n\nMultiply: D_C = 4.283 * 1.874 = 8.025 Gpc.\n\nThus about 8 Gpc. So answer C (8 Gpc). Good.\n\nThus the assumption: comoving distance ~8 Gpc.\n\nProvide reasoning: Lyman-alpha break at 790 nm gives redshift ~5.5, compute comoving distance using \u039bCDM parameters yields ~8 Gpc.\n\nThus answer C.\n</think>\n**Step\u202f1 \u2013 Identify the spectral feature**\n\nThe quasar\u2019s spectrum shows a strong drop in flux at wavelengths shorter than the observed peak (\u2248\u202f790\u202fnm).  \nFor high\u2011redshift quasars this \u201cbreak\u201d is usually the **Lyman\u2011\u03b1 forest / Gunn\u2011Peterson trough**: photons with rest\u2011frame wavelength\u202f\u03bb\u2090 = 121.6\u202fnm are strongly absorbed by intervening neutral hydrogen.  \nHence the observed break wavelength \u03bbobs is the red\u2011shifted Lyman\u2011\u03b1 line:\n\n\\[\n\\lambda_{\\rm obs}= \\lambda_{\\alpha}(1+z)\n\\qquad\\Longrightarrow\\qquad\nz = \\frac{\\lambda_{\\rm obs}}{\\lambda_{\\alpha}}-1 .\n\\]\n\n\\[\nz = \\frac{790\\ {\\rm nm}}{121.6\\ {\\rm nm}}-1 \\simeq 5.5 .\n\\]\n\nSo the quasar is at **\\(z\\approx5.5\\)**.\n\n---\n\n**Step\u202f2 \u2013 Comoving distance in a flat \u039bCDM universe**\n\nFor a flat universe (\u03a9_k\u202f=\u202f0) the comoving line\u2011of\u2011sight distance is  \n\n\\[\nD_{\\rm C}(z)=\\frac{c}{H_{0}}\\int_{0}^{z}\n\\frac{dz'}{\\sqrt{\\Omega_{m}(1+z')^{3}+\\Omega_{\\Lambda}}}\\; .\n\\]\n\nInsert the given cosmological parameters  \n\n\\[\nH_{0}=70\\ {\\rm km\\,s^{-1}\\,Mpc^{-1}},\\qquad\n\\Omega_{m}=0.3,\\qquad\n\\Omega_{\\Lambda}=0.7,\n\\]\n\nand evaluate the integral for \\(z=5.5\\).\n\nA quick numerical integration (Simpson\u2019s rule) gives  \n\n\\[\n\\int_{0}^{5.5}\\frac{dz'}{\\sqrt{0.3(1+z')^{3}+0.7}}\n\\;\\approx\\;1.87 .\n\\]\n\nThe prefactor  \n\n\\[\n\\frac{c}{H_{0}} = \\frac{299\\,792\\ {\\rm km\\,s^{-1}}}{70\\ {\\rm km\\,s^{-1}\\,Mpc^{-1}}}\n\\approx 4.28\\ {\\rm Gpc}.\n\\]\n\nThus  \n\n\\[\nD_{\\rm C}(z=5.5) \\approx 4.28\\ {\\rm Gpc}\\times 1.87 \\approx 8.0\\ {\\rm Gpc}.\n\\]\n\n---\n\n**Step\u202f3 \u2013 Choose the answer**\n\nThe comoving distance is closest to **8\u202fGpc**.\n\n\\[\n\\boxed{\\text{C. 8\u202fGpc}}\n\\]"
+    },
+    "metadata": {
+        "batch": 158,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-158",
+        "correct_answer": "C",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 84,
+            "label": "context",
+            "text": "Observations of a quasar across the electromagnetic spectrum are being carried out. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 84,
+            "end": 250,
+            "label": "context",
+            "text": "Focusing on the near infrared and optical spectrum, there is a peak at wavelength of about 790 nm, and at shorter wavelengths < 790 nm the flux drops significantly.\n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 250,
+            "end": 457,
+            "label": "context",
+            "text": "If we lived in a universe defined by Lambda-CDM model such that the current Hubble constant is 70 km s^-1 Mpc^-1, matter density parameter is 0.3, dark energy density parameter is 0.7, and universe is flat,\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 457,
+            "end": 572,
+            "label": "context",
+            "text": "what can be assumed about the value of the comoving distance (for scale factor a=1) of this quasar from the Earth?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 572,
+            "end": 581,
+            "label": "context",
+            "text": "A. 9 Gpc\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 581,
+            "end": 590,
+            "label": "context",
+            "text": "B. 7 Gpc\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 590,
+            "end": 599,
+            "label": "context",
+            "text": "C. 8 Gpc\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 599,
+            "end": 607,
+            "label": "context",
+            "text": "D. 6 Gpc",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "reflection",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 41,
+            "label": "planning",
+            "text": "We need to interpret the problem: ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 41,
+            "end": 234,
+            "label": "restatement",
+            "text": "Observations of a quasar across EM spectrum, focusing on near infrared and optical, there is a peak at wavelength about 790 nm, and at shorter wavelengths <790 nm the flux drops significantly. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 234,
+            "end": 269,
+            "label": "reasoning",
+            "text": "So the observed peak is at 790 nm. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 269,
+            "end": 322,
+            "label": "reasoning",
+            "text": "Likely this is the Lyman-alpha break or Lyman limit? ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 322,
+            "end": 523,
+            "label": "fact",
+            "text": "Quasars have strong emission lines, but the drop at shorter wavelengths could be due to Lyman-alpha forest absorption (the Gunn-Peterson trough) causing a drop blueward of Lyman-alpha (121.6 nm rest). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 523,
+            "end": 594,
+            "label": "reasoning",
+            "text": "So the observed break at 790 nm corresponds to redshifted Lyman-alpha: ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 594,
+            "end": 618,
+            "label": "fact",
+            "text": "\u03bb_obs = \u03bb_rest * (1+z). ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 618,
+            "end": 683,
+            "label": "reasoning",
+            "text": "So z = \u03bb_obs/\u03bb_rest - 1 = 790 nm / 121.6 nm - 1 \u2248 6.5 - 1 = 5.5? ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 683,
+            "end": 698,
+            "label": "planning",
+            "text": "Let's compute: ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 698,
+            "end": 734,
+            "label": "reasoning",
+            "text": "790/121.6 = 6.496, minus 1 = 5.496. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 734,
+            "end": 746,
+            "label": "reasoning",
+            "text": "So z \u2248 5.5. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 746,
+            "end": 784,
+            "label": "reasoning",
+            "text": "Could also be Lyman limit at 91.2 nm? ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 784,
+            "end": 866,
+            "label": "reasoning",
+            "text": "But the drop at shorter wavelengths suggests Lyman-alpha forest, so use 121.6 nm. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 866,
+            "end": 885,
+            "label": "reasoning",
+            "text": "So redshift ~5.5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 885,
+            "end": 970,
+            "label": "restatement",
+            "text": "Now we need comoving distance for a flat \u039bCDM with H0=70 km/s/Mpc, \u03a9_m=0.3, \u03a9_\u039b=0.7. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 970,
+            "end": 1062,
+            "label": "fact",
+            "text": "Compute comoving distance D_C = c \u222b_0^z dz' / H(z'), where H(z)=H0 sqrt(\u03a9_m (1+z)^3 + \u03a9_\u039b). ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1062,
+            "end": 1085,
+            "label": "fact",
+            "text": "Use c=299792.458 km/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1085,
+            "end": 1105,
+            "label": "planning",
+            "text": "Let's approximate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1105,
+            "end": 1130,
+            "label": "planning",
+            "text": "We can use known values: ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1130,
+            "end": 1161,
+            "label": "reasoning",
+            "text": "At z=5.5, comoving distance ~? ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1161,
+            "end": 1185,
+            "label": "planning",
+            "text": "Use online calculators: ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1185,
+            "end": 1245,
+            "label": "reasoning",
+            "text": "For H0=70, \u03a9_m=0.3, \u03a9_\u039b=0.7, at z=5.5, comoving distance ~? ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1245,
+            "end": 1295,
+            "label": "fact",
+            "text": "I recall that at z=6, comoving distance ~ 28 Gpc? ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1295,
+            "end": 1344,
+            "label": "fact",
+            "text": "Wait, the particle horizon is ~ 46 Gly (14 Gpc). ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1344,
+            "end": 1418,
+            "label": "fact",
+            "text": "Actually comoving distance to CMB (z~1100) is about 14.4 Gpc (or 46 Gly). ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1418,
+            "end": 1480,
+            "label": "reasoning",
+            "text": "So at z=5.5, comoving distance should be less, maybe ~ 8 Gpc? ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1480,
+            "end": 1500,
+            "label": "planning",
+            "text": "Let's approximate.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1500,
+            "end": 1538,
+            "label": "planning",
+            "text": "We can integrate numerically roughly. ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1538,
+            "end": 1607,
+            "label": "reasoning",
+            "text": "Use dimensionless integral I = \u222b_0^z dz' / sqrt(\u03a9_m (1+z')^3 + \u03a9_\u039b). ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1607,
+            "end": 1619,
+            "label": "reasoning",
+            "text": "For z=5.5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1619,
+            "end": 1670,
+            "label": "planning",
+            "text": "We can approximate using Simpson with few points.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1670,
+            "end": 1693,
+            "label": "planning",
+            "text": "Let\u2019s compute values:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1693,
+            "end": 1736,
+            "label": "reasoning",
+            "text": "Define f(z) = 1/ sqrt(\u03a9_m (1+z)^3 + \u03a9_\u039b).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1736,
+            "end": 1769,
+            "label": "reasoning",
+            "text": "We need integral from 0 to 5.5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1769,
+            "end": 1809,
+            "label": "planning",
+            "text": "Take steps: maybe 0,0.5,1,2,3,4,5,5.5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1809,
+            "end": 1827,
+            "label": "planning",
+            "text": "Compute (1+z)^3:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1827,
+            "end": 1882,
+            "label": "reasoning",
+            "text": "z=0: (1)^3=1 => \u03a9_m*1=0.3, +0.7=1.0 => sqrt=1 => f=1.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1882,
+            "end": 1957,
+            "label": "reasoning",
+            "text": "z=0.5: (1.5)^3=3.375 => 0.3*3.375=1.0125 +0.7=1.7125 sqrt=1.3086 f=0.764.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 1957,
+            "end": 2012,
+            "label": "reasoning",
+            "text": "z=1: (2)^3=8 =>0.3*8=2.4+0.7=3.1 sqrt=1.7607 f=0.568.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2012,
+            "end": 2069,
+            "label": "reasoning",
+            "text": "z=2: (3)^3=27 =>0.3*27=8.1+0.7=8.8 sqrt=2.9665 f=0.337.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2069,
+            "end": 2127,
+            "label": "reasoning",
+            "text": "z=3: (4)^3=64 =>0.3*64=19.2+0.7=19.9 sqrt=4.461 f=0.224.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2127,
+            "end": 2187,
+            "label": "reasoning",
+            "text": "z=4: (5)^3=125 =>0.3*125=37.5+0.7=38.2 sqrt=6.180 f=0.162.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2187,
+            "end": 2247,
+            "label": "reasoning",
+            "text": "z=5: (6)^3=216 =>0.3*216=64.8+0.7=65.5 sqrt=8.094 f=0.124.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2247,
+            "end": 2325,
+            "label": "reasoning",
+            "text": "z=5.5: (6.5)^3=274.625 =>0.3*274.625=82.3875+0.7=83.0875 sqrt=9.115 f=0.110.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2325,
+            "end": 2454,
+            "label": "planning",
+            "text": "Now integrate using Simpson with uneven spacing? Let's use piecewise Simpson with intervals: 0-0.5,0.5-1,1-2,2-3,3-4,4-5,5-5.5.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2454,
+            "end": 2517,
+            "label": "fact",
+            "text": "Compute each interval integral approx as (\u0394z/6)*(f0+4fmid+f1). ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2517,
+            "end": 2560,
+            "label": "planning",
+            "text": "For each interval we need midpoint value.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2560,
+            "end": 2585,
+            "label": "planning",
+            "text": "We need f at midpoints:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2585,
+            "end": 2675,
+            "label": "reasoning",
+            "text": "0-0.5 midpoint 0.25: (1.25)^3=1.953125 =>0.3*1.953=0.5859+0.7=1.2859 sqrt=1.134 f=0.882.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2675,
+            "end": 2762,
+            "label": "reasoning",
+            "text": "0.5-1 midpoint 0.75: (1.75)^3=5.359 =>0.3*5.359=1.6077+0.7=2.3077 sqrt=1.519 f=0.658.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2762,
+            "end": 2847,
+            "label": "reasoning",
+            "text": "1-2 midpoint 1.5: (2.5)^3=15.625 =>0.3*15.625=4.6875+0.7=5.3875 sqrt=2.321 f=0.431.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2847,
+            "end": 2934,
+            "label": "reasoning",
+            "text": "2-3 midpoint 2.5: (3.5)^3=42.875 =>0.3*42.875=12.8625+0.7=13.5625 sqrt=3.683 f=0.272.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2934,
+            "end": 3021,
+            "label": "reasoning",
+            "text": "3-4 midpoint 3.5: (4.5)^3=91.125 =>0.3*91.125=27.3375+0.7=28.0375 sqrt=5.295 f=0.189.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 3021,
+            "end": 3110,
+            "label": "reasoning",
+            "text": "4-5 midpoint 4.5: (5.5)^3=166.375 =>0.3*166.375=49.9125+0.7=50.6125 sqrt=7.115 f=0.141.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 3110,
+            "end": 3201,
+            "label": "reasoning",
+            "text": "5-5.5 midpoint 5.25: (6.25)^3=244.141 =>0.3*244.141=73.242+0.7=73.942 sqrt=8.595 f=0.116.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 3201,
+            "end": 3238,
+            "label": "planning",
+            "text": "Now compute each interval integral:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 3238,
+            "end": 3354,
+            "label": "reasoning",
+            "text": "1) \u0394z=0.5: I1 = 0.5/6*(f0 +4fmid + f1) = 0.08333*(1 +4*0.882 +0.764) =0.08333*(1+3.528+0.764)=0.08333*5.292=0.441.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 3354,
+            "end": 3449,
+            "label": "reasoning",
+            "text": "2) \u0394z=0.5: I2 =0.08333*(0.764+4*0.658+0.568)=0.08333*(0.764+2.632+0.568)=0.08333*3.964=0.330.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 3449,
+            "end": 3536,
+            "label": "reasoning",
+            "text": "3) \u0394z=1: I3 =1/6*(0.568+4*0.431+0.337)=0.1667*(0.568+1.724+0.337)=0.1667*2.629=0.438.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3536,
+            "end": 3626,
+            "label": "reasoning",
+            "text": "4) \u0394z=1: I4 =0.1667*(0.337+4*0.272+0.224)=0.1667*(0.337+1.088+0.224)=0.1667*1.649=0.275.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3626,
+            "end": 3716,
+            "label": "reasoning",
+            "text": "5) \u0394z=1: I5 =0.1667*(0.224+4*0.189+0.162)=0.1667*(0.224+0.756+0.162)=0.1667*1.142=0.190.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3716,
+            "end": 3806,
+            "label": "reasoning",
+            "text": "6) \u0394z=1: I6 =0.1667*(0.162+4*0.141+0.124)=0.1667*(0.162+0.564+0.124)=0.1667*0.850=0.142.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3806,
+            "end": 3901,
+            "label": "reasoning",
+            "text": "7) \u0394z=0.5: I7 =0.08333*(0.124+4*0.116+0.110)=0.08333*(0.124+0.464+0.110)=0.08333*0.698=0.058.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3901,
+            "end": 3961,
+            "label": "reasoning",
+            "text": "Sum I = 0.441+0.330+0.438+0.275+0.190+0.142+0.058 = 1.874.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3961,
+            "end": 3987,
+            "label": "reasoning",
+            "text": "Thus integral I \u2248 1.874.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3987,
+            "end": 4027,
+            "label": "reasoning",
+            "text": "Now comoving distance D_C = (c/H0) * I. ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 4027,
+            "end": 4095,
+            "label": "reasoning",
+            "text": "c/H0 = 299792.458 km/s / (70 km/s/Mpc) = 4282.749 Mpc \u2248 4.283 Gpc.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 4095,
+            "end": 4139,
+            "label": "reasoning",
+            "text": "Multiply: D_C = 4.283 * 1.874 = 8.025 Gpc.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 4139,
+            "end": 4157,
+            "label": "reasoning",
+            "text": "Thus about 8 Gpc. ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 4157,
+            "end": 4178,
+            "label": "conclusion",
+            "text": "So answer C (8 Gpc). ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 4178,
+            "end": 4185,
+            "label": "reflection",
+            "text": "Good.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 4185,
+            "end": 4233,
+            "label": "reasoning",
+            "text": "Thus the assumption: comoving distance ~8 Gpc.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 4233,
+            "end": 4365,
+            "label": "reasoning",
+            "text": "Provide reasoning: Lyman-alpha break at 790 nm gives redshift ~5.5, compute comoving distance using \u039bCDM parameters yields ~8 Gpc.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 4365,
+            "end": 4433,
+            "label": "conclusion",
+            "text": "Thus answer C.\n</think>\n**Step\u202f1 \u2013 Identify the spectral feature**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 4433,
+            "end": 4543,
+            "label": "restatement",
+            "text": "The quasar\u2019s spectrum shows a strong drop in flux at wavelengths shorter than the observed peak (\u2248\u202f790\u202fnm).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 4543,
+            "end": 4640,
+            "label": "fact",
+            "text": "For high\u2011redshift quasars this \u201cbreak\u201d is usually the **Lyman\u2011\u03b1 forest / Gunn\u2011Peterson trough**: ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 4640,
+            "end": 4746,
+            "label": "fact",
+            "text": "photons with rest\u2011frame wavelength\u202f\u03bb\u2090 = 121.6\u202fnm are strongly absorbed by intervening neutral hydrogen.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 4746,
+            "end": 4821,
+            "label": "reasoning",
+            "text": "Hence the observed break wavelength \u03bbobs is the red\u2011shifted Lyman\u2011\u03b1 line:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 4821,
+            "end": 4948,
+            "label": "fact",
+            "text": "\\[\n\\lambda_{\\rm obs}= \\lambda_{\\alpha}(1+z)\n\\qquad\\Longrightarrow\\qquad\nz = \\frac{\\lambda_{\\rm obs}}{\\lambda_{\\alpha}}-1 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 4948,
+            "end": 5012,
+            "label": "reasoning",
+            "text": "\\[\nz = \\frac{790\\ {\\rm nm}}{121.6\\ {\\rm nm}}-1 \\simeq 5.5 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 5012,
+            "end": 5054,
+            "label": "reasoning",
+            "text": "So the quasar is at **\\(z\\approx5.5\\)**.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 5054,
+            "end": 5059,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 5059,
+            "end": 5115,
+            "label": "planning",
+            "text": "**Step\u202f2 \u2013 Comoving distance in a flat \u039bCDM universe**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 5115,
+            "end": 5187,
+            "label": "fact",
+            "text": "For a flat universe (\u03a9_k\u202f=\u202f0) the comoving line\u2011of\u2011sight distance is  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 5187,
+            "end": 5296,
+            "label": "fact",
+            "text": "\\[\nD_{\\rm C}(z)=\\frac{c}{H_{0}}\\int_{0}^{z}\n\\frac{dz'}{\\sqrt{\\Omega_{m}(1+z')^{3}+\\Omega_{\\Lambda}}}\\; .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 5296,
+            "end": 5340,
+            "label": "planning",
+            "text": "Insert the given cosmological parameters  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 5340,
+            "end": 5435,
+            "label": "restatement",
+            "text": "\\[\nH_{0}=70\\ {\\rm km\\,s^{-1}\\,Mpc^{-1}},\\qquad\n\\Omega_{m}=0.3,\\qquad\n\\Omega_{\\Lambda}=0.7,\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 5435,
+            "end": 5477,
+            "label": "planning",
+            "text": "and evaluate the integral for \\(z=5.5\\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 5477,
+            "end": 5533,
+            "label": "reasoning",
+            "text": "A quick numerical integration (Simpson\u2019s rule) gives  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 5533,
+            "end": 5609,
+            "label": "reasoning",
+            "text": "\\[\n\\int_{0}^{5.5}\\frac{dz'}{\\sqrt{0.3(1+z')^{3}+0.7}}\n\\;\\approx\\;1.87 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 5609,
+            "end": 5626,
+            "label": "planning",
+            "text": "The prefactor  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 5626,
+            "end": 5742,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{c}{H_{0}} = \\frac{299\\,792\\ {\\rm km\\,s^{-1}}}{70\\ {\\rm km\\,s^{-1}\\,Mpc^{-1}}}\n\\approx 4.28\\ {\\rm Gpc}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 5742,
+            "end": 5750,
+            "label": "planning",
+            "text": "Thus  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 5750,
+            "end": 5833,
+            "label": "reasoning",
+            "text": "\\[\nD_{\\rm C}(z=5.5) \\approx 4.28\\ {\\rm Gpc}\\times 1.87 \\approx 8.0\\ {\\rm Gpc}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 5833,
+            "end": 5838,
+            "label": "reflection",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 5838,
+            "end": 5870,
+            "label": "planning",
+            "text": "**Step\u202f3 \u2013 Choose the answer**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 5870,
+            "end": 5918,
+            "label": "conclusion",
+            "text": "The comoving distance is closest to **8\u202fGpc**.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 5918,
+            "end": 5947,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{\\text{C. 8\u202fGpc}}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp14",
+            "label": "validate:support"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp15",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp15",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp21",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp23",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp27",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp28",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp31",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp31",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp35",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp38",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp40",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp40",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp42",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp42",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp44",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp44",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp45",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp51",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp52",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp53",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp54",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp55",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp58",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp59",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp60",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp61",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp61",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp62",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp63",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp72",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp75",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp79",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp80",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp83",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp83",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp83",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp86",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp86",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp87",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp88",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp88",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp88",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp89",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp91",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp91",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp92",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp93",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp93",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp85",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp94",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp96",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp96",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp97",
+            "label": "validate:support"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp97",
+            "label": "validate:support"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp98",
+            "label": "validate:support"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp98",
+            "label": "validate:support"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp98",
+            "label": "validate:support"
+        }
+    ]
+}

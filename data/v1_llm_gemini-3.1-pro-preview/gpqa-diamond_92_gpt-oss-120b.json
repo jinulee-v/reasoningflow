@@ -1,0 +1,958 @@
+{
+    "doc_id": "gpqa-diamond_92_gpt-oss-120b",
+    "raw_text": {
+        "question": "\"Scientist aims to run quantitative polymerase chain reaction (qPCR) on some samples. He first wants to make a calibration curve so he took positive control with known copy numbers and run qPCR on serially diluted positive control three technical replicates. The efficiency of qPCR was 100%. The R2 was 1, and the slope was -3.3. His results were as follows:\nAt the concentration of 100000 copies per \u00b5l, ct of triplicate results were 33.9, 34.2, 34.5.\nAt the concentration of 10000 copies per \u00b5l, ct of triplicate results were 30.6, 30.9, 31.2.\nAt the concentration of 1000 copies per \u00b5l, ct of triplicate results were 27.3, 27.6, 27.9.\nAt the concentration of 100 copies per \u00b5l, ct of triplicate results were 24, 24.3, 24.6.\nAt the concentration of 10 copies per \u00b5l, ct of triplicate results were 20.7, 21, 21.3\nWhich of the following explains the discrepancies in his results?\nA. Ten-fold dilution is more than 3.3 cycles\nB. Ct values are not in agreement with the amount of target nucleic acid in samples\nC. The deviation is more than 0.3 between technical replicates\nD. qPCR cannot be used for the quantification of nucleic acid in samples",
+        "response": "<think>We need to interpret the question. The scientist expects a perfect 10-fold dilution to shift Ct by 3.3 cycles (since efficiency 100%). The data: For 100k copies, Ct ~34.2 average. For 10k copies, Ct ~30.9 average. Difference ~3.3 cycles. For 1k copies, Ct ~27.6 average, difference again ~3.3. For 100 copies, Ct ~24.3 average, difference ~3.3. For 10 copies, Ct ~21 average, difference ~3.3. So the data actually matches expectation. However the question says \"Which of the following explains the discrepancies in his results?\" Perhaps they think there is discrepancy because the Ct values are decreasing as concentration decreases? Wait, Ct should be lower for higher concentration. Actually higher copy number yields lower Ct (earlier detection). In data, 100k copies gives Ct ~34, 10k gives ~31, 1k gives ~27.6, 100 gives ~24.3, 10 gives ~21. So as copy number decreases, Ct decreases? That's opposite. Wait, typical qPCR: higher template leads to earlier Ct (lower Ct). So 100k copies should have lower Ct than 10 copies. But here it's reversed: 100k copies have higher Ct (34) than 10 copies (21). That is opposite. So discrepancy: Ct values are not in agreement with amount of target nucleic acid. So answer B.\n\nOption A: Ten-fold dilution is more than 3.3 cycles. Actually it's exactly 3.3 cycles. Option C: deviation >0.3 between replicates? The replicates differ by 0.3 each, which is acceptable. Option D: qPCR cannot be used for quantification: false.\n\nThus answer B.\n</think>\nThe data are the opposite of what a correctly performing qPCR should give.  \nIn a real assay a higher copy\u2011number template yields an **earlier** (lower) Ct value, and a ten\u2011fold dilution should shift the Ct by about 3.3 cycles when the efficiency is 100\u202f%.  \n\nHere the 100\u202f000\u2011copy sample has a Ct of ~34, while the 10\u2011copy sample has a Ct of ~21 \u2013 the Ct values **decrease** as the template amount decreases, which is inconsistent with the expected relationship between Ct and target quantity.  \n\nThus the discrepancy is that the Ct values do not correspond to the amount of nucleic acid present in the samples.\n\n**Correct answer: B. Ct values are not in agreement with the amount of target nucleic acid in samples.**"
+    },
+    "metadata": {
+        "batch": 92,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-92",
+        "correct_answer": "B",
+        "topic": "biology",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 86,
+            "label": "context",
+            "text": "\"Scientist aims to run quantitative polymerase chain reaction (qPCR) on some samples. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 86,
+            "end": 259,
+            "label": "context",
+            "text": "He first wants to make a calibration curve so he took positive control with known copy numbers and run qPCR on serially diluted positive control three technical replicates. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 259,
+            "end": 292,
+            "label": "context",
+            "text": "The efficiency of qPCR was 100%. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 292,
+            "end": 330,
+            "label": "context",
+            "text": "The R2 was 1, and the slope was -3.3. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 330,
+            "end": 359,
+            "label": "context",
+            "text": "His results were as follows:\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 359,
+            "end": 453,
+            "label": "context",
+            "text": "At the concentration of 100000 copies per \u00b5l, ct of triplicate results were 33.9, 34.2, 34.5.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 453,
+            "end": 546,
+            "label": "context",
+            "text": "At the concentration of 10000 copies per \u00b5l, ct of triplicate results were 30.6, 30.9, 31.2.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 546,
+            "end": 638,
+            "label": "context",
+            "text": "At the concentration of 1000 copies per \u00b5l, ct of triplicate results were 27.3, 27.6, 27.9.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 638,
+            "end": 727,
+            "label": "context",
+            "text": "At the concentration of 100 copies per \u00b5l, ct of triplicate results were 24, 24.3, 24.6.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx9",
+            "annotation": false,
+            "start": 727,
+            "end": 814,
+            "label": "context",
+            "text": "At the concentration of 10 copies per \u00b5l, ct of triplicate results were 20.7, 21, 21.3\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx10",
+            "annotation": false,
+            "start": 814,
+            "end": 880,
+            "label": "context",
+            "text": "Which of the following explains the discrepancies in his results?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx11",
+            "annotation": false,
+            "start": 880,
+            "end": 925,
+            "label": "context",
+            "text": "A. Ten-fold dilution is more than 3.3 cycles\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx12",
+            "annotation": false,
+            "start": 925,
+            "end": 1009,
+            "label": "context",
+            "text": "B. Ct values are not in agreement with the amount of target nucleic acid in samples\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx13",
+            "annotation": false,
+            "start": 1009,
+            "end": 1072,
+            "label": "context",
+            "text": "C. The deviation is more than 0.3 between technical replicates\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx14",
+            "annotation": false,
+            "start": 1072,
+            "end": 1144,
+            "label": "context",
+            "text": "D. qPCR cannot be used for the quantification of nucleic acid in samples",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 42,
+            "label": "planning",
+            "text": "We need to interpret the question. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 42,
+            "end": 142,
+            "label": "reasoning",
+            "text": "The scientist expects a perfect 10-fold dilution to shift Ct by 3.3 cycles (since efficiency 100%). ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 142,
+            "end": 187,
+            "label": "reasoning",
+            "text": "The data: For 100k copies, Ct ~34.2 average. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 187,
+            "end": 221,
+            "label": "reasoning",
+            "text": "For 10k copies, Ct ~30.9 average. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 221,
+            "end": 245,
+            "label": "reasoning",
+            "text": "Difference ~3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 245,
+            "end": 301,
+            "label": "reasoning",
+            "text": "For 1k copies, Ct ~27.6 average, difference again ~3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 301,
+            "end": 352,
+            "label": "reasoning",
+            "text": "For 100 copies, Ct ~24.3 average, difference ~3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 352,
+            "end": 400,
+            "label": "reasoning",
+            "text": "For 10 copies, Ct ~21 average, difference ~3.3. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 400,
+            "end": 442,
+            "label": "reasoning",
+            "text": "So the data actually matches expectation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 442,
+            "end": 536,
+            "label": "restatement",
+            "text": "However the question says \"Which of the following explains the discrepancies in his results?\" ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 536,
+            "end": 641,
+            "label": "reasoning",
+            "text": "Perhaps they think there is discrepancy because the Ct values are decreasing as concentration decreases? ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 641,
+            "end": 692,
+            "label": "planning",
+            "text": "Wait, Ct should be lower for higher concentration. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 692,
+            "end": 757,
+            "label": "fact",
+            "text": "Actually higher copy number yields lower Ct (earlier detection). ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 757,
+            "end": 854,
+            "label": "reasoning",
+            "text": "In data, 100k copies gives Ct ~34, 10k gives ~31, 1k gives ~27.6, 100 gives ~24.3, 10 gives ~21. ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 854,
+            "end": 897,
+            "label": "reasoning",
+            "text": "So as copy number decreases, Ct decreases? ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 897,
+            "end": 914,
+            "label": "reasoning",
+            "text": "That's opposite. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 914,
+            "end": 982,
+            "label": "fact",
+            "text": "Wait, typical qPCR: higher template leads to earlier Ct (lower Ct). ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 982,
+            "end": 1034,
+            "label": "reasoning",
+            "text": "So 100k copies should have lower Ct than 10 copies. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1034,
+            "end": 1111,
+            "label": "reasoning",
+            "text": "But here it's reversed: 100k copies have higher Ct (34) than 10 copies (21). ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1111,
+            "end": 1129,
+            "label": "reasoning",
+            "text": "That is opposite. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1129,
+            "end": 1212,
+            "label": "reasoning",
+            "text": "So discrepancy: Ct values are not in agreement with amount of target nucleic acid. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1212,
+            "end": 1226,
+            "label": "conclusion",
+            "text": "So answer B.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1226,
+            "end": 1279,
+            "label": "restatement",
+            "text": "Option A: Ten-fold dilution is more than 3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1279,
+            "end": 1313,
+            "label": "reasoning",
+            "text": "Actually it's exactly 3.3 cycles. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1313,
+            "end": 1358,
+            "label": "restatement",
+            "text": "Option C: deviation >0.3 between replicates? ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1358,
+            "end": 1414,
+            "label": "reasoning",
+            "text": "The replicates differ by 0.3 each, which is acceptable. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1414,
+            "end": 1472,
+            "label": "reasoning",
+            "text": "Option D: qPCR cannot be used for quantification: false.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1472,
+            "end": 1487,
+            "label": "conclusion",
+            "text": "Thus answer B.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1487,
+            "end": 1496,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1496,
+            "end": 1573,
+            "label": "reasoning",
+            "text": "The data are the opposite of what a correctly performing qPCR should give.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1573,
+            "end": 1659,
+            "label": "fact",
+            "text": "In a real assay a higher copy\u2011number template yields an **earlier** (lower) Ct value, ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1659,
+            "end": 1756,
+            "label": "fact",
+            "text": "and a ten\u2011fold dilution should shift the Ct by about 3.3 cycles when the efficiency is 100\u202f%.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1756,
+            "end": 1906,
+            "label": "reasoning",
+            "text": "Here the 100\u202f000\u2011copy sample has a Ct of ~34, while the 10\u2011copy sample has a Ct of ~21 \u2013 the Ct values **decrease** as the template amount decreases, ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1906,
+            "end": 1994,
+            "label": "reasoning",
+            "text": "which is inconsistent with the expected relationship between Ct and target quantity.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1994,
+            "end": 2110,
+            "label": "conclusion",
+            "text": "Thus the discrepancy is that the Ct values do not correspond to the amount of nucleic acid present in the samples.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2110,
+            "end": 2214,
+            "label": "conclusion",
+            "text": "**Correct answer: B. Ct values are not in agreement with the amount of target nucleic acid in samples.**",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx10",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp1",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx9",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "ctx10",
+            "dest_node_id": "resp10",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp17",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "ctx12",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "ctx11",
+            "dest_node_id": "resp23",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "ctx13",
+            "dest_node_id": "resp25",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "ctx9",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "ctx14",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp28",
+            "label": "validate:support"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "ctx9",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp35",
+            "label": "validate:support"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp35",
+            "label": "validate:support"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp36",
+            "label": "validate:support"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp36",
+            "label": "validate:support"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "validate:support"
+        }
+    ]
+}

@@ -1,0 +1,1705 @@
+{
+    "doc_id": "gpqa-diamond_83_QwQ-32B",
+    "raw_text": {
+        "question": "While solving higher dimensional heat equations subject to suitable initial and boundary conditions through higher order finite difference approximations and parallel splitting, the matrix exponential function is approximated by a fractional approximation. The key factor of converting sequential algorithm into parallel algorithm is\nA. Linear partial fraction of fractional approximation\nB. Stability analysis\nC. Complex roots of fractional approximation\nD. Existence of nonlocal boundary conditions",
+        "response": "Okay, so I need to figure out which of the options A through D is the key factor in converting a sequential algorithm into a parallel algorithm when solving higher-dimensional heat equations with finite difference approximations and parallel splitting. The question mentions that the matrix exponential function is approximated by a fractional approximation. Let me break this down step by step.\n\nFirst, I recall that when solving partial differential equations like the heat equation numerically, especially in higher dimensions, one common approach is to use finite difference methods. These methods discretize the spatial derivatives, leading to a system of ordinary differential equations (ODEs) in time. For the heat equation, this system is typically of the form u_t = A u, where A is a matrix representing the spatial discretization.\n\nThe matrix exponential comes into play because the solution to such a system can be written as u(t) = exp(At) u(0). However, computing the matrix exponential directly can be computationally intensive, especially for large matrices arising from high-dimensional problems. Therefore, approximations like the fractional approximation are used to make this computation feasible.\n\nNow, the question is about converting a sequential algorithm into a parallel one. Parallel computing is essential for handling large-scale problems efficiently by dividing the computation across multiple processors. The key here is to identify which aspect of the fractional approximation of the matrix exponential allows for such parallelization.\n\nLooking at the options:\n\nA. Linear partial fraction of fractional approximation\n\nB. Stability analysis\n\nC. Complex roots of fractional approximation\n\nD. Existence of nonlocal boundary conditions\n\nLet me consider each option.\n\nStarting with option A: Linear partial fraction of fractional approximation. Partial fraction decomposition is a technique used to break down complicated fractions into simpler ones. In the context of matrix exponentials, I remember that certain approximation methods, like the rational approximations or splitting methods, might use partial fractions to decompose the exponential into a product of simpler terms. If the fractional approximation can be expressed as a linear combination of terms that can be computed independently, that would enable parallel computation. For example, if the approximation splits the matrix exponential into a sum of terms each involving different parts of the matrix, those terms could be computed in parallel. This seems plausible.\n\nOption B: Stability analysis. Stability is crucial for ensuring that the numerical method doesn't produce unbounded errors. While important for the correctness of the algorithm, stability analysis itself doesn't directly contribute to parallelization. It's more about ensuring the method works correctly rather than enabling parallelism. So maybe not B.\n\nOption C: Complex roots of fractional approximation. If the fractional approximation involves roots (maybe in its derivation or in the approximation formula), complex roots might complicate things, but I'm not sure how that would lead to parallelism. Unless the roots allow decomposition into independent components, but I can't recall a direct connection here. This might be a distractor.\n\nOption D: Existence of nonlocal boundary conditions. Nonlocal boundary conditions can complicate the problem because they involve integrals or sums over the domain, which might not be as straightforward to parallelize. However, the question is about converting a sequential algorithm into a parallel one. If the boundary conditions are nonlocal, that might actually hinder parallelization because of the need for global information. But the question states that the key factor is in the conversion, so maybe nonlocal BCs aren't the key here. The problem mentions \"suitable initial and boundary conditions,\" but the key factor is about the algorithm's parallelization, not the boundary conditions themselves. So D might not be the right answer.\n\nGoing back to A: Linear partial fraction. Let me think of specific methods. For instance, in operator splitting methods, which are used for parallelization in PDEs, the idea is to split the operator A into a sum of simpler operators that can be solved sequentially or in parallel. For example, in higher dimensions, the Laplacian can be split into 1D operators along each coordinate direction. The matrix exponential of the sum can then be approximated by a product of exponentials of each individual operator. If the fractional approximation allows such a splitting, then each term can be computed in parallel. \n\nThe partial fraction decomposition might come into play when approximating the matrix exponential using rational functions. For example, the rational approximation of exp(A) can sometimes be written as a sum of terms that can be parallelized. The partial fractions would break down the rational function into simpler terms that can be computed independently. \n\nAnother thought: the Lie-Trotter splitting or Strang splitting methods for time-dependent PDEs split the operator into parts that can be treated separately. If the fractional approximation corresponds to such a splitting, then each split part can be handled in parallel. The key here is that the approximation allows the problem to be decomposed into independent subproblems, which is enabled by the partial fraction approach.\n\nTherefore, option A seems to be the correct answer because the linear partial fraction decomposition of the fractional approximation would allow the problem to be split into parts that can be computed in parallel. The other options don't directly relate to enabling parallelism. Stability is about accuracy and convergence, complex roots might not directly help, and nonlocal boundary conditions are more about the problem setup rather than the algorithm's parallelization.\n\nWait, but let me check again. The question mentions \"higher order finite difference approximations and parallel splitting\". So parallel splitting is a method where you split the problem into parts that can be solved in parallel. The key factor here would be the splitting technique. The matrix exponential approximation via fractional approximation must be amenable to splitting. \n\nIn splitting methods, the operator A is split into a sum of operators, say A = A1 + A2 + ... + An, and then the exponential is approximated as a product of exponentials of each Ai. If the fractional approximation allows such a decomposition, then each exponential term can be computed in parallel. The partial fraction might refer to how the approximation is expressed as a combination of terms that can be split. \n\nAlternatively, partial fraction decomposition is used in some exponential integrators where the resolvent is decomposed. For example, in the context of the Laplace transform or rational approximations of the exponential function. Suppose the fractional approximation is a rational function, then partial fractions can break it into simpler terms that correspond to different parts of the operator, allowing parallel computation. \n\nTherefore, I think A is the correct answer. The other options don't directly relate to enabling parallelism through splitting. The existence of nonlocal boundary conditions (D) might actually require more communication between processors, making it harder to parallelize, so it's probably not the key factor. Stability (B) is important but not directly related to parallelism. Complex roots (C) might be part of the approximation but not the key to parallelization. \n\nSo I'll go with A.\n</think>\n\nThe key factor in converting a sequential algorithm into a parallel algorithm for solving higher-dimensional heat equations using higher-order finite difference approximations and parallel splitting lies in the ability to decompose the problem into independent subproblems that can be computed simultaneously. \n\n**Analysis of Options:**\n\n- **A. Linear partial fraction of fractional approximation**:  \n  This is the correct answer. The fractional approximation of the matrix exponential can be decomposed using partial fractions, breaking it into simpler terms that correspond to independent spatial components (e.g., splitting the Laplacian into 1D operators along each coordinate direction). This decomposition allows each term to be computed in parallel, enabling efficient parallelization of the algorithm.\n\n- **B. Stability analysis**:  \n  While stability is critical for ensuring the numerical method's correctness, it does not directly contribute to parallelization. Stability analysis ensures accuracy and convergence but does not inherently enable parallel computation.\n\n- **C. Complex roots of fractional approximation**:  \n  Complex roots might arise in the approximation process, but they do not inherently facilitate parallelism. Their presence could complicate computations but does not directly relate to splitting the problem into parallelizable components.\n\n- **D. Existence of nonlocal boundary conditions**:  \n  Nonlocal boundary conditions typically require global information, which can hinder parallelization due to increased communication between processors. The question emphasizes converting to a parallel algorithm, so this is not the key factor.\n\n**Conclusion**:  \nThe **linear partial fraction decomposition** of the fractional approximation (Option A) is the key factor, as it allows the problem to be split into independent subproblems that can be solved in parallel. This decomposition is central to parallel splitting methods, which are essential for efficient high-dimensional computations.\n\n**Answer**: A. Linear partial fraction of fractional approximation"
+    },
+    "metadata": {
+        "batch": 83,
+        "domain": "gpqa-diamond",
+        "generator": "QwQ-32B",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-83",
+        "correct_answer": "A",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 257,
+            "label": "context",
+            "text": "While solving higher dimensional heat equations subject to suitable initial and boundary conditions through higher order finite difference approximations and parallel splitting, the matrix exponential function is approximated by a fractional approximation. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 257,
+            "end": 500,
+            "label": "context",
+            "text": "The key factor of converting sequential algorithm into parallel algorithm is\nA. Linear partial fraction of fractional approximation\nB. Stability analysis\nC. Complex roots of fractional approximation\nD. Existence of nonlocal boundary conditions",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 253,
+            "label": "restatement",
+            "text": "Okay, so I need to figure out which of the options A through D is the key factor in converting a sequential algorithm into a parallel algorithm when solving higher-dimensional heat equations with finite difference approximations and parallel splitting. ",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 253,
+            "end": 359,
+            "label": "restatement",
+            "text": "The question mentions that the matrix exponential function is approximated by a fractional approximation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 359,
+            "end": 397,
+            "label": "planning",
+            "text": "Let me break this down step by step.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 397,
+            "end": 588,
+            "label": "fact",
+            "text": "First, I recall that when solving partial differential equations like the heat equation numerically, especially in higher dimensions, one common approach is to use finite difference methods. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 588,
+            "end": 709,
+            "label": "fact",
+            "text": "These methods discretize the spatial derivatives, leading to a system of ordinary differential equations (ODEs) in time. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 709,
+            "end": 842,
+            "label": "fact",
+            "text": "For the heat equation, this system is typically of the form u_t = A u, where A is a matrix representing the spatial discretization.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 842,
+            "end": 958,
+            "label": "fact",
+            "text": "The matrix exponential comes into play because the solution to such a system can be written as u(t) = exp(At) u(0). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 958,
+            "end": 1113,
+            "label": "reasoning",
+            "text": "However, computing the matrix exponential directly can be computationally intensive, especially for large matrices arising from high-dimensional problems. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 1113,
+            "end": 1218,
+            "label": "reasoning",
+            "text": "Therefore, approximations like the fractional approximation are used to make this computation feasible.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 1218,
+            "end": 1300,
+            "label": "restatement",
+            "text": "Now, the question is about converting a sequential algorithm into a parallel one. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 1300,
+            "end": 1434,
+            "label": "fact",
+            "text": "Parallel computing is essential for handling large-scale problems efficiently by dividing the computation across multiple processors. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 1434,
+            "end": 1567,
+            "label": "planning",
+            "text": "The key here is to identify which aspect of the fractional approximation of the matrix exponential allows for such parallelization.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1567,
+            "end": 1592,
+            "label": "planning",
+            "text": "Looking at the options:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1592,
+            "end": 1648,
+            "label": "restatement",
+            "text": "A. Linear partial fraction of fractional approximation\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1648,
+            "end": 1671,
+            "label": "restatement",
+            "text": "B. Stability analysis\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1671,
+            "end": 1717,
+            "label": "restatement",
+            "text": "C. Complex roots of fractional approximation\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1717,
+            "end": 1763,
+            "label": "restatement",
+            "text": "D. Existence of nonlocal boundary conditions\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1763,
+            "end": 1793,
+            "label": "planning",
+            "text": "Let me consider each option.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1793,
+            "end": 1870,
+            "label": "planning",
+            "text": "Starting with option A: Linear partial fraction of fractional approximation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1870,
+            "end": 1976,
+            "label": "fact",
+            "text": "Partial fraction decomposition is a technique used to break down complicated fractions into simpler ones. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1976,
+            "end": 2207,
+            "label": "reasoning",
+            "text": "In the context of matrix exponentials, I remember that certain approximation methods, like the rational approximations or splitting methods, might use partial fractions to decompose the exponential into a product of simpler terms. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 2207,
+            "end": 2325,
+            "label": "assumption",
+            "text": "If the fractional approximation can be expressed as a linear combination of terms that can be computed independently, ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 2325,
+            "end": 2365,
+            "label": "reasoning",
+            "text": "that would enable parallel computation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 2365,
+            "end": 2538,
+            "label": "example",
+            "text": "For example, if the approximation splits the matrix exponential into a sum of terms each involving different parts of the matrix, those terms could be computed in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 2538,
+            "end": 2561,
+            "label": "reflection",
+            "text": "This seems plausible.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 2561,
+            "end": 2591,
+            "label": "planning",
+            "text": "Option B: Stability analysis. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 2591,
+            "end": 2685,
+            "label": "fact",
+            "text": "Stability is crucial for ensuring that the numerical method doesn't produce unbounded errors. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2685,
+            "end": 2813,
+            "label": "reasoning",
+            "text": "While important for the correctness of the algorithm, stability analysis itself doesn't directly contribute to parallelization. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2813,
+            "end": 2899,
+            "label": "reasoning",
+            "text": "It's more about ensuring the method works correctly rather than enabling parallelism. ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2899,
+            "end": 2916,
+            "label": "reflection",
+            "text": "So maybe not B.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2916,
+            "end": 2969,
+            "label": "planning",
+            "text": "Option C: Complex roots of fractional approximation. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2969,
+            "end": 3167,
+            "label": "reasoning",
+            "text": "If the fractional approximation involves roots (maybe in its derivation or in the approximation formula), complex roots might complicate things, but I'm not sure how that would lead to parallelism. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 3167,
+            "end": 3278,
+            "label": "reasoning",
+            "text": "Unless the roots allow decomposition into independent components, but I can't recall a direct connection here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 3278,
+            "end": 3307,
+            "label": "reflection",
+            "text": "This might be a distractor.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 3307,
+            "end": 3360,
+            "label": "planning",
+            "text": "Option D: Existence of nonlocal boundary conditions. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 3360,
+            "end": 3526,
+            "label": "reasoning",
+            "text": "Nonlocal boundary conditions can complicate the problem because they involve integrals or sums over the domain, which might not be as straightforward to parallelize. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 3526,
+            "end": 3612,
+            "label": "restatement",
+            "text": "However, the question is about converting a sequential algorithm into a parallel one. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 3612,
+            "end": 3740,
+            "label": "reasoning",
+            "text": "If the boundary conditions are nonlocal, that might actually hinder parallelization because of the need for global information. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 3740,
+            "end": 3849,
+            "label": "reasoning",
+            "text": "But the question states that the key factor is in the conversion, so maybe nonlocal BCs aren't the key here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 3849,
+            "end": 4015,
+            "label": "reasoning",
+            "text": "The problem mentions \"suitable initial and boundary conditions,\" but the key factor is about the algorithm's parallelization, not the boundary conditions themselves. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 4015,
+            "end": 4052,
+            "label": "reflection",
+            "text": "So D might not be the right answer.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 4052,
+            "end": 4094,
+            "label": "planning",
+            "text": "Going back to A: Linear partial fraction. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 4094,
+            "end": 4128,
+            "label": "planning",
+            "text": "Let me think of specific methods. ",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 4128,
+            "end": 4333,
+            "label": "fact",
+            "text": "For instance, in operator splitting methods, which are used for parallelization in PDEs, the idea is to split the operator A into a sum of simpler operators that can be solved sequentially or in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 4333,
+            "end": 4446,
+            "label": "example",
+            "text": "For example, in higher dimensions, the Laplacian can be split into 1D operators along each coordinate direction. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 4446,
+            "end": 4563,
+            "label": "reasoning",
+            "text": "The matrix exponential of the sum can then be approximated by a product of exponentials of each individual operator. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 4563,
+            "end": 4666,
+            "label": "reasoning",
+            "text": "If the fractional approximation allows such a splitting, then each term can be computed in parallel. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 4666,
+            "end": 4790,
+            "label": "reasoning",
+            "text": "The partial fraction decomposition might come into play when approximating the matrix exponential using rational functions. ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 4790,
+            "end": 4909,
+            "label": "example",
+            "text": "For example, the rational approximation of exp(A) can sometimes be written as a sum of terms that can be parallelized. ",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 4909,
+            "end": 5027,
+            "label": "reasoning",
+            "text": "The partial fractions would break down the rational function into simpler terms that can be computed independently. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 5027,
+            "end": 5184,
+            "label": "fact",
+            "text": "Another thought: the Lie-Trotter splitting or Strang splitting methods for time-dependent PDEs split the operator into parts that can be treated separately. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 5184,
+            "end": 5298,
+            "label": "reasoning",
+            "text": "If the fractional approximation corresponds to such a splitting, then each split part can be handled in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 5298,
+            "end": 5455,
+            "label": "reasoning",
+            "text": "The key here is that the approximation allows the problem to be decomposed into independent subproblems, which is enabled by the partial fraction approach.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 5455,
+            "end": 5669,
+            "label": "conclusion",
+            "text": "Therefore, option A seems to be the correct answer because the linear partial fraction decomposition of the fractional approximation would allow the problem to be split into parts that can be computed in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 5669,
+            "end": 5734,
+            "label": "reasoning",
+            "text": "The other options don't directly relate to enabling parallelism. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 5734,
+            "end": 5930,
+            "label": "reasoning",
+            "text": "Stability is about accuracy and convergence, complex roots might not directly help, and nonlocal boundary conditions are more about the problem setup rather than the algorithm's parallelization.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 5930,
+            "end": 5960,
+            "label": "planning",
+            "text": "Wait, but let me check again. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 5960,
+            "end": 6054,
+            "label": "restatement",
+            "text": "The question mentions \"higher order finite difference approximations and parallel splitting\". ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 6054,
+            "end": 6159,
+            "label": "fact",
+            "text": "So parallel splitting is a method where you split the problem into parts that can be solved in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 6159,
+            "end": 6213,
+            "label": "reasoning",
+            "text": "The key factor here would be the splitting technique. ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 6213,
+            "end": 6312,
+            "label": "reasoning",
+            "text": "The matrix exponential approximation via fractional approximation must be amenable to splitting. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 6312,
+            "end": 6493,
+            "label": "fact",
+            "text": "In splitting methods, the operator A is split into a sum of operators, say A = A1 + A2 + ... + An, and then the exponential is approximated as a product of exponentials of each Ai. ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 6493,
+            "end": 6610,
+            "label": "reasoning",
+            "text": "If the fractional approximation allows such a decomposition, then each exponential term can be computed in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 6610,
+            "end": 6728,
+            "label": "reasoning",
+            "text": "The partial fraction might refer to how the approximation is expressed as a combination of terms that can be split. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 6728,
+            "end": 6849,
+            "label": "fact",
+            "text": "Alternatively, partial fraction decomposition is used in some exponential integrators where the resolvent is decomposed. ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 6849,
+            "end": 6958,
+            "label": "example",
+            "text": "For example, in the context of the Laplace transform or rational approximations of the exponential function. ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 6958,
+            "end": 7159,
+            "label": "reasoning",
+            "text": "Suppose the fractional approximation is a rational function, then partial fractions can break it into simpler terms that correspond to different parts of the operator, allowing parallel computation. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 7159,
+            "end": 7203,
+            "label": "conclusion",
+            "text": "Therefore, I think A is the correct answer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 7203,
+            "end": 7286,
+            "label": "reasoning",
+            "text": "The other options don't directly relate to enabling parallelism through splitting. ",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 7286,
+            "end": 7468,
+            "label": "reasoning",
+            "text": "The existence of nonlocal boundary conditions (D) might actually require more communication between processors, making it harder to parallelize, so it's probably not the key factor. ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 7468,
+            "end": 7536,
+            "label": "reasoning",
+            "text": "Stability (B) is important but not directly related to parallelism. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 7536,
+            "end": 7627,
+            "label": "reasoning",
+            "text": "Complex roots (C) might be part of the approximation but not the key to parallelization. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 7627,
+            "end": 7646,
+            "label": "conclusion",
+            "text": "So I'll go with A.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 7646,
+            "end": 7656,
+            "label": "reflection",
+            "text": "</think>\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 7656,
+            "end": 7968,
+            "label": "reasoning",
+            "text": "The key factor in converting a sequential algorithm into a parallel algorithm for solving higher-dimensional heat equations using higher-order finite difference approximations and parallel splitting lies in the ability to decompose the problem into independent subproblems that can be computed simultaneously. \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 7968,
+            "end": 7994,
+            "label": "planning",
+            "text": "**Analysis of Options:**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 7994,
+            "end": 8060,
+            "label": "restatement",
+            "text": "- **A. Linear partial fraction of fractional approximation**:  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 8060,
+            "end": 8088,
+            "label": "conclusion",
+            "text": "This is the correct answer. ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 8088,
+            "end": 8350,
+            "label": "reasoning",
+            "text": "The fractional approximation of the matrix exponential can be decomposed using partial fractions, breaking it into simpler terms that correspond to independent spatial components (e.g., splitting the Laplacian into 1D operators along each coordinate direction). ",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 8350,
+            "end": 8468,
+            "label": "reasoning",
+            "text": "This decomposition allows each term to be computed in parallel, enabling efficient parallelization of the algorithm.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 8468,
+            "end": 8501,
+            "label": "restatement",
+            "text": "- **B. Stability analysis**:  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 8501,
+            "end": 8630,
+            "label": "reasoning",
+            "text": "While stability is critical for ensuring the numerical method's correctness, it does not directly contribute to parallelization. ",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 8630,
+            "end": 8736,
+            "label": "reasoning",
+            "text": "Stability analysis ensures accuracy and convergence but does not inherently enable parallel computation.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 8736,
+            "end": 8792,
+            "label": "restatement",
+            "text": "- **C. Complex roots of fractional approximation**:  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 8792,
+            "end": 8899,
+            "label": "reasoning",
+            "text": "Complex roots might arise in the approximation process, but they do not inherently facilitate parallelism. ",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 8899,
+            "end": 9031,
+            "label": "reasoning",
+            "text": "Their presence could complicate computations but does not directly relate to splitting the problem into parallelizable components.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 9031,
+            "end": 9087,
+            "label": "restatement",
+            "text": "- **D. Existence of nonlocal boundary conditions**:  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 9087,
+            "end": 9238,
+            "label": "reasoning",
+            "text": "Nonlocal boundary conditions typically require global information, which can hinder parallelization due to increased communication between processors. ",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 9238,
+            "end": 9330,
+            "label": "reasoning",
+            "text": "The question emphasizes converting to a parallel algorithm, so this is not the key factor.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 9330,
+            "end": 9348,
+            "label": "planning",
+            "text": "**Conclusion**:  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 9348,
+            "end": 9554,
+            "label": "conclusion",
+            "text": "The **linear partial fraction decomposition** of the fractional approximation (Option A) is the key factor, as it allows the problem to be split into independent subproblems that can be solved in parallel. ",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 9554,
+            "end": 9681,
+            "label": "reasoning",
+            "text": "This decomposition is central to parallel splitting methods, which are essential for efficient high-dimensional computations.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 9681,
+            "end": 9747,
+            "label": "conclusion",
+            "text": "**Answer**: A. Linear partial fraction of fractional approximation",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp0",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp0",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp0",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp9",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp13",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp14",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp15",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp16",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp23",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp25",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp29",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp30",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp33",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp36",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp43",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp47",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp50",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp53",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp56",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp57",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp61",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp64",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:exemplify"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp67",
+            "label": "validate:support"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp68",
+            "label": "validate:support"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp72",
+            "label": "validate:support"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp72",
+            "label": "validate:support"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp76",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp77",
+            "label": "validate:support"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp77",
+            "label": "validate:support"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp77",
+            "label": "validate:support"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp78",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp79",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp80",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp81",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp82",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp82",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp83",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp83",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp86",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp88",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp89",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp90",
+            "label": "validate:support"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp90",
+            "label": "validate:support"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp90",
+            "label": "validate:support"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp90",
+            "label": "validate:support"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp90",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp89",
+            "dest_node_id": "resp90",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp92",
+            "label": "validate:support"
+        }
+    ]
+}

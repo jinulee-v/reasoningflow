@@ -1,0 +1,2689 @@
+{
+  "doc_id": "gpqa-diamond_194_gpt-oss-120b",
+  "raw_text": {
+    "question": "Astronomers are observing a planet with a radius of 1 Earth radius in a circular orbit, with a transit impact parameter of 0.2, around a star that has a radius 1.5 times that of the Sun. This planet has an orbital period of 3 days. What is the maximum orbital period of a second planet, with a radius of 2.5 times that of Earth, in the same system that will exhibit both transit and occultation events? Assume that the second planet also has a circular orbit and shares the same orbital plane as the previously mentioned transiting planet.\nA. ~ 7.5\nB. ~ 12.5\nC. ~ 33.5\nD. ~ 37.5",
+    "response": "<think>We need to parse the problem. We have a star radius R_star = 1.5 R_sun. First planet radius = 1 R_earth, circular orbit, impact parameter b = 0.2 (transit impact parameter). Orbital period P1 = 3 days.\n\nWe need maximum orbital period of a second planet (radius 2.5 R_earth) that will exhibit both transit and occultation events. Same orbital plane, circular orbit.\n\nTransit occurs if the planet passes in front of star: condition on impact parameter: b = (a cos i)/R_star <= 1 + (R_p/R_star) for transit (including grazing). For occultation (secondary eclipse) when planet passes behind star, need also that the planet's projected distance from star center at superior conjunction is <= 1 - (R_p/R_star)? Actually for occultation, the planet must be fully hidden behind star, i.e., the star must cover the planet. Condition: impact parameter for occultation (same as for transit because same geometry) must be <= 1 - (R_p/R_star) for full occultation, but for any occultation (including grazing) maybe <= 1 + (R_p/R_star). However typical requirement for secondary eclipse detection is that the planet passes behind the star, i.e., the line of sight passes through star's disk. So condition is same as transit: b <= 1 + (R_p/R_star). But to have both transit and occultation, the inclination must be such that both events occur. For circular orbit, the impact parameter at conjunctions is same for both (since same geometry). So if transit occurs, occultation also occurs (if planet not too large?). Actually for a circular orbit, the impact parameter at inferior conjunction (transit) equals that at superior conjunction (occultation). So if transit occurs, occultation also occurs (unless planet is too large causing it to be always in front? No). So maybe the limiting factor is that the planet must not be too far out such that the star's angular size is too small to cause occultation? Wait, the impact parameter depends on a/R_star * cos i. For a given inclination i, as a increases, the impact parameter increases proportionally (since a/R_star larger). So for a given inclination (set by first planet's transit), the second planet may have larger a, leading to larger b, possibly exceeding 1+R_p/R_star, thus no transit/occultation. So we need maximum a such that b <= 1 - (R_p/R_star)? Actually for any transit (including grazing) we need b <= 1 + (R_p/R_star). For occultation, same condition. So maximum a such that b <= 1 + (R_p/R_star). Since b = (a cos i)/R_star. For the first planet, we know its impact parameter is 0.2. So we can solve for cos i: b1 = (a1 cos i)/R_star = 0.2. So cos i = 0.2 * R_star / a1.\n\nWe need a2 such that b2 = (a2 cos i)/R_star <= 1 + (R_p2 / R_star). Use same cos i.\n\nThus a2 <= (R_star (1 + R_p2/R_star))/cos i = (R_star + R_p2)/cos i.\n\nPlug cos i from above: cos i = 0.2 R_star / a1 => 1/cos i = a1/(0.2 R_star). So a2 <= (R_star + R_p2) * a1/(0.2 R_star) = a1 * (R_star + R_p2)/(0.2 R_star).\n\nNow we need a1 from period P1 = 3 days using Kepler's third law. Assuming star mass ~ 1 solar mass? Not given, but star radius 1.5 R_sun, likely mass similar to Sun? Could approximate M_star = 1 M_sun. Use P^2 = (4π^2/GM) a^3. Solve for a in AU. Use P in years: 3 days = 3/365.25 = 0.008213 years. Then a^3 = (G M /4π^2) P^2. For solar mass, a (AU) = (P^2)^{1/3}. Actually for Earth: P^2 = a^3 (in years and AU). So a = P^{2/3}. So a1 = (0.008213)^{2/3} AU.\n\nCompute: log10(0.008213) = -2.085. Multiply by 2/3 => -1.39. 10^{-1.39}=0.0407 AU. Let's compute more precisely: 0.008213^(0.6667). Use approximate: sqrt of 0.008213 = 0.0906, then raise to 4/3? Not. Let's do: a1 = (P)^{2/3}. Compute P=0.008213. P^2 = 6.744e-5. Then (P^2)^{1/3} = (6.744e-5)^{1/3}. Cube root of 6.744e-5: 6.744e-5^(1/3). 10^{-4.171}^(1/3) =10^{-1.390}. So 0.0407 AU indeed.\n\nNow need R_star in same units as a (AU). R_star = 1.5 R_sun. R_sun = 0.00465 AU (since 1 AU = 215 R_sun approx). Actually R_sun = 0.00465047 AU. So R_star = 1.5 * 0.00465 = 0.006975 AU.\n\nR_p2 = 2.5 R_earth. Earth radius = 0.0091577 R_sun? Actually R_earth = 0.0091577 R_sun. So in AU: R_earth = 0.0091577 * 0.00465 AU = 4.26e-5 AU. Let's compute: 0.0091577 * 0.00465 = 4.26e-5 AU. Multiply by 2.5 => R_p2 = 1.065e-4 AU.\n\nNow compute (R_star + R_p2) = 0.006975 + 0.0001065 = 0.0070815 AU.\n\nNow a2_max = a1 * (R_star + R_p2)/(0.2 R_star) = a1 * (0.0070815)/(0.2 * 0.006975) = a1 * (0.0070815)/(0.001395) = a1 * 5.078.\n\nCompute a1 = 0.0407 AU. Multiply: a2_max = 0.0407 * 5.078 = 0.2067 AU.\n\nNow compute orbital period for a2_max using Kepler's law: P2 = a2^{3/2} (in years). So P2 (years) = (0.2067)^{1.5}. Compute sqrt: sqrt(0.2067) = 0.4546. Then multiply by a2: 0.2067 * 0.4546 = 0.0939 years. Convert to days: 0.0939 * 365.25 = 34.3 days.\n\nThus maximum period ~ 34 days. Among options: C ~33.5 days. So answer C.\n\nCheck rounding: we got 34.3, close to 33.5. So answer C.\n\nThus explanation: using geometry and Kepler's law.\n\n\n</think>\nThe geometry of a transit (or occultation) is set by the **impact parameter**\n\n\\[\nb=\\frac{a\\cos i}{R_\\star},\n\\]\n\nwhere  \n\n* \\(a\\) – orbital semi‑major axis,  \n* \\(i\\) – orbital inclination ( \\(i=90^{\\circ}\\) is edge‑on),  \n* \\(R_\\star\\) – stellar radius.\n\nA transit (or occultation) occurs as long as the projected distance of the planet’s centre from the star’s centre is smaller than the sum of the radii of the two bodies:\n\n\\[\nb\\le 1+\\frac{R_p}{R_\\star}.\n\\]\n\n---\n\n### 1.  Inclination set by the known transiting planet  \n\nFor the first planet we are told that the impact parameter is  \n\n\\[\nb_1 = 0.2 .\n\\]\n\nHence  \n\n\\[\n\\cos i = \\frac{b_1 R_\\star}{a_1}= \\frac{0.2\\,R_\\star}{a_1}.\n\\tag{1}\n\\]\n\n---\n\n### 2.  Maximum semi‑major axis for the second planet  \n\nThe second planet must satisfy the same inequality, but with its own radius \\(R_{p,2}\\):\n\n\\[\n\\frac{a_2\\cos i}{R_\\star}\\le 1+\\frac{R_{p,2}}{R_\\star}.\n\\]\n\nInsert \\(\\cos i\\) from (1):\n\n\\[\n\\frac{a_2}{R_\\star}\\,\\frac{0.2R_\\star}{a_1}\\le 1+\\frac{R_{p,2}}{R_\\star}\n\\quad\\Longrightarrow\\quad\na_2\\le a_1\\frac{R_\\star+R_{p,2}}{0.2\\,R_\\star}.\n\\tag{2}\n\\]\n\n---\n\n### 3.  Numerical values  \n\n* Stellar radius: \\(R_\\star = 1.5\\,R_\\odot = 1.5\\times0.004650\\,\\text{AU}=0.006975\\;\\text{AU}\\).\n* Radius of the second planet:  \n\n  \\[\n  R_{p,2}=2.5\\,R_\\oplus = 2.5\\times0.0091577\\,R_\\odot\n          =2.5\\times0.0091577\\times0.004650\\;\\text{AU}\n          =1.07\\times10^{-4}\\;\\text{AU}.\n  \\]\n\n* First planet’s orbital period: \\(P_1 = 3\\) days \\(=3/365.25\\) yr \\(=0.008213\\) yr.  \n  For a solar‑mass star, Kepler’s third law gives  \n\n  \\[\n  a_1 = P_1^{2/3}= (0.008213)^{2/3}\\;\\text{AU}=0.0407\\;\\text{AU}.\n  \\]\n\nInsert these numbers into (2):\n\n\\[\na_2^{\\max}=0.0407\\;\\text{AU}\\times\n\\frac{0.006975+0.000107}{0.2\\times0.006975}\n=0.0407\\;\\text{AU}\\times5.08\n\\approx 0.207\\;\\text{AU}.\n\\]\n\n---\n\n### 4.  Corresponding orbital period  \n\nAgain using Kepler’s law (\\(P^2 = a^3\\) for a 1‑\\(M_\\odot\\) star):\n\n\\[\nP_2 = a_2^{3/2}= (0.207)^{3/2}\\;\\text{yr}\n      =0.0939\\;\\text{yr}=0.0939\\times365.25\\;\\text{d}\n      \\approx 34\\;\\text{days}.\n\\]\n\nRounded to the precision of the answer choices, this is **≈ 33.5 days**.\n\n---\n\n\\[\n\\boxed{\\text{C. } \\sim 33.5\\ \\text{days}}\n\\]"
+  },
+  "metadata": {
+    "batch": 194,
+    "domain": "gpqa-diamond",
+    "generator": "gpt-oss-120b",
+    "annotator": "gemini-3.1-pro-preview",
+    "question_id": "gpqa-194",
+    "correct_answer": "C",
+    "topic": "physics",
+    "correctness": null,
+    "is_human_annotated": false
+  },
+  "nodes": [
+    {
+      "id": "ctx0",
+      "annotation": false,
+      "start": 0,
+      "end": 187,
+      "label": "context",
+      "text": "Astronomers are observing a planet with a radius of 1 Earth radius in a circular orbit, with a transit impact parameter of 0.2, around a star that has a radius 1.5 times that of the Sun. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx1",
+      "annotation": false,
+      "start": 187,
+      "end": 232,
+      "label": "context",
+      "text": "This planet has an orbital period of 3 days. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx2",
+      "annotation": false,
+      "start": 232,
+      "end": 403,
+      "label": "context",
+      "text": "What is the maximum orbital period of a second planet, with a radius of 2.5 times that of Earth, in the same system that will exhibit both transit and occultation events? ",
+      "source": "question"
+    },
+    {
+      "id": "ctx3",
+      "annotation": false,
+      "start": 403,
+      "end": 540,
+      "label": "context",
+      "text": "Assume that the second planet also has a circular orbit and shares the same orbital plane as the previously mentioned transiting planet.\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx4",
+      "annotation": false,
+      "start": 540,
+      "end": 549,
+      "label": "context",
+      "text": "A. ~ 7.5\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx5",
+      "annotation": false,
+      "start": 549,
+      "end": 559,
+      "label": "context",
+      "text": "B. ~ 12.5\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx6",
+      "annotation": false,
+      "start": 559,
+      "end": 569,
+      "label": "context",
+      "text": "C. ~ 33.5\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx7",
+      "annotation": false,
+      "start": 569,
+      "end": 578,
+      "label": "context",
+      "text": "D. ~ 37.5",
+      "source": "question"
+    },
+    {
+      "id": "resp0",
+      "annotation": true,
+      "start": 0,
+      "end": 7,
+      "label": "reflection",
+      "text": "<think>",
+      "source": "response"
+    },
+    {
+      "id": "resp1",
+      "annotation": true,
+      "start": 7,
+      "end": 37,
+      "label": "planning",
+      "text": "We need to parse the problem. ",
+      "source": "response"
+    },
+    {
+      "id": "resp2",
+      "annotation": true,
+      "start": 37,
+      "end": 79,
+      "label": "restatement",
+      "text": "We have a star radius R_star = 1.5 R_sun. ",
+      "source": "response"
+    },
+    {
+      "id": "resp3",
+      "annotation": true,
+      "start": 79,
+      "end": 181,
+      "label": "restatement",
+      "text": "First planet radius = 1 R_earth, circular orbit, impact parameter b = 0.2 (transit impact parameter). ",
+      "source": "response"
+    },
+    {
+      "id": "resp4",
+      "annotation": true,
+      "start": 181,
+      "end": 210,
+      "label": "restatement",
+      "text": "Orbital period P1 = 3 days.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp5",
+      "annotation": true,
+      "start": 210,
+      "end": 336,
+      "label": "restatement",
+      "text": "We need maximum orbital period of a second planet (radius 2.5 R_earth) that will exhibit both transit and occultation events. ",
+      "source": "response"
+    },
+    {
+      "id": "resp6",
+      "annotation": true,
+      "start": 336,
+      "end": 373,
+      "label": "restatement",
+      "text": "Same orbital plane, circular orbit.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp7",
+      "annotation": true,
+      "start": 373,
+      "end": 427,
+      "label": "planning",
+      "text": "Transit occurs if the planet passes in front of star: ",
+      "source": "response"
+    },
+    {
+      "id": "resp8",
+      "annotation": true,
+      "start": 427,
+      "end": 532,
+      "label": "fact",
+      "text": "condition on impact parameter: b = (a cos i)/R_star <= 1 + (R_p/R_star) for transit (including grazing). ",
+      "source": "response"
+    },
+    {
+      "id": "resp9",
+      "annotation": true,
+      "start": 532,
+      "end": 712,
+      "label": "reasoning",
+      "text": "For occultation (secondary eclipse) when planet passes behind star, need also that the planet's projected distance from star center at superior conjunction is <= 1 - (R_p/R_star)? ",
+      "source": "response"
+    },
+    {
+      "id": "resp10",
+      "annotation": true,
+      "start": 712,
+      "end": 821,
+      "label": "reasoning",
+      "text": "Actually for occultation, the planet must be fully hidden behind star, i.e., the star must cover the planet. ",
+      "source": "response"
+    },
+    {
+      "id": "resp11",
+      "annotation": true,
+      "start": 821,
+      "end": 1030,
+      "label": "reasoning",
+      "text": "Condition: impact parameter for occultation (same as for transit because same geometry) must be <= 1 - (R_p/R_star) for full occultation, but for any occultation (including grazing) maybe <= 1 + (R_p/R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp12",
+      "annotation": true,
+      "start": 1030,
+      "end": 1185,
+      "label": "reasoning",
+      "text": "However typical requirement for secondary eclipse detection is that the planet passes behind the star, i.e., the line of sight passes through star's disk. ",
+      "source": "response"
+    },
+    {
+      "id": "resp13",
+      "annotation": true,
+      "start": 1185,
+      "end": 1241,
+      "label": "reasoning",
+      "text": "So condition is same as transit: b <= 1 + (R_p/R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp14",
+      "annotation": true,
+      "start": 1241,
+      "end": 1336,
+      "label": "reasoning",
+      "text": "But to have both transit and occultation, the inclination must be such that both events occur. ",
+      "source": "response"
+    },
+    {
+      "id": "resp15",
+      "annotation": true,
+      "start": 1336,
+      "end": 1433,
+      "label": "reasoning",
+      "text": "For circular orbit, the impact parameter at conjunctions is same for both (since same geometry). ",
+      "source": "response"
+    },
+    {
+      "id": "resp16",
+      "annotation": true,
+      "start": 1433,
+      "end": 1507,
+      "label": "reasoning",
+      "text": "So if transit occurs, occultation also occurs (if planet not too large?). ",
+      "source": "response"
+    },
+    {
+      "id": "resp17",
+      "annotation": true,
+      "start": 1507,
+      "end": 1644,
+      "label": "reasoning",
+      "text": "Actually for a circular orbit, the impact parameter at inferior conjunction (transit) equals that at superior conjunction (occultation). ",
+      "source": "response"
+    },
+    {
+      "id": "resp18",
+      "annotation": true,
+      "start": 1644,
+      "end": 1757,
+      "label": "reasoning",
+      "text": "So if transit occurs, occultation also occurs (unless planet is too large causing it to be always in front? No). ",
+      "source": "response"
+    },
+    {
+      "id": "resp19",
+      "annotation": true,
+      "start": 1757,
+      "end": 1898,
+      "label": "reasoning",
+      "text": "So maybe the limiting factor is that the planet must not be too far out such that the star's angular size is too small to cause occultation? ",
+      "source": "response"
+    },
+    {
+      "id": "resp20",
+      "annotation": true,
+      "start": 1898,
+      "end": 1954,
+      "label": "reasoning",
+      "text": "Wait, the impact parameter depends on a/R_star * cos i. ",
+      "source": "response"
+    },
+    {
+      "id": "resp21",
+      "annotation": true,
+      "start": 1954,
+      "end": 2068,
+      "label": "reasoning",
+      "text": "For a given inclination i, as a increases, the impact parameter increases proportionally (since a/R_star larger). ",
+      "source": "response"
+    },
+    {
+      "id": "resp22",
+      "annotation": true,
+      "start": 2068,
+      "end": 2248,
+      "label": "reasoning",
+      "text": "So for a given inclination (set by first planet's transit), the second planet may have larger a, leading to larger b, possibly exceeding 1+R_p/R_star, thus no transit/occultation. ",
+      "source": "response"
+    },
+    {
+      "id": "resp23",
+      "annotation": true,
+      "start": 2248,
+      "end": 2302,
+      "label": "reasoning",
+      "text": "So we need maximum a such that b <= 1 - (R_p/R_star)? ",
+      "source": "response"
+    },
+    {
+      "id": "resp24",
+      "annotation": true,
+      "start": 2302,
+      "end": 2378,
+      "label": "reasoning",
+      "text": "Actually for any transit (including grazing) we need b <= 1 + (R_p/R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp25",
+      "annotation": true,
+      "start": 2378,
+      "end": 2411,
+      "label": "reasoning",
+      "text": "For occultation, same condition. ",
+      "source": "response"
+    },
+    {
+      "id": "resp26",
+      "annotation": true,
+      "start": 2411,
+      "end": 2457,
+      "label": "reasoning",
+      "text": "So maximum a such that b <= 1 + (R_p/R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp27",
+      "annotation": true,
+      "start": 2457,
+      "end": 2485,
+      "label": "reasoning",
+      "text": "Since b = (a cos i)/R_star. ",
+      "source": "response"
+    },
+    {
+      "id": "resp28",
+      "annotation": true,
+      "start": 2485,
+      "end": 2544,
+      "label": "restatement",
+      "text": "For the first planet, we know its impact parameter is 0.2. ",
+      "source": "response"
+    },
+    {
+      "id": "resp29",
+      "annotation": true,
+      "start": 2544,
+      "end": 2601,
+      "label": "reasoning",
+      "text": "So we can solve for cos i: b1 = (a1 cos i)/R_star = 0.2. ",
+      "source": "response"
+    },
+    {
+      "id": "resp30",
+      "annotation": true,
+      "start": 2601,
+      "end": 2632,
+      "label": "reasoning",
+      "text": "So cos i = 0.2 * R_star / a1.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp31",
+      "annotation": true,
+      "start": 2632,
+      "end": 2700,
+      "label": "reasoning",
+      "text": "We need a2 such that b2 = (a2 cos i)/R_star <= 1 + (R_p2 / R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp32",
+      "annotation": true,
+      "start": 2700,
+      "end": 2717,
+      "label": "planning",
+      "text": "Use same cos i.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp33",
+      "annotation": true,
+      "start": 2717,
+      "end": 2787,
+      "label": "reasoning",
+      "text": "Thus a2 <= (R_star (1 + R_p2/R_star))/cos i = (R_star + R_p2)/cos i.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp34",
+      "annotation": true,
+      "start": 2787,
+      "end": 2810,
+      "label": "planning",
+      "text": "Plug cos i from above: ",
+      "source": "response"
+    },
+    {
+      "id": "resp35",
+      "annotation": true,
+      "start": 2810,
+      "end": 2864,
+      "label": "reasoning",
+      "text": "cos i = 0.2 R_star / a1 => 1/cos i = a1/(0.2 R_star). ",
+      "source": "response"
+    },
+    {
+      "id": "resp36",
+      "annotation": true,
+      "start": 2864,
+      "end": 2945,
+      "label": "reasoning",
+      "text": "So a2 <= (R_star + R_p2) * a1/(0.2 R_star) = a1 * (R_star + R_p2)/(0.2 R_star).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp37",
+      "annotation": true,
+      "start": 2945,
+      "end": 3010,
+      "label": "planning",
+      "text": "Now we need a1 from period P1 = 3 days using Kepler's third law. ",
+      "source": "response"
+    },
+    {
+      "id": "resp38",
+      "annotation": true,
+      "start": 3010,
+      "end": 3045,
+      "label": "assumption",
+      "text": "Assuming star mass ~ 1 solar mass? ",
+      "source": "response"
+    },
+    {
+      "id": "resp39",
+      "annotation": true,
+      "start": 3045,
+      "end": 3111,
+      "label": "reasoning",
+      "text": "Not given, but star radius 1.5 R_sun, likely mass similar to Sun? ",
+      "source": "response"
+    },
+    {
+      "id": "resp40",
+      "annotation": true,
+      "start": 3111,
+      "end": 3147,
+      "label": "assumption",
+      "text": "Could approximate M_star = 1 M_sun. ",
+      "source": "response"
+    },
+    {
+      "id": "resp41",
+      "annotation": true,
+      "start": 3147,
+      "end": 3172,
+      "label": "fact",
+      "text": "Use P^2 = (4π^2/GM) a^3. ",
+      "source": "response"
+    },
+    {
+      "id": "resp42",
+      "annotation": true,
+      "start": 3172,
+      "end": 3191,
+      "label": "planning",
+      "text": "Solve for a in AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp43",
+      "annotation": true,
+      "start": 3191,
+      "end": 3243,
+      "label": "reasoning",
+      "text": "Use P in years: 3 days = 3/365.25 = 0.008213 years. ",
+      "source": "response"
+    },
+    {
+      "id": "resp44",
+      "annotation": true,
+      "start": 3243,
+      "end": 3271,
+      "label": "reasoning",
+      "text": "Then a^3 = (G M /4π^2) P^2. ",
+      "source": "response"
+    },
+    {
+      "id": "resp45",
+      "annotation": true,
+      "start": 3271,
+      "end": 3309,
+      "label": "reasoning",
+      "text": "For solar mass, a (AU) = (P^2)^{1/3}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp46",
+      "annotation": true,
+      "start": 3309,
+      "end": 3358,
+      "label": "fact",
+      "text": "Actually for Earth: P^2 = a^3 (in years and AU). ",
+      "source": "response"
+    },
+    {
+      "id": "resp47",
+      "annotation": true,
+      "start": 3358,
+      "end": 3374,
+      "label": "reasoning",
+      "text": "So a = P^{2/3}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp48",
+      "annotation": true,
+      "start": 3374,
+      "end": 3404,
+      "label": "reasoning",
+      "text": "So a1 = (0.008213)^{2/3} AU.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp49",
+      "annotation": true,
+      "start": 3404,
+      "end": 3439,
+      "label": "reasoning",
+      "text": "Compute: log10(0.008213) = -2.085. ",
+      "source": "response"
+    },
+    {
+      "id": "resp50",
+      "annotation": true,
+      "start": 3439,
+      "end": 3465,
+      "label": "reasoning",
+      "text": "Multiply by 2/3 => -1.39. ",
+      "source": "response"
+    },
+    {
+      "id": "resp51",
+      "annotation": true,
+      "start": 3465,
+      "end": 3487,
+      "label": "reasoning",
+      "text": "10^{-1.39}=0.0407 AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp52",
+      "annotation": true,
+      "start": 3487,
+      "end": 3536,
+      "label": "reasoning",
+      "text": "Let's compute more precisely: 0.008213^(0.6667). ",
+      "source": "response"
+    },
+    {
+      "id": "resp53",
+      "annotation": true,
+      "start": 3536,
+      "end": 3599,
+      "label": "reasoning",
+      "text": "Use approximate: sqrt of 0.008213 = 0.0906, then raise to 4/3? ",
+      "source": "response"
+    },
+    {
+      "id": "resp54",
+      "annotation": true,
+      "start": 3599,
+      "end": 3604,
+      "label": "reflection",
+      "text": "Not. ",
+      "source": "response"
+    },
+    {
+      "id": "resp55",
+      "annotation": true,
+      "start": 3604,
+      "end": 3630,
+      "label": "planning",
+      "text": "Let's do: a1 = (P)^{2/3}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp56",
+      "annotation": true,
+      "start": 3630,
+      "end": 3650,
+      "label": "reasoning",
+      "text": "Compute P=0.008213. ",
+      "source": "response"
+    },
+    {
+      "id": "resp57",
+      "annotation": true,
+      "start": 3650,
+      "end": 3666,
+      "label": "reasoning",
+      "text": "P^2 = 6.744e-5. ",
+      "source": "response"
+    },
+    {
+      "id": "resp58",
+      "annotation": true,
+      "start": 3666,
+      "end": 3703,
+      "label": "reasoning",
+      "text": "Then (P^2)^{1/3} = (6.744e-5)^{1/3}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp59",
+      "annotation": true,
+      "start": 3703,
+      "end": 3742,
+      "label": "reasoning",
+      "text": "Cube root of 6.744e-5: 6.744e-5^(1/3). ",
+      "source": "response"
+    },
+    {
+      "id": "resp60",
+      "annotation": true,
+      "start": 3742,
+      "end": 3774,
+      "label": "reasoning",
+      "text": "10^{-4.171}^(1/3) =10^{-1.390}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp61",
+      "annotation": true,
+      "start": 3774,
+      "end": 3796,
+      "label": "reasoning",
+      "text": "So 0.0407 AU indeed.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp62",
+      "annotation": true,
+      "start": 3796,
+      "end": 3837,
+      "label": "planning",
+      "text": "Now need R_star in same units as a (AU). ",
+      "source": "response"
+    },
+    {
+      "id": "resp63",
+      "annotation": true,
+      "start": 3837,
+      "end": 3857,
+      "label": "restatement",
+      "text": "R_star = 1.5 R_sun. ",
+      "source": "response"
+    },
+    {
+      "id": "resp64",
+      "annotation": true,
+      "start": 3857,
+      "end": 3909,
+      "label": "fact",
+      "text": "R_sun = 0.00465 AU (since 1 AU = 215 R_sun approx). ",
+      "source": "response"
+    },
+    {
+      "id": "resp65",
+      "annotation": true,
+      "start": 3909,
+      "end": 3941,
+      "label": "fact",
+      "text": "Actually R_sun = 0.00465047 AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp66",
+      "annotation": true,
+      "start": 3941,
+      "end": 3983,
+      "label": "reasoning",
+      "text": "So R_star = 1.5 * 0.00465 = 0.006975 AU.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp67",
+      "annotation": true,
+      "start": 3983,
+      "end": 4003,
+      "label": "restatement",
+      "text": "R_p2 = 2.5 R_earth. ",
+      "source": "response"
+    },
+    {
+      "id": "resp68",
+      "annotation": true,
+      "start": 4003,
+      "end": 4035,
+      "label": "fact",
+      "text": "Earth radius = 0.0091577 R_sun? ",
+      "source": "response"
+    },
+    {
+      "id": "resp69",
+      "annotation": true,
+      "start": 4035,
+      "end": 4071,
+      "label": "fact",
+      "text": "Actually R_earth = 0.0091577 R_sun. ",
+      "source": "response"
+    },
+    {
+      "id": "resp70",
+      "annotation": true,
+      "start": 4071,
+      "end": 4128,
+      "label": "reasoning",
+      "text": "So in AU: R_earth = 0.0091577 * 0.00465 AU = 4.26e-5 AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp71",
+      "annotation": true,
+      "start": 4128,
+      "end": 4143,
+      "label": "planning",
+      "text": "Let's compute: ",
+      "source": "response"
+    },
+    {
+      "id": "resp72",
+      "annotation": true,
+      "start": 4143,
+      "end": 4177,
+      "label": "reasoning",
+      "text": "0.0091577 * 0.00465 = 4.26e-5 AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp73",
+      "annotation": true,
+      "start": 4177,
+      "end": 4217,
+      "label": "reasoning",
+      "text": "Multiply by 2.5 => R_p2 = 1.065e-4 AU.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp74",
+      "annotation": true,
+      "start": 4217,
+      "end": 4285,
+      "label": "reasoning",
+      "text": "Now compute (R_star + R_p2) = 0.006975 + 0.0001065 = 0.0070815 AU.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp75",
+      "annotation": true,
+      "start": 4285,
+      "end": 4413,
+      "label": "reasoning",
+      "text": "Now a2_max = a1 * (R_star + R_p2)/(0.2 R_star) = a1 * (0.0070815)/(0.2 * 0.006975) = a1 * (0.0070815)/(0.001395) = a1 * 5.078.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp76",
+      "annotation": true,
+      "start": 4413,
+      "end": 4437,
+      "label": "reasoning",
+      "text": "Compute a1 = 0.0407 AU. ",
+      "source": "response"
+    },
+    {
+      "id": "resp77",
+      "annotation": true,
+      "start": 4437,
+      "end": 4447,
+      "label": "planning",
+      "text": "Multiply: ",
+      "source": "response"
+    },
+    {
+      "id": "resp78",
+      "annotation": true,
+      "start": 4447,
+      "end": 4485,
+      "label": "reasoning",
+      "text": "a2_max = 0.0407 * 5.078 = 0.2067 AU.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp79",
+      "annotation": true,
+      "start": 4485,
+      "end": 4543,
+      "label": "planning",
+      "text": "Now compute orbital period for a2_max using Kepler's law: ",
+      "source": "response"
+    },
+    {
+      "id": "resp80",
+      "annotation": true,
+      "start": 4543,
+      "end": 4569,
+      "label": "fact",
+      "text": "P2 = a2^{3/2} (in years). ",
+      "source": "response"
+    },
+    {
+      "id": "resp81",
+      "annotation": true,
+      "start": 4569,
+      "end": 4601,
+      "label": "reasoning",
+      "text": "So P2 (years) = (0.2067)^{1.5}. ",
+      "source": "response"
+    },
+    {
+      "id": "resp82",
+      "annotation": true,
+      "start": 4601,
+      "end": 4615,
+      "label": "planning",
+      "text": "Compute sqrt: ",
+      "source": "response"
+    },
+    {
+      "id": "resp83",
+      "annotation": true,
+      "start": 4615,
+      "end": 4638,
+      "label": "reasoning",
+      "text": "sqrt(0.2067) = 0.4546. ",
+      "source": "response"
+    },
+    {
+      "id": "resp84",
+      "annotation": true,
+      "start": 4638,
+      "end": 4659,
+      "label": "planning",
+      "text": "Then multiply by a2: ",
+      "source": "response"
+    },
+    {
+      "id": "resp85",
+      "annotation": true,
+      "start": 4659,
+      "end": 4691,
+      "label": "reasoning",
+      "text": "0.2067 * 0.4546 = 0.0939 years. ",
+      "source": "response"
+    },
+    {
+      "id": "resp86",
+      "annotation": true,
+      "start": 4691,
+      "end": 4708,
+      "label": "planning",
+      "text": "Convert to days: ",
+      "source": "response"
+    },
+    {
+      "id": "resp87",
+      "annotation": true,
+      "start": 4708,
+      "end": 4738,
+      "label": "reasoning",
+      "text": "0.0939 * 365.25 = 34.3 days.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp88",
+      "annotation": true,
+      "start": 4738,
+      "end": 4769,
+      "label": "conclusion",
+      "text": "Thus maximum period ~ 34 days. ",
+      "source": "response"
+    },
+    {
+      "id": "resp89",
+      "annotation": true,
+      "start": 4769,
+      "end": 4798,
+      "label": "reasoning",
+      "text": "Among options: C ~33.5 days. ",
+      "source": "response"
+    },
+    {
+      "id": "resp90",
+      "annotation": true,
+      "start": 4798,
+      "end": 4812,
+      "label": "conclusion",
+      "text": "So answer C.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp91",
+      "annotation": true,
+      "start": 4812,
+      "end": 4828,
+      "label": "planning",
+      "text": "Check rounding: ",
+      "source": "response"
+    },
+    {
+      "id": "resp92",
+      "annotation": true,
+      "start": 4828,
+      "end": 4856,
+      "label": "reasoning",
+      "text": "we got 34.3, close to 33.5. ",
+      "source": "response"
+    },
+    {
+      "id": "resp93",
+      "annotation": true,
+      "start": 4856,
+      "end": 4870,
+      "label": "conclusion",
+      "text": "So answer C.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp94",
+      "annotation": true,
+      "start": 4870,
+      "end": 4922,
+      "label": "reflection",
+      "text": "Thus explanation: using geometry and Kepler's law.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp95",
+      "annotation": true,
+      "start": 4922,
+      "end": 5011,
+      "label": "fact",
+      "text": "\n</think>\nThe geometry of a transit (or occultation) is set by the **impact parameter**\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp96",
+      "annotation": true,
+      "start": 5011,
+      "end": 5045,
+      "label": "fact",
+      "text": "\\[\nb=\\frac{a\\cos i}{R_\\star},\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp97",
+      "annotation": true,
+      "start": 5045,
+      "end": 5054,
+      "label": "planning",
+      "text": "where  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp98",
+      "annotation": true,
+      "start": 5054,
+      "end": 5091,
+      "label": "fact",
+      "text": "* \\(a\\) – orbital semi‑major axis,  \n",
+      "source": "response"
+    },
+    {
+      "id": "resp99",
+      "annotation": true,
+      "start": 5091,
+      "end": 5155,
+      "label": "fact",
+      "text": "* \\(i\\) – orbital inclination ( \\(i=90^{\\circ}\\) is edge‑on),  \n",
+      "source": "response"
+    },
+    {
+      "id": "resp100",
+      "annotation": true,
+      "start": 5155,
+      "end": 5188,
+      "label": "fact",
+      "text": "* \\(R_\\star\\) – stellar radius.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp101",
+      "annotation": true,
+      "start": 5188,
+      "end": 5359,
+      "label": "fact",
+      "text": "A transit (or occultation) occurs as long as the projected distance of the planet’s centre from the star’s centre is smaller than the sum of the radii of the two bodies:\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp102",
+      "annotation": true,
+      "start": 5359,
+      "end": 5394,
+      "label": "fact",
+      "text": "\\[\nb\\le 1+\\frac{R_p}{R_\\star}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp103",
+      "annotation": true,
+      "start": 5394,
+      "end": 5399,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp104",
+      "annotation": true,
+      "start": 5399,
+      "end": 5457,
+      "label": "planning",
+      "text": "### 1.  Inclination set by the known transiting planet  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp105",
+      "annotation": true,
+      "start": 5457,
+      "end": 5522,
+      "label": "restatement",
+      "text": "For the first planet we are told that the impact parameter is  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp106",
+      "annotation": true,
+      "start": 5522,
+      "end": 5541,
+      "label": "restatement",
+      "text": "\\[\nb_1 = 0.2 .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp107",
+      "annotation": true,
+      "start": 5541,
+      "end": 5550,
+      "label": "planning",
+      "text": "Hence  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp108",
+      "annotation": true,
+      "start": 5550,
+      "end": 5625,
+      "label": "reasoning",
+      "text": "\\[\n\\cos i = \\frac{b_1 R_\\star}{a_1}= \\frac{0.2\\,R_\\star}{a_1}.\n\\tag{1}\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp109",
+      "annotation": true,
+      "start": 5625,
+      "end": 5630,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp110",
+      "annotation": true,
+      "start": 5630,
+      "end": 5687,
+      "label": "planning",
+      "text": "### 2.  Maximum semi‑major axis for the second planet  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp111",
+      "annotation": true,
+      "start": 5687,
+      "end": 5777,
+      "label": "reasoning",
+      "text": "The second planet must satisfy the same inequality, but with its own radius \\(R_{p,2}\\):\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp112",
+      "annotation": true,
+      "start": 5777,
+      "end": 5840,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{a_2\\cos i}{R_\\star}\\le 1+\\frac{R_{p,2}}{R_\\star}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp113",
+      "annotation": true,
+      "start": 5840,
+      "end": 5869,
+      "label": "planning",
+      "text": "Insert \\(\\cos i\\) from (1):\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp114",
+      "annotation": true,
+      "start": 5869,
+      "end": 6031,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{a_2}{R_\\star}\\,\\frac{0.2R_\\star}{a_1}\\le 1+\\frac{R_{p,2}}{R_\\star}\n\\quad\\Longrightarrow\\quad\na_2\\le a_1\\frac{R_\\star+R_{p,2}}{0.2\\,R_\\star}.\n\\tag{2}\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp115",
+      "annotation": true,
+      "start": 6031,
+      "end": 6036,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp116",
+      "annotation": true,
+      "start": 6036,
+      "end": 6064,
+      "label": "planning",
+      "text": "### 3.  Numerical values  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp117",
+      "annotation": true,
+      "start": 6064,
+      "end": 6161,
+      "label": "reasoning",
+      "text": "* Stellar radius: \\(R_\\star = 1.5\\,R_\\odot = 1.5\\times0.004650\\,\\text{AU}=0.006975\\;\\text{AU}\\).\n",
+      "source": "response"
+    },
+    {
+      "id": "resp118",
+      "annotation": true,
+      "start": 6161,
+      "end": 6197,
+      "label": "planning",
+      "text": "* Radius of the second planet:  \n\n  ",
+      "source": "response"
+    },
+    {
+      "id": "resp119",
+      "annotation": true,
+      "start": 6197,
+      "end": 6356,
+      "label": "reasoning",
+      "text": "\\[\n  R_{p,2}=2.5\\,R_\\oplus = 2.5\\times0.0091577\\,R_\\odot\n          =2.5\\times0.0091577\\times0.004650\\;\\text{AU}\n          =1.07\\times10^{-4}\\;\\text{AU}.\n  \\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp120",
+      "annotation": true,
+      "start": 6356,
+      "end": 6445,
+      "label": "reasoning",
+      "text": "* First planet’s orbital period: \\(P_1 = 3\\) days \\(=3/365.25\\) yr \\(=0.008213\\) yr.  \n  ",
+      "source": "response"
+    },
+    {
+      "id": "resp121",
+      "annotation": true,
+      "start": 6445,
+      "end": 6498,
+      "label": "fact",
+      "text": "For a solar‑mass star, Kepler’s third law gives  \n\n  ",
+      "source": "response"
+    },
+    {
+      "id": "resp122",
+      "annotation": true,
+      "start": 6498,
+      "end": 6573,
+      "label": "reasoning",
+      "text": "\\[\n  a_1 = P_1^{2/3}= (0.008213)^{2/3}\\;\\text{AU}=0.0407\\;\\text{AU}.\n  \\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp123",
+      "annotation": true,
+      "start": 6573,
+      "end": 6605,
+      "label": "planning",
+      "text": "Insert these numbers into (2):\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp124",
+      "annotation": true,
+      "start": 6605,
+      "end": 6746,
+      "label": "reasoning",
+      "text": "\\[\na_2^{\\max}=0.0407\\;\\text{AU}\\times\n\\frac{0.006975+0.000107}{0.2\\times0.006975}\n=0.0407\\;\\text{AU}\\times5.08\n\\approx 0.207\\;\\text{AU}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp125",
+      "annotation": true,
+      "start": 6746,
+      "end": 6751,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp126",
+      "annotation": true,
+      "start": 6751,
+      "end": 6791,
+      "label": "planning",
+      "text": "### 4.  Corresponding orbital period  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp127",
+      "annotation": true,
+      "start": 6791,
+      "end": 6859,
+      "label": "fact",
+      "text": "Again using Kepler’s law (\\(P^2 = a^3\\) for a 1‑\\(M_\\odot\\) star):\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp128",
+      "annotation": true,
+      "start": 6859,
+      "end": 6993,
+      "label": "reasoning",
+      "text": "\\[\nP_2 = a_2^{3/2}= (0.207)^{3/2}\\;\\text{yr}\n      =0.0939\\;\\text{yr}=0.0939\\times365.25\\;\\text{d}\n      \\approx 34\\;\\text{days}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp129",
+      "annotation": true,
+      "start": 6993,
+      "end": 7041,
+      "label": "reasoning",
+      "text": "Rounded to the precision of the answer choices, ",
+      "source": "response"
+    },
+    {
+      "id": "resp130",
+      "annotation": true,
+      "start": 7041,
+      "end": 7067,
+      "label": "conclusion",
+      "text": "this is **≈ 33.5 days**.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp131",
+      "annotation": true,
+      "start": 7067,
+      "end": 7072,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp132",
+      "annotation": true,
+      "start": 7072,
+      "end": 7119,
+      "label": "conclusion",
+      "text": "\\[\n\\boxed{\\text{C. } \\sim 33.5\\ \\text{days}}\n\\]",
+      "source": "response"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e1",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e2",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e3",
+      "source_node_id": "ctx3",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e4",
+      "source_node_id": "ctx4",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e5",
+      "source_node_id": "ctx5",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e6",
+      "source_node_id": "ctx6",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e7",
+      "source_node_id": "ctx7",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e8",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp2",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e9",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp3",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e10",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp4",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e11",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp5",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e12",
+      "source_node_id": "ctx3",
+      "dest_node_id": "resp6",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e13",
+      "source_node_id": "resp5",
+      "dest_node_id": "resp7",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e14",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp7",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e15",
+      "source_node_id": "resp7",
+      "dest_node_id": "resp8",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e16",
+      "source_node_id": "resp7",
+      "dest_node_id": "resp9",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e17",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp10",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e18",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp11",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e19",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp11",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e20",
+      "source_node_id": "resp10",
+      "dest_node_id": "resp11",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e21",
+      "source_node_id": "resp11",
+      "dest_node_id": "resp12",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e22",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp13",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e23",
+      "source_node_id": "resp11",
+      "dest_node_id": "resp13",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e24",
+      "source_node_id": "resp12",
+      "dest_node_id": "resp13",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e25",
+      "source_node_id": "resp5",
+      "dest_node_id": "resp14",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e26",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp14",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e27",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp14",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e28",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp15",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e29",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp16",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e30",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp17",
+      "label": "validate:support"
+    },
+    {
+      "id": "e31",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp18",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e32",
+      "source_node_id": "resp18",
+      "dest_node_id": "resp19",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e33",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp20",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e34",
+      "source_node_id": "resp19",
+      "dest_node_id": "resp20",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e35",
+      "source_node_id": "resp20",
+      "dest_node_id": "resp21",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e36",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp22",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e37",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp22",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e38",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp22",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e39",
+      "source_node_id": "resp22",
+      "dest_node_id": "resp23",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e40",
+      "source_node_id": "resp23",
+      "dest_node_id": "resp24",
+      "label": "validate:attack"
+    },
+    {
+      "id": "e41",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp25",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e42",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp25",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e43",
+      "source_node_id": "resp22",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e44",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e45",
+      "source_node_id": "resp25",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e46",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp27",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e47",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp28",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e48",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp29",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e49",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp29",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e50",
+      "source_node_id": "resp29",
+      "dest_node_id": "resp30",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e51",
+      "source_node_id": "resp26",
+      "dest_node_id": "resp31",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e52",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp31",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e53",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp32",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e54",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp32",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e55",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp33",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e56",
+      "source_node_id": "resp32",
+      "dest_node_id": "resp33",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e57",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp34",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e58",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp34",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e59",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp35",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e60",
+      "source_node_id": "resp34",
+      "dest_node_id": "resp35",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e61",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp36",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e62",
+      "source_node_id": "resp34",
+      "dest_node_id": "resp36",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e63",
+      "source_node_id": "resp35",
+      "dest_node_id": "resp36",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e64",
+      "source_node_id": "resp4",
+      "dest_node_id": "resp37",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e65",
+      "source_node_id": "resp36",
+      "dest_node_id": "resp37",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e66",
+      "source_node_id": "resp37",
+      "dest_node_id": "resp38",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e67",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp39",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e68",
+      "source_node_id": "resp38",
+      "dest_node_id": "resp39",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e69",
+      "source_node_id": "resp39",
+      "dest_node_id": "resp40",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e70",
+      "source_node_id": "resp37",
+      "dest_node_id": "resp41",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e71",
+      "source_node_id": "resp37",
+      "dest_node_id": "resp42",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e72",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp42",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e73",
+      "source_node_id": "resp41",
+      "dest_node_id": "resp42",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e74",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp43",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e75",
+      "source_node_id": "resp42",
+      "dest_node_id": "resp43",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e76",
+      "source_node_id": "resp41",
+      "dest_node_id": "resp44",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e77",
+      "source_node_id": "resp42",
+      "dest_node_id": "resp44",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e78",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp45",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e79",
+      "source_node_id": "resp44",
+      "dest_node_id": "resp45",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e80",
+      "source_node_id": "resp41",
+      "dest_node_id": "resp46",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e81",
+      "source_node_id": "resp46",
+      "dest_node_id": "resp47",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e82",
+      "source_node_id": "resp43",
+      "dest_node_id": "resp48",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e83",
+      "source_node_id": "resp47",
+      "dest_node_id": "resp48",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e84",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp49",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e85",
+      "source_node_id": "resp49",
+      "dest_node_id": "resp50",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e86",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp51",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e87",
+      "source_node_id": "resp50",
+      "dest_node_id": "resp51",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e88",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp52",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e89",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp53",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e90",
+      "source_node_id": "resp53",
+      "dest_node_id": "resp54",
+      "label": "reflect:negative"
+    },
+    {
+      "id": "e91",
+      "source_node_id": "resp47",
+      "dest_node_id": "resp55",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e92",
+      "source_node_id": "resp54",
+      "dest_node_id": "resp55",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e93",
+      "source_node_id": "resp43",
+      "dest_node_id": "resp56",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e94",
+      "source_node_id": "resp55",
+      "dest_node_id": "resp56",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e95",
+      "source_node_id": "resp56",
+      "dest_node_id": "resp57",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e96",
+      "source_node_id": "resp45",
+      "dest_node_id": "resp58",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e97",
+      "source_node_id": "resp57",
+      "dest_node_id": "resp58",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e98",
+      "source_node_id": "resp58",
+      "dest_node_id": "resp59",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e99",
+      "source_node_id": "resp59",
+      "dest_node_id": "resp60",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e100",
+      "source_node_id": "resp51",
+      "dest_node_id": "resp61",
+      "label": "validate:support"
+    },
+    {
+      "id": "e101",
+      "source_node_id": "resp60",
+      "dest_node_id": "resp61",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e102",
+      "source_node_id": "resp35",
+      "dest_node_id": "resp62",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e103",
+      "source_node_id": "resp61",
+      "dest_node_id": "resp62",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e104",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp63",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e105",
+      "source_node_id": "resp62",
+      "dest_node_id": "resp64",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e106",
+      "source_node_id": "resp64",
+      "dest_node_id": "resp65",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e107",
+      "source_node_id": "resp63",
+      "dest_node_id": "resp66",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e108",
+      "source_node_id": "resp64",
+      "dest_node_id": "resp66",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e109",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp67",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e110",
+      "source_node_id": "resp68",
+      "dest_node_id": "resp69",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e111",
+      "source_node_id": "resp64",
+      "dest_node_id": "resp70",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e112",
+      "source_node_id": "resp69",
+      "dest_node_id": "resp70",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e113",
+      "source_node_id": "resp67",
+      "dest_node_id": "resp71",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e114",
+      "source_node_id": "resp70",
+      "dest_node_id": "resp71",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e115",
+      "source_node_id": "resp64",
+      "dest_node_id": "resp72",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e116",
+      "source_node_id": "resp69",
+      "dest_node_id": "resp72",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e117",
+      "source_node_id": "resp71",
+      "dest_node_id": "resp72",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e118",
+      "source_node_id": "resp67",
+      "dest_node_id": "resp73",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e119",
+      "source_node_id": "resp70",
+      "dest_node_id": "resp73",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e120",
+      "source_node_id": "resp66",
+      "dest_node_id": "resp74",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e121",
+      "source_node_id": "resp73",
+      "dest_node_id": "resp74",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e122",
+      "source_node_id": "resp36",
+      "dest_node_id": "resp75",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e123",
+      "source_node_id": "resp66",
+      "dest_node_id": "resp75",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e124",
+      "source_node_id": "resp74",
+      "dest_node_id": "resp75",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e125",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp76",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e126",
+      "source_node_id": "resp61",
+      "dest_node_id": "resp76",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e127",
+      "source_node_id": "resp75",
+      "dest_node_id": "resp77",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e128",
+      "source_node_id": "resp76",
+      "dest_node_id": "resp77",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e129",
+      "source_node_id": "resp75",
+      "dest_node_id": "resp78",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e130",
+      "source_node_id": "resp76",
+      "dest_node_id": "resp78",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e131",
+      "source_node_id": "resp77",
+      "dest_node_id": "resp78",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e132",
+      "source_node_id": "resp78",
+      "dest_node_id": "resp79",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e133",
+      "source_node_id": "resp46",
+      "dest_node_id": "resp80",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e134",
+      "source_node_id": "resp79",
+      "dest_node_id": "resp80",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e135",
+      "source_node_id": "resp78",
+      "dest_node_id": "resp81",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e136",
+      "source_node_id": "resp79",
+      "dest_node_id": "resp81",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e137",
+      "source_node_id": "resp80",
+      "dest_node_id": "resp81",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e138",
+      "source_node_id": "resp81",
+      "dest_node_id": "resp82",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e139",
+      "source_node_id": "resp81",
+      "dest_node_id": "resp83",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e140",
+      "source_node_id": "resp82",
+      "dest_node_id": "resp83",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e141",
+      "source_node_id": "resp82",
+      "dest_node_id": "resp84",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e142",
+      "source_node_id": "resp78",
+      "dest_node_id": "resp85",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e143",
+      "source_node_id": "resp83",
+      "dest_node_id": "resp85",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e144",
+      "source_node_id": "resp84",
+      "dest_node_id": "resp85",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e145",
+      "source_node_id": "resp85",
+      "dest_node_id": "resp86",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e146",
+      "source_node_id": "resp85",
+      "dest_node_id": "resp87",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e147",
+      "source_node_id": "resp86",
+      "dest_node_id": "resp87",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e148",
+      "source_node_id": "resp87",
+      "dest_node_id": "resp88",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e149",
+      "source_node_id": "ctx6",
+      "dest_node_id": "resp89",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e150",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp89",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e151",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp90",
+      "label": "validate:support"
+    },
+    {
+      "id": "e152",
+      "source_node_id": "resp89",
+      "dest_node_id": "resp90",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e153",
+      "source_node_id": "resp87",
+      "dest_node_id": "resp91",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e154",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp91",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e155",
+      "source_node_id": "resp89",
+      "dest_node_id": "resp91",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e156",
+      "source_node_id": "resp90",
+      "dest_node_id": "resp91",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e157",
+      "source_node_id": "resp87",
+      "dest_node_id": "resp92",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e158",
+      "source_node_id": "resp89",
+      "dest_node_id": "resp92",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e159",
+      "source_node_id": "resp91",
+      "dest_node_id": "resp92",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e160",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp93",
+      "label": "validate:support"
+    },
+    {
+      "id": "e161",
+      "source_node_id": "resp89",
+      "dest_node_id": "resp93",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e162",
+      "source_node_id": "resp93",
+      "dest_node_id": "resp94",
+      "label": "reflect:positive"
+    },
+    {
+      "id": "e163",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp95",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e164",
+      "source_node_id": "resp11",
+      "dest_node_id": "resp95",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e165",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp95",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e166",
+      "source_node_id": "resp95",
+      "dest_node_id": "resp96",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e167",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp97",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e168",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp98",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e169",
+      "source_node_id": "resp97",
+      "dest_node_id": "resp98",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e170",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp99",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e171",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp100",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e172",
+      "source_node_id": "resp97",
+      "dest_node_id": "resp100",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e173",
+      "source_node_id": "resp95",
+      "dest_node_id": "resp101",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e174",
+      "source_node_id": "resp101",
+      "dest_node_id": "resp102",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e175",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp104",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e176",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp104",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e177",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp105",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e178",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp106",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e179",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp107",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e180",
+      "source_node_id": "resp106",
+      "dest_node_id": "resp107",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e181",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp108",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e182",
+      "source_node_id": "resp106",
+      "dest_node_id": "resp108",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e183",
+      "source_node_id": "resp107",
+      "dest_node_id": "resp108",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e184",
+      "source_node_id": "resp104",
+      "dest_node_id": "resp110",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e185",
+      "source_node_id": "resp102",
+      "dest_node_id": "resp111",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e186",
+      "source_node_id": "resp110",
+      "dest_node_id": "resp111",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e187",
+      "source_node_id": "resp96",
+      "dest_node_id": "resp112",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e188",
+      "source_node_id": "resp102",
+      "dest_node_id": "resp112",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e189",
+      "source_node_id": "resp111",
+      "dest_node_id": "resp112",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e190",
+      "source_node_id": "resp108",
+      "dest_node_id": "resp113",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e191",
+      "source_node_id": "resp112",
+      "dest_node_id": "resp113",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e192",
+      "source_node_id": "resp108",
+      "dest_node_id": "resp114",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e193",
+      "source_node_id": "resp112",
+      "dest_node_id": "resp114",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e194",
+      "source_node_id": "resp113",
+      "dest_node_id": "resp114",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e195",
+      "source_node_id": "resp114",
+      "dest_node_id": "resp116",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e196",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp117",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e197",
+      "source_node_id": "resp65",
+      "dest_node_id": "resp117",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e198",
+      "source_node_id": "resp116",
+      "dest_node_id": "resp117",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e199",
+      "source_node_id": "resp117",
+      "dest_node_id": "resp118",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e200",
+      "source_node_id": "resp65",
+      "dest_node_id": "resp119",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e201",
+      "source_node_id": "resp67",
+      "dest_node_id": "resp119",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e202",
+      "source_node_id": "resp69",
+      "dest_node_id": "resp119",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e203",
+      "source_node_id": "resp118",
+      "dest_node_id": "resp119",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e204",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp120",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e205",
+      "source_node_id": "resp116",
+      "dest_node_id": "resp120",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e206",
+      "source_node_id": "resp120",
+      "dest_node_id": "resp122",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e207",
+      "source_node_id": "resp121",
+      "dest_node_id": "resp122",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e208",
+      "source_node_id": "resp114",
+      "dest_node_id": "resp123",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e209",
+      "source_node_id": "resp117",
+      "dest_node_id": "resp123",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e210",
+      "source_node_id": "resp119",
+      "dest_node_id": "resp123",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e211",
+      "source_node_id": "resp122",
+      "dest_node_id": "resp123",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e212",
+      "source_node_id": "resp114",
+      "dest_node_id": "resp124",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e213",
+      "source_node_id": "resp117",
+      "dest_node_id": "resp124",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e214",
+      "source_node_id": "resp119",
+      "dest_node_id": "resp124",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e215",
+      "source_node_id": "resp122",
+      "dest_node_id": "resp124",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e216",
+      "source_node_id": "resp123",
+      "dest_node_id": "resp124",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e217",
+      "source_node_id": "resp116",
+      "dest_node_id": "resp126",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e218",
+      "source_node_id": "resp124",
+      "dest_node_id": "resp126",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e219",
+      "source_node_id": "resp126",
+      "dest_node_id": "resp127",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e220",
+      "source_node_id": "resp124",
+      "dest_node_id": "resp128",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e221",
+      "source_node_id": "resp126",
+      "dest_node_id": "resp128",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e222",
+      "source_node_id": "resp127",
+      "dest_node_id": "resp128",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e223",
+      "source_node_id": "resp128",
+      "dest_node_id": "resp129",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e224",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp130",
+      "label": "validate:support"
+    },
+    {
+      "id": "e225",
+      "source_node_id": "resp90",
+      "dest_node_id": "resp130",
+      "label": "validate:support"
+    },
+    {
+      "id": "e226",
+      "source_node_id": "resp93",
+      "dest_node_id": "resp130",
+      "label": "validate:support"
+    },
+    {
+      "id": "e227",
+      "source_node_id": "resp128",
+      "dest_node_id": "resp130",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e228",
+      "source_node_id": "resp129",
+      "dest_node_id": "resp130",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e229",
+      "source_node_id": "resp88",
+      "dest_node_id": "resp132",
+      "label": "validate:support"
+    },
+    {
+      "id": "e230",
+      "source_node_id": "resp90",
+      "dest_node_id": "resp132",
+      "label": "validate:support"
+    },
+    {
+      "id": "e231",
+      "source_node_id": "resp93",
+      "dest_node_id": "resp132",
+      "label": "validate:support"
+    },
+    {
+      "id": "e232",
+      "source_node_id": "resp130",
+      "dest_node_id": "resp132",
+      "label": "validate:support"
+    }
+  ]
+}

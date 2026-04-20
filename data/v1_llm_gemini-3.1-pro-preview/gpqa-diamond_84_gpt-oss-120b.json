@@ -1,0 +1,1516 @@
+{
+    "doc_id": "gpqa-diamond_84_gpt-oss-120b",
+    "raw_text": {
+        "question": "Two planets have been detected orbiting a star using both the transit and radial velocity (RV) methods. The star has a mass of 1.5 times that of the Sun, a radius 1.2 times that of the Sun, and an effective temperature (Teff) of 6300 K. Planet1 has a mass equivalent to 7 Earth masses and a radius 1.7 times that of Earth, while Planet2 has a mass equivalent to 5 Earth masses and a radius 1.3 times that of Earth. Interestingly, both planets are in circular orbits. Planet1 induces a periodic shift of up to 0.03 \u00c5 in the forbidden line [OI] at 6300 \u00c5, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 \u00c5. Assuming that both planets possess the same albedo, what is the ratio of the equilibrium temperatures between Planet1 and Planet2?\nA. ~ 0.53\nB. ~ 1.30\nC. ~ 1.05\nD. ~ 0.98",
+        "response": "<think>We need ratio of equilibrium temperatures. Need orbital distances? Not given directly. But we have radial velocity shifts? The shift in forbidden line [OI] at 6300 \u00c5 due to planet? That seems like star's line shift due to planet's gravitational influence? Actually the shift magnitude corresponds to radial velocity amplitude: \u0394\u03bb/\u03bb = v/c. So we can compute v = (\u0394\u03bb/\u03bb) * c. For Planet1 shift 0.03 \u00c5 at 6300 \u00c5 => \u0394\u03bb/\u03bb = 0.03/6300 = 4.7619e-6. v1 = 4.7619e-6 * c \u2248 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s \u2248 1.43 km/s. For Planet2 shift 0.04 \u00c5 => \u0394\u03bb/\u03bb = 0.04/6300 = 6.3492e-6. v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s \u2248 1.90 km/s.\n\nThese are the stellar reflex velocities due to each planet. For circular orbits, v_star = (M_planet / M_star) * v_orbital (planet). Actually star's orbital speed around barycenter: v_star = (M_planet / M_star) * v_planet. And v_planet = 2\u03c0 a / P. But we can also use v_star = (2\u03c0 a_star)/P, where a_star = (M_planet/M_star) a. But we need a (semi-major axis) to compute equilibrium temperature: Teq \u221d (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. Since albedo same, ratio Teq1/Teq2 = (a2 / a1)^{1/2}. So need ratio of orbital distances.\n\nWe can get a from v_star? Need also planet mass and star mass. Use v_star = (M_planet / M_star) * sqrt(G M_star / a). Actually v_planet = sqrt(G M_star / a) (circular). Then v_star = (M_planet / M_star) * v_planet = (M_planet / M_star) * sqrt(G M_star / a) = M_planet * sqrt(G) / sqrt(M_star a). So solve for a: a = (M_planet^2 G) / (v_star^2 M_star). Wait rearrange: v_star = (M_p / M_star) * sqrt(G M_star / a) = M_p * sqrt(G) / sqrt(M_star a). Square both sides: v_star^2 = M_p^2 G / (M_star a). So a = M_p^2 G / (M_star v_star^2).\n\nThus a \u221d M_p^2 / v_star^2 (since G and M_star constant). So ratio a1/a2 = (M1^2 / v1^2) / (M2^2 / v2^2) = (M1^2 v2^2) / (M2^2 v1^2).\n\nWe have masses in Earth masses: M1=7 M_E, M2=5 M_E. So compute.\n\nFirst compute v1=1.43 km/s, v2=1.90 km/s.\n\nCompute ratio:\n\nM1^2 = 49, M2^2 = 25.\n\nv2^2 = (1.90)^2 = 3.61 (km^2/s^2). v1^2 = (1.43)^2 = 2.0449.\n\nSo a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) \u2248 3.461.\n\nThus a1 \u2248 3.46 a2. So Planet1 farther out.\n\nEquilibrium temperature ratio Teq1/Teq2 = sqrt(a2/a1) = sqrt(1/3.461) = 1/ sqrt(3.461) = 1/1.860 = 0.537.\n\nThus ratio ~0.53. Option A.\n\nCheck if any other factors: star luminosity same for both, albedo same. So answer A.\n\nThus ratio ~0.53.\n</think>\nThe equilibrium temperature of a planet (ignoring greenhouse effects) is  \n\n\\[\nT_{\\rm eq}\\;=\\;\\left[\\frac{L_\\star (1-A)}{16\\pi\\sigma a^{2}}\\right]^{1/4}\n\\propto a^{-1/2}\n\\]\n\nbecause the stellar luminosity \\(L_\\star\\) and the albedo \\(A\\) are the same for the two worlds.  \nHence  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}}=\\sqrt{\\frac{a_2}{a_1}} .\n\\]\n\n---\n\n### 1.  Get the stellar reflex velocities from the line shifts  \n\n\\[\n\\frac{\\Delta\\lambda}{\\lambda}= \\frac{v}{c}\\;\\Longrightarrow\\;\nv = c\\frac{\\Delta\\lambda}{\\lambda}.\n\\]\n\n* Planet\u202f1: \\(\\Delta\\lambda =0.03\\;\\text{\u00c5}\\)  \n\n\\[\nv_1 = c\\frac{0.03}{6300}=c\\,(4.76\\times10^{-6})\\approx 1.43\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\n* Planet\u202f2: \\(\\Delta\\lambda =0.04\\;\\text{\u00c5}\\)  \n\n\\[\nv_2 = c\\frac{0.04}{6300}=c\\,(6.35\\times10^{-6})\\approx 1.90\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\nThese are the amplitudes of the star\u2019s reflex motion caused by each planet.\n\n---\n\n### 2.  Relate the reflex velocity to the orbital radius  \n\nFor a circular orbit  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\,v_p,\n\\qquad \nv_p = \\sqrt{\\frac{GM_\\star}{a}} .\n\\]\n\nThus  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\sqrt{\\frac{GM_\\star}{a}}\n          = \\frac{M_p\\sqrt{G}}{\\sqrt{M_\\star a}} .\n\\]\n\nSquaring and solving for \\(a\\):\n\n\\[\nv_{\\star}^{2}= \\frac{M_p^{2}G}{M_\\star a}\n\\quad\\Longrightarrow\\quad\na = \\frac{M_p^{2}G}{M_\\star v_{\\star}^{2}} .\n\\]\n\nSince \\(G\\) and \\(M_\\star\\) are the same for both planets,\n\n\\[\n\\frac{a_1}{a_2}= \\frac{M_1^{2}v_2^{2}}{M_2^{2}v_1^{2}} .\n\\]\n\nInsert the given masses (in Earth\u2011mass units) and the velocities (in km\u202fs\\(^{-1}\\)):\n\n\\[\n\\begin{aligned}\nM_1 &= 7\\,M_\\oplus,\\qquad M_2 = 5\\,M_\\oplus,\\\\\nv_1 &\\approx 1.43\\ {\\rm km\\,s^{-1}},\\qquad v_2 \\approx 1.90\\ {\\rm km\\,s^{-1}}.\n\\end{aligned}\n\\]\n\n\\[\n\\frac{a_1}{a_2}= \\frac{7^{2}\\,(1.90)^{2}}{5^{2}\\,(1.43)^{2}}\n               = \\frac{49 \\times 3.61}{25 \\times 2.045}\n               \\approx \\frac{176.9}{51.1}\n               \\approx 3.46 .\n\\]\n\nSo Planet\u202f1 orbits about **3.5 times farther** from the star than Planet\u202f2.\n\n---\n\n### 3.  Ratio of equilibrium temperatures  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}} = \\sqrt{\\frac{a_2}{a_1}}\n                                   = \\sqrt{\\frac{1}{3.46}}\n                                   \\approx 0.54 .\n\\]\n\nRounded to two significant figures, the ratio is **\u2248\u202f0.53**.\n\n---\n\n\\[\n\\boxed{\\text{A. } \\; \\sim 0.53}\n\\]"
+    },
+    "metadata": {
+        "batch": 84,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-84",
+        "correct_answer": "A",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 104,
+            "label": "context",
+            "text": "Two planets have been detected orbiting a star using both the transit and radial velocity (RV) methods. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 104,
+            "end": 237,
+            "label": "context",
+            "text": "The star has a mass of 1.5 times that of the Sun, a radius 1.2 times that of the Sun, and an effective temperature (Teff) of 6300 K. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 237,
+            "end": 415,
+            "label": "context",
+            "text": "Planet1 has a mass equivalent to 7 Earth masses and a radius 1.7 times that of Earth, while Planet2 has a mass equivalent to 5 Earth masses and a radius 1.3 times that of Earth. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 415,
+            "end": 467,
+            "label": "context",
+            "text": "Interestingly, both planets are in circular orbits. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 467,
+            "end": 666,
+            "label": "context",
+            "text": "Planet1 induces a periodic shift of up to 0.03 \u00c5 in the forbidden line [OI] at 6300 \u00c5, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 \u00c5. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 666,
+            "end": 718,
+            "label": "context",
+            "text": "Assuming that both planets possess the same albedo, ",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 718,
+            "end": 836,
+            "label": "context",
+            "text": "what is the ratio of the equilibrium temperatures between Planet1 and Planet2?\nA. ~ 0.53\nB. ~ 1.30\nC. ~ 1.05\nD. ~ 0.98",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 50,
+            "label": "planning",
+            "text": "We need ratio of equilibrium temperatures. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 50,
+            "end": 74,
+            "label": "planning",
+            "text": "Need orbital distances? ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 74,
+            "end": 94,
+            "label": "reflection",
+            "text": "Not given directly. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 94,
+            "end": 130,
+            "label": "planning",
+            "text": "But we have radial velocity shifts? ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 130,
+            "end": 188,
+            "label": "restatement",
+            "text": "The shift in forbidden line [OI] at 6300 \u00c5 due to planet? ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 188,
+            "end": 263,
+            "label": "reasoning",
+            "text": "That seems like star's line shift due to planet's gravitational influence? ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 263,
+            "end": 346,
+            "label": "fact",
+            "text": "Actually the shift magnitude corresponds to radial velocity amplitude: \u0394\u03bb/\u03bb = v/c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 346,
+            "end": 380,
+            "label": "reasoning",
+            "text": "So we can compute v = (\u0394\u03bb/\u03bb) * c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 380,
+            "end": 448,
+            "label": "reasoning",
+            "text": "For Planet1 shift 0.03 \u00c5 at 6300 \u00c5 => \u0394\u03bb/\u03bb = 0.03/6300 = 4.7619e-6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 448,
+            "end": 517,
+            "label": "reasoning",
+            "text": "v1 = 4.7619e-6 * c \u2248 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s \u2248 1.43 km/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 517,
+            "end": 575,
+            "label": "reasoning",
+            "text": "For Planet2 shift 0.04 \u00c5 => \u0394\u03bb/\u03bb = 0.04/6300 = 6.3492e-6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 575,
+            "end": 625,
+            "label": "reasoning",
+            "text": "v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s \u2248 1.90 km/s.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 625,
+            "end": 685,
+            "label": "reasoning",
+            "text": "These are the stellar reflex velocities due to each planet. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 685,
+            "end": 757,
+            "label": "fact",
+            "text": "For circular orbits, v_star = (M_planet / M_star) * v_orbital (planet). ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 757,
+            "end": 847,
+            "label": "fact",
+            "text": "Actually star's orbital speed around barycenter: v_star = (M_planet / M_star) * v_planet. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 847,
+            "end": 872,
+            "label": "fact",
+            "text": "And v_planet = 2\u03c0 a / P. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 872,
+            "end": 952,
+            "label": "reasoning",
+            "text": "But we can also use v_star = (2\u03c0 a_star)/P, where a_star = (M_planet/M_star) a. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 952,
+            "end": 1069,
+            "label": "fact",
+            "text": "But we need a (semi-major axis) to compute equilibrium temperature: Teq \u221d (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1069,
+            "end": 1088,
+            "label": "restatement",
+            "text": "Since albedo same, ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1088,
+            "end": 1123,
+            "label": "reasoning",
+            "text": "ratio Teq1/Teq2 = (a2 / a1)^{1/2}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1123,
+            "end": 1160,
+            "label": "planning",
+            "text": "So need ratio of orbital distances.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1160,
+            "end": 1186,
+            "label": "planning",
+            "text": "We can get a from v_star? ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1186,
+            "end": 1223,
+            "label": "planning",
+            "text": "Need also planet mass and star mass. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1223,
+            "end": 1278,
+            "label": "reasoning",
+            "text": "Use v_star = (M_planet / M_star) * sqrt(G M_star / a). ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1278,
+            "end": 1329,
+            "label": "fact",
+            "text": "Actually v_planet = sqrt(G M_star / a) (circular). ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1329,
+            "end": 1456,
+            "label": "reasoning",
+            "text": "Then v_star = (M_planet / M_star) * v_planet = (M_planet / M_star) * sqrt(G M_star / a) = M_planet * sqrt(G) / sqrt(M_star a). ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1456,
+            "end": 1512,
+            "label": "reasoning",
+            "text": "So solve for a: a = (M_planet^2 G) / (v_star^2 M_star). ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1512,
+            "end": 1607,
+            "label": "reasoning",
+            "text": "Wait rearrange: v_star = (M_p / M_star) * sqrt(G M_star / a) = M_p * sqrt(G) / sqrt(M_star a). ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1607,
+            "end": 1659,
+            "label": "reasoning",
+            "text": "Square both sides: v_star^2 = M_p^2 G / (M_star a). ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1659,
+            "end": 1696,
+            "label": "reasoning",
+            "text": "So a = M_p^2 G / (M_star v_star^2).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1696,
+            "end": 1753,
+            "label": "reasoning",
+            "text": "Thus a \u221d M_p^2 / v_star^2 (since G and M_star constant). ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1753,
+            "end": 1830,
+            "label": "reasoning",
+            "text": "So ratio a1/a2 = (M1^2 / v1^2) / (M2^2 / v2^2) = (M1^2 v2^2) / (M2^2 v1^2).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1830,
+            "end": 1882,
+            "label": "restatement",
+            "text": "We have masses in Earth masses: M1=7 M_E, M2=5 M_E. ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1882,
+            "end": 1895,
+            "label": "planning",
+            "text": "So compute.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1895,
+            "end": 1938,
+            "label": "restatement",
+            "text": "First compute v1=1.43 km/s, v2=1.90 km/s.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1938,
+            "end": 1954,
+            "label": "planning",
+            "text": "Compute ratio:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1954,
+            "end": 1977,
+            "label": "reasoning",
+            "text": "M1^2 = 49, M2^2 = 25.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1977,
+            "end": 2012,
+            "label": "reasoning",
+            "text": "v2^2 = (1.90)^2 = 3.61 (km^2/s^2). ",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2012,
+            "end": 2039,
+            "label": "reasoning",
+            "text": "v1^2 = (1.43)^2 = 2.0449.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 2039,
+            "end": 2111,
+            "label": "reasoning",
+            "text": "So a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) \u2248 3.461.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 2111,
+            "end": 2130,
+            "label": "reasoning",
+            "text": "Thus a1 \u2248 3.46 a2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 2130,
+            "end": 2155,
+            "label": "reasoning",
+            "text": "So Planet1 farther out.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 2155,
+            "end": 2262,
+            "label": "reasoning",
+            "text": "Equilibrium temperature ratio Teq1/Teq2 = sqrt(a2/a1) = sqrt(1/3.461) = 1/ sqrt(3.461) = 1/1.860 = 0.537.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 2262,
+            "end": 2280,
+            "label": "conclusion",
+            "text": "Thus ratio ~0.53. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 2280,
+            "end": 2291,
+            "label": "conclusion",
+            "text": "Option A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 2291,
+            "end": 2363,
+            "label": "planning",
+            "text": "Check if any other factors: star luminosity same for both, albedo same. ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 2363,
+            "end": 2377,
+            "label": "conclusion",
+            "text": "So answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2377,
+            "end": 2395,
+            "label": "conclusion",
+            "text": "Thus ratio ~0.53.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2395,
+            "end": 2404,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2404,
+            "end": 2677,
+            "label": "fact",
+            "text": "The equilibrium temperature of a planet (ignoring greenhouse effects) is  \n\n\\[\nT_{\\rm eq}\\;=\\;\\left[\\frac{L_\\star (1-A)}{16\\pi\\sigma a^{2}}\\right]^{1/4}\n\\propto a^{-1/2}\n\\]\n\nbecause the stellar luminosity \\(L_\\star\\) and the albedo \\(A\\) are the same for the two worlds.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2677,
+            "end": 2752,
+            "label": "reasoning",
+            "text": "Hence  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}}=\\sqrt{\\frac{a_2}{a_1}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2752,
+            "end": 2757,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2757,
+            "end": 2928,
+            "label": "fact",
+            "text": "### 1.  Get the stellar reflex velocities from the line shifts  \n\n\\[\n\\frac{\\Delta\\lambda}{\\lambda}= \\frac{v}{c}\\;\\Longrightarrow\\;\nv = c\\frac{\\Delta\\lambda}{\\lambda}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2928,
+            "end": 2977,
+            "label": "restatement",
+            "text": "* Planet\u202f1: \\(\\Delta\\lambda =0.03\\;\\text{\u00c5}\\)  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2977,
+            "end": 3074,
+            "label": "reasoning",
+            "text": "\\[\nv_1 = c\\frac{0.03}{6300}=c\\,(4.76\\times10^{-6})\\approx 1.43\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 3074,
+            "end": 3123,
+            "label": "restatement",
+            "text": "* Planet\u202f2: \\(\\Delta\\lambda =0.04\\;\\text{\u00c5}\\)  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 3123,
+            "end": 3220,
+            "label": "reasoning",
+            "text": "\\[\nv_2 = c\\frac{0.04}{6300}=c\\,(6.35\\times10^{-6})\\approx 1.90\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 3220,
+            "end": 3297,
+            "label": "reasoning",
+            "text": "These are the amplitudes of the star\u2019s reflex motion caused by each planet.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 3297,
+            "end": 3302,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 3302,
+            "end": 3362,
+            "label": "planning",
+            "text": "### 2.  Relate the reflex velocity to the orbital radius  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 3362,
+            "end": 3472,
+            "label": "fact",
+            "text": "For a circular orbit  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\,v_p,\n\\qquad \nv_p = \\sqrt{\\frac{GM_\\star}{a}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 3472,
+            "end": 3594,
+            "label": "reasoning",
+            "text": "Thus  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\sqrt{\\frac{GM_\\star}{a}}\n          = \\frac{M_p\\sqrt{G}}{\\sqrt{M_\\star a}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 3594,
+            "end": 3627,
+            "label": "planning",
+            "text": "Squaring and solving for \\(a\\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 3627,
+            "end": 3747,
+            "label": "reasoning",
+            "text": "\\[\nv_{\\star}^{2}= \\frac{M_p^{2}G}{M_\\star a}\n\\quad\\Longrightarrow\\quad\na = \\frac{M_p^{2}G}{M_\\star v_{\\star}^{2}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 3747,
+            "end": 3807,
+            "label": "reasoning",
+            "text": "Since \\(G\\) and \\(M_\\star\\) are the same for both planets,\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 3807,
+            "end": 3871,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{a_1}{a_2}= \\frac{M_1^{2}v_2^{2}}{M_2^{2}v_1^{2}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3871,
+            "end": 3957,
+            "label": "planning",
+            "text": "Insert the given masses (in Earth\u2011mass units) and the velocities (in km\u202fs\\(^{-1}\\)):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3957,
+            "end": 4120,
+            "label": "restatement",
+            "text": "\\[\n\\begin{aligned}\nM_1 &= 7\\,M_\\oplus,\\qquad M_2 = 5\\,M_\\oplus,\\\\\nv_1 &\\approx 1.43\\ {\\rm km\\,s^{-1}},\\qquad v_2 \\approx 1.90\\ {\\rm km\\,s^{-1}}.\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 4120,
+            "end": 4316,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{a_1}{a_2}= \\frac{7^{2}\\,(1.90)^{2}}{5^{2}\\,(1.43)^{2}}\n               = \\frac{49 \\times 3.61}{25 \\times 2.045}\n               \\approx \\frac{176.9}{51.1}\n               \\approx 3.46 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 4316,
+            "end": 4393,
+            "label": "reasoning",
+            "text": "So Planet\u202f1 orbits about **3.5 times farther** from the star than Planet\u202f2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 4393,
+            "end": 4398,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 4398,
+            "end": 4443,
+            "label": "planning",
+            "text": "### 3.  Ratio of equilibrium temperatures  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 4443,
+            "end": 4618,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}} = \\sqrt{\\frac{a_2}{a_1}}\n                                   = \\sqrt{\\frac{1}{3.46}}\n                                   \\approx 0.54 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 4618,
+            "end": 4680,
+            "label": "conclusion",
+            "text": "Rounded to two significant figures, the ratio is **\u2248\u202f0.53**.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 4680,
+            "end": 4685,
+            "label": "planning",
+            "text": "---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 4685,
+            "end": 4722,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{\\text{A. } \\; \\sim 0.53}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp5",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp18",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp18",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp19",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp23",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp24",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp25",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp33",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp35",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp35",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp40",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "validate:support"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp46",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp47",
+            "label": "validate:support"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "validate:support"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp49",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp50",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp53",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp54",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp56",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp58",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp59",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp60",
+            "dest_node_id": "resp61",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp67",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp67",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp67",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp68",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp68",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp68",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp69",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp71",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp72",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp73",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp74",
+            "label": "validate:support"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp75",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp76",
+            "label": "validate:support"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp76",
+            "label": "validate:support"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp76",
+            "label": "validate:support"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp76",
+            "label": "validate:support"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp76",
+            "label": "validate:support"
+        }
+    ]
+}

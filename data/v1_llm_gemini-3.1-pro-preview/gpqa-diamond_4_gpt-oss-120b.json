@@ -1,0 +1,898 @@
+{
+    "doc_id": "gpqa-diamond_4_gpt-oss-120b",
+    "raw_text": {
+        "question": "Calculate the eigenvector of a quantum mechanical operator $\\vec{P}$ for a muon along an arbitrary direction $\\vec{n}$ lying in the x-z plane corresponding to the eigenvalue $+\\hbar/2$. Given the $X-$component, $P_x$ of the operator $P$ as $\\hbar/2$ times a 2 by 2 square matrix having elements in the first row as $(0 1)$, and that in the second row as $(1, 0)$. The $Y-$component, $P_y$ of the operator is given by the product of $\\hbar/2$ and a 2 by 2 square matrix having elements in the first row as $(0, -i)$, and that in the second row as $(i, 0)$. Finally, the $Z-$component, $P_z$ of the operator is given by the product of $\\hbar/2$  and another 2 by 2 square matrix having elements in the first row as $(1, 0)$, and that in the second row as $(0, -1)$.  What are the elements of the normalized eigenvector?\nA. (\\cos(\\theta/2), \\sin (\\theta/2))\nB. (\\cos(\\theta), e^{i\\phi}\\sin (\\theta))\nC. (\\sqrt{2/3}\\hbar \\cos(\\theta/2), \\sqrt{1/3}\\hbar \\sin (\\theta/2))\nD. (\\sqrt{2/3}\\hbar, \\sqrt{1/3}\\hbar)",
+        "response": "<think>We need to parse the problem: We have Pauli matrices times \u0127/2: P_x = (\u0127/2) \u03c3_x, P_y = (\u0127/2) \u03c3_y, P_z = (\u0127/2) \u03c3_z. The operator vector \\vec{P} = (P_x, P_y, P_z). We need eigenvector for eigenvalue +\u0127/2 along arbitrary direction \\vec{n} lying in x-z plane. So direction vector n = (sin\u03b8, 0, cos\u03b8) perhaps? Usually spherical coordinates: n = (sin\u03b8 cos\u03c6, sin\u03b8 sin\u03c6, cos\u03b8). Since lying in x-z plane, \u03c6 = 0 (or \u03c0). So n = (sin\u03b8, 0, cos\u03b8). The operator along n is \\vec{P}\u00b7\\vec{n} = (\u0127/2)(\u03c3_x sin\u03b8 + \u03c3_z cos\u03b8). Its eigenvectors correspond to spin up along n. The normalized eigenvector is:\n\n|n,+> = cos(\u03b8/2) |\u2191> + sin(\u03b8/2) |\u2193> (for \u03c6=0). In column vector form: (cos(\u03b8/2), sin(\u03b8/2))^T.\n\nThus answer A.\n\nCheck other options: B includes phase e^{i\u03c6} sin\u03b8, which is general case with \u03c6. But since \u03c6=0, e^{i0}=1, and also angle factor maybe different. Option B: (cos\u03b8, e^{i\u03c6} sin\u03b8). That's not correct normalization (should be cos(\u03b8/2)). So answer A.\n\nThus normalized eigenvector elements are (cos(\u03b8/2), sin(\u03b8/2)).\n</think>\nThe three components of the operator are the Pauli matrices multiplied by \\(\\hbar/2\\)\n\n\\[\nP_x=\\frac{\\hbar}{2}\\sigma_x,\\qquad \nP_y=\\frac{\\hbar}{2}\\sigma_y,\\qquad \nP_z=\\frac{\\hbar}{2}\\sigma_z .\n\\]\n\nFor a direction \\(\\vec n\\) that lies in the \\(x\\!-\\!z\\) plane we can write the unit vector in spherical coordinates with azimuthal angle \\(\\phi=0\\):\n\n\\[\n\\vec n = (\\sin\\theta,\\,0,\\,\\cos\\theta).\n\\]\n\nThe component of \\(\\vec P\\) along this direction is\n\n\\[\n\\vec P\\!\\cdot\\!\\vec n\n   =\\frac{\\hbar}{2}\\bigl(\\sigma_x\\sin\\theta+\\sigma_z\\cos\\theta\\bigr).\n\\]\n\nWe need the eigenvector \\(|\\vec n,+\\rangle\\) that satisfies  \n\n\\[\n\\bigl(\\vec P\\!\\cdot\\!\\vec n\\bigr)\\,|\\vec n,+\\rangle\n   =\\frac{\\hbar}{2}\\,|\\vec n,+\\rangle .\n\\]\n\nWriting the Pauli matrices explicitly,\n\n\\[\n\\frac{\\hbar}{2}\n\\begin{pmatrix}\n\\cos\\theta & \\sin\\theta\\\\[2pt]\n\\sin\\theta & -\\cos\\theta\n\\end{pmatrix}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}\n= \\frac{\\hbar}{2}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}.\n\\]\n\nCancelling the common factor \\(\\hbar/2\\) gives\n\n\\[\n\\begin{pmatrix}\n\\cos\\theta-1 & \\sin\\theta\\\\[2pt]\n\\sin\\theta & -\\cos\\theta-1\n\\end{pmatrix}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}=0 .\n\\]\n\nFrom the first row,\n\n\\[\n(\\cos\\theta-1)a + \\sin\\theta\\,b =0\n\\quad\\Longrightarrow\\quad\n\\frac{b}{a}= \\frac{1-\\cos\\theta}{\\sin\\theta}\n          = \\tan\\frac{\\theta}{2}.\n\\]\n\nThus we can choose (up to an overall phase)\n\n\\[\na = \\cos\\frac{\\theta}{2},\\qquad \nb = \\sin\\frac{\\theta}{2}.\n\\]\n\nThe vector is already normalized because  \n\n\\[\n|a|^{2}+|b|^{2}= \\cos^{2}\\frac{\\theta}{2}+\\sin^{2}\\frac{\\theta}{2}=1 .\n\\]\n\nHence the normalized eigenvector of \\(\\vec P\\) for eigenvalue \\(+\\hbar/2\\) along an arbitrary direction \\(\\vec n\\) in the \\(x\\!-\\!z\\) plane is  \n\n\\[\n\\boxed{\\displaystyle\n|\\vec n,+\\rangle = \n\\begin{pmatrix}\n\\cos(\\theta/2)\\\\[4pt]\n\\sin(\\theta/2)\n\\end{pmatrix}} .\n\\]\n\nThis corresponds to option **A**."
+    },
+    "metadata": {
+        "batch": 4,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-4",
+        "correct_answer": "A",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 186,
+            "label": "context",
+            "text": "Calculate the eigenvector of a quantum mechanical operator $\\vec{P}$ for a muon along an arbitrary direction $\\vec{n}$ lying in the x-z plane corresponding to the eigenvalue $+\\hbar/2$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 186,
+            "end": 364,
+            "label": "context",
+            "text": "Given the $X-$component, $P_x$ of the operator $P$ as $\\hbar/2$ times a 2 by 2 square matrix having elements in the first row as $(0 1)$, and that in the second row as $(1, 0)$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 364,
+            "end": 556,
+            "label": "context",
+            "text": "The $Y-$component, $P_y$ of the operator is given by the product of $\\hbar/2$ and a 2 by 2 square matrix having elements in the first row as $(0, -i)$, and that in the second row as $(i, 0)$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 556,
+            "end": 765,
+            "label": "context",
+            "text": "Finally, the $Z-$component, $P_z$ of the operator is given by the product of $\\hbar/2$  and another 2 by 2 square matrix having elements in the first row as $(1, 0)$, and that in the second row as $(0, -1)$.  ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 765,
+            "end": 818,
+            "label": "context",
+            "text": "What are the elements of the normalized eigenvector?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 818,
+            "end": 855,
+            "label": "context",
+            "text": "A. (\\cos(\\theta/2), \\sin (\\theta/2))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 855,
+            "end": 897,
+            "label": "context",
+            "text": "B. (\\cos(\\theta), e^{i\\phi}\\sin (\\theta))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 897,
+            "end": 966,
+            "label": "context",
+            "text": "C. (\\sqrt{2/3}\\hbar \\cos(\\theta/2), \\sqrt{1/3}\\hbar \\sin (\\theta/2))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 966,
+            "end": 1003,
+            "label": "context",
+            "text": "D. (\\sqrt{2/3}\\hbar, \\sqrt{1/3}\\hbar)",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "reflection",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 37,
+            "label": "planning",
+            "text": "We need to parse the problem: ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 37,
+            "end": 122,
+            "label": "reasoning",
+            "text": "We have Pauli matrices times \u0127/2: P_x = (\u0127/2) \u03c3_x, P_y = (\u0127/2) \u03c3_y, P_z = (\u0127/2) \u03c3_z. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 122,
+            "end": 169,
+            "label": "reasoning",
+            "text": "The operator vector \\vec{P} = (P_x, P_y, P_z). ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 169,
+            "end": 263,
+            "label": "restatement",
+            "text": "We need eigenvector for eigenvalue +\u0127/2 along arbitrary direction \\vec{n} lying in x-z plane. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 263,
+            "end": 312,
+            "label": "assumption",
+            "text": "So direction vector n = (sin\u03b8, 0, cos\u03b8) perhaps? ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 312,
+            "end": 377,
+            "label": "fact",
+            "text": "Usually spherical coordinates: n = (sin\u03b8 cos\u03c6, sin\u03b8 sin\u03c6, cos\u03b8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 377,
+            "end": 403,
+            "label": "reasoning",
+            "text": "Since lying in x-z plane, ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 403,
+            "end": 417,
+            "label": "reasoning",
+            "text": "\u03c6 = 0 (or \u03c0). ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 417,
+            "end": 441,
+            "label": "reasoning",
+            "text": "So n = (sin\u03b8, 0, cos\u03b8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 441,
+            "end": 511,
+            "label": "reasoning",
+            "text": "The operator along n is \\vec{P}\u00b7\\vec{n} = (\u0127/2)(\u03c3_x sin\u03b8 + \u03c3_z cos\u03b8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 511,
+            "end": 559,
+            "label": "reasoning",
+            "text": "Its eigenvectors correspond to spin up along n. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 559,
+            "end": 591,
+            "label": "planning",
+            "text": "The normalized eigenvector is:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 591,
+            "end": 638,
+            "label": "reasoning",
+            "text": "|n,+> = cos(\u03b8/2) |\u2191> + sin(\u03b8/2) |\u2193> (for \u03c6=0). ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 638,
+            "end": 686,
+            "label": "reasoning",
+            "text": "In column vector form: (cos(\u03b8/2), sin(\u03b8/2))^T.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 686,
+            "end": 702,
+            "label": "conclusion",
+            "text": "Thus answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 702,
+            "end": 723,
+            "label": "planning",
+            "text": "Check other options: ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 723,
+            "end": 783,
+            "label": "reasoning",
+            "text": "B includes phase e^{i\u03c6} sin\u03b8, which is general case with \u03c6. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 783,
+            "end": 847,
+            "label": "reasoning",
+            "text": "But since \u03c6=0, e^{i0}=1, and also angle factor maybe different. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 847,
+            "end": 878,
+            "label": "restatement",
+            "text": "Option B: (cos\u03b8, e^{i\u03c6} sin\u03b8). ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 878,
+            "end": 933,
+            "label": "reasoning",
+            "text": "That's not correct normalization (should be cos(\u03b8/2)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 933,
+            "end": 947,
+            "label": "conclusion",
+            "text": "So answer A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 947,
+            "end": 1106,
+            "label": "reasoning",
+            "text": "Thus normalized eigenvector elements are (cos(\u03b8/2), sin(\u03b8/2)).\n</think>\nThe three components of the operator are the Pauli matrices multiplied by \\(\\hbar/2\\)\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1106,
+            "end": 1215,
+            "label": "reasoning",
+            "text": "\\[\nP_x=\\frac{\\hbar}{2}\\sigma_x,\\qquad \nP_y=\\frac{\\hbar}{2}\\sigma_y,\\qquad \nP_z=\\frac{\\hbar}{2}\\sigma_z .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1215,
+            "end": 1365,
+            "label": "reasoning",
+            "text": "For a direction \\(\\vec n\\) that lies in the \\(x\\!-\\!z\\) plane we can write the unit vector in spherical coordinates with azimuthal angle \\(\\phi=0\\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1365,
+            "end": 1412,
+            "label": "reasoning",
+            "text": "\\[\n\\vec n = (\\sin\\theta,\\,0,\\,\\cos\\theta).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1412,
+            "end": 1564,
+            "label": "reasoning",
+            "text": "The component of \\(\\vec P\\) along this direction is\n\n\\[\n\\vec P\\!\\cdot\\!\\vec n\n   =\\frac{\\hbar}{2}\\bigl(\\sigma_x\\sin\\theta+\\sigma_z\\cos\\theta\\bigr).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1564,
+            "end": 1726,
+            "label": "reasoning",
+            "text": "We need the eigenvector \\(|\\vec n,+\\rangle\\) that satisfies  \n\n\\[\n\\bigl(\\vec P\\!\\cdot\\!\\vec n\\bigr)\\,|\\vec n,+\\rangle\n   =\\frac{\\hbar}{2}\\,|\\vec n,+\\rangle .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1726,
+            "end": 1766,
+            "label": "planning",
+            "text": "Writing the Pauli matrices explicitly,\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1766,
+            "end": 1962,
+            "label": "reasoning",
+            "text": "\\[\n\\frac{\\hbar}{2}\n\\begin{pmatrix}\n\\cos\\theta & \\sin\\theta\\\\[2pt]\n\\sin\\theta & -\\cos\\theta\n\\end{pmatrix}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}\n= \\frac{\\hbar}{2}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1962,
+            "end": 2145,
+            "label": "reasoning",
+            "text": "Cancelling the common factor \\(\\hbar/2\\) gives\n\n\\[\n\\begin{pmatrix}\n\\cos\\theta-1 & \\sin\\theta\\\\[2pt]\n\\sin\\theta & -\\cos\\theta-1\n\\end{pmatrix}\n\\begin{pmatrix}a\\\\ b\\end{pmatrix}=0 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2145,
+            "end": 2166,
+            "label": "planning",
+            "text": "From the first row,\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2166,
+            "end": 2313,
+            "label": "reasoning",
+            "text": "\\[\n(\\cos\\theta-1)a + \\sin\\theta\\,b =0\n\\quad\\Longrightarrow\\quad\n\\frac{b}{a}= \\frac{1-\\cos\\theta}{\\sin\\theta}\n          = \\tan\\frac{\\theta}{2}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2313,
+            "end": 2424,
+            "label": "reasoning",
+            "text": "Thus we can choose (up to an overall phase)\n\n\\[\na = \\cos\\frac{\\theta}{2},\\qquad \nb = \\sin\\frac{\\theta}{2}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 2424,
+            "end": 2546,
+            "label": "reasoning",
+            "text": "The vector is already normalized because  \n\n\\[\n|a|^{2}+|b|^{2}= \\cos^{2}\\frac{\\theta}{2}+\\sin^{2}\\frac{\\theta}{2}=1 .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 2546,
+            "end": 2810,
+            "label": "conclusion",
+            "text": "Hence the normalized eigenvector of \\(\\vec P\\) for eigenvalue \\(+\\hbar/2\\) along an arbitrary direction \\(\\vec n\\) in the \\(x\\!-\\!z\\) plane is  \n\n\\[\n\\boxed{\\displaystyle\n|\\vec n,+\\rangle = \n\\begin{pmatrix}\n\\cos(\\theta/2)\\\\[4pt]\n\\sin(\\theta/2)\n\\end{pmatrix}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2810,
+            "end": 2843,
+            "label": "conclusion",
+            "text": "This corresponds to option **A**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp2",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp4",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp19",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp21",
+            "label": "validate:support"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp23",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp35",
+            "label": "validate:support"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp35",
+            "label": "validate:support"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp36",
+            "label": "validate:support"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp36",
+            "label": "validate:support"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        }
+    ]
+}

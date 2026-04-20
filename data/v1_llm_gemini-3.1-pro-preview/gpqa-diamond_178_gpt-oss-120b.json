@@ -1,0 +1,1504 @@
+{
+    "doc_id": "gpqa-diamond_178_gpt-oss-120b",
+    "raw_text": {
+        "question": "The study of quantum mechanics deals with a lot of matrices. Consider the following matrices. \n\nW = (0, 0, 1; 0, 1, 0; 1, 0, 0), \nX = (i, -1, 2i; 1, 0, 1;  2i, -1, -i),\nY = (0.5, 0.1, 0.2; 0.1, 0.25, 0.1; 0.2, 0.1, 0.25)\nZ - (3, 2i, 5; -2i, -2, -4i; 5, 4i, 4)\n\nNote. The matrices are formatted such that each row of the matrix is separated by a semicolon.  \n\nBased on these matrices, choose the correct statement.\nA. (e^X)*Y*(e^{-X}) represents a quantum state.\nB. W and X represent the evolution operator of some quantum system.\nC. There exists a vector to which if one multiplies e^X, the norm of the vector changes.\nD. Z and X represent observables.",
+        "response": "<think>We need to interpret statements about quantum mechanics matrices.\n\nGiven matrices: W is real symmetric? W = [[0,0,1],[0,1,0],[1,0,0]]. That's a permutation matrix swapping basis 1 and 3, leaving 2 unchanged. It's unitary (orthogonal) and Hermitian (since real symmetric). So W could be an evolution operator (unitary) or observable (Hermitian). X is complex matrix: [[i, -1, 2i],[1,0,1],[2i,-1,-i]]. Let's check if X is Hermitian? Compute X\u2020: conjugate transpose. Conjugate of i is -i, of -1 is -1, of 2i is -2i, etc. X\u2020 = [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. That's not equal to X. So X is not Hermitian. Is X anti-Hermitian? X\u2020 = -X? Let's compute -X = [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. Indeed -X equals X\u2020! Check: X = [[i,-1,2i],[1,0,1],[2i,-1,-i]]. Negative: [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. That's exactly X\u2020. So X is anti-Hermitian (skew-Hermitian). Then e^X is unitary (since exponent of anti-Hermitian is unitary). Good.\n\nY is real symmetric positive? Y = [[0.5,0.1,0.2],[0.1,0.25,0.1],[0.2,0.1,0.25]]. It's symmetric, likely positive definite (looks like density matrix maybe). Trace = 0.5+0.25+0.25=1.0. So Y could be a density matrix (quantum state). Indeed a density matrix must be Hermitian, positive semidefinite, trace 1. Y meets that. So Y is a quantum state.\n\nZ = [[3,2i,5],[-2i,-2,-4i],[5,4i,4]]. Check Hermitian? Conjugate transpose: [[3,-2i,5],[2i,-2,4i],[5,-4i,4]]. That's not equal to Z because off-diagonal signs differ: Z[1,2]=2i, Z\u2020[1,2] = -2i. So Z is not Hermitian. So Z is not observable.\n\nNow evaluate statements:\n\nA. (e^X)*Y*(e^{-X}) represents a quantum state. Since e^X is unitary, conjugating a density matrix Y by a unitary yields another density matrix (still Hermitian, positive, trace 1). So statement A is true.\n\nB. W and X represent the evolution operator of some quantum system. Evolution operators are unitary. W is unitary (and Hermitian). X is anti-Hermitian, not unitary itself, but e^X is unitary. X itself is not an evolution operator (unless you consider Hamiltonian? But evolution operator is U = e^{-iHt}. X is not unitary. So B false.\n\nC. There exists a vector to which if one multiplies e^X, the norm of the vector changes. Since e^X is unitary, it preserves norm for all vectors. So C false.\n\nD. Z and X represent observables. Observables must be Hermitian. X is anti-Hermitian, Z is not Hermitian. So D false.\n\nThus correct answer is A.\n</think>\n**Answer: A**\n\n**Reasoning**\n\n* A quantum state (density matrix) \\(\\rho\\) must be Hermitian, positive\u2011semidefinite and have \\(\\operatorname{tr}\\rho = 1\\).  \n  The matrix  \n\n  \\[\n  Y=\\begin{pmatrix}\n  0.5 & 0.1 & 0.2\\\\\n  0.1 & 0.25 & 0.1\\\\\n  0.2 & 0.1 & 0.25\n  \\end{pmatrix}\n  \\]\n\n  is real symmetric (hence Hermitian), its eigenvalues are all positive, and \\(\\operatorname{tr}Y = 1\\); therefore \\(Y\\) is a valid density matrix.\n\n* The matrix \\(X\\) satisfies \\(X^{\\dagger} = -X\\); i.e. it is **anti\u2011Hermitian** (skew\u2011Hermitian).  \n  The exponential of an anti\u2011Hermitian matrix is unitary:\n\n  \\[\n  U = e^{X}\\quad\\Longrightarrow\\quad U^{\\dagger}U = e^{X^{\\dagger}}e^{X}=e^{-X}e^{X}=I .\n  \\]\n\n* Conjugating a density matrix by a unitary operator leaves all the defining properties of a density matrix unchanged:\n\n  \\[\n  \\rho' = U\\,Y\\,U^{\\dagger}=e^{X}\\,Y\\,e^{-X}\n  \\]\n\n  is still Hermitian, positive\u2011semidefinite and has trace 1. Hence \\(\\rho'\\) is also a legitimate quantum state.\n\n* The other statements are false:\n  * \\(W\\) is unitary, but \\(X\\) itself is not unitary (only \\(e^{X}\\) is). Hence \u201c\\(W\\) and \\(X\\) represent the evolution operator\u201d is incorrect.\n  * Because \\(e^{X}\\) is unitary, it preserves the norm of **every** vector, so statement\u202fC is false.\n  * Observables must be Hermitian. \\(X\\) is anti\u2011Hermitian and \\(Z\\) is not Hermitian, so statement\u202fD is false.\n\nTherefore the only correct statement is **A**."
+    },
+    "metadata": {
+        "batch": 178,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-178",
+        "correct_answer": "A",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 61,
+            "label": "context",
+            "text": "The study of quantum mechanics deals with a lot of matrices. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 61,
+            "end": 267,
+            "label": "context",
+            "text": "Consider the following matrices. \n\nW = (0, 0, 1; 0, 1, 0; 1, 0, 0), \nX = (i, -1, 2i; 1, 0, 1;  2i, -1, -i),\nY = (0.5, 0.1, 0.2; 0.1, 0.25, 0.1; 0.2, 0.1, 0.25)\nZ - (3, 2i, 5; -2i, -2, -4i; 5, 4i, 4)\n\nNote. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 267,
+            "end": 359,
+            "label": "context",
+            "text": "The matrices are formatted such that each row of the matrix is separated by a semicolon.  \n\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 359,
+            "end": 414,
+            "label": "context",
+            "text": "Based on these matrices, choose the correct statement.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 414,
+            "end": 462,
+            "label": "context",
+            "text": "A. (e^X)*Y*(e^{-X}) represents a quantum state.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 462,
+            "end": 530,
+            "label": "context",
+            "text": "B. W and X represent the evolution operator of some quantum system.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 530,
+            "end": 619,
+            "label": "context",
+            "text": "C. There exists a vector to which if one multiplies e^X, the norm of the vector changes.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 619,
+            "end": 652,
+            "label": "context",
+            "text": "D. Z and X represent observables.",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "planning",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 74,
+            "label": "planning",
+            "text": "We need to interpret statements about quantum mechanics matrices.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 74,
+            "end": 111,
+            "label": "planning",
+            "text": "Given matrices: W is real symmetric? ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 111,
+            "end": 142,
+            "label": "restatement",
+            "text": "W = [[0,0,1],[0,1,0],[1,0,0]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 142,
+            "end": 215,
+            "label": "reasoning",
+            "text": "That's a permutation matrix swapping basis 1 and 3, leaving 2 unchanged. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 215,
+            "end": 279,
+            "label": "reasoning",
+            "text": "It's unitary (orthogonal) and Hermitian (since real symmetric). ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 279,
+            "end": 352,
+            "label": "reasoning",
+            "text": "So W could be an evolution operator (unitary) or observable (Hermitian). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 352,
+            "end": 407,
+            "label": "restatement",
+            "text": "X is complex matrix: [[i, -1, 2i],[1,0,1],[2i,-1,-i]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 407,
+            "end": 438,
+            "label": "planning",
+            "text": "Let's check if X is Hermitian? ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 438,
+            "end": 471,
+            "label": "planning",
+            "text": "Compute X\u2020: conjugate transpose. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 471,
+            "end": 525,
+            "label": "fact",
+            "text": "Conjugate of i is -i, of -1 is -1, of 2i is -2i, etc. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 525,
+            "end": 564,
+            "label": "reasoning",
+            "text": "X\u2020 = [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 564,
+            "end": 587,
+            "label": "reasoning",
+            "text": "That's not equal to X. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 587,
+            "end": 610,
+            "label": "reasoning",
+            "text": "So X is not Hermitian. ",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 610,
+            "end": 631,
+            "label": "planning",
+            "text": "Is X anti-Hermitian? ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 631,
+            "end": 640,
+            "label": "planning",
+            "text": "X\u2020 = -X? ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 640,
+            "end": 693,
+            "label": "reasoning",
+            "text": "Let's compute -X = [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 693,
+            "end": 714,
+            "label": "reasoning",
+            "text": "Indeed -X equals X\u2020! ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 714,
+            "end": 757,
+            "label": "restatement",
+            "text": "Check: X = [[i,-1,2i],[1,0,1],[2i,-1,-i]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 757,
+            "end": 801,
+            "label": "reasoning",
+            "text": "Negative: [[-i,1,-2i],[-1,0,-1],[-2i,1,i]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 801,
+            "end": 820,
+            "label": "reasoning",
+            "text": "That's exactly X\u2020. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 820,
+            "end": 861,
+            "label": "reasoning",
+            "text": "So X is anti-Hermitian (skew-Hermitian). ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 861,
+            "end": 928,
+            "label": "reasoning",
+            "text": "Then e^X is unitary (since exponent of anti-Hermitian is unitary). ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 928,
+            "end": 935,
+            "label": "reflection",
+            "text": "Good.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 935,
+            "end": 965,
+            "label": "planning",
+            "text": "Y is real symmetric positive? ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 965,
+            "end": 1016,
+            "label": "restatement",
+            "text": "Y = [[0.5,0.1,0.2],[0.1,0.25,0.1],[0.2,0.1,0.25]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1016,
+            "end": 1092,
+            "label": "reasoning",
+            "text": "It's symmetric, likely positive definite (looks like density matrix maybe). ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1092,
+            "end": 1119,
+            "label": "reasoning",
+            "text": "Trace = 0.5+0.25+0.25=1.0. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1119,
+            "end": 1167,
+            "label": "reasoning",
+            "text": "So Y could be a density matrix (quantum state). ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1167,
+            "end": 1242,
+            "label": "fact",
+            "text": "Indeed a density matrix must be Hermitian, positive semidefinite, trace 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 1242,
+            "end": 1256,
+            "label": "reasoning",
+            "text": "Y meets that. ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 1256,
+            "end": 1282,
+            "label": "reasoning",
+            "text": "So Y is a quantum state.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 1282,
+            "end": 1320,
+            "label": "restatement",
+            "text": "Z = [[3,2i,5],[-2i,-2,-4i],[5,4i,4]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 1320,
+            "end": 1337,
+            "label": "planning",
+            "text": "Check Hermitian? ",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 1337,
+            "end": 1392,
+            "label": "reasoning",
+            "text": "Conjugate transpose: [[3,-2i,5],[2i,-2,4i],[5,-4i,4]]. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 1392,
+            "end": 1475,
+            "label": "reasoning",
+            "text": "That's not equal to Z because off-diagonal signs differ: Z[1,2]=2i, Z\u2020[1,2] = -2i. ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 1475,
+            "end": 1498,
+            "label": "reasoning",
+            "text": "So Z is not Hermitian. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 1498,
+            "end": 1523,
+            "label": "reasoning",
+            "text": "So Z is not observable.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 1523,
+            "end": 1549,
+            "label": "planning",
+            "text": "Now evaluate statements:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 1549,
+            "end": 1597,
+            "label": "restatement",
+            "text": "A. (e^X)*Y*(e^{-X}) represents a quantum state. ",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 1597,
+            "end": 1619,
+            "label": "reasoning",
+            "text": "Since e^X is unitary, ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 1619,
+            "end": 1731,
+            "label": "reasoning",
+            "text": "conjugating a density matrix Y by a unitary yields another density matrix (still Hermitian, positive, trace 1). ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 1731,
+            "end": 1756,
+            "label": "reasoning",
+            "text": "So statement A is true.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 1756,
+            "end": 1824,
+            "label": "restatement",
+            "text": "B. W and X represent the evolution operator of some quantum system. ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 1824,
+            "end": 1857,
+            "label": "fact",
+            "text": "Evolution operators are unitary. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 1857,
+            "end": 1887,
+            "label": "reasoning",
+            "text": "W is unitary (and Hermitian). ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 1887,
+            "end": 1948,
+            "label": "reasoning",
+            "text": "X is anti-Hermitian, not unitary itself, but e^X is unitary. ",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 1948,
+            "end": 2078,
+            "label": "reasoning",
+            "text": "X itself is not an evolution operator (unless you consider Hamiltonian? But evolution operator is U = e^{-iHt}. X is not unitary. ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 2078,
+            "end": 2091,
+            "label": "reasoning",
+            "text": "So B false.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 2091,
+            "end": 2180,
+            "label": "restatement",
+            "text": "C. There exists a vector to which if one multiplies e^X, the norm of the vector changes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 2180,
+            "end": 2202,
+            "label": "reasoning",
+            "text": "Since e^X is unitary, ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 2202,
+            "end": 2237,
+            "label": "reasoning",
+            "text": "it preserves norm for all vectors. ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 2237,
+            "end": 2250,
+            "label": "reasoning",
+            "text": "So C false.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 2250,
+            "end": 2284,
+            "label": "restatement",
+            "text": "D. Z and X represent observables. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 2284,
+            "end": 2315,
+            "label": "fact",
+            "text": "Observables must be Hermitian. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 2315,
+            "end": 2356,
+            "label": "reasoning",
+            "text": "X is anti-Hermitian, Z is not Hermitian. ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 2356,
+            "end": 2369,
+            "label": "reasoning",
+            "text": "So D false.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 2369,
+            "end": 2395,
+            "label": "conclusion",
+            "text": "Thus correct answer is A.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 2395,
+            "end": 2404,
+            "label": "planning",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 2404,
+            "end": 2419,
+            "label": "conclusion",
+            "text": "**Answer: A**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 2419,
+            "end": 2434,
+            "label": "planning",
+            "text": "**Reasoning**\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 2434,
+            "end": 2563,
+            "label": "fact",
+            "text": "* A quantum state (density matrix) \\(\\rho\\) must be Hermitian, positive\u2011semidefinite and have \\(\\operatorname{tr}\\rho = 1\\).  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 2563,
+            "end": 2789,
+            "label": "reasoning",
+            "text": "The matrix  \n\n  \\[\n  Y=\\begin{pmatrix}\n  0.5 & 0.1 & 0.2\\\\\n  0.1 & 0.25 & 0.1\\\\\n  0.2 & 0.1 & 0.25\n  \\end{pmatrix}\n  \\]\n\n  is real symmetric (hence Hermitian), its eigenvalues are all positive, and \\(\\operatorname{tr}Y = 1\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 2789,
+            "end": 2833,
+            "label": "reasoning",
+            "text": "therefore \\(Y\\) is a valid density matrix.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 2833,
+            "end": 2884,
+            "label": "reasoning",
+            "text": "* The matrix \\(X\\) satisfies \\(X^{\\dagger} = -X\\); ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 2884,
+            "end": 2936,
+            "label": "reasoning",
+            "text": "i.e. it is **anti\u2011Hermitian** (skew\u2011Hermitian).  \n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 2936,
+            "end": 3093,
+            "label": "reasoning",
+            "text": "The exponential of an anti\u2011Hermitian matrix is unitary:\n\n  \\[\n  U = e^{X}\\quad\\Longrightarrow\\quad U^{\\dagger}U = e^{X^{\\dagger}}e^{X}=e^{-X}e^{X}=I .\n  \\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 3093,
+            "end": 3330,
+            "label": "reasoning",
+            "text": "* Conjugating a density matrix by a unitary operator leaves all the defining properties of a density matrix unchanged:\n\n  \\[\n  \\rho' = U\\,Y\\,U^{\\dagger}=e^{X}\\,Y\\,e^{-X}\n  \\]\n\n  is still Hermitian, positive\u2011semidefinite and has trace 1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 3330,
+            "end": 3383,
+            "label": "reasoning",
+            "text": "Hence \\(\\rho'\\) is also a legitimate quantum state.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 3383,
+            "end": 3419,
+            "label": "planning",
+            "text": "* The other statements are false:\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 3419,
+            "end": 3492,
+            "label": "reasoning",
+            "text": "* \\(W\\) is unitary, but \\(X\\) itself is not unitary (only \\(e^{X}\\) is). ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 3492,
+            "end": 3565,
+            "label": "reasoning",
+            "text": "Hence \u201c\\(W\\) and \\(X\\) represent the evolution operator\u201d is incorrect.\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 3565,
+            "end": 3597,
+            "label": "reasoning",
+            "text": "* Because \\(e^{X}\\) is unitary, ",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 3597,
+            "end": 3667,
+            "label": "reasoning",
+            "text": "it preserves the norm of **every** vector, so statement\u202fC is false.\n  ",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 3667,
+            "end": 3700,
+            "label": "fact",
+            "text": "* Observables must be Hermitian. ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 3700,
+            "end": 3755,
+            "label": "reasoning",
+            "text": "\\(X\\) is anti\u2011Hermitian and \\(Z\\) is not Hermitian, so ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 3755,
+            "end": 3778,
+            "label": "reasoning",
+            "text": "statement\u202fD is false.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 3778,
+            "end": 3824,
+            "label": "conclusion",
+            "text": "Therefore the only correct statement is **A**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp3",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp7",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp11",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp18",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp24",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp25",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp32",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp34",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp39",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp40",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp43",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp49",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp51",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp53",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp59",
+            "label": "validate:support"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp60",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp62",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp62",
+            "dest_node_id": "resp63",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp65",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp67",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "resp67",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp69",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp72",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp74",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp74",
+            "dest_node_id": "resp76",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp76",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp77",
+            "label": "validate:support"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp77",
+            "label": "validate:support"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        }
+    ]
+}

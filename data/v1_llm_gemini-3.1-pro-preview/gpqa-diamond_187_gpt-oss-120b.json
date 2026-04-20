@@ -1,0 +1,1216 @@
+{
+  "doc_id": "gpqa-diamond_187_gpt-oss-120b",
+  "raw_text": {
+    "question": "Consider a rhombohedral crystal, with the interatomic distance of 10 Angstrom and the angles $\\quad\\alpha=\\beta=\\gamma=30^{0}$. What is the interplanar distance of the (111) plane of the crystal?\nA. 9.54 Angstrom\nB. 10.05 Angstrom\nC. 8.95 Angstrom\nD. 9.08 Angstrom",
+    "response": "<think>We need to compute interplanar spacing d_{hkl} for rhombohedral lattice with lattice parameters: a = interatomic distance? In rhombohedral, all edges equal length a, and all angles equal α=β=γ=30°. So a = 10 Å.\n\nFormula for d_{hkl} in rhombohedral (trigonal) lattice: 1/d^2 = (1 / a^2) * ( (sin^2 α) (h^2 + k^2 + l^2) + 2 (cos α) (cos α - 1) (hk + kl + lh) ) / (1 - 3 cos^2 α + 2 cos^3 α). Wait need correct formula.\n\nGeneral formula for rhombohedral lattice (hexagonal setting) but we have primitive rhombohedral cell. The metric tensor components: a = b = c = a, α = β = γ = α.\n\nReciprocal lattice vectors magnitude: |a*| = (2π / a) * sqrt( (1 - cos α) / (1 + 2 cos α) )? Let's derive.\n\nIn rhombohedral lattice, the reciprocal lattice is also rhombohedral with same angles but different length a*.\n\nWe can compute d_{hkl} = 2π / |G| where G = h a* + k b* + l c*.\n\nBut easier: formula for d_{hkl}:\n\n1/d_{hkl}^2 = (1 / a^2) * ( (sin^2 α) (h^2 + k^2 + l^2) + 2 (cos α) (cos α - 1) (hk + kl + lh) ) / (1 - 3 cos^2 α + 2 cos^3 α).\n\nCheck: I recall formula for rhombohedral: \n\n1/d^2 = (1 / a^2) * ( (h^2 + k^2 + l^2) (1 - cos α) + 2 (hk + kl + lh) (cos α - cos^2 α) ) / (1 - 3 cos^2 α + 2 cos^3 α). Might be similar.\n\nLet's compute numerically.\n\nGiven α = 30°, cos α = cos30 = √3/2 ≈ 0.8660254. sin α = 0.5.\n\nCompute denominator: D = 1 - 3 cos^2 α + 2 cos^3 α.\n\ncos^2 = (0.8660)^2 = 0.75. cos^3 = cos^2 * cos = 0.75 * 0.8660 = 0.6495.\n\nThus D = 1 - 3*0.75 + 2*0.6495 = 1 - 2.25 + 1.299 = 0.049.\n\nSpecifically: 1 - 2.25 = -1.25; +1.299 = 0.049. So denominator small.\n\nNow numerator N = (sin^2 α)(h^2 + k^2 + l^2) + 2 cos α (cos α - 1)(hk + kl + lh).\n\nsin^2 α = (0.5)^2 = 0.25.\n\nFor (111): h=k=l=1. So h^2 + k^2 + l^2 = 3. hk+kl+lh = 3.\n\nCompute term1 = 0.25 * 3 = 0.75.\n\nCompute cos α - 1 = 0.8660 - 1 = -0.1340.\n\n2 cos α (cos α - 1) = 2 * 0.8660 * (-0.1340) = -0.232? Let's compute: 0.8660* -0.1340 = -0.1161; times 2 = -0.2322.\n\nMultiply by (hk+kl+lh)=3 => term2 = -0.6966.\n\nThus N = 0.75 - 0.6966 = 0.0534.\n\nNow 1/d^2 = (1 / a^2) * N / D.\n\na = 10 Å, a^2 = 100 Å^2.\n\nN/D = 0.0534 / 0.049 = approx 1.0898.\n\nThus 1/d^2 = (1/100) * 1.0898 = 0.010898 Å^{-2}.\n\nThus d = 1 / sqrt(0.010898) = 1 / 0.1044 = 9.58 Å.\n\nCompute sqrt: sqrt(0.010898) = 0.1044. Inverse = 9.58 Å.\n\nOption A: 9.54 Å close. So answer A.\n\nCheck rounding: maybe 9.54 Å.\n\nThus answer A.\n</think>\nFor a rhombohedral lattice the three edges are equal \\((a=b=c)\\) and the three inter‑axial angles are equal \\((\\alpha =\\beta =\\gamma )\\).\n\nThe interplanar spacing for a rhombohedral cell is  \n\n\\[\n\\frac{1}{d_{hkl}^{2}}=\n\\frac{1}{a^{2}}\\,\n\\frac{ \\sin ^2\\alpha\\;(h^{2}+k^{2}+l^{2})\n+2\\cos\\alpha(\\cos\\alpha-1)(hk+kl+lh)}\n{1-3\\cos ^2\\alpha+2\\cos ^3\\alpha}\n\\]\n\nGiven  \n\n\\[\na = 10\\ \\text{Å},\\qquad \\alpha =30^{\\circ},\n\\qquad h=k=l=1 .\n\\]\n\nFirst evaluate the trigonometric quantities  \n\n\\[\n\\cos\\alpha = \\cos30^{\\circ}= \\frac{\\sqrt3}{2}=0.8660,\\qquad\n\\sin\\alpha = \\frac12,\\qquad\n\\sin^{2}\\alpha =0.25 .\n\\]\n\nDenominator  \n\n\\[\nD = 1-3\\cos^{2}\\alpha+2\\cos^{3}\\alpha\n   = 1-3(0.75)+2(0.6495)=0.049 .\n\\]\n\nNumerator  \n\n\\[\n\\begin{aligned}\nN &= \\sin^{2}\\alpha\\,(h^{2}+k^{2}+l^{2})\n   +2\\cos\\alpha(\\cos\\alpha-1)(hk+kl+lh)\\\\\n  &= 0.25\\,(3)+2(0.8660)(0.8660-1)(3)\\\\\n  &= 0.75-0.6966 = 0.0534 .\n\\end{aligned}\n\\]\n\nNow  \n\n\\[\n\\frac{1}{d_{111}^{2}} = \\frac{1}{a^{2}}\\frac{N}{D}\n= \\frac{1}{100}\\frac{0.0534}{0.049}\n= 0.010898\\ \\text{Å}^{-2}.\n\\]\n\nHence  \n\n\\[\nd_{111}= \\frac{1}{\\sqrt{0.010898}} \\approx 9.58\\ \\text{Å}.\n\\]\n\nThe value closest to this is **9.54 Å**.\n\n\\[\n\\boxed{\\text{A. } 9.54\\ \\text{Å}}\n\\]"
+  },
+  "metadata": {
+    "batch": 187,
+    "domain": "gpqa-diamond",
+    "generator": "gpt-oss-120b",
+    "annotator": "gemini-3.1-pro-preview",
+    "question_id": "gpqa-187",
+    "correct_answer": "A",
+    "topic": "physics",
+    "correctness": null,
+    "is_human_annotated": false
+  },
+  "nodes": [
+    {
+      "id": "ctx0",
+      "annotation": false,
+      "start": 0,
+      "end": 128,
+      "label": "context",
+      "text": "Consider a rhombohedral crystal, with the interatomic distance of 10 Angstrom and the angles $\\quad\\alpha=\\beta=\\gamma=30^{0}$. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx1",
+      "annotation": false,
+      "start": 128,
+      "end": 196,
+      "label": "context",
+      "text": "What is the interplanar distance of the (111) plane of the crystal?\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx2",
+      "annotation": false,
+      "start": 196,
+      "end": 213,
+      "label": "context",
+      "text": "A. 9.54 Angstrom\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx3",
+      "annotation": false,
+      "start": 213,
+      "end": 231,
+      "label": "context",
+      "text": "B. 10.05 Angstrom\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx4",
+      "annotation": false,
+      "start": 231,
+      "end": 248,
+      "label": "context",
+      "text": "C. 8.95 Angstrom\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx5",
+      "annotation": false,
+      "start": 248,
+      "end": 264,
+      "label": "context",
+      "text": "D. 9.08 Angstrom",
+      "source": "question"
+    },
+    {
+      "id": "resp0",
+      "annotation": true,
+      "start": 0,
+      "end": 7,
+      "label": "reflection",
+      "text": "<think>",
+      "source": "response"
+    },
+    {
+      "id": "resp1",
+      "annotation": true,
+      "start": 7,
+      "end": 104,
+      "label": "planning",
+      "text": "We need to compute interplanar spacing d_{hkl} for rhombohedral lattice with lattice parameters: ",
+      "source": "response"
+    },
+    {
+      "id": "resp2",
+      "annotation": true,
+      "start": 104,
+      "end": 130,
+      "label": "reasoning",
+      "text": "a = interatomic distance? ",
+      "source": "response"
+    },
+    {
+      "id": "resp3",
+      "annotation": true,
+      "start": 130,
+      "end": 205,
+      "label": "fact",
+      "text": "In rhombohedral, all edges equal length a, and all angles equal α=β=γ=30°. ",
+      "source": "response"
+    },
+    {
+      "id": "resp4",
+      "annotation": true,
+      "start": 205,
+      "end": 217,
+      "label": "reasoning",
+      "text": "So a = 10 Å.",
+      "source": "response"
+    },
+    {
+      "id": "resp5",
+      "annotation": true,
+      "start": 219,
+      "end": 397,
+      "label": "fact",
+      "text": "Formula for d_{hkl} in rhombohedral (trigonal) lattice: 1/d^2 = (1 / a^2) * ( (sin^2 α) (h^2 + k^2 + l^2) + 2 (cos α) (cos α - 1) (hk + kl + lh) ) / (1 - 3 cos^2 α + 2 cos^3 α). ",
+      "source": "response"
+    },
+    {
+      "id": "resp6",
+      "annotation": true,
+      "start": 397,
+      "end": 425,
+      "label": "planning",
+      "text": "Wait need correct formula.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp7",
+      "annotation": true,
+      "start": 425,
+      "end": 527,
+      "label": "reasoning",
+      "text": "General formula for rhombohedral lattice (hexagonal setting) but we have primitive rhombohedral cell. ",
+      "source": "response"
+    },
+    {
+      "id": "resp8",
+      "annotation": true,
+      "start": 527,
+      "end": 588,
+      "label": "fact",
+      "text": "The metric tensor components: a = b = c = a, α = β = γ = α.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp9",
+      "annotation": true,
+      "start": 588,
+      "end": 696,
+      "label": "planning",
+      "text": "Reciprocal lattice vectors magnitude: |a*| = (2π / a) * sqrt( (1 - cos α) / (1 + 2 cos α) )? Let's derive.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp10",
+      "annotation": true,
+      "start": 696,
+      "end": 808,
+      "label": "fact",
+      "text": "In rhombohedral lattice, the reciprocal lattice is also rhombohedral with same angles but different length a*.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp11",
+      "annotation": true,
+      "start": 808,
+      "end": 873,
+      "label": "fact",
+      "text": "We can compute d_{hkl} = 2π / |G| where G = h a* + k b* + l c*.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp12",
+      "annotation": true,
+      "start": 873,
+      "end": 907,
+      "label": "planning",
+      "text": "But easier: formula for d_{hkl}:\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp13",
+      "annotation": true,
+      "start": 907,
+      "end": 1036,
+      "label": "fact",
+      "text": "1/d_{hkl}^2 = (1 / a^2) * ( (sin^2 α) (h^2 + k^2 + l^2) + 2 (cos α) (cos α - 1) (hk + kl + lh) ) / (1 - 3 cos^2 α + 2 cos^3 α).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp14",
+      "annotation": true,
+      "start": 1036,
+      "end": 1080,
+      "label": "planning",
+      "text": "Check: I recall formula for rhombohedral: \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp15",
+      "annotation": true,
+      "start": 1080,
+      "end": 1202,
+      "label": "fact",
+      "text": "1/d^2 = (1 / a^2) * ( (h^2 + k^2 + l^2) (1 - cos α) + 2 (hk + kl + lh) (cos α - cos^2 α) ) / (1 - 3 cos^2 α + 2 cos^3 α). ",
+      "source": "response"
+    },
+    {
+      "id": "resp16",
+      "annotation": true,
+      "start": 1202,
+      "end": 1221,
+      "label": "reflection",
+      "text": "Might be similar.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp17",
+      "annotation": true,
+      "start": 1221,
+      "end": 1249,
+      "label": "planning",
+      "text": "Let's compute numerically.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp18",
+      "annotation": true,
+      "start": 1249,
+      "end": 1264,
+      "label": "restatement",
+      "text": "Given α = 30°, ",
+      "source": "response"
+    },
+    {
+      "id": "resp19",
+      "annotation": true,
+      "start": 1264,
+      "end": 1298,
+      "label": "fact",
+      "text": "cos α = cos30 = √3/2 ≈ 0.8660254. ",
+      "source": "response"
+    },
+    {
+      "id": "resp20",
+      "annotation": true,
+      "start": 1298,
+      "end": 1312,
+      "label": "fact",
+      "text": "sin α = 0.5.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp21",
+      "annotation": true,
+      "start": 1312,
+      "end": 1365,
+      "label": "planning",
+      "text": "Compute denominator: D = 1 - 3 cos^2 α + 2 cos^3 α.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp22",
+      "annotation": true,
+      "start": 1365,
+      "end": 1392,
+      "label": "reasoning",
+      "text": "cos^2 = (0.8660)^2 = 0.75. ",
+      "source": "response"
+    },
+    {
+      "id": "resp23",
+      "annotation": true,
+      "start": 1392,
+      "end": 1439,
+      "label": "reasoning",
+      "text": "cos^3 = cos^2 * cos = 0.75 * 0.8660 = 0.6495.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp24",
+      "annotation": true,
+      "start": 1439,
+      "end": 1499,
+      "label": "reasoning",
+      "text": "Thus D = 1 - 3*0.75 + 2*0.6495 = 1 - 2.25 + 1.299 = 0.049.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp25",
+      "annotation": true,
+      "start": 1499,
+      "end": 1531,
+      "label": "reasoning",
+      "text": "Specifically: 1 - 2.25 = -1.25; ",
+      "source": "response"
+    },
+    {
+      "id": "resp26",
+      "annotation": true,
+      "start": 1531,
+      "end": 1547,
+      "label": "reasoning",
+      "text": "+1.299 = 0.049. ",
+      "source": "response"
+    },
+    {
+      "id": "resp27",
+      "annotation": true,
+      "start": 1547,
+      "end": 1570,
+      "label": "reflection",
+      "text": "So denominator small.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp28",
+      "annotation": true,
+      "start": 1570,
+      "end": 1653,
+      "label": "planning",
+      "text": "Now numerator N = (sin^2 α)(h^2 + k^2 + l^2) + 2 cos α (cos α - 1)(hk + kl + lh).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp29",
+      "annotation": true,
+      "start": 1653,
+      "end": 1680,
+      "label": "reasoning",
+      "text": "sin^2 α = (0.5)^2 = 0.25.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp30",
+      "annotation": true,
+      "start": 1680,
+      "end": 1691,
+      "label": "restatement",
+      "text": "For (111): ",
+      "source": "response"
+    },
+    {
+      "id": "resp31",
+      "annotation": true,
+      "start": 1691,
+      "end": 1700,
+      "label": "reasoning",
+      "text": "h=k=l=1. ",
+      "source": "response"
+    },
+    {
+      "id": "resp32",
+      "annotation": true,
+      "start": 1700,
+      "end": 1724,
+      "label": "reasoning",
+      "text": "So h^2 + k^2 + l^2 = 3. ",
+      "source": "response"
+    },
+    {
+      "id": "resp33",
+      "annotation": true,
+      "start": 1724,
+      "end": 1739,
+      "label": "reasoning",
+      "text": "hk+kl+lh = 3.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp34",
+      "annotation": true,
+      "start": 1739,
+      "end": 1773,
+      "label": "reasoning",
+      "text": "Compute term1 = 0.25 * 3 = 0.75.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp35",
+      "annotation": true,
+      "start": 1773,
+      "end": 1816,
+      "label": "reasoning",
+      "text": "Compute cos α - 1 = 0.8660 - 1 = -0.1340.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp36",
+      "annotation": true,
+      "start": 1816,
+      "end": 1933,
+      "label": "reasoning",
+      "text": "2 cos α (cos α - 1) = 2 * 0.8660 * (-0.1340) = -0.232? Let's compute: 0.8660* -0.1340 = -0.1161; times 2 = -0.2322.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp37",
+      "annotation": true,
+      "start": 1933,
+      "end": 1979,
+      "label": "reasoning",
+      "text": "Multiply by (hk+kl+lh)=3 => term2 = -0.6966.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp38",
+      "annotation": true,
+      "start": 1979,
+      "end": 2013,
+      "label": "reasoning",
+      "text": "Thus N = 0.75 - 0.6966 = 0.0534.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp39",
+      "annotation": true,
+      "start": 2013,
+      "end": 2045,
+      "label": "reasoning",
+      "text": "Now 1/d^2 = (1 / a^2) * N / D.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp40",
+      "annotation": true,
+      "start": 2045,
+      "end": 2071,
+      "label": "reasoning",
+      "text": "a = 10 Å, a^2 = 100 Å^2.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp41",
+      "annotation": true,
+      "start": 2071,
+      "end": 2110,
+      "label": "reasoning",
+      "text": "N/D = 0.0534 / 0.049 = approx 1.0898.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp42",
+      "annotation": true,
+      "start": 2110,
+      "end": 2160,
+      "label": "reasoning",
+      "text": "Thus 1/d^2 = (1/100) * 1.0898 = 0.010898 Å^{-2}.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp43",
+      "annotation": true,
+      "start": 2160,
+      "end": 2212,
+      "label": "reasoning",
+      "text": "Thus d = 1 / sqrt(0.010898) = 1 / 0.1044 = 9.58 Å.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp44",
+      "annotation": true,
+      "start": 2212,
+      "end": 2226,
+      "label": "planning",
+      "text": "Compute sqrt: ",
+      "source": "response"
+    },
+    {
+      "id": "resp45",
+      "annotation": true,
+      "start": 2226,
+      "end": 2251,
+      "label": "reasoning",
+      "text": "sqrt(0.010898) = 0.1044. ",
+      "source": "response"
+    },
+    {
+      "id": "resp46",
+      "annotation": true,
+      "start": 2251,
+      "end": 2270,
+      "label": "reasoning",
+      "text": "Inverse = 9.58 Å.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp47",
+      "annotation": true,
+      "start": 2270,
+      "end": 2294,
+      "label": "reasoning",
+      "text": "Option A: 9.54 Å close. ",
+      "source": "response"
+    },
+    {
+      "id": "resp48",
+      "annotation": true,
+      "start": 2294,
+      "end": 2308,
+      "label": "conclusion",
+      "text": "So answer A.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp49",
+      "annotation": true,
+      "start": 2308,
+      "end": 2339,
+      "label": "planning",
+      "text": "Check rounding: maybe 9.54 Å.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp50",
+      "annotation": true,
+      "start": 2339,
+      "end": 2502,
+      "label": "conclusion",
+      "text": "Thus answer A.\n</think>\nFor a rhombohedral lattice the three edges are equal \\((a=b=c)\\) and the three inter‑axial angles are equal \\((\\alpha =\\beta =\\gamma )\\).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp51",
+      "annotation": true,
+      "start": 2502,
+      "end": 2718,
+      "label": "fact",
+      "text": "The interplanar spacing for a rhombohedral cell is  \n\n\\[\n\\frac{1}{d_{hkl}^{2}}=\n\\frac{1}{a^{2}}\\,\n\\frac{ \\sin ^2\\alpha\\;(h^{2}+k^{2}+l^{2})\n+2\\cos\\alpha(\\cos\\alpha-1)(hk+kl+lh)}\n{1-3\\cos ^2\\alpha+2\\cos ^3\\alpha}\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp52",
+      "annotation": true,
+      "start": 2718,
+      "end": 2795,
+      "label": "restatement",
+      "text": "Given  \n\n\\[\na = 10\\ \\text{Å},\\qquad \\alpha =30^{\\circ},\n\\qquad h=k=l=1 .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp53",
+      "annotation": true,
+      "start": 2795,
+      "end": 2960,
+      "label": "reasoning",
+      "text": "First evaluate the trigonometric quantities  \n\n\\[\n\\cos\\alpha = \\cos30^{\\circ}= \\frac{\\sqrt3}{2}=0.8660,\\qquad\n\\sin\\alpha = \\frac12,\\qquad\n\\sin^{2}\\alpha =0.25 .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp54",
+      "annotation": true,
+      "start": 2960,
+      "end": 3053,
+      "label": "reasoning",
+      "text": "Denominator  \n\n\\[\nD = 1-3\\cos^{2}\\alpha+2\\cos^{3}\\alpha\n   = 1-3(0.75)+2(0.6495)=0.049 .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp55",
+      "annotation": true,
+      "start": 3053,
+      "end": 3254,
+      "label": "reasoning",
+      "text": "Numerator  \n\n\\[\n\\begin{aligned}\nN &= \\sin^{2}\\alpha\\,(h^{2}+k^{2}+l^{2})\n   +2\\cos\\alpha(\\cos\\alpha-1)(hk+kl+lh)\\\\\n  &= 0.25\\,(3)+2(0.8660)(0.8660-1)(3)\\\\\n  &= 0.75-0.6966 = 0.0534 .\n\\end{aligned}\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp56",
+      "annotation": true,
+      "start": 3254,
+      "end": 3382,
+      "label": "reasoning",
+      "text": "Now  \n\n\\[\n\\frac{1}{d_{111}^{2}} = \\frac{1}{a^{2}}\\frac{N}{D}\n= \\frac{1}{100}\\frac{0.0534}{0.049}\n= 0.010898\\ \\text{Å}^{-2}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp57",
+      "annotation": true,
+      "start": 3382,
+      "end": 3457,
+      "label": "reasoning",
+      "text": "Hence  \n\n\\[\nd_{111}= \\frac{1}{\\sqrt{0.010898}} \\approx 9.58\\ \\text{Å}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp58",
+      "annotation": true,
+      "start": 3457,
+      "end": 3499,
+      "label": "conclusion",
+      "text": "The value closest to this is **9.54 Å**.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp59",
+      "annotation": true,
+      "start": 3499,
+      "end": 3538,
+      "label": "conclusion",
+      "text": "\\[\n\\boxed{\\text{A. } 9.54\\ \\text{Å}}\n\\]",
+      "source": "response"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e1",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e2",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp2",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e3",
+      "source_node_id": "resp1",
+      "dest_node_id": "resp2",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e4",
+      "source_node_id": "resp1",
+      "dest_node_id": "resp3",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e5",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp4",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e6",
+      "source_node_id": "resp3",
+      "dest_node_id": "resp4",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e7",
+      "source_node_id": "resp1",
+      "dest_node_id": "resp5",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e8",
+      "source_node_id": "resp5",
+      "dest_node_id": "resp6",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e9",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp7",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e10",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp8",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e11",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp9",
+      "label": "plan:decompose"
+    },
+    {
+      "id": "e12",
+      "source_node_id": "resp7",
+      "dest_node_id": "resp9",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e13",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp9",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e14",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp10",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e15",
+      "source_node_id": "resp10",
+      "dest_node_id": "resp11",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e16",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp12",
+      "label": "plan:backtrack"
+    },
+    {
+      "id": "e17",
+      "source_node_id": "resp12",
+      "dest_node_id": "resp13",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e18",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp14",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e19",
+      "source_node_id": "resp14",
+      "dest_node_id": "resp15",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e20",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp16",
+      "label": "reflect:uncertain"
+    },
+    {
+      "id": "e21",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp16",
+      "label": "reflect:uncertain"
+    },
+    {
+      "id": "e22",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e23",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e24",
+      "source_node_id": "resp4",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e25",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e26",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp18",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e27",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp19",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e28",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp21",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e29",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp21",
+      "label": "plan:decompose"
+    },
+    {
+      "id": "e30",
+      "source_node_id": "resp19",
+      "dest_node_id": "resp22",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e31",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp22",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e32",
+      "source_node_id": "resp19",
+      "dest_node_id": "resp23",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e33",
+      "source_node_id": "resp22",
+      "dest_node_id": "resp23",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e34",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp24",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e35",
+      "source_node_id": "resp22",
+      "dest_node_id": "resp24",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e36",
+      "source_node_id": "resp23",
+      "dest_node_id": "resp24",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e37",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp25",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e38",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e39",
+      "source_node_id": "resp25",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e40",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp27",
+      "label": "reflect:uncertain"
+    },
+    {
+      "id": "e41",
+      "source_node_id": "resp26",
+      "dest_node_id": "resp27",
+      "label": "reflect:uncertain"
+    },
+    {
+      "id": "e42",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp28",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e43",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp28",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e44",
+      "source_node_id": "resp20",
+      "dest_node_id": "resp29",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e45",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp29",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e46",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp30",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e47",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp31",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e48",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp32",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e49",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp33",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e50",
+      "source_node_id": "resp29",
+      "dest_node_id": "resp34",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e51",
+      "source_node_id": "resp32",
+      "dest_node_id": "resp34",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e52",
+      "source_node_id": "resp19",
+      "dest_node_id": "resp35",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e53",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp35",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e54",
+      "source_node_id": "resp19",
+      "dest_node_id": "resp36",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e55",
+      "source_node_id": "resp35",
+      "dest_node_id": "resp36",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e56",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp37",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e57",
+      "source_node_id": "resp36",
+      "dest_node_id": "resp37",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e58",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp38",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e59",
+      "source_node_id": "resp34",
+      "dest_node_id": "resp38",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e60",
+      "source_node_id": "resp37",
+      "dest_node_id": "resp38",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e61",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp39",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e62",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp39",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e63",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp39",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e64",
+      "source_node_id": "resp4",
+      "dest_node_id": "resp40",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e65",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp41",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e66",
+      "source_node_id": "resp38",
+      "dest_node_id": "resp41",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e67",
+      "source_node_id": "resp39",
+      "dest_node_id": "resp42",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e68",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp42",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e69",
+      "source_node_id": "resp41",
+      "dest_node_id": "resp42",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e70",
+      "source_node_id": "resp42",
+      "dest_node_id": "resp43",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e71",
+      "source_node_id": "resp43",
+      "dest_node_id": "resp44",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e72",
+      "source_node_id": "resp43",
+      "dest_node_id": "resp45",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e73",
+      "source_node_id": "resp44",
+      "dest_node_id": "resp45",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e74",
+      "source_node_id": "resp45",
+      "dest_node_id": "resp46",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e75",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp47",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e76",
+      "source_node_id": "resp46",
+      "dest_node_id": "resp47",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e77",
+      "source_node_id": "resp47",
+      "dest_node_id": "resp48",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e78",
+      "source_node_id": "resp47",
+      "dest_node_id": "resp49",
+      "label": "plan:verify"
+    },
+    {
+      "id": "e79",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp50",
+      "label": "validate:support"
+    },
+    {
+      "id": "e80",
+      "source_node_id": "ctx0",
+      "dest_node_id": "resp52",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e81",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp52",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e82",
+      "source_node_id": "resp52",
+      "dest_node_id": "resp53",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e83",
+      "source_node_id": "resp51",
+      "dest_node_id": "resp54",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e84",
+      "source_node_id": "resp53",
+      "dest_node_id": "resp54",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e85",
+      "source_node_id": "resp51",
+      "dest_node_id": "resp55",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e86",
+      "source_node_id": "resp52",
+      "dest_node_id": "resp55",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e87",
+      "source_node_id": "resp53",
+      "dest_node_id": "resp55",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e88",
+      "source_node_id": "resp51",
+      "dest_node_id": "resp56",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e89",
+      "source_node_id": "resp52",
+      "dest_node_id": "resp56",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e90",
+      "source_node_id": "resp54",
+      "dest_node_id": "resp56",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e91",
+      "source_node_id": "resp55",
+      "dest_node_id": "resp56",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e92",
+      "source_node_id": "resp56",
+      "dest_node_id": "resp57",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e93",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp58",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e94",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp58",
+      "label": "validate:support"
+    },
+    {
+      "id": "e95",
+      "source_node_id": "resp50",
+      "dest_node_id": "resp58",
+      "label": "validate:support"
+    },
+    {
+      "id": "e96",
+      "source_node_id": "resp57",
+      "dest_node_id": "resp58",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e97",
+      "source_node_id": "resp48",
+      "dest_node_id": "resp59",
+      "label": "validate:support"
+    },
+    {
+      "id": "e98",
+      "source_node_id": "resp50",
+      "dest_node_id": "resp59",
+      "label": "validate:support"
+    },
+    {
+      "id": "e99",
+      "source_node_id": "resp58",
+      "dest_node_id": "resp59",
+      "label": "validate:support"
+    }
+  ]
+}

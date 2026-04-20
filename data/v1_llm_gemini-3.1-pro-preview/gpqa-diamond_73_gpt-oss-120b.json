@@ -1,0 +1,811 @@
+{
+    "doc_id": "gpqa-diamond_73_gpt-oss-120b",
+    "raw_text": {
+        "question": "We want to observe a decay of a single atom (atomic nucleus). It is possible to obtain this atom (e.g., from a beta decay of another atom) and start monitoring right away. We know from previous experiments that the decay probability of this atom is 32% within 100 minutes.\nSo far, 50 minutes have passed and the atom has not decayed. What is the probability it will decay in the next 150 minutes?\nA. 48%\nB. 44%\nC. 40%\nD. 52%",
+        "response": "<think>We need to interpret the problem. We have a single atom with known decay probability: 32% within 100 minutes. That is, the probability that it decays within 100 minutes from start is 0.32. Assuming exponential decay (memoryless), the probability of decay in a time interval depends only on length, not on elapsed time. However, the problem may be about conditional probability given that it survived 50 minutes. Need to compute probability it decays in next 150 minutes (i.e., between t=50 and t=200 minutes). Given that it survived to 50 min, we want P(decay by 200 | survived to 50). For exponential distribution, P(T \u2264 200 | T > 50) = (F(200)-F(50))/S(50) = (1 - e^{-\u03bb*200} - (1 - e^{-\u03bb*50}))/e^{-\u03bb*50} = (e^{-\u03bb*50} - e^{-\u03bb*200})/e^{-\u03bb*50} = 1 - e^{-\u03bb*150}. So it's same as probability of decay within 150 minutes from now, independent of past. So we need \u03bb such that P(T \u2264 100) = 0.32 => 1 - e^{-\u03bb*100} = 0.32 => e^{-\u03bb*100} = 0.68 => \u03bb = -(1/100) ln 0.68.\n\nCompute \u03bb: ln 0.68 \u2248 -0.385662. So \u03bb = 0.00385662 per minute.\n\nNow probability of decay within next 150 minutes given survival: 1 - e^{-\u03bb*150} = 1 - e^{-0.00385662*150} = 1 - e^{-0.578493}.\n\nCompute e^{-0.578493} \u2248 0.560. Let's compute: e^{-0.5785} = 1/ e^{0.5785}. e^{0.5785} approx: using series or calculator: e^{0.5}=1.6487, e^{0.0785}=1+0.0785+0.0785^2/2+... \u22481+0.0785+0.00308+0.00008\u22481.0817. Multiply: 1.6487*1.0817\u22481.782. So e^{-0.5785}\u22481/1.782\u22480.561. So probability = 1 - 0.561 = 0.439 \u2248 44%.\n\nThus answer B 44%.\n\nCheck options: B 44% matches.\n\nThus answer: 44% (option B). Provide explanation about exponential decay memoryless property.\n\n\n</think>\nThe decay of a single nucleus is a random (Poisson) process.  \nFor a Poisson process the waiting time \\(T\\) until decay is **exponentially\ndistributed** and has the memory\u2011less property  \n\n\\[\nP(T\\le t_2\\mid T>t_1)=P(T\\le t_2-t_1).\n\\]\n\nHence, once we know that the atom has survived the first 50\u202fmin, the\nprobability that it will decay in the next 150\u202fmin is the same as the\nprobability that a fresh atom would decay within 150\u202fmin.\n\n---\n\n### 1. Determine the decay constant  \n\nWe are told that the probability of decay within 100\u202fmin is 32\u202f%:\n\n\\[\nP(T\\le 100)=0.32 = 1-e^{-\\lambda\\cdot100}.\n\\]\n\nThus  \n\n\\[\ne^{-\\lambda\\cdot100}=0.68\\qquad\\Longrightarrow\\qquad\n\\lambda =-\\frac{1}{100}\\ln 0.68.\n\\]\n\n\\[\n\\ln 0.68\\approx -0.385662\\;\\;\\Rightarrow\\;\\;\n\\lambda\\approx 0.0038566\\ \\text{min}^{-1}.\n\\]\n\n---\n\n### 2. Probability of decay in the next 150\u202fmin  \n\nUsing the memory\u2011less property:\n\n\\[\nP(\\text{decay in next }150\\text{ min}\\mid\\text{survived 50 min})\n=1-e^{-\\lambda\\cdot150}.\n\\]\n\nInsert \\(\\lambda\\):\n\n\\[\n1-e^{-0.0038566\\times150}=1-e^{-0.5785}.\n\\]\n\n\\[\ne^{-0.5785}\\approx 0.561\\quad\\Longrightarrow\\quad\n1-0.561\\approx 0.439\\;(\\text{or }43.9\\%).\n\\]\n\nRounded to the nearest percent, this is **44\u202f%**.\n\n---\n\n\\[\n\\boxed{\\text{Answer: B \u2013 44\\%}}\n\\]"
+    },
+    "metadata": {
+        "batch": 73,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-73",
+        "correct_answer": "B",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 62,
+            "label": "context",
+            "text": "We want to observe a decay of a single atom (atomic nucleus). ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 62,
+            "end": 172,
+            "label": "context",
+            "text": "It is possible to obtain this atom (e.g., from a beta decay of another atom) and start monitoring right away. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 172,
+            "end": 273,
+            "label": "context",
+            "text": "We know from previous experiments that the decay probability of this atom is 32% within 100 minutes.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 273,
+            "end": 334,
+            "label": "context",
+            "text": "So far, 50 minutes have passed and the atom has not decayed. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 334,
+            "end": 397,
+            "label": "context",
+            "text": "What is the probability it will decay in the next 150 minutes?\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 397,
+            "end": 404,
+            "label": "context",
+            "text": "A. 48%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 404,
+            "end": 411,
+            "label": "context",
+            "text": "B. 44%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 411,
+            "end": 418,
+            "label": "context",
+            "text": "C. 40%\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 418,
+            "end": 424,
+            "label": "context",
+            "text": "D. 52%",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "reflection",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 41,
+            "label": "planning",
+            "text": "We need to interpret the problem. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 41,
+            "end": 117,
+            "label": "restatement",
+            "text": "We have a single atom with known decay probability: 32% within 100 minutes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 117,
+            "end": 196,
+            "label": "reasoning",
+            "text": "That is, the probability that it decays within 100 minutes from start is 0.32. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 196,
+            "end": 326,
+            "label": "assumption",
+            "text": "Assuming exponential decay (memoryless), the probability of decay in a time interval depends only on length, not on elapsed time. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 326,
+            "end": 419,
+            "label": "reasoning",
+            "text": "However, the problem may be about conditional probability given that it survived 50 minutes. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 419,
+            "end": 517,
+            "label": "planning",
+            "text": "Need to compute probability it decays in next 150 minutes (i.e., between t=50 and t=200 minutes). ",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 517,
+            "end": 551,
+            "label": "restatement",
+            "text": "Given that it survived to 50 min, ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 551,
+            "end": 593,
+            "label": "reasoning",
+            "text": "we want P(decay by 200 | survived to 50). ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 593,
+            "end": 768,
+            "label": "reasoning",
+            "text": "For exponential distribution, P(T \u2264 200 | T > 50) = (F(200)-F(50))/S(50) = (1 - e^{-\u03bb*200} - (1 - e^{-\u03bb*50}))/e^{-\u03bb*50} = (e^{-\u03bb*50} - e^{-\u03bb*200})/e^{-\u03bb*50} = 1 - e^{-\u03bb*150}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 768,
+            "end": 855,
+            "label": "reasoning",
+            "text": "So it's same as probability of decay within 150 minutes from now, independent of past. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 855,
+            "end": 968,
+            "label": "reasoning",
+            "text": "So we need \u03bb such that P(T \u2264 100) = 0.32 => 1 - e^{-\u03bb*100} = 0.32 => e^{-\u03bb*100} = 0.68 => \u03bb = -(1/100) ln 0.68.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 968,
+            "end": 1000,
+            "label": "reasoning",
+            "text": "Compute \u03bb: ln 0.68 \u2248 -0.385662. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1000,
+            "end": 1031,
+            "label": "reasoning",
+            "text": "So \u03bb = 0.00385662 per minute.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1031,
+            "end": 1159,
+            "label": "reasoning",
+            "text": "Now probability of decay within next 150 minutes given survival: 1 - e^{-\u03bb*150} = 1 - e^{-0.00385662*150} = 1 - e^{-0.578493}.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1159,
+            "end": 1190,
+            "label": "reasoning",
+            "text": "Compute e^{-0.578493} \u2248 0.560. ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1190,
+            "end": 1234,
+            "label": "reasoning",
+            "text": "Let's compute: e^{-0.5785} = 1/ e^{0.5785}. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1234,
+            "end": 1366,
+            "label": "reasoning",
+            "text": "e^{0.5785} approx: using series or calculator: e^{0.5}=1.6487, e^{0.0785}=1+0.0785+0.0785^2/2+... \u22481+0.0785+0.00308+0.00008\u22481.0817. ",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1366,
+            "end": 1397,
+            "label": "reasoning",
+            "text": "Multiply: 1.6487*1.0817\u22481.782. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1397,
+            "end": 1427,
+            "label": "reasoning",
+            "text": "So e^{-0.5785}\u22481/1.782\u22480.561. ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1427,
+            "end": 1470,
+            "label": "reasoning",
+            "text": "So probability = 1 - 0.561 = 0.439 \u2248 44%.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1470,
+            "end": 1490,
+            "label": "conclusion",
+            "text": "Thus answer B 44%.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1490,
+            "end": 1521,
+            "label": "planning",
+            "text": "Check options: B 44% matches.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1521,
+            "end": 1550,
+            "label": "conclusion",
+            "text": "Thus answer: 44% (option B). ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1550,
+            "end": 1617,
+            "label": "planning",
+            "text": "Provide explanation about exponential decay memoryless property.\n\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1617,
+            "end": 1626,
+            "label": "reflection",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1626,
+            "end": 1689,
+            "label": "fact",
+            "text": "The decay of a single nucleus is a random (Poisson) process.  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 1689,
+            "end": 1861,
+            "label": "fact",
+            "text": "For a Poisson process the waiting time \\(T\\) until decay is **exponentially\ndistributed** and has the memory\u2011less property  \n\n\\[\nP(T\\le t_2\\mid T>t_1)=P(T\\le t_2-t_1).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 1861,
+            "end": 1926,
+            "label": "restatement",
+            "text": "Hence, once we know that the atom has survived the first 50\u202fmin, ",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 1926,
+            "end": 2059,
+            "label": "reasoning",
+            "text": "the\nprobability that it will decay in the next 150\u202fmin is the same as the\nprobability that a fresh atom would decay within 150\u202fmin.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2059,
+            "end": 2103,
+            "label": "planning",
+            "text": "---\n\n### 1. Determine the decay constant  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2103,
+            "end": 2220,
+            "label": "reasoning",
+            "text": "We are told that the probability of decay within 100\u202fmin is 32\u202f%:\n\n\\[\nP(T\\le 100)=0.32 = 1-e^{-\\lambda\\cdot100}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2220,
+            "end": 2321,
+            "label": "reasoning",
+            "text": "Thus  \n\n\\[\ne^{-\\lambda\\cdot100}=0.68\\qquad\\Longrightarrow\\qquad\n\\lambda =-\\frac{1}{100}\\ln 0.68.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2321,
+            "end": 2421,
+            "label": "reasoning",
+            "text": "\\[\n\\ln 0.68\\approx -0.385662\\;\\;\\Rightarrow\\;\\;\n\\lambda\\approx 0.0038566\\ \\text{min}^{-1}.\n\\]\n\n---\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 2421,
+            "end": 2472,
+            "label": "planning",
+            "text": "### 2. Probability of decay in the next 150\u202fmin  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 2472,
+            "end": 2602,
+            "label": "reasoning",
+            "text": "Using the memory\u2011less property:\n\n\\[\nP(\\text{decay in next }150\\text{ min}\\mid\\text{survived 50 min})\n=1-e^{-\\lambda\\cdot150}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 2602,
+            "end": 2671,
+            "label": "reasoning",
+            "text": "Insert \\(\\lambda\\):\n\n\\[\n1-e^{-0.0038566\\times150}=1-e^{-0.5785}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 2671,
+            "end": 2770,
+            "label": "reasoning",
+            "text": "\\[\ne^{-0.5785}\\approx 0.561\\quad\\Longrightarrow\\quad\n1-0.561\\approx 0.439\\;(\\text{or }43.9\\%).\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 2770,
+            "end": 2821,
+            "label": "reasoning",
+            "text": "Rounded to the nearest percent, this is **44\u202f%**.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 2821,
+            "end": 2863,
+            "label": "conclusion",
+            "text": "---\n\n\\[\n\\boxed{\\text{Answer: B \u2013 44\\%}}\n\\]",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp2",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp7",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp8",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp23",
+            "label": "validate:support"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp24",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp27",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp28",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp34",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp35",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp39",
+            "label": "validate:support"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp39",
+            "label": "validate:support"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        }
+    ]
+}

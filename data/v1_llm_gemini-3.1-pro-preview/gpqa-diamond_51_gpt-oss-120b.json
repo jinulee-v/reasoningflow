@@ -1,0 +1,1084 @@
+{
+  "doc_id": "gpqa-diamond_51_gpt-oss-120b",
+  "raw_text": {
+    "question": "Astronomers are studying a star with a 1.5 solar radius and 1.1 solar masses. When the star's surface is not covered by dark spots, its Teff is 6000K. However, when 40% of its surface is covered by spots, the overall photospheric effective temperature decreases to 5500 K. In the stellar photosphere, when examining the ratio of the number of neutral atoms of Ti in two energetic levels (level 1 and level 2), astronomers have observed that this ratio decreases when the star has spots. What is the factor by which this ratio changes when the star does not have spots compared to when it has spots? Note that the transition between the energy levels under consideration corresponds to a wavelength of approximately 1448 Å. Assume that the stellar photosphere is in LTE.\nA. ~7.8\nB. ~4.5\nC. ~1.1\nD. ~2.9",
+    "response": "<think>We need to compute ratio of populations of two levels of Ti I (neutral Ti) in LTE: N2/N1 = (g2/g1) * exp[-(E2 - E1)/kT]. The ratio decreases when temperature drops (since higher level less populated). The factor change = (N2/N1)_no_spots / (N2/N1)_spots = exp[-ΔE/kT_no] / exp[-ΔE/kT_spot] = exp[ -ΔE/k (1/T_no - 1/T_spot) ]? Wait: N2/N1 ∝ exp(-ΔE/kT). So ratio at T1 (no spots) = A * exp(-ΔE/kT1). At T2 (spots) = A * exp(-ΔE/kT2). Ratio = exp(-ΔE/kT1) / exp(-ΔE/kT2) = exp[ -ΔE/k (1/T1 - 1/T2) ].\n\nGiven T1 = 6000 K, T2 = 5500 K. Need ΔE corresponding to transition wavelength 1448 Å. Energy difference ΔE = hc/λ. Compute: h = 6.626e-34 J s, c = 3e8 m/s, λ = 1448 Å = 1448e-10 m = 1.448e-7 m. So ΔE = (6.626e-34 * 3e8) / 1.448e-7 = (1.9878e-25) / 1.448e-7 = 1.9878e-25 / 1.448e-7 = 1.373e-18 J. Convert to eV: 1 eV = 1.602e-19 J, so ΔE ≈ 1.373e-18 / 1.602e-19 = 8.57 eV. Good.\n\nNow compute exponent: -ΔE/k (1/T1 - 1/T2). k = 1.381e-23 J/K. ΔE/k = 1.373e-18 / 1.381e-23 = 9.94e4 K (since J/J/K = K). Actually compute: 1.373e-18 / 1.381e-23 = 9.94e4 = 99,400 K. So exponent = -99,400 * (1/6000 - 1/5500). Compute 1/6000 = 1.6667e-4, 1/5500 = 1.8182e-4. Difference = -1.515e-5? Wait 1/6000 - 1/5500 = 0.000166667 - 0.000181818 = -0.0000151515 = -1.515e-5. Multiply by -99,400: exponent = -99,400 * (-1.515e-5) = +1.505 (approx). So ratio = exp(1.505) = 4.5. So factor ~4.5. That matches answer B.\n\nThus answer B.\n</think>\nIn LTE the relative population of two atomic levels is given by the Boltzmann factor  \n\n\\[\n\\frac{N_2}{N_1}= \\frac{g_2}{g_1}\\,\n\\exp\\!\\left[-\\frac{E_2-E_1}{kT}\\right] .\n\\]\n\nThe statistical‑weight ratio \\(g_2/g_1\\) does not change with temperature, so the change in the ratio when the star cools from the unspotted temperature \\(T_{\\rm hot}=6000\\ {\\rm K}\\) to the spotted temperature \\(T_{\\rm cool}=5500\\ {\\rm K}\\) is\n\n\\[\n\\frac{(N_2/N_1)_{\\rm hot}}{(N_2/N_1)_{\\rm cool}}\n= \\exp\\!\\left[-\\frac{\\Delta E}{k}\\left(\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\\right)\\right],\n\\]\n\nwhere \\(\\Delta E = E_2-E_1\\).\n\n---\n\n### Energy difference from the wavelength\n\nThe transition wavelength is \\(\\lambda \\simeq 1448\\ \\text{Å}=1.448\\times10^{-7}\\ {\\rm m}\\).\n\n\\[\n\\Delta E = \\frac{hc}{\\lambda}\n          = \\frac{(6.626\\times10^{-34}\\ {\\rm J\\,s})(3.00\\times10^{8}\\ {\\rm m\\,s^{-1}})}\n                 {1.448\\times10^{-7}\\ {\\rm m}}\n          \\approx 1.37\\times10^{-18}\\ {\\rm J}\n          \\approx 8.6\\ {\\rm eV}.\n\\]\n\n---\n\n### Compute the exponent\n\n\\[\n\\frac{\\Delta E}{k}= \\frac{1.37\\times10^{-18}\\ {\\rm J}}\n                         {1.381\\times10^{-23}\\ {\\rm J\\,K^{-1}}}\n                 \\approx 9.94\\times10^{4}\\ {\\rm K}.\n\\]\n\n\\[\n\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\n= \\frac{1}{6000\\ {\\rm K}}-\\frac{1}{5500\\ {\\rm K}}\n= 1.6667\\times10^{-4}-1.8182\\times10^{-4}\n= -1.515\\times10^{-5}\\ {\\rm K^{-1}}.\n\\]\n\n\\[\n\\text{Exponent}= -\\frac{\\Delta E}{k}\\left(\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\\right)\n= -9.94\\times10^{4}\\times(-1.515\\times10^{-5})\n\\approx +1.5.\n\\]\n\n---\n\n### Ratio of the level populations\n\n\\[\n\\frac{(N_2/N_1)_{\\rm hot}}{(N_2/N_1)_{\\rm cool}}\n= e^{1.5}\\approx 4.5 .\n\\]\n\nThus the population ratio of the two Ti I levels is about **4.5 times larger** when the star has no spots compared with when 40 % of its surface is covered by spots.\n\n**Answer: B. ≈ 4.5**."
+  },
+  "metadata": {
+    "batch": 51,
+    "domain": "gpqa-diamond",
+    "generator": "gpt-oss-120b",
+    "annotator": "gemini-3.1-pro-preview",
+    "question_id": "gpqa-51",
+    "correct_answer": "B",
+    "topic": "physics",
+    "correctness": null,
+    "is_human_annotated": false
+  },
+  "nodes": [
+    {
+      "id": "ctx0",
+      "annotation": false,
+      "start": 0,
+      "end": 78,
+      "label": "context",
+      "text": "Astronomers are studying a star with a 1.5 solar radius and 1.1 solar masses. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx1",
+      "annotation": false,
+      "start": 78,
+      "end": 151,
+      "label": "context",
+      "text": "When the star's surface is not covered by dark spots, its Teff is 6000K. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx2",
+      "annotation": false,
+      "start": 151,
+      "end": 273,
+      "label": "context",
+      "text": "However, when 40% of its surface is covered by spots, the overall photospheric effective temperature decreases to 5500 K. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx3",
+      "annotation": false,
+      "start": 273,
+      "end": 487,
+      "label": "context",
+      "text": "In the stellar photosphere, when examining the ratio of the number of neutral atoms of Ti in two energetic levels (level 1 and level 2), astronomers have observed that this ratio decreases when the star has spots. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx4",
+      "annotation": false,
+      "start": 487,
+      "end": 599,
+      "label": "context",
+      "text": "What is the factor by which this ratio changes when the star does not have spots compared to when it has spots? ",
+      "source": "question"
+    },
+    {
+      "id": "ctx5",
+      "annotation": false,
+      "start": 599,
+      "end": 723,
+      "label": "context",
+      "text": "Note that the transition between the energy levels under consideration corresponds to a wavelength of approximately 1448 Å. ",
+      "source": "question"
+    },
+    {
+      "id": "ctx6",
+      "annotation": false,
+      "start": 723,
+      "end": 770,
+      "label": "context",
+      "text": "Assume that the stellar photosphere is in LTE.\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx7",
+      "annotation": false,
+      "start": 770,
+      "end": 778,
+      "label": "context",
+      "text": "A. ~7.8\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx8",
+      "annotation": false,
+      "start": 778,
+      "end": 786,
+      "label": "context",
+      "text": "B. ~4.5\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx9",
+      "annotation": false,
+      "start": 786,
+      "end": 794,
+      "label": "context",
+      "text": "C. ~1.1\n",
+      "source": "question"
+    },
+    {
+      "id": "ctx10",
+      "annotation": false,
+      "start": 794,
+      "end": 801,
+      "label": "context",
+      "text": "D. ~2.9",
+      "source": "question"
+    },
+    {
+      "id": "resp0",
+      "annotation": true,
+      "start": 0,
+      "end": 7,
+      "label": "planning",
+      "text": "<think>",
+      "source": "response"
+    },
+    {
+      "id": "resp1",
+      "annotation": true,
+      "start": 7,
+      "end": 90,
+      "label": "planning",
+      "text": "We need to compute ratio of populations of two levels of Ti I (neutral Ti) in LTE: ",
+      "source": "response"
+    },
+    {
+      "id": "resp2",
+      "annotation": true,
+      "start": 90,
+      "end": 128,
+      "label": "fact",
+      "text": "N2/N1 = (g2/g1) * exp[-(E2 - E1)/kT]. ",
+      "source": "response"
+    },
+    {
+      "id": "resp3",
+      "annotation": true,
+      "start": 128,
+      "end": 208,
+      "label": "reasoning",
+      "text": "The ratio decreases when temperature drops (since higher level less populated). ",
+      "source": "response"
+    },
+    {
+      "id": "resp4",
+      "annotation": true,
+      "start": 208,
+      "end": 333,
+      "label": "reasoning",
+      "text": "The factor change = (N2/N1)_no_spots / (N2/N1)_spots = exp[-ΔE/kT_no] / exp[-ΔE/kT_spot] = exp[ -ΔE/k (1/T_no - 1/T_spot) ]? ",
+      "source": "response"
+    },
+    {
+      "id": "resp5",
+      "annotation": true,
+      "start": 333,
+      "end": 339,
+      "label": "reflection",
+      "text": "Wait: ",
+      "source": "response"
+    },
+    {
+      "id": "resp6",
+      "annotation": true,
+      "start": 339,
+      "end": 360,
+      "label": "reasoning",
+      "text": "N2/N1 ∝ exp(-ΔE/kT). ",
+      "source": "response"
+    },
+    {
+      "id": "resp7",
+      "annotation": true,
+      "start": 360,
+      "end": 406,
+      "label": "reasoning",
+      "text": "So ratio at T1 (no spots) = A * exp(-ΔE/kT1). ",
+      "source": "response"
+    },
+    {
+      "id": "resp8",
+      "annotation": true,
+      "start": 406,
+      "end": 440,
+      "label": "reasoning",
+      "text": "At T2 (spots) = A * exp(-ΔE/kT2). ",
+      "source": "response"
+    },
+    {
+      "id": "resp9",
+      "annotation": true,
+      "start": 440,
+      "end": 505,
+      "label": "reasoning",
+      "text": "Ratio = exp(-ΔE/kT1) / exp(-ΔE/kT2) = exp[ -ΔE/k (1/T1 - 1/T2) ].",
+      "source": "response"
+    },
+    {
+      "id": "resp10",
+      "annotation": true,
+      "start": 507,
+      "end": 539,
+      "label": "restatement",
+      "text": "Given T1 = 6000 K, T2 = 5500 K. ",
+      "source": "response"
+    },
+    {
+      "id": "resp11",
+      "annotation": true,
+      "start": 539,
+      "end": 594,
+      "label": "planning",
+      "text": "Need ΔE corresponding to transition wavelength 1448 Å. ",
+      "source": "response"
+    },
+    {
+      "id": "resp12",
+      "annotation": true,
+      "start": 594,
+      "end": 623,
+      "label": "fact",
+      "text": "Energy difference ΔE = hc/λ. ",
+      "source": "response"
+    },
+    {
+      "id": "resp13",
+      "annotation": true,
+      "start": 623,
+      "end": 702,
+      "label": "fact",
+      "text": "Compute: h = 6.626e-34 J s, c = 3e8 m/s, λ = 1448 Å = 1448e-10 m = 1.448e-7 m. ",
+      "source": "response"
+    },
+    {
+      "id": "resp14",
+      "annotation": true,
+      "start": 702,
+      "end": 804,
+      "label": "reasoning",
+      "text": "So ΔE = (6.626e-34 * 3e8) / 1.448e-7 = (1.9878e-25) / 1.448e-7 = 1.9878e-25 / 1.448e-7 = 1.373e-18 J. ",
+      "source": "response"
+    },
+    {
+      "id": "resp15",
+      "annotation": true,
+      "start": 804,
+      "end": 880,
+      "label": "reasoning",
+      "text": "Convert to eV: 1 eV = 1.602e-19 J, so ΔE ≈ 1.373e-18 / 1.602e-19 = 8.57 eV. ",
+      "source": "response"
+    },
+    {
+      "id": "resp16",
+      "annotation": true,
+      "start": 880,
+      "end": 887,
+      "label": "reflection",
+      "text": "Good.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp17",
+      "annotation": true,
+      "start": 887,
+      "end": 930,
+      "label": "planning",
+      "text": "Now compute exponent: -ΔE/k (1/T1 - 1/T2). ",
+      "source": "response"
+    },
+    {
+      "id": "resp18",
+      "annotation": true,
+      "start": 930,
+      "end": 949,
+      "label": "fact",
+      "text": "k = 1.381e-23 J/K. ",
+      "source": "response"
+    },
+    {
+      "id": "resp19",
+      "annotation": true,
+      "start": 949,
+      "end": 1008,
+      "label": "reasoning",
+      "text": "ΔE/k = 1.373e-18 / 1.381e-23 = 9.94e4 K (since J/J/K = K). ",
+      "source": "response"
+    },
+    {
+      "id": "resp20",
+      "annotation": true,
+      "start": 1008,
+      "end": 1069,
+      "label": "reasoning",
+      "text": "Actually compute: 1.373e-18 / 1.381e-23 = 9.94e4 = 99,400 K. ",
+      "source": "response"
+    },
+    {
+      "id": "resp21",
+      "annotation": true,
+      "start": 1069,
+      "end": 1112,
+      "label": "reasoning",
+      "text": "So exponent = -99,400 * (1/6000 - 1/5500). ",
+      "source": "response"
+    },
+    {
+      "id": "resp22",
+      "annotation": true,
+      "start": 1112,
+      "end": 1160,
+      "label": "reasoning",
+      "text": "Compute 1/6000 = 1.6667e-4, 1/5500 = 1.8182e-4. ",
+      "source": "response"
+    },
+    {
+      "id": "resp23",
+      "annotation": true,
+      "start": 1160,
+      "end": 1184,
+      "label": "reasoning",
+      "text": "Difference = -1.515e-5? ",
+      "source": "response"
+    },
+    {
+      "id": "resp24",
+      "annotation": true,
+      "start": 1184,
+      "end": 1262,
+      "label": "reasoning",
+      "text": "Wait 1/6000 - 1/5500 = 0.000166667 - 0.000181818 = -0.0000151515 = -1.515e-5. ",
+      "source": "response"
+    },
+    {
+      "id": "resp25",
+      "annotation": true,
+      "start": 1262,
+      "end": 1335,
+      "label": "reasoning",
+      "text": "Multiply by -99,400: exponent = -99,400 * (-1.515e-5) = +1.505 (approx). ",
+      "source": "response"
+    },
+    {
+      "id": "resp26",
+      "annotation": true,
+      "start": 1335,
+      "end": 1364,
+      "label": "reasoning",
+      "text": "So ratio = exp(1.505) = 4.5. ",
+      "source": "response"
+    },
+    {
+      "id": "resp27",
+      "annotation": true,
+      "start": 1364,
+      "end": 1380,
+      "label": "conclusion",
+      "text": "So factor ~4.5. ",
+      "source": "response"
+    },
+    {
+      "id": "resp28",
+      "annotation": true,
+      "start": 1380,
+      "end": 1404,
+      "label": "conclusion",
+      "text": "That matches answer B.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp29",
+      "annotation": true,
+      "start": 1404,
+      "end": 1516,
+      "label": "conclusion",
+      "text": "Thus answer B.\n</think>\nIn LTE the relative population of two atomic levels is given by the Boltzmann factor  \n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp30",
+      "annotation": true,
+      "start": 1516,
+      "end": 1599,
+      "label": "fact",
+      "text": "\\[\n\\frac{N_2}{N_1}= \\frac{g_2}{g_1}\\,\n\\exp\\!\\left[-\\frac{E_2-E_1}{kT}\\right] .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp31",
+      "annotation": true,
+      "start": 1599,
+      "end": 1674,
+      "label": "reasoning",
+      "text": "The statistical‑weight ratio \\(g_2/g_1\\) does not change with temperature, ",
+      "source": "response"
+    },
+    {
+      "id": "resp32",
+      "annotation": true,
+      "start": 1674,
+      "end": 1844,
+      "label": "reasoning",
+      "text": "so the change in the ratio when the star cools from the unspotted temperature \\(T_{\\rm hot}=6000\\ {\\rm K}\\) to the spotted temperature \\(T_{\\rm cool}=5500\\ {\\rm K}\\) is\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp33",
+      "annotation": true,
+      "start": 1844,
+      "end": 1999,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{(N_2/N_1)_{\\rm hot}}{(N_2/N_1)_{\\rm cool}}\n= \\exp\\!\\left[-\\frac{\\Delta E}{k}\\left(\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\\right)\\right],\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp34",
+      "annotation": true,
+      "start": 1999,
+      "end": 2030,
+      "label": "reasoning",
+      "text": "where \\(\\Delta E = E_2-E_1\\).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp35",
+      "annotation": true,
+      "start": 2030,
+      "end": 2035,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp36",
+      "annotation": true,
+      "start": 2035,
+      "end": 2078,
+      "label": "planning",
+      "text": "### Energy difference from the wavelength\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp37",
+      "annotation": true,
+      "start": 2078,
+      "end": 2171,
+      "label": "restatement",
+      "text": "The transition wavelength is \\(\\lambda \\simeq 1448\\ \\text{Å}=1.448\\times10^{-7}\\ {\\rm m}\\).\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp38",
+      "annotation": true,
+      "start": 2171,
+      "end": 2422,
+      "label": "reasoning",
+      "text": "\\[\n\\Delta E = \\frac{hc}{\\lambda}\n          = \\frac{(6.626\\times10^{-34}\\ {\\rm J\\,s})(3.00\\times10^{8}\\ {\\rm m\\,s^{-1}})}\n                 {1.448\\times10^{-7}\\ {\\rm m}}\n          \\approx 1.37\\times10^{-18}\\ {\\rm J}\n          \\approx 8.6\\ {\\rm eV}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp39",
+      "annotation": true,
+      "start": 2422,
+      "end": 2427,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp40",
+      "annotation": true,
+      "start": 2427,
+      "end": 2453,
+      "label": "planning",
+      "text": "### Compute the exponent\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp41",
+      "annotation": true,
+      "start": 2453,
+      "end": 2631,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{\\Delta E}{k}= \\frac{1.37\\times10^{-18}\\ {\\rm J}}\n                         {1.381\\times10^{-23}\\ {\\rm J\\,K^{-1}}}\n                 \\approx 9.94\\times10^{4}\\ {\\rm K}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp42",
+      "annotation": true,
+      "start": 2631,
+      "end": 2812,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\n= \\frac{1}{6000\\ {\\rm K}}-\\frac{1}{5500\\ {\\rm K}}\n= 1.6667\\times10^{-4}-1.8182\\times10^{-4}\n= -1.515\\times10^{-5}\\ {\\rm K^{-1}}.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp43",
+      "annotation": true,
+      "start": 2812,
+      "end": 2974,
+      "label": "reasoning",
+      "text": "\\[\n\\text{Exponent}= -\\frac{\\Delta E}{k}\\left(\\frac{1}{T_{\\rm hot}}-\\frac{1}{T_{\\rm cool}}\\right)\n= -9.94\\times10^{4}\\times(-1.515\\times10^{-5})\n\\approx +1.5.\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp44",
+      "annotation": true,
+      "start": 2974,
+      "end": 2979,
+      "label": "reflection",
+      "text": "---\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp45",
+      "annotation": true,
+      "start": 2979,
+      "end": 3015,
+      "label": "planning",
+      "text": "### Ratio of the level populations\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp46",
+      "annotation": true,
+      "start": 3015,
+      "end": 3094,
+      "label": "reasoning",
+      "text": "\\[\n\\frac{(N_2/N_1)_{\\rm hot}}{(N_2/N_1)_{\\rm cool}}\n= e^{1.5}\\approx 4.5 .\n\\]\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp47",
+      "annotation": true,
+      "start": 3094,
+      "end": 3261,
+      "label": "conclusion",
+      "text": "Thus the population ratio of the two Ti I levels is about **4.5 times larger** when the star has no spots compared with when 40 % of its surface is covered by spots.\n\n",
+      "source": "response"
+    },
+    {
+      "id": "resp48",
+      "annotation": true,
+      "start": 3261,
+      "end": 3282,
+      "label": "conclusion",
+      "text": "**Answer: B. ≈ 4.5**.",
+      "source": "response"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source_node_id": "ctx3",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e1",
+      "source_node_id": "ctx4",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e2",
+      "source_node_id": "ctx6",
+      "dest_node_id": "resp1",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e3",
+      "source_node_id": "resp0",
+      "dest_node_id": "resp1",
+      "label": "plan:decompose"
+    },
+    {
+      "id": "e4",
+      "source_node_id": "resp1",
+      "dest_node_id": "resp2",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e5",
+      "source_node_id": "resp2",
+      "dest_node_id": "resp3",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e6",
+      "source_node_id": "ctx4",
+      "dest_node_id": "resp4",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e7",
+      "source_node_id": "resp2",
+      "dest_node_id": "resp4",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e8",
+      "source_node_id": "resp4",
+      "dest_node_id": "resp5",
+      "label": "reflect:uncertain"
+    },
+    {
+      "id": "e9",
+      "source_node_id": "resp2",
+      "dest_node_id": "resp6",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e10",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp7",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e11",
+      "source_node_id": "resp6",
+      "dest_node_id": "resp8",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e12",
+      "source_node_id": "resp7",
+      "dest_node_id": "resp9",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e13",
+      "source_node_id": "resp8",
+      "dest_node_id": "resp9",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e14",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp10",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e15",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp10",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e16",
+      "source_node_id": "ctx5",
+      "dest_node_id": "resp11",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e17",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp11",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e18",
+      "source_node_id": "resp11",
+      "dest_node_id": "resp12",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e19",
+      "source_node_id": "resp12",
+      "dest_node_id": "resp13",
+      "label": "reason:elaborate-fact"
+    },
+    {
+      "id": "e20",
+      "source_node_id": "resp12",
+      "dest_node_id": "resp14",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e21",
+      "source_node_id": "resp13",
+      "dest_node_id": "resp14",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e22",
+      "source_node_id": "resp14",
+      "dest_node_id": "resp15",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e23",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp16",
+      "label": "reflect:positive"
+    },
+    {
+      "id": "e24",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e25",
+      "source_node_id": "resp10",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e26",
+      "source_node_id": "resp11",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e27",
+      "source_node_id": "resp15",
+      "dest_node_id": "resp17",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e28",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp18",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e29",
+      "source_node_id": "resp14",
+      "dest_node_id": "resp19",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e30",
+      "source_node_id": "resp17",
+      "dest_node_id": "resp19",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e31",
+      "source_node_id": "resp18",
+      "dest_node_id": "resp19",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e32",
+      "source_node_id": "resp14",
+      "dest_node_id": "resp20",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e33",
+      "source_node_id": "resp18",
+      "dest_node_id": "resp20",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e34",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp21",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e35",
+      "source_node_id": "resp10",
+      "dest_node_id": "resp21",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e36",
+      "source_node_id": "resp20",
+      "dest_node_id": "resp21",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e37",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp22",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e38",
+      "source_node_id": "resp22",
+      "dest_node_id": "resp23",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e39",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp24",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e40",
+      "source_node_id": "resp23",
+      "dest_node_id": "resp24",
+      "label": "validate:support"
+    },
+    {
+      "id": "e41",
+      "source_node_id": "resp21",
+      "dest_node_id": "resp25",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e42",
+      "source_node_id": "resp24",
+      "dest_node_id": "resp25",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e43",
+      "source_node_id": "resp9",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e44",
+      "source_node_id": "resp25",
+      "dest_node_id": "resp26",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e45",
+      "source_node_id": "resp26",
+      "dest_node_id": "resp27",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e46",
+      "source_node_id": "ctx8",
+      "dest_node_id": "resp28",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e47",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp28",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e48",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp29",
+      "label": "validate:support"
+    },
+    {
+      "id": "e49",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp29",
+      "label": "validate:support"
+    },
+    {
+      "id": "e50",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp31",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e51",
+      "source_node_id": "ctx1",
+      "dest_node_id": "resp32",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e52",
+      "source_node_id": "ctx2",
+      "dest_node_id": "resp32",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e53",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp32",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e54",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp32",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e55",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp33",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e56",
+      "source_node_id": "resp31",
+      "dest_node_id": "resp33",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e57",
+      "source_node_id": "resp32",
+      "dest_node_id": "resp33",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e58",
+      "source_node_id": "resp30",
+      "dest_node_id": "resp34",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e59",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp34",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e60",
+      "source_node_id": "ctx5",
+      "dest_node_id": "resp36",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e61",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp36",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e62",
+      "source_node_id": "resp34",
+      "dest_node_id": "resp36",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e63",
+      "source_node_id": "ctx5",
+      "dest_node_id": "resp37",
+      "label": "reason:restate"
+    },
+    {
+      "id": "e64",
+      "source_node_id": "resp36",
+      "dest_node_id": "resp38",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e65",
+      "source_node_id": "resp37",
+      "dest_node_id": "resp38",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e66",
+      "source_node_id": "resp36",
+      "dest_node_id": "resp40",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e67",
+      "source_node_id": "resp18",
+      "dest_node_id": "resp41",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e68",
+      "source_node_id": "resp38",
+      "dest_node_id": "resp41",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e69",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp41",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e70",
+      "source_node_id": "resp32",
+      "dest_node_id": "resp42",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e71",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp42",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e72",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp42",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e73",
+      "source_node_id": "resp41",
+      "dest_node_id": "resp43",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e74",
+      "source_node_id": "resp42",
+      "dest_node_id": "resp43",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e75",
+      "source_node_id": "resp40",
+      "dest_node_id": "resp45",
+      "label": "plan:proceed"
+    },
+    {
+      "id": "e76",
+      "source_node_id": "resp33",
+      "dest_node_id": "resp46",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e77",
+      "source_node_id": "resp43",
+      "dest_node_id": "resp46",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e78",
+      "source_node_id": "resp45",
+      "dest_node_id": "resp46",
+      "label": "reason:execute"
+    },
+    {
+      "id": "e79",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp47",
+      "label": "validate:support"
+    },
+    {
+      "id": "e80",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp47",
+      "label": "validate:support"
+    },
+    {
+      "id": "e81",
+      "source_node_id": "resp29",
+      "dest_node_id": "resp47",
+      "label": "validate:support"
+    },
+    {
+      "id": "e82",
+      "source_node_id": "resp46",
+      "dest_node_id": "resp47",
+      "label": "reason:infer"
+    },
+    {
+      "id": "e83",
+      "source_node_id": "resp27",
+      "dest_node_id": "resp48",
+      "label": "validate:support"
+    },
+    {
+      "id": "e84",
+      "source_node_id": "resp28",
+      "dest_node_id": "resp48",
+      "label": "validate:support"
+    },
+    {
+      "id": "e85",
+      "source_node_id": "resp29",
+      "dest_node_id": "resp48",
+      "label": "validate:support"
+    },
+    {
+      "id": "e86",
+      "source_node_id": "resp47",
+      "dest_node_id": "resp48",
+      "label": "validate:support"
+    }
+  ]
+}

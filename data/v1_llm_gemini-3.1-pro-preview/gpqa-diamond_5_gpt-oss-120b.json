@@ -1,0 +1,736 @@
+{
+    "doc_id": "gpqa-diamond_5_gpt-oss-120b",
+    "raw_text": {
+        "question": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,\u03b8): V (r, \u03b8) = 1/2 kr^2 + 3/2 kr^2 cos^2(\u03b8)\nFind the energy spectrum.\nA. E = (2n_x+3n_y+1/2) \u210f*sqrt(k/m))\nB. E = (n_x+3*n_y+3/2) \u210f*sqrt(k/m))\nC. E = (3n_x+2n_y+1/2) \u210f*sqrt(k/m))\nD. E = (2n_x+n_y+3/2)\u210f*sqrt(k/m)",
+        "response": "<think>We need to interpret the potential: V(r,\u03b8) = (1/2) k r^2 + (3/2) k r^2 cos^2 \u03b8.\n\nIn Cartesian coordinates: r^2 = x^2 + y^2, cos \u03b8 = x/r. So cos^2 \u03b8 = x^2 / r^2. Then V = (1/2) k (x^2 + y^2) + (3/2) k (x^2 + y^2) * (x^2 / (x^2 + y^2)) = (1/2) k (x^2 + y^2) + (3/2) k x^2.\n\nSimplify: V = (1/2)k y^2 + (1/2)k x^2 + (3/2)k x^2 = (1/2)k y^2 + (1/2+3/2)k x^2 = (1/2)k y^2 + 2k x^2.\n\nThus V = (1/2) k y^2 + 2 k x^2.\n\nSo it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m \u03c9_x^2 x^2 => \u03c9_x = sqrt(4k/m) = 2 sqrt(k/m). Wait: (1/2) m \u03c9^2 x^2 = 2k x^2 => \u03c9^2 = 4k/m => \u03c9 = 2 sqrt(k/m).\n\nAlong y: V_y = (1/2) k y^2 => (1/2) m \u03c9_y^2 y^2 = (1/2) k y^2 => \u03c9_y^2 = k/m => \u03c9_y = sqrt(k/m).\n\nThus energy eigenvalues: E = (n_x + 1/2) \u0127 \u03c9_x + (n_y + 1/2) \u0127 \u03c9_y = \u0127 [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = \u0127 sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? Wait compute: (n_x + 1/2)*2 = 2 n_x +1. (n_y + 1/2)*1 = n_y + 1/2. Sum = 2 n_x + n_y + 1 + 1/2 = 2 n_x + n_y + 3/2.\n\nThus E = (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). Compare options: D says (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). Yes matches.\n\nThus answer D.\n</think>\nFirst rewrite the potential in Cartesian coordinates.  \n\n\\[\n\\begin{aligned}\nV(r,\\theta) &= \\frac12 k r^{2}+ \\frac32 k r^{2}\\cos^{2}\\theta ,\\\\[4pt]\nr^{2}&=x^{2}+y^{2},\\qquad \n\\cos\\theta =\\frac{x}{r}\\;\\Longrightarrow\\; \\cos^{2}\\theta =\\frac{x^{2}}{r^{2}} .\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\n\\begin{aligned}\nV &=\\frac12 k (x^{2}+y^{2})+\\frac32 k (x^{2}+y^{2})\\frac{x^{2}}{x^{2}+y^{2}}\\\\\n  &=\\frac12 k (x^{2}+y^{2})+\\frac32 k x^{2}\\\\\n  &=\\frac12 k y^{2}+ \\Bigl(\\frac12 k+ \\frac32 k\\Bigr) x^{2}\\\\\n  &=\\frac12 k y^{2}+ 2k\\,x^{2}.\n\\end{aligned}\n\\]\n\nThus the Hamiltonian separates into two independent one\u2011dimensional harmonic oscillators:\n\n\\[\nH = \\frac{p_x^{2}}{2m}+2k\\,x^{2} \\;+\\; \\frac{p_y^{2}}{2m}+ \\frac12 k\\,y^{2}.\n\\]\n\nIdentify the oscillator frequencies from the standard form \\(\\frac12 m\\omega^{2}x^{2}\\):\n\n\\[\n\\frac12 m\\omega_x^{2}x^{2}=2k\\,x^{2}\\quad\\Longrightarrow\\quad \n\\omega_x =\\sqrt{\\frac{4k}{m}} = 2\\sqrt{\\frac{k}{m}},\n\\]\n\n\\[\n\\frac12 m\\omega_y^{2}y^{2}= \\frac12 k\\,y^{2}\\quad\\Longrightarrow\\quad \n\\omega_y =\\sqrt{\\frac{k}{m}} .\n\\]\n\nFor a 1\u2011D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \nTherefore the total energy is the sum of the two independent contributions:\n\n\\[\n\\begin{aligned}\nE_{n_x,n_y} &= \\Bigl(n_x+\\tfrac12\\Bigr)\\hbar\\omega_x\n            + \\Bigl(n_y+\\tfrac12\\Bigr)\\hbar\\omega_y \\\\[4pt]\n            &= \\Bigl(n_x+\\tfrac12\\Bigr) \\,2\\hbar\\sqrt{\\frac{k}{m}}\n            + \\Bigl(n_y+\\tfrac12\\Bigr) \\,\\hbar\\sqrt{\\frac{k}{m}} \\\\[4pt]\n            &= \\hbar\\sqrt{\\frac{k}{m}}\\,\n               \\bigl(2n_x + n_y + \\tfrac32\\bigr).\n\\end{aligned}\n\\]\n\nThus the energy spectrum is  \n\n\\[\n\\boxed{E_{n_x,n_y}= \\bigl(2n_x + n_y + \\tfrac32\\bigr)\\,\n       \\hbar\\sqrt{\\frac{k}{m}} } .\n\\]\n\nThis corresponds to option **D**."
+    },
+    "metadata": {
+        "batch": 5,
+        "domain": "gpqa-diamond",
+        "generator": "gpt-oss-120b",
+        "annotator": "gemini-3.1-pro-preview",
+        "question_id": "gpqa-5",
+        "correct_answer": "D",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 156,
+            "label": "context",
+            "text": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,\u03b8): V (r, \u03b8) = 1/2 kr^2 + 3/2 kr^2 cos^2(\u03b8)\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 156,
+            "end": 182,
+            "label": "context",
+            "text": "Find the energy spectrum.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 182,
+            "end": 218,
+            "label": "context",
+            "text": "A. E = (2n_x+3n_y+1/2) \u210f*sqrt(k/m))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 218,
+            "end": 254,
+            "label": "context",
+            "text": "B. E = (n_x+3*n_y+3/2) \u210f*sqrt(k/m))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 254,
+            "end": 290,
+            "label": "context",
+            "text": "C. E = (3n_x+2n_y+1/2) \u210f*sqrt(k/m))\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 290,
+            "end": 322,
+            "label": "context",
+            "text": "D. E = (2n_x+n_y+3/2)\u210f*sqrt(k/m)",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 7,
+            "label": "reflection",
+            "text": "<think>",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 7,
+            "end": 88,
+            "label": "planning",
+            "text": "We need to interpret the potential: V(r,\u03b8) = (1/2) k r^2 + (3/2) k r^2 cos^2 \u03b8.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 88,
+            "end": 144,
+            "label": "fact",
+            "text": "In Cartesian coordinates: r^2 = x^2 + y^2, cos \u03b8 = x/r. ",
+            "source": "response"
+        },
+        {
+            "id": "resp3",
+            "annotation": true,
+            "start": 144,
+            "end": 168,
+            "label": "reasoning",
+            "text": "So cos^2 \u03b8 = x^2 / r^2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 168,
+            "end": 279,
+            "label": "reasoning",
+            "text": "Then V = (1/2) k (x^2 + y^2) + (3/2) k (x^2 + y^2) * (x^2 / (x^2 + y^2)) = (1/2) k (x^2 + y^2) + (3/2) k x^2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 279,
+            "end": 384,
+            "label": "reasoning",
+            "text": "Simplify: V = (1/2)k y^2 + (1/2)k x^2 + (3/2)k x^2 = (1/2)k y^2 + (1/2+3/2)k x^2 = (1/2)k y^2 + 2k x^2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 384,
+            "end": 417,
+            "label": "reasoning",
+            "text": "Thus V = (1/2) k y^2 + 2 k x^2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 417,
+            "end": 565,
+            "label": "reasoning",
+            "text": "So it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m \u03c9_x^2 x^2 => \u03c9_x = sqrt(4k/m) = 2 sqrt(k/m). ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 565,
+            "end": 631,
+            "label": "reasoning",
+            "text": "Wait: (1/2) m \u03c9^2 x^2 = 2k x^2 => \u03c9^2 = 4k/m => \u03c9 = 2 sqrt(k/m).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 631,
+            "end": 729,
+            "label": "reasoning",
+            "text": "Along y: V_y = (1/2) k y^2 => (1/2) m \u03c9_y^2 y^2 = (1/2) k y^2 => \u03c9_y^2 = k/m => \u03c9_y = sqrt(k/m).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 729,
+            "end": 893,
+            "label": "reasoning",
+            "text": "Thus energy eigenvalues: E = (n_x + 1/2) \u0127 \u03c9_x + (n_y + 1/2) \u0127 \u03c9_y = \u0127 [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = \u0127 sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 893,
+            "end": 933,
+            "label": "reasoning",
+            "text": "Wait compute: (n_x + 1/2)*2 = 2 n_x +1. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 933,
+            "end": 960,
+            "label": "reasoning",
+            "text": "(n_y + 1/2)*1 = n_y + 1/2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 960,
+            "end": 1010,
+            "label": "reasoning",
+            "text": "Sum = 2 n_x + n_y + 1 + 1/2 = 2 n_x + n_y + 3/2.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1010,
+            "end": 1052,
+            "label": "conclusion",
+            "text": "Thus E = (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). ",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1052,
+            "end": 1109,
+            "label": "reasoning",
+            "text": "Compare options: D says (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). ",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1109,
+            "end": 1123,
+            "label": "reflection",
+            "text": "Yes matches.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 1123,
+            "end": 1138,
+            "label": "conclusion",
+            "text": "Thus answer D.\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 1138,
+            "end": 1147,
+            "label": "reflection",
+            "text": "</think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 1147,
+            "end": 1204,
+            "label": "planning",
+            "text": "First rewrite the potential in Cartesian coordinates.  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 1204,
+            "end": 1420,
+            "label": "restatement",
+            "text": "\\[\n\\begin{aligned}\nV(r,\\theta) &= \\frac12 k r^{2}+ \\frac32 k r^{2}\\cos^{2}\\theta ,\\\\[4pt]\nr^{2}&=x^{2}+y^{2},\\qquad \n\\cos\\theta =\\frac{x}{r}\\;\\Longrightarrow\\; \\cos^{2}\\theta =\\frac{x^{2}}{r^{2}} .\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 1420,
+            "end": 1429,
+            "label": "planning",
+            "text": "Hence  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 1429,
+            "end": 1685,
+            "label": "reasoning",
+            "text": "\\[\n\\begin{aligned}\nV &=\\frac12 k (x^{2}+y^{2})+\\frac32 k (x^{2}+y^{2})\\frac{x^{2}}{x^{2}+y^{2}}\\\\\n  &=\\frac12 k (x^{2}+y^{2})+\\frac32 k x^{2}\\\\\n  &=\\frac12 k y^{2}+ \\Bigl(\\frac12 k+ \\frac32 k\\Bigr) x^{2}\\\\\n  &=\\frac12 k y^{2}+ 2k\\,x^{2}.\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 1685,
+            "end": 1776,
+            "label": "reasoning",
+            "text": "Thus the Hamiltonian separates into two independent one\u2011dimensional harmonic oscillators:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 1776,
+            "end": 1860,
+            "label": "reasoning",
+            "text": "\\[\nH = \\frac{p_x^{2}}{2m}+2k\\,x^{2} \\;+\\; \\frac{p_y^{2}}{2m}+ \\frac12 k\\,y^{2}.\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 1860,
+            "end": 1950,
+            "label": "planning",
+            "text": "Identify the oscillator frequencies from the standard form \\(\\frac12 m\\omega^{2}x^{2}\\):\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 1950,
+            "end": 2073,
+            "label": "reasoning",
+            "text": "\\[\n\\frac12 m\\omega_x^{2}x^{2}=2k\\,x^{2}\\quad\\Longrightarrow\\quad \n\\omega_x =\\sqrt{\\frac{4k}{m}} = 2\\sqrt{\\frac{k}{m}},\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2073,
+            "end": 2182,
+            "label": "reasoning",
+            "text": "\\[\n\\frac12 m\\omega_y^{2}y^{2}= \\frac12 k\\,y^{2}\\quad\\Longrightarrow\\quad \n\\omega_y =\\sqrt{\\frac{k}{m}} .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 2182,
+            "end": 2265,
+            "label": "fact",
+            "text": "For a 1\u2011D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 2265,
+            "end": 2342,
+            "label": "planning",
+            "text": "Therefore the total energy is the sum of the two independent contributions:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 2342,
+            "end": 2723,
+            "label": "reasoning",
+            "text": "\\[\n\\begin{aligned}\nE_{n_x,n_y} &= \\Bigl(n_x+\\tfrac12\\Bigr)\\hbar\\omega_x\n            + \\Bigl(n_y+\\tfrac12\\Bigr)\\hbar\\omega_y \\\\[4pt]\n            &= \\Bigl(n_x+\\tfrac12\\Bigr) \\,2\\hbar\\sqrt{\\frac{k}{m}}\n            + \\Bigl(n_y+\\tfrac12\\Bigr) \\,\\hbar\\sqrt{\\frac{k}{m}} \\\\[4pt]\n            &= \\hbar\\sqrt{\\frac{k}{m}}\\,\n               \\bigl(2n_x + n_y + \\tfrac32\\bigr).\n\\end{aligned}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 2723,
+            "end": 2754,
+            "label": "planning",
+            "text": "Thus the energy spectrum is  \n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 2754,
+            "end": 2852,
+            "label": "conclusion",
+            "text": "\\[\n\\boxed{E_{n_x,n_y}= \\bigl(2n_x + n_y + \\tfrac32\\bigr)\\,\n       \\hbar\\sqrt{\\frac{k}{m}} } .\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 2852,
+            "end": 2885,
+            "label": "conclusion",
+            "text": "This corresponds to option **D**.",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp1",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp3",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp4",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp7",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp8",
+            "label": "validate:support"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp8",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp9",
+            "dest_node_id": "resp10",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp15",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp16",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp17",
+            "label": "validate:support"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp19",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp20",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp20",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp20",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp3",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp25",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp29",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp32",
+            "label": "validate:support"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp32",
+            "label": "validate:support"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp33",
+            "label": "validate:support"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        }
+    ]
+}
