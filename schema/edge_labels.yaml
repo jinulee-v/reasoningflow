@@ -1,6 +1,6 @@
 edges:
 - name: reason:infer
-  color: "#F0F0F0"
+  color: "#E0E0E0"
   description: 'This edge represents the basic premise-conclusion relationship. To apply this edge, both nodes should be asserted facts/propositions.
   
     There might be multiple premise nodes that are semantically equivalent. (1) If it is due to restatement, choose only the original node instead of the restatement. (2) Otherwise, choose the closest source node from the destination.'
@@ -91,7 +91,7 @@ edges:
         edge_to: true
 
 - name: reason:execute
-  color: "#E8E8E8"
+  color: "#D8D8D8"
   description: 'This label represents the relationship between a plan and its execution. The plan "introduces" what will happen in the subsequent reasoning step, and the subsequent nodes will follow the plan to perform actual reasoning.
   
     Note that this edge is mostly short-distanced, where it often connects nodes that are within distance 2.
@@ -137,7 +137,7 @@ edges:
         edge_to: true
 
 - name: reason:restate
-  color: "#E0E0E0"
+  color: "#D0D0D0"
   description: This edge connects the Restatement node to the previous node that is restated. When there are multiple statements that include the same content, make sure that this edge points to the original node that is the earliest in the reasoning trace. Even if the node is not directly copying the content, restating a few facts or high-level information of the context can be considered as restatement.
   source: [context, fact, reasoning, assumption, conclusion]
   dest: [restatement]
@@ -182,7 +182,7 @@ edges:
         edge_to: true
 
 - name: reason:elaborate-fact
-  color: "#D8D8D8"
+  color: "#C8C8C8"
   description: This edge connects general facts to more specific facts. This edge is often used when the LLM generates consequent nodes of facts, and the following nodes describe the details of the initial fact.
   
     Note that this edge is usually short-distanced, where it is often connecting nodes that are within distance 2.
@@ -212,7 +212,7 @@ edges:
         edge_to: true
 
 - name: reason:exemplify
-  color: "#D0D0D0"
+  color: "#C0C0C0"
   description: This edge label applies to Example nodes, connecting the example to what it exemplifies. When both nodes are trivia-like facts, it should be rather annotated as fact-detail.
   source: [planning, fact, reasoning, restatement, assumption]
   dest: [example]
@@ -403,7 +403,7 @@ edges:
         edge_to: true
 
 - name: plan:verify
-  color: "#FFC6C6"
+  color: "#FFC4C4"
   description: This edge specifically labels the relationship between a reasoning-like node and a Planning node, initiating the verification process. Typical destination nodes include phrases like "Let's verify this", "I should check if there is any error".
   source: [fact, reasoning, restatement, assumption, example]
   dest: [planning]
@@ -445,7 +445,7 @@ edges:
         edge_to: true
 
 - name: plan:decompose
-  color: "#FFBDBD"
+  color: "#FFB9B9"
   description: 'This edge connects a plan and a subplan. Subplans decompose the high-level plan into smaller, more straightforward goals.
   
     If the plans can be executed in parallel, edges should connect the high-level plan to all subplans; if the subplans are meant to execute sequentially, edges should connect to the first plan only.
@@ -584,73 +584,6 @@ edges:
         text: I think that's it.
         edge_to: true
 
-- name: reflect:negative
-  color: "#C0D4FF"
-  description: 'Reflection edges connect a planning/reasoning-like statement to a reflection node that contains personal views and emotions about the statement.
-  
-    This edge connects a reasoning node and a node that denies it. This is mostly caused by reflection statements like "This seems incorrect" or reflecting without explicit correction edge, such as "Therefore, it is wrong". When it explicitly corrects the previous node, it should be annotated as validate:attack.
-    
-    If the reflection node compares/contrasts multiple nodes (e.g., "This seems off given the previous results"), create edges for both nodes that are being compared.'
-  source: [planning, fact, reasoning, restatement, assumption, example, conclusion]
-  dest: [reflection]
-  subtypes:
-  - type: Negative evaluation of previous reasoning results
-    description: ""
-    examples:
-    - id: 0
-      nodes:
-      - type: reasoning
-        text: that would give t = 550 nm / (2*0.5) = 550 nm.
-        edge_to: false
-      - type: reflection
-        text: But this is just speculation.
-        edge_to: true
-    - id: 1
-      nodes:
-      - type: reasoning
-        text: "- H: 2 + 2*2 = 6?"
-        edge_to: false
-      - type: reflection
-        text: Wait, no.
-        edge_to: true
-    - id: 2
-      nodes:
-      - type: reasoning
-        text: So, λ = 3 x 10^8 m/s / 1.4 x 10^10 Hz ≈ 2.14 x 10^-2 meters, which is about 21.4 millimeters.
-        edge_to: false
-      - type: reflection
-        text: Wait a minute, that seems off.
-        edge_to: true
-    - id: 3
-      nodes:
-      - type: reasoning
-        text: We might also claim that increasing taxes for the rich will lead to higher government revenue.
-        edge_to: false
-      - type: reflection
-        text: But this argument is flawed.
-        edge_to: true
-  - type: Negative judgment on the applicability of a fact
-    description: ""
-    examples:
-    - id: 0
-      nodes:
-      - type: fact
-        text: Van der waals forces are weak intermolecular forces that arise from induced dipoles in molecules.
-        edge_to: false
-      - type: reflection
-        text: However, I think that it will be negligible in this case.
-        edge_to: true
-  - type: Negative judgment on whether the plan will work or not
-    description: ""
-    examples:
-    - id: 0
-      nodes:
-      - type: planning
-        text: We can try considering Van der waals forces.
-        edge_to: false
-      - type: reflection
-        text: However, I think that it will be negligible in this case.
-        edge_to: true
 
 - name: reflect:uncertain
   color: "#C8DBFF"
@@ -751,6 +684,74 @@ edges:
         edge_to: false
       - type: reflection
         text: That seems high.
+        edge_to: true
+
+- name: reflect:negative
+  color: "#C0D4FF"
+  description: 'Reflection edges connect a planning/reasoning-like statement to a reflection node that contains personal views and emotions about the statement.
+  
+    This edge connects a reasoning node and a node that denies it. This is mostly caused by reflection statements like "This seems incorrect" or reflecting without explicit correction edge, such as "Therefore, it is wrong". When it explicitly corrects the previous node, it should be annotated as validate:attack.
+    
+    If the reflection node compares/contrasts multiple nodes (e.g., "This seems off given the previous results"), create edges for both nodes that are being compared.'
+  source: [planning, fact, reasoning, restatement, assumption, example, conclusion]
+  dest: [reflection]
+  subtypes:
+  - type: Negative evaluation of previous reasoning results
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: reasoning
+        text: that would give t = 550 nm / (2*0.5) = 550 nm.
+        edge_to: false
+      - type: reflection
+        text: But this is just speculation.
+        edge_to: true
+    - id: 1
+      nodes:
+      - type: reasoning
+        text: "- H: 2 + 2*2 = 6?"
+        edge_to: false
+      - type: reflection
+        text: Wait, no.
+        edge_to: true
+    - id: 2
+      nodes:
+      - type: reasoning
+        text: So, λ = 3 x 10^8 m/s / 1.4 x 10^10 Hz ≈ 2.14 x 10^-2 meters, which is about 21.4 millimeters.
+        edge_to: false
+      - type: reflection
+        text: Wait a minute, that seems off.
+        edge_to: true
+    - id: 3
+      nodes:
+      - type: reasoning
+        text: We might also claim that increasing taxes for the rich will lead to higher government revenue.
+        edge_to: false
+      - type: reflection
+        text: But this argument is flawed.
+        edge_to: true
+  - type: Negative judgment on the applicability of a fact
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: fact
+        text: Van der waals forces are weak intermolecular forces that arise from induced dipoles in molecules.
+        edge_to: false
+      - type: reflection
+        text: However, I think that it will be negligible in this case.
+        edge_to: true
+  - type: Negative judgment on whether the plan will work or not
+    description: ""
+    examples:
+    - id: 0
+      nodes:
+      - type: planning
+        text: We can try considering Van der waals forces.
+        edge_to: false
+      - type: reflection
+        text: However, I think that it will be negligible in this case.
         edge_to: true
 
 - name: validate:support
