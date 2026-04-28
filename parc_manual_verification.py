@@ -59,14 +59,12 @@ def select_files() -> list[Path]:
     return selected
 
 
-def prompt_yn(prompt: str) -> bool:
+def prompt_yns(prompt: str) -> str:
     while True:
         answer = input(prompt).strip()
-        if answer == "Y":
-            return True
-        if answer == "N":
-            return False
-        print("  Please enter Y or N (capital only).")
+        if answer in ("Y", "S", "N"):
+            return answer
+        print("  Please enter Y, S, or N (capital only).")
 
 
 def annotate_file(path: Path, parc_data: list, session_id: str) -> dict:
@@ -96,15 +94,17 @@ def annotate_file(path: Path, parc_data: list, session_id: str) -> dict:
         print(f"  Reason: {reason}")
         print()
 
-        confirmed = prompt_yn("  Is this really an error? [Y/N]: ")
+        answer = prompt_yns("  Is this really an error? [Y/S/N] (Y=yes, S=somewhat, N=no): ")
+        verdict_map = {"Y": "error", "S": "somewhat", "N": "correct"}
+        label_map = {"Y": "confirmed error", "S": "somewhat an error", "N": "not an error"}
         results.append({
             "node_id": node_id,
             "llm_verdict": "error",
-            "human_verdict": "error" if confirmed else "correct",
-            "confirmed": confirmed,
+            "human_verdict": verdict_map[answer],
+            "confirmed": answer == "Y",
             "chain_of_thought": reason,
         })
-        print(f"  -> Recorded: {'confirmed error' if confirmed else 'not an error'}")
+        print(f"  -> Recorded: {label_map[answer]}")
 
     return {
         "session_id": session_id,
@@ -112,6 +112,7 @@ def annotate_file(path: Path, parc_data: list, session_id: str) -> dict:
         "annotations": results,
         "total_errors_flagged": len(errors),
         "confirmed_errors": sum(1 for r in results if r["confirmed"]),
+        "partial_errors": sum(1 for r in results if r["human_verdict"] == "somewhat"),
     }
 
 
@@ -134,12 +135,13 @@ def main():
     print(f"Annotating {len(selected)} files.\n")
     print("Instructions:")
     print("  - For each flagged node, enter Y to confirm it is an error,")
-    print("    or N if the LLM was wrong (not actually an error).")
-    print("  - Capital Y or N only.")
+    print("    S if it is somewhat an error, or N if the LLM was wrong.")
+    print("  - Capital Y, S, or N only.")
     print("  - Results are saved after each file.")
 
     total_flagged = 0
     total_confirmed = 0
+    total_partial = 0
 
     for idx, (path, n_errors) in enumerate(selected, 1):
         print(f"\n--- File {idx}/{len(selected)} ---")
@@ -151,15 +153,17 @@ def main():
             save_result(result, session_id)
             total_flagged += result["total_errors_flagged"]
             total_confirmed += result["confirmed_errors"]
+            total_partial += result["partial_errors"]
         except KeyboardInterrupt:
             print("\n\nInterrupted. Progress saved up to this point.")
             break
 
     print("\n" + "=" * 70)
     print("Session complete.")
-    print(f"  Files annotated : {idx}")
-    print(f"  Errors flagged  : {total_flagged}")
-    print(f"  Errors confirmed: {total_confirmed}")
+    print(f"  Files annotated  : {idx}")
+    print(f"  Errors flagged   : {total_flagged}")
+    print(f"  Errors confirmed : {total_confirmed}")
+    print(f"  Errors somewhat  : {total_partial}")
     print(f"  Results saved in: {ANNOT_DIR}/")
 
 
