@@ -442,7 +442,7 @@ def _extract_node_summary(node):
 def node_segmentation(text):
     """Call LLM to perform sentence tokenization."""
     prompt = PROMPTS["node_segmentation"].replace("<<text>>", text)
-    response = call_llm(prompt, schema=SentenceList, thinking_level="minimal")
+    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=SentenceList, thinking_level="minimal")
     return response["units"]
 
 
@@ -455,7 +455,7 @@ def node_classification(nodes, question):
         format_node_label_prompt,
         input_data
     )
-    response = call_llm(prompt, schema=NodeLabelResponseList, thinking_level="minimal")
+    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=NodeLabelResponseList, thinking_level="minimal")
     return response
 
 
@@ -501,7 +501,7 @@ def edge_detection_and_classification(node_idx, nodes):
     )
     # print(prompt); exit()
 
-    response = call_llm(prompt, schema=EdgeResponseList, thinking_level="high")
+    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=EdgeResponseList, thinking_level="high")
 
     return [
         {
@@ -514,84 +514,42 @@ def edge_detection_and_classification(node_idx, nodes):
     ]
 
 
-def _needs_resegment(text):
-    """Return True if a node is long enough and paragraph-rich enough to warrant re-segmentation."""
-    return len(text) > 300 or text.strip().count('\n\n') > 1 or ". " in text.strip()
+def chunk_by_paragraphs(text):
+    """Split text into (start, end) ranges at .\n\n[A-Z] boundaries."""
+    positions = [0]
+    for m in re.finditer(r'\.\s*\n\n(?=[A-Z])', text):
+        positions.append(m.end())
+    positions.append(len(text))
+    return [(positions[i], positions[i + 1]) for i in range(len(positions) - 1)]
 
 
-def tokenize_and_align(text, tokenize_func):
-    """Tokenize text and find character indices for each sentence.
-
-    Uses globally optimal DP alignment (optimal_alignment) to segment the text
-    into exactly len(sentences) contiguous parts.  Any resulting segment that is
-    longer than 300 characters AND whose stripped text contains more than one
-    blank line (\\n\\n) is recursively re-segmented until either the recursive
-    call returns a single segment (cannot split further) or all segments satisfy
-    the size/paragraph criteria.
+def tokenize_and_align(text):
+    """Chunk text, call LLM per chunk in parallel, apply DP alignment per chunk.
 
     Returns (segments, char_boundaries) where char_boundaries has length
     len(segments) + 1, char_boundaries[0] == 0, char_boundaries[-1] == len(text).
-    Returns (None, None) if alignment fails entirely.
     """
-    print("tokenize_and_align(), len(text):", len(text))
-    sentences = tokenize_func(text)
-    segments, boundaries = optimal_alignment(text, sentences)
+    # print("tokenize_and_align(), len(text):", len(text))
+    chunk_ranges = chunk_by_paragraphs(text)
+    chunk_texts = [text[s:e] for s, e in chunk_ranges]
 
-    if len(segments) == 1:
-        # directly return if only one segment (no alignment needed)
-        return segments, boundaries
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        chunk_sentences = list(tqdm(executor.map(node_segmentation, chunk_texts), total=len(chunk_texts), desc="segmenting chunks"))
 
-    final_segments = []
-    final_boundaries = [0]
+    all_segments = []
+    all_boundaries = [0]
 
-    for i, seg in enumerate(segments):
-        seg_start = boundaries[i]
-        seg_end = boundaries[i + 1]
-        seg_text = text[seg_start:seg_end]
+    for chunk_text, sentences, (chunk_start, _) in zip(chunk_texts, chunk_sentences, chunk_ranges):
+        if not sentences:
+            all_segments.append(chunk_text)
+            all_boundaries.append(chunk_start + len(chunk_text))
+            continue
+        segments, boundaries = optimal_alignment(chunk_text, sentences)
+        all_segments.extend(segments)
+        for b in boundaries[1:]:
+            all_boundaries.append(chunk_start + b)
 
-        if len(seg_text) > 300:
-            # Split by double newlines and recursively process each paragraph
-            para_ranges = []
-            pos = 0
-            for m in re.finditer(r'\n\n', seg_text):
-                para_ranges.append((pos, m.end()))
-                pos = m.end()
-            if pos < len(seg_text):
-                para_ranges.append((pos, len(seg_text)))
-
-            sub_expanded = False
-            if len(para_ranges) > 1:
-                combined_segs = []
-                combined_bounds = [0]
-                for para_start, para_end in para_ranges:
-                    para_text = seg_text[para_start:para_end]
-                    if _needs_resegment(para_text):
-                        sub_segs, sub_bounds = tokenize_and_align(para_text, tokenize_func)
-                    else:
-                        sub_segs, sub_bounds = [para_text], [0, len(para_text)]
-                    if sub_segs is None or len(sub_segs) == 0:
-                        combined_segs.append(para_text)
-                        combined_bounds.append(para_end)
-                    else:
-                        for j, sub_seg in enumerate(sub_segs):
-                            combined_segs.append(sub_seg)
-                            combined_bounds.append(para_start + sub_bounds[j + 1])
-
-                if len(combined_segs) > 1:
-                    sub_expanded = True
-                    for j, sub_seg in enumerate(combined_segs):
-                        final_segments.append(sub_seg)
-                        final_boundaries.append(seg_start + combined_bounds[j + 1])
-
-            if not sub_expanded:
-                # Cannot split further – keep as-is
-                final_segments.append(seg_text)
-                final_boundaries.append(seg_end)
-        else:
-            final_segments.append(seg_text)
-            final_boundaries.append(seg_end)
-
-    return final_segments, final_boundaries
+    return all_segments, all_boundaries
 
 
 # =============================================================================
@@ -628,7 +586,7 @@ def _create_response_node(index, start, end, label, text):
 # Main Processing Function
 # =============================================================================
 
-MAX_WORKERS = 32
+MAX_WORKERS = 16
 
 
 def main_predict(data, output_dir=""):
@@ -642,9 +600,7 @@ def main_predict(data, output_dir=""):
 
             # Process question sentences into context nodes
             question_text = datum["raw_text"]["question"]
-            question_sentences, indices = tokenize_and_align(question_text, node_segmentation)
-            if question_sentences is None:
-                continue
+            question_sentences, indices = tokenize_and_align(question_text)
             indices[0] = 0
 
             nodes = [
@@ -654,9 +610,7 @@ def main_predict(data, output_dir=""):
 
             # Process response sentences
             response_text = datum["raw_text"]["response"]
-            response_sentences, response_indices = tokenize_and_align(response_text, node_segmentation)
-            if response_sentences is None:
-                continue
+            response_sentences, response_indices = tokenize_and_align(response_text)
             response_indices[0] = 0
 
             # Validation
@@ -690,7 +644,7 @@ def main_predict(data, output_dir=""):
             
             # Post-hoc update of conclusion nodes
             conclusion_prompt = PROMPTS["update_conclusion"].replace("<<input>>", format_conclusion_prompt(datum))
-            conclusion_response = call_llm(conclusion_prompt, schema=ConclusionNodeList, thinking_level="high")
+            conclusion_response = call_llm(conclusion_prompt, llm_model_name=LLM_MODEL_NAME, schema=ConclusionNodeList, thinking_level="high")
             conclusion_node_ids = set(conclusion_response["conclusion_node_ids"])
             for node in datum["nodes"]:
                 if node["id"] in conclusion_node_ids:
@@ -701,9 +655,11 @@ def main_predict(data, output_dir=""):
             # Annotate edges in parallel
             edge_func = partial(edge_detection_and_classification, nodes=nodes)
             non_context_indices = [i for i, node in enumerate(nodes) if node["label"] != "context"]
+            # shuffle non_context_indices to improve load balancing across threads (some nodes may take much longer to annotate edges than others)
+            shuffle(non_context_indices)
 
             with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-                edge_lists = list(executor.map(edge_func, non_context_indices))
+                edge_lists = list(tqdm(executor.map(edge_func, non_context_indices), total=len(non_context_indices), desc="annotating edges"))
             print("Reach here: edge count", sum(len(edges) for edges in edge_lists))
 
             # Flatten and sort edges
@@ -745,32 +701,37 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="LLM Labeler for data")
+    parser.add_argument("--model_name", type=str, required=True, help="LLM model name to use for annotation.")
+    parser.add_argument("--raw_data_dir", type=str, default="data/v1_raw_data", help="Directory containing raw input JSON files.")
+    parser.add_argument("--output_dir", type=str, default=None, help="Directory containing ground-truth segmentation JSON files.")
+    
     args = parser.parse_args()
+    
+    LLM_MODEL_NAME = args.model_name
+    if args.output_dir is not None:
+        output_dir = args.output_dir
+    else:
+        output_dir = f"data/v1_llm_{LLM_MODEL_NAME}"
 
     print("<Load data...>")
     data = []
     # Make directory for output if not exists
-    os.makedirs(f"data/v1_llm_{LLM_MODEL_NAME}", exist_ok=True)
-    # for file in sorted(os.listdir("data/v1_raw_data")):
-    shuffled_files = os.listdir("data/v1_raw_data")
+    os.makedirs(output_dir, exist_ok=True)
+    shuffled_files = os.listdir(args.raw_data_dir)
     shuffle(shuffled_files)
     for file in shuffled_files:
         # DEBUG
         # if "gpt-oss" not in file:
         #     continue
         if file.endswith(".json"):
-            output_path = os.path.join(
-                "data",
-                f"v1_llm_{LLM_MODEL_NAME}",
-                file
-            )
+            output_path = os.path.join(output_dir, file)
             if os.path.exists(output_path):
                 print(f"Data for {file} already exists, skipping.")
                 continue
 
-            with open(os.path.join("data/v1_raw_data", file), "r") as f:
+            with open(os.path.join(args.raw_data_dir, file), "r") as f:
                 datum = json.load(f)
                 data.append(datum)
 
     print(f"Loaded {len(data)} data samples.")
-    main_predict(data, output_dir=f"data/v1_llm_{LLM_MODEL_NAME}")
+    main_predict(data, output_dir=output_dir)
