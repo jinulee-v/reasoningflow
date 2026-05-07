@@ -1,0 +1,2695 @@
+{
+    "doc_id": "gpqa-diamond_77_DeepSeek-R1",
+    "raw_text": {
+        "question": "Imagine a point charge q is moving with a trajectory $\\vec{s}(t)$, where t is time, with respect to the origin. Let $\\vec{r}$ be the field point, where the field is observed, with respect to the origin of the same reference frame, and  $\\vec{d}$ be the vector from the point where the electromagnetic field was generated at some earlier time $tr$ to the observation point $\\vec{r}$. The velocity of the moving charge q at the field generating instant $tr$ is $\\vec{v}$. What are the scalar potential (V) and vector potential (\\vec{A}) at time t, satisfying $t > tr$, and position $\\vec{r}$? In obtaining the expressions, use the notation of $c->$ light speed in vacuum, $\\epsilono ->$ permitivity of free space and $\\mu_o$ is the permeability.\nA. V(\\vec{r},t) = \\dfrac{qc}{4\\pi\\epsilon_o (d c - \\vec{d}. \\vec{v})},  \\vec{A(\\vec{r},t)} = \\dfrac{\\mu_o qc \\vec{v}}{4\\pi (d c - \\vec{d}. \\vec{v})}\nB. V(\\vec{r},t) = \\dfrac{q}{4\\pi\\epsilon_o r},  \\vec{A(\\vec{r},t)} = \\dfrac{\\vec{v^2}}{c^2} V(\\vec{r},t)\nC. V(\\vec{r},t) = \\dfrac{q}{4\\pi\\epsilon_o r}, \\vec{A(\\vec{r},t)} = \\dfrac{\\vec{v}}{c^2} V(\\vec{r},t)\nD. V(\\vec{r},t) = \\dfrac{qc}{4\\pi\\epsilon_o (d c + \\vec{d}. \\vec{v})},  \\vec{A(\\vec{r},t)} = \\dfrac{\\mu qc \\vec{v}}{4\\pi (d c + \\vec{d}. \\vec{v})}",
+        "response": "<think>\nOkay, so I need to figure out which of the given options correctly represents the scalar potential V and vector potential A at a position r and time t due to a moving point charge q. Let me start by recalling what I know about electromagnetic potentials for moving charges.\n\nFirst, I remember that for a moving charge, the potentials are given by the Li\u00e9nard-Wiechert potentials. These take into account the retarded time tr, which is the time when the electromagnetic field was emitted from the charge to reach the observation point r at time t. The retarded time is important because the effect of the charge's motion propagates at the speed of light, so we have to consider where the charge was at time tr = t - d/c, where d is the distance between the charge's position at tr and the observation point r.\n\nWait, but in the problem statement, they mention d as the vector from the charge's position at tr to the observation point r. So d is the vector pointing from the past position of the charge to where we're measuring the field. The scalar potential V and vector potential A depend on the position and velocity of the charge at this retarded time tr.\n\nThe Li\u00e9nard-Wiechert potentials, if I recall correctly, are:\n\nV(r, t) = (1 / 4\u03c0\u03b5\u2080) * [ q / (d * (1 - (v \u00b7 d\u0302)/c)) ]\n\nand\n\nA(r, t) = (\u03bc\u2080 / 4\u03c0) * [ q v / (d * (1 - (v \u00b7 d\u0302)/c)) ]\n\nwhere d\u0302 is the unit vector in the direction of d, and v is the velocity of the charge at the retarded time tr. The denominator has a term involving the dot product of the velocity and the direction of d, scaled by the speed of light c. This term accounts for the Doppler-shifting effect due to the motion of the charge towards or away from the observation point.\n\nLooking at the options given:\n\nOption A: V = (q c)/(4\u03c0\u03b5\u2080 (d c - d \u00b7 v)), A = (\u03bc\u2080 q c v)/(4\u03c0 (d c - d \u00b7 v))\n\nOption D: Similar to A but with a plus sign in the denominator.\n\nOptions B and C have expressions dependent on r instead of d, which might be the instantaneous distance, but since we're dealing with retarded potentials, it should depend on d, the distance at the retarded time. So B and C might not be correct.\n\nWait, but let me check. The standard Li\u00e9nard-Wiechert potentials have the denominator as d(1 - (v \u00b7 d\u0302)/c). Let's express that denominator in terms of vectors. Since d is the vector from the charge's position at tr to r, its magnitude is d, and d\u0302 = d / d. So the denominator term is d(1 - (v \u00b7 d)/(d c)) ) = d - (v \u00b7 d)/c. Therefore, the denominator is d c - v \u00b7 d when multiplied by c. Wait, let me see:\n\nOriginal denominator: d(1 - (v \u00b7 d\u0302)/c) = d - (v \u00b7 d)/c. If we factor c in the denominator, maybe?\n\nWait, let's compute:\n\nThe scalar potential V is [ q / (4\u03c0\u03b5\u2080) ] divided by [ d (1 - (v \u00b7 d\u0302)/c) ]\n\nExpressed as:\n\nV = q / [4\u03c0\u03b5\u2080 (d - (v \u00b7 d)/c ) ]\n\nBut if we multiply numerator and denominator by c, we get:\n\nV = (q c) / [4\u03c0\u03b5\u2080 (d c - v \u00b7 d ) ]\n\nWhich matches option A's expression for V. Similarly, the vector potential A is [ \u03bc\u2080 q v / (4\u03c0) ] divided by [ d (1 - (v \u00b7 d\u0302)/c ) ]\n\nWhich similarly becomes [ \u03bc\u2080 q c v ] / [4\u03c0 (d c - v \u00b7 d ) ]\n\nSo that matches option A's expression for A as well. Therefore, option A seems correct.\n\nOption D has a plus sign in the denominator, which would correspond to 1 + (v \u00b7 d\u0302)/c, but in the Li\u00e9nard-Wiechert potentials, it's 1 - (v \u00b7 d\u0302)/c. So if the charge is moving towards the observation point, v \u00b7 d\u0302 is positive, which reduces the denominator, increasing the potential. That makes sense because if the charge is moving towards you, the potentials are stronger due to the Doppler effect. So the denominator should have a minus sign, which matches option A.\n\nOptions B and C use r instead of d. If r is the current position of the charge, then those would be instantaneous potentials, which is not correct because electromagnetic fields propagate at the speed of light. Therefore, potentials must depend on the retarded position and velocity, hence d, not r. So B and C are incorrect.\n\nTherefore, the correct answer should be option A.\n\nWait, but let me check the units to make sure. Scalar potential V has units of volts (V), which is N\u00b7m/C. The expression in option A: numerator is q c, which is charge times velocity. Denominator is \u03b5\u2080 times (d c - d \u00b7 v). The term d c has units of length times velocity, and d \u00b7 v has units of length times velocity. So denominator is \u03b5\u2080 times velocity times length. So overall, units of V would be (C * m/s) / (C\u00b2/(N\u00b7m\u00b2) * m/s * m) ) Let's compute:\n\nNumerator: C * (m/s)\n\nDenominator: (C\u00b2/(N\u00b7m\u00b2)) * (m/s * m) ) = (C\u00b2/(N\u00b7m\u00b2)) * m\u00b2/s = C\u00b2/(N\u00b7s)\n\nSo overall, units: (C * m/s) / (C\u00b2/(N\u00b7s)) ) = (C * m/s) * (N\u00b7s)/C\u00b2 = (m * N)/C = (N\u00b7m)/C, which is volts (V). Correct.\n\nSimilarly, vector potential A has units of T\u00b7m (tesla\u00b7meter) or equivalently (N\u00b7s)/C. The expression in option A: numerator is \u03bc\u2080 q c v. \u03bc\u2080 has units of H/m (henrys per meter), which is (T\u00b7m/A). So \u03bc\u2080 has units T\u00b7m/A. q is C, c is m/s, v is m/s. So numerator: T\u00b7m/A * C * m/s * m/s = T\u00b7m/A * C * m\u00b2/s\u00b2. Denominator is 4\u03c0 (d c - d\u00b7v). d c is m * m/s = m\u00b2/s, d\u00b7v is m * m/s = m\u00b2/s. So denominator is m\u00b2/s. So overall units:\n\nNumerator: T\u00b7m/A * C * m\u00b2/s\u00b2\n\nDenominator: m\u00b2/s\n\nSo total units: (T\u00b7m/A * C * m\u00b2/s\u00b2) / (m\u00b2/s) ) = T\u00b7m/A * C * (1/s\u00b2) * s/m\u00b2 * m\u00b2 = T\u00b7m/A * C / s\n\nBut A is coulombs per second (C/s). So T\u00b7m/(C/s) * C / s = T\u00b7m * s / C * C / s = T\u00b7m. Which is correct for vector potential (since A is in T\u00b7m or equivalently (N\u00b7s)/C). Wait, maybe another way: Let's see, vector potential A is in Tesla\u00b7meter (T\u00b7m). Let's check:\n\n\u03bc\u2080 has units T\u00b7m/A. So \u03bc\u2080 times charge q (C) times velocity (m/s) divided by distance (m):\n\n\u03bc\u2080 q v / (4\u03c0 d) would have units (T\u00b7m/A) * C * (m/s) / m = T\u00b7m/A * C/s. Since 1 C/s is ampere (A), so T\u00b7m/A * A = T\u00b7m. Correct. But in option A, denominator is (d c - d\u00b7v). So the denominator has units of velocity times distance (since d c is m*(m/s) = m\u00b2/s? Wait, d is a vector, but here d is the magnitude. Wait, d c is magnitude d times c, so units m*(m/s) = m\u00b2/s. Similarly, d\u00b7v is m*(m/s) = m\u00b2/s. So denominator has units m\u00b2/s. So \u03bc\u2080 q c v divided by (m\u00b2/s) would be:\n\n\u03bc\u2080 has units T\u00b7m/A, q is C, c is m/s, v is m/s. So numerator: T\u00b7m/A * C * m/s * m/s = T\u00b7m\u00b7C\u00b7m\u00b2/(A\u00b7s\u00b2). Denominator: m\u00b2/s. So total units: T\u00b7m\u00b7C\u00b7m\u00b2/(A\u00b7s\u00b2) / (m\u00b2/s) = T\u00b7m\u00b7C/(A\u00b7s). Since C/s is A, so C/(A\u00b7s) = (C/s)/A * 1/s = A/A * 1/s = 1/s. Wait, this seems confusing. Maybe I made a mistake.\n\nAlternatively, let's think of the expression for A:\n\nIn option A, A is (\u03bc\u2080 q c v)/(4\u03c0 (d c - d\u00b7v)). Let's factor c from the denominator:\n\nDenominator: c d - d\u00b7v = d (c - v\u00b7d\u0302), where d\u0302 is unit vector. So denominator is d (c - v\u00b7d\u0302). Then, A is (\u03bc\u2080 q c v)/(4\u03c0 d (c - v\u00b7d\u0302)). The standard Li\u00e9nard-Wiechert vector potential is (\u03bc\u2080 q v)/(4\u03c0 d (1 - v\u00b7d\u0302/c)). Let's see:\n\nMultiply numerator and denominator by c:\n\n(\u03bc\u2080 q v c)/(4\u03c0 d (c - v\u00b7d\u0302)). Which matches the expression in option A. So yes, the units here would be correct because the standard expression has units of \u03bc\u2080 q v divided by (d (1 - v\u00b7d\u0302/c)), which would have the same units as here. So the units check out.\n\nTherefore, both expressions in option A have correct units, and their forms match the Li\u00e9nard-Wiechert potentials. So option A is correct.\n\nOptions B and C use r instead of d, which is incorrect because r is the current position, not the retarded one. Option D has a plus sign in the denominator, which would be incorrect because the correct term is 1 - v\u00b7d\u0302/c, so when expressed in terms of d c - d\u00b7v, it's minus, not plus. Therefore, the answer is A.\n\n**Final Answer**\n\n\\boxed{A}\n</think>\n\nTo determine the scalar potential \\( V \\) and vector potential \\( \\vec{A} \\) at position \\( \\vec{r} \\) and time \\( t \\) due to a moving point charge \\( q \\), we need to consider the Li\u00e9nard-Wiechert potentials. These potentials take into account the retarded time \\( t_r \\), which is the time when the electromagnetic field was emitted from the charge to reach the observation point \\( \\vec{r} \\) at time \\( t \\). The retarded position and velocity of the charge are crucial in calculating these potentials.\n\nThe Li\u00e9nard-Wiechert potentials are given by:\n\\[\nV(\\vec{r}, t) = \\frac{1}{4\\pi\\epsilon_0} \\left[ \\frac{q}{d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c})} \\right]\n\\]\n\\[\n\\vec{A}(\\vec{r}, t) = \\frac{\\mu_0}{4\\pi} \\left[ \\frac{q \\vec{v}}{d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c})} \\right]\n\\]\nwhere \\( d \\) is the magnitude of the vector \\( \\vec{d} \\) from the charge's position at \\( t_r \\) to the observation point \\( \\vec{r} \\), \\( \\vec{v} \\) is the velocity of the charge at \\( t_r \\), and \\( \\hat{d} \\) is the unit vector in the direction of \\( \\vec{d} \\).\n\nRewriting the denominator \\( d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c}) \\) in terms of \\( \\vec{d} \\) and \\( \\vec{v} \\), we get:\n\\[\nd (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c}) = d - \\frac{\\vec{v} \\cdot \\vec{d}}{c}\n\\]\nMultiplying numerator and denominator by \\( c \\), the scalar potential becomes:\n\\[\nV(\\vec{r}, t) = \\frac{qc}{4\\pi\\epsilon_0 (dc - \\vec{d} \\cdot \\vec{v})}\n\\]\nSimilarly, the vector potential becomes:\n\\[\n\\vec{A}(\\vec{r}, t) = \\frac{\\mu_0 qc \\vec{v}}{4\\pi (dc - \\vec{d} \\cdot \\vec{v})}\n\\]\n\nOptions B and C use \\( r \\) instead of \\( d \\), which is incorrect because \\( r \\) refers to the instantaneous distance, not the retarded distance. Option D has a plus sign in the denominator, which is incorrect as the correct term involves a minus sign. Therefore, the correct answer is:\n\n\\boxed{A}"
+    },
+    "metadata": {
+        "batch": 77,
+        "domain": "gpqa-diamond",
+        "generator": "DeepSeek-R1",
+        "annotator": "gemini-3-flash-preview",
+        "question_id": "gpqa-77",
+        "correct_answer": "A",
+        "topic": "physics",
+        "correctness": null,
+        "is_human_annotated": false
+    },
+    "nodes": [
+        {
+            "id": "ctx0",
+            "annotation": false,
+            "start": 0,
+            "end": 112,
+            "label": "context",
+            "text": "Imagine a point charge q is moving with a trajectory $\\vec{s}(t)$, where t is time, with respect to the origin. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx1",
+            "annotation": false,
+            "start": 112,
+            "end": 383,
+            "label": "context",
+            "text": "Let $\\vec{r}$ be the field point, where the field is observed, with respect to the origin of the same reference frame, and  $\\vec{d}$ be the vector from the point where the electromagnetic field was generated at some earlier time $tr$ to the observation point $\\vec{r}$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx2",
+            "annotation": false,
+            "start": 383,
+            "end": 470,
+            "label": "context",
+            "text": "The velocity of the moving charge q at the field generating instant $tr$ is $\\vec{v}$. ",
+            "source": "question"
+        },
+        {
+            "id": "ctx3",
+            "annotation": false,
+            "start": 470,
+            "end": 591,
+            "label": "context",
+            "text": "What are the scalar potential (V) and vector potential (\\vec{A}) at time t, satisfying $t > tr$, and position $\\vec{r}$? ",
+            "source": "question"
+        },
+        {
+            "id": "ctx4",
+            "annotation": false,
+            "start": 591,
+            "end": 744,
+            "label": "context",
+            "text": "In obtaining the expressions, use the notation of $c->$ light speed in vacuum, $\\epsilono ->$ permitivity of free space and $\\mu_o$ is the permeability.\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx5",
+            "annotation": false,
+            "start": 744,
+            "end": 893,
+            "label": "context",
+            "text": "A. V(\\vec{r},t) = \\dfrac{qc}{4\\pi\\epsilon_o (d c - \\vec{d}. \\vec{v})},  \\vec{A(\\vec{r},t)} = \\dfrac{\\mu_o qc \\vec{v}}{4\\pi (d c - \\vec{d}. \\vec{v})}\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx6",
+            "annotation": false,
+            "start": 893,
+            "end": 998,
+            "label": "context",
+            "text": "B. V(\\vec{r},t) = \\dfrac{q}{4\\pi\\epsilon_o r},  \\vec{A(\\vec{r},t)} = \\dfrac{\\vec{v^2}}{c^2} V(\\vec{r},t)\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx7",
+            "annotation": false,
+            "start": 998,
+            "end": 1100,
+            "label": "context",
+            "text": "C. V(\\vec{r},t) = \\dfrac{q}{4\\pi\\epsilon_o r}, \\vec{A(\\vec{r},t)} = \\dfrac{\\vec{v}}{c^2} V(\\vec{r},t)\n",
+            "source": "question"
+        },
+        {
+            "id": "ctx8",
+            "annotation": false,
+            "start": 1100,
+            "end": 1246,
+            "label": "context",
+            "text": "D. V(\\vec{r},t) = \\dfrac{qc}{4\\pi\\epsilon_o (d c + \\vec{d}. \\vec{v})},  \\vec{A(\\vec{r},t)} = \\dfrac{\\mu qc \\vec{v}}{4\\pi (d c + \\vec{d}. \\vec{v})}",
+            "source": "question"
+        },
+        {
+            "id": "resp0",
+            "annotation": true,
+            "start": 0,
+            "end": 8,
+            "label": "reflection",
+            "text": "<think>\n",
+            "source": "response"
+        },
+        {
+            "id": "resp1",
+            "annotation": true,
+            "start": 8,
+            "end": 191,
+            "label": "restatement",
+            "text": "Okay, so I need to figure out which of the given options correctly represents the scalar potential V and vector potential A at a position r and time t due to a moving point charge q. ",
+            "source": "response"
+        },
+        {
+            "id": "resp2",
+            "annotation": true,
+            "start": 191,
+            "end": 283,
+            "label": "planning",
+            "text": "Let me start by recalling what I know about electromagnetic potentials for moving charges.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp4",
+            "annotation": true,
+            "start": 283,
+            "end": 388,
+            "label": "fact",
+            "text": "First, I remember that for a moving charge, the potentials are given by the Li\u00e9nard-Wiechert potentials. ",
+            "source": "response"
+        },
+        {
+            "id": "resp5",
+            "annotation": true,
+            "start": 388,
+            "end": 555,
+            "label": "fact",
+            "text": "These take into account the retarded time tr, which is the time when the electromagnetic field was emitted from the charge to reach the observation point r at time t. ",
+            "source": "response"
+        },
+        {
+            "id": "resp6",
+            "annotation": true,
+            "start": 555,
+            "end": 818,
+            "label": "fact",
+            "text": "The retarded time is important because the effect of the charge's motion propagates at the speed of light, so we have to consider where the charge was at time tr = t - d/c, where d is the distance between the charge's position at tr and the observation point r.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp7",
+            "annotation": true,
+            "start": 818,
+            "end": 944,
+            "label": "restatement",
+            "text": "Wait, but in the problem statement, they mention d as the vector from the charge's position at tr to the observation point r. ",
+            "source": "response"
+        },
+        {
+            "id": "resp8",
+            "annotation": true,
+            "start": 944,
+            "end": 1045,
+            "label": "reasoning",
+            "text": "So d is the vector pointing from the past position of the charge to where we're measuring the field. ",
+            "source": "response"
+        },
+        {
+            "id": "resp9",
+            "annotation": true,
+            "start": 1045,
+            "end": 1168,
+            "label": "reasoning",
+            "text": "The scalar potential V and vector potential A depend on the position and velocity of the charge at this retarded time tr.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp10",
+            "annotation": true,
+            "start": 1168,
+            "end": 1458,
+            "label": "fact",
+            "text": "The Li\u00e9nard-Wiechert potentials, if I recall correctly, are:\n\nV(r, t) = (1 / 4\u03c0\u03b5\u2080) * [ q / (d * (1 - (v \u00b7 d\u0302)/c)) ]\n\nand\n\nA(r, t) = (\u03bc\u2080 / 4\u03c0) * [ q v / (d * (1 - (v \u00b7 d\u0302)/c)) ]\n\nwhere d\u0302 is the unit vector in the direction of d, and v is the velocity of the charge at the retarded time tr. ",
+            "source": "response"
+        },
+        {
+            "id": "resp11",
+            "annotation": true,
+            "start": 1458,
+            "end": 1583,
+            "label": "reasoning",
+            "text": "The denominator has a term involving the dot product of the velocity and the direction of d, scaled by the speed of light c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp12",
+            "annotation": true,
+            "start": 1583,
+            "end": 1711,
+            "label": "reasoning",
+            "text": "This term accounts for the Doppler-shifting effect due to the motion of the charge towards or away from the observation point.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp13",
+            "annotation": true,
+            "start": 1711,
+            "end": 1740,
+            "label": "planning",
+            "text": "Looking at the options given:",
+            "source": "response"
+        },
+        {
+            "id": "resp14",
+            "annotation": true,
+            "start": 1740,
+            "end": 1817,
+            "label": "restatement",
+            "text": "\n\nOption A: V = (q c)/(4\u03c0\u03b5\u2080 (d c - d \u00b7 v)), A = (\u03bc\u2080 q c v)/(4\u03c0 (d c - d \u00b7 v))",
+            "source": "response"
+        },
+        {
+            "id": "resp15",
+            "annotation": true,
+            "start": 1817,
+            "end": 1884,
+            "label": "restatement",
+            "text": "\n\nOption D: Similar to A but with a plus sign in the denominator.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp16",
+            "annotation": true,
+            "start": 1884,
+            "end": 2097,
+            "label": "reasoning",
+            "text": "Options B and C have expressions dependent on r instead of d, which might be the instantaneous distance, but since we're dealing with retarded potentials, it should depend on d, the distance at the retarded time. ",
+            "source": "response"
+        },
+        {
+            "id": "resp17",
+            "annotation": true,
+            "start": 2097,
+            "end": 2131,
+            "label": "reasoning",
+            "text": "So B and C might not be correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp18",
+            "annotation": true,
+            "start": 2131,
+            "end": 2155,
+            "label": "planning",
+            "text": "Wait, but let me check. ",
+            "source": "response"
+        },
+        {
+            "id": "resp19",
+            "annotation": true,
+            "start": 2155,
+            "end": 2239,
+            "label": "fact",
+            "text": "The standard Li\u00e9nard-Wiechert potentials have the denominator as d(1 - (v \u00b7 d\u0302)/c). ",
+            "source": "response"
+        },
+        {
+            "id": "resp20",
+            "annotation": true,
+            "start": 2239,
+            "end": 2291,
+            "label": "planning",
+            "text": "Let's express that denominator in terms of vectors. ",
+            "source": "response"
+        },
+        {
+            "id": "resp21",
+            "annotation": true,
+            "start": 2291,
+            "end": 2388,
+            "label": "reasoning",
+            "text": "Since d is the vector from the charge's position at tr to r, its magnitude is d, and d\u0302 = d / d. ",
+            "source": "response"
+        },
+        {
+            "id": "resp22",
+            "annotation": true,
+            "start": 2388,
+            "end": 2455,
+            "label": "reasoning",
+            "text": "So the denominator term is d(1 - (v \u00b7 d)/(d c)) ) = d - (v \u00b7 d)/c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp23",
+            "annotation": true,
+            "start": 2455,
+            "end": 2519,
+            "label": "reasoning",
+            "text": "Therefore, the denominator is d c - v \u00b7 d when multiplied by c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp24",
+            "annotation": true,
+            "start": 2519,
+            "end": 2595,
+            "label": "reasoning",
+            "text": "Wait, let me see:\n\nOriginal denominator: d(1 - (v \u00b7 d\u0302)/c) = d - (v \u00b7 d)/c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp25",
+            "annotation": true,
+            "start": 2595,
+            "end": 2836,
+            "label": "reasoning",
+            "text": "If we factor c in the denominator, maybe?\n\nWait, let's compute:\n\nThe scalar potential V is [ q / (4\u03c0\u03b5\u2080) ] divided by [ d (1 - (v \u00b7 d\u0302)/c) ]\n\nExpressed as:\n\nV = q / [4\u03c0\u03b5\u2080 (d - (v \u00b7 d)/c ) ]\n\nBut if we multiply numerator and denominator by c, ",
+            "source": "response"
+        },
+        {
+            "id": "resp26",
+            "annotation": true,
+            "start": 2836,
+            "end": 2924,
+            "label": "reasoning",
+            "text": "we get:\n\nV = (q c) / [4\u03c0\u03b5\u2080 (d c - v \u00b7 d ) ]\n\nWhich matches option A's expression for V. ",
+            "source": "response"
+        },
+        {
+            "id": "resp27",
+            "annotation": true,
+            "start": 2924,
+            "end": 3129,
+            "label": "reasoning",
+            "text": "Similarly, the vector potential A is [ \u03bc\u2080 q v / (4\u03c0) ] divided by [ d (1 - (v \u00b7 d\u0302)/c ) ]\n\nWhich similarly becomes [ \u03bc\u2080 q c v ] / [4\u03c0 (d c - v \u00b7 d ) ]\n\nSo that matches option A's expression for A as well. ",
+            "source": "response"
+        },
+        {
+            "id": "resp28",
+            "annotation": true,
+            "start": 3129,
+            "end": 3165,
+            "label": "conclusion",
+            "text": "Therefore, option A seems correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp29",
+            "annotation": true,
+            "start": 3165,
+            "end": 3313,
+            "label": "reasoning",
+            "text": "Option D has a plus sign in the denominator, which would correspond to 1 + (v \u00b7 d\u0302)/c, but in the Li\u00e9nard-Wiechert potentials, it's 1 - (v \u00b7 d\u0302)/c. ",
+            "source": "response"
+        },
+        {
+            "id": "resp30",
+            "annotation": true,
+            "start": 3313,
+            "end": 3391,
+            "label": "reasoning",
+            "text": "So if the charge is moving towards the observation point, v \u00b7 d\u0302 is positive, ",
+            "source": "response"
+        },
+        {
+            "id": "resp31",
+            "annotation": true,
+            "start": 3391,
+            "end": 3448,
+            "label": "reasoning",
+            "text": "which reduces the denominator, increasing the potential. ",
+            "source": "response"
+        },
+        {
+            "id": "resp32",
+            "annotation": true,
+            "start": 3448,
+            "end": 3565,
+            "label": "reasoning",
+            "text": "That makes sense because if the charge is moving towards you, the potentials are stronger due to the Doppler effect. ",
+            "source": "response"
+        },
+        {
+            "id": "resp33",
+            "annotation": true,
+            "start": 3565,
+            "end": 3635,
+            "label": "reasoning",
+            "text": "So the denominator should have a minus sign, which matches option A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp34",
+            "annotation": true,
+            "start": 3635,
+            "end": 3671,
+            "label": "reasoning",
+            "text": "Options B and C use r instead of d. ",
+            "source": "response"
+        },
+        {
+            "id": "resp35",
+            "annotation": true,
+            "start": 3671,
+            "end": 3715,
+            "label": "assumption",
+            "text": "If r is the current position of the charge, ",
+            "source": "response"
+        },
+        {
+            "id": "resp36",
+            "annotation": true,
+            "start": 3715,
+            "end": 3846,
+            "label": "reasoning",
+            "text": "then those would be instantaneous potentials, which is not correct because electromagnetic fields propagate at the speed of light. ",
+            "source": "response"
+        },
+        {
+            "id": "resp37",
+            "annotation": true,
+            "start": 3846,
+            "end": 3935,
+            "label": "reasoning",
+            "text": "Therefore, potentials must depend on the retarded position and velocity, hence d, not r. ",
+            "source": "response"
+        },
+        {
+            "id": "resp38",
+            "annotation": true,
+            "start": 3935,
+            "end": 3962,
+            "label": "reasoning",
+            "text": "So B and C are incorrect.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp39",
+            "annotation": true,
+            "start": 3962,
+            "end": 4013,
+            "label": "conclusion",
+            "text": "Therefore, the correct answer should be option A.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp40",
+            "annotation": true,
+            "start": 4013,
+            "end": 4060,
+            "label": "planning",
+            "text": "Wait, but let me check the units to make sure. ",
+            "source": "response"
+        },
+        {
+            "id": "resp41",
+            "annotation": true,
+            "start": 4060,
+            "end": 4119,
+            "label": "fact",
+            "text": "Scalar potential V has units of volts (V), which is N\u00b7m/C. ",
+            "source": "response"
+        },
+        {
+            "id": "resp42",
+            "annotation": true,
+            "start": 4119,
+            "end": 4197,
+            "label": "reasoning",
+            "text": "The expression in option A: numerator is q c, which is charge times velocity. ",
+            "source": "response"
+        },
+        {
+            "id": "resp43",
+            "annotation": true,
+            "start": 4197,
+            "end": 4236,
+            "label": "reasoning",
+            "text": "Denominator is \u03b5\u2080 times (d c - d \u00b7 v). ",
+            "source": "response"
+        },
+        {
+            "id": "resp44",
+            "annotation": true,
+            "start": 4236,
+            "end": 4331,
+            "label": "reasoning",
+            "text": "The term d c has units of length times velocity, and d \u00b7 v has units of length times velocity. ",
+            "source": "response"
+        },
+        {
+            "id": "resp45",
+            "annotation": true,
+            "start": 4331,
+            "end": 4381,
+            "label": "reasoning",
+            "text": "So denominator is \u03b5\u2080 times velocity times length. ",
+            "source": "response"
+        },
+        {
+            "id": "resp46",
+            "annotation": true,
+            "start": 4381,
+            "end": 4463,
+            "label": "reasoning",
+            "text": "So overall, units of V would be (C * m/s) / (C\u00b2/(N\u00b7m\u00b2) * m/s * m) ) Let's compute:",
+            "source": "response"
+        },
+        {
+            "id": "resp47",
+            "annotation": true,
+            "start": 4463,
+            "end": 4669,
+            "label": "reasoning",
+            "text": "\n\nNumerator: C * (m/s)\n\nDenominator: (C\u00b2/(N\u00b7m\u00b2)) * (m/s * m) ) = (C\u00b2/(N\u00b7m\u00b2)) * m\u00b2/s = C\u00b2/(N\u00b7s)\n\nSo overall, units: (C * m/s) / (C\u00b2/(N\u00b7s)) ) = (C * m/s) * (N\u00b7s)/C\u00b2 = (m * N)/C = (N\u00b7m)/C, which is volts (V). ",
+            "source": "response"
+        },
+        {
+            "id": "resp48",
+            "annotation": true,
+            "start": 4669,
+            "end": 4679,
+            "label": "reflection",
+            "text": "Correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp49",
+            "annotation": true,
+            "start": 4679,
+            "end": 4765,
+            "label": "fact",
+            "text": "Similarly, vector potential A has units of T\u00b7m (tesla\u00b7meter) or equivalently (N\u00b7s)/C. ",
+            "source": "response"
+        },
+        {
+            "id": "resp50",
+            "annotation": true,
+            "start": 4765,
+            "end": 4816,
+            "label": "reasoning",
+            "text": "The expression in option A: numerator is \u03bc\u2080 q c v. ",
+            "source": "response"
+        },
+        {
+            "id": "resp51",
+            "annotation": true,
+            "start": 4816,
+            "end": 4874,
+            "label": "fact",
+            "text": "\u03bc\u2080 has units of H/m (henrys per meter), which is (T\u00b7m/A). ",
+            "source": "response"
+        },
+        {
+            "id": "resp52",
+            "annotation": true,
+            "start": 4874,
+            "end": 4897,
+            "label": "reasoning",
+            "text": "So \u03bc\u2080 has units T\u00b7m/A. ",
+            "source": "response"
+        },
+        {
+            "id": "resp53",
+            "annotation": true,
+            "start": 4897,
+            "end": 4925,
+            "label": "fact",
+            "text": "q is C, c is m/s, v is m/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp54",
+            "annotation": true,
+            "start": 4925,
+            "end": 4982,
+            "label": "reasoning",
+            "text": "So numerator: T\u00b7m/A * C * m/s * m/s = T\u00b7m/A * C * m\u00b2/s\u00b2. ",
+            "source": "response"
+        },
+        {
+            "id": "resp55",
+            "annotation": true,
+            "start": 4982,
+            "end": 5013,
+            "label": "reasoning",
+            "text": "Denominator is 4\u03c0 (d c - d\u00b7v). ",
+            "source": "response"
+        },
+        {
+            "id": "resp56",
+            "annotation": true,
+            "start": 5013,
+            "end": 5059,
+            "label": "reasoning",
+            "text": "d c is m * m/s = m\u00b2/s, d\u00b7v is m * m/s = m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp57",
+            "annotation": true,
+            "start": 5059,
+            "end": 5083,
+            "label": "reasoning",
+            "text": "So denominator is m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp58",
+            "annotation": true,
+            "start": 5083,
+            "end": 5284,
+            "label": "reasoning",
+            "text": "So overall units:\n\nNumerator: T\u00b7m/A * C * m\u00b2/s\u00b2\n\nDenominator: m\u00b2/s\n\nSo total units: (T\u00b7m/A * C * m\u00b2/s\u00b2) / (m\u00b2/s) ) = T\u00b7m/A * C * (1/s\u00b2) * s/m\u00b2 * m\u00b2 = T\u00b7m/A * C / s\n\nBut A is coulombs per second (C/s). ",
+            "source": "response"
+        },
+        {
+            "id": "resp59",
+            "annotation": true,
+            "start": 5284,
+            "end": 5334,
+            "label": "reasoning",
+            "text": "So T\u00b7m/(C/s) * C / s = T\u00b7m * s / C * C / s = T\u00b7m. ",
+            "source": "response"
+        },
+        {
+            "id": "resp60",
+            "annotation": true,
+            "start": 5334,
+            "end": 5417,
+            "label": "reasoning",
+            "text": "Which is correct for vector potential (since A is in T\u00b7m or equivalently (N\u00b7s)/C). ",
+            "source": "response"
+        },
+        {
+            "id": "resp61",
+            "annotation": true,
+            "start": 5417,
+            "end": 5442,
+            "label": "planning",
+            "text": "Wait, maybe another way: ",
+            "source": "response"
+        },
+        {
+            "id": "resp62",
+            "annotation": true,
+            "start": 5442,
+            "end": 5497,
+            "label": "fact",
+            "text": "Let's see, vector potential A is in Tesla\u00b7meter (T\u00b7m). ",
+            "source": "response"
+        },
+        {
+            "id": "resp63",
+            "annotation": true,
+            "start": 5497,
+            "end": 5531,
+            "label": "fact",
+            "text": "Let's check:\n\n\u03bc\u2080 has units T\u00b7m/A. ",
+            "source": "response"
+        },
+        {
+            "id": "resp64",
+            "annotation": true,
+            "start": 5531,
+            "end": 5675,
+            "label": "reasoning",
+            "text": "So \u03bc\u2080 times charge q (C) times velocity (m/s) divided by distance (m):\n\n\u03bc\u2080 q v / (4\u03c0 d) would have units (T\u00b7m/A) * C * (m/s) / m = T\u00b7m/A * C/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp65",
+            "annotation": true,
+            "start": 5675,
+            "end": 5702,
+            "label": "fact",
+            "text": "Since 1 C/s is ampere (A), ",
+            "source": "response"
+        },
+        {
+            "id": "resp66",
+            "annotation": true,
+            "start": 5702,
+            "end": 5722,
+            "label": "reasoning",
+            "text": "so T\u00b7m/A * A = T\u00b7m. ",
+            "source": "response"
+        },
+        {
+            "id": "resp67",
+            "annotation": true,
+            "start": 5722,
+            "end": 5731,
+            "label": "reflection",
+            "text": "Correct. ",
+            "source": "response"
+        },
+        {
+            "id": "resp68",
+            "annotation": true,
+            "start": 5731,
+            "end": 5776,
+            "label": "reasoning",
+            "text": "But in option A, denominator is (d c - d\u00b7v). ",
+            "source": "response"
+        },
+        {
+            "id": "resp69",
+            "annotation": true,
+            "start": 5776,
+            "end": 5862,
+            "label": "reasoning",
+            "text": "So the denominator has units of velocity times distance (since d c is m*(m/s) = m\u00b2/s? ",
+            "source": "response"
+        },
+        {
+            "id": "resp70",
+            "annotation": true,
+            "start": 5862,
+            "end": 5912,
+            "label": "reasoning",
+            "text": "Wait, d is a vector, but here d is the magnitude. ",
+            "source": "response"
+        },
+        {
+            "id": "resp71",
+            "annotation": true,
+            "start": 5912,
+            "end": 5971,
+            "label": "reasoning",
+            "text": "Wait, d c is magnitude d times c, so units m*(m/s) = m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp72",
+            "annotation": true,
+            "start": 5971,
+            "end": 6005,
+            "label": "reasoning",
+            "text": "Similarly, d\u00b7v is m*(m/s) = m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp73",
+            "annotation": true,
+            "start": 6005,
+            "end": 6036,
+            "label": "reasoning",
+            "text": "So denominator has units m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp74",
+            "annotation": true,
+            "start": 6036,
+            "end": 6125,
+            "label": "reasoning",
+            "text": "So \u03bc\u2080 q c v divided by (m\u00b2/s) would be:\n\n\u03bc\u2080 has units T\u00b7m/A, q is C, c is m/s, v is m/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp75",
+            "annotation": true,
+            "start": 6125,
+            "end": 6180,
+            "label": "reasoning",
+            "text": "So numerator: T\u00b7m/A * C * m/s * m/s = T\u00b7m\u00b7C\u00b7m\u00b2/(A\u00b7s\u00b2). ",
+            "source": "response"
+        },
+        {
+            "id": "resp76",
+            "annotation": true,
+            "start": 6180,
+            "end": 6199,
+            "label": "reasoning",
+            "text": "Denominator: m\u00b2/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp77",
+            "annotation": true,
+            "start": 6199,
+            "end": 6255,
+            "label": "reasoning",
+            "text": "So total units: T\u00b7m\u00b7C\u00b7m\u00b2/(A\u00b7s\u00b2) / (m\u00b2/s) = T\u00b7m\u00b7C/(A\u00b7s). ",
+            "source": "response"
+        },
+        {
+            "id": "resp78",
+            "annotation": true,
+            "start": 6255,
+            "end": 6271,
+            "label": "fact",
+            "text": "Since C/s is A, ",
+            "source": "response"
+        },
+        {
+            "id": "resp79",
+            "annotation": true,
+            "start": 6271,
+            "end": 6317,
+            "label": "reasoning",
+            "text": "so C/(A\u00b7s) = (C/s)/A * 1/s = A/A * 1/s = 1/s. ",
+            "source": "response"
+        },
+        {
+            "id": "resp80",
+            "annotation": true,
+            "start": 6317,
+            "end": 6345,
+            "label": "reflection",
+            "text": "Wait, this seems confusing. ",
+            "source": "response"
+        },
+        {
+            "id": "resp81",
+            "annotation": true,
+            "start": 6345,
+            "end": 6370,
+            "label": "reflection",
+            "text": "Maybe I made a mistake.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp82",
+            "annotation": true,
+            "start": 6370,
+            "end": 6423,
+            "label": "planning",
+            "text": "Alternatively, let's think of the expression for A:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp83",
+            "annotation": true,
+            "start": 6423,
+            "end": 6470,
+            "label": "restatement",
+            "text": "In option A, A is (\u03bc\u2080 q c v)/(4\u03c0 (d c - d\u00b7v)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp84",
+            "annotation": true,
+            "start": 6470,
+            "end": 6508,
+            "label": "planning",
+            "text": "Let's factor c from the denominator:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp85",
+            "annotation": true,
+            "start": 6508,
+            "end": 6572,
+            "label": "reasoning",
+            "text": "Denominator: c d - d\u00b7v = d (c - v\u00b7d\u0302), where d\u0302 is unit vector. ",
+            "source": "response"
+        },
+        {
+            "id": "resp86",
+            "annotation": true,
+            "start": 6572,
+            "end": 6604,
+            "label": "reasoning",
+            "text": "So denominator is d (c - v\u00b7d\u0302). ",
+            "source": "response"
+        },
+        {
+            "id": "resp87",
+            "annotation": true,
+            "start": 6604,
+            "end": 6645,
+            "label": "reasoning",
+            "text": "Then, A is (\u03bc\u2080 q c v)/(4\u03c0 d (c - v\u00b7d\u0302)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp88",
+            "annotation": true,
+            "start": 6645,
+            "end": 6725,
+            "label": "fact",
+            "text": "The standard Li\u00e9nard-Wiechert vector potential is (\u03bc\u2080 q v)/(4\u03c0 d (1 - v\u00b7d\u0302/c)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp89",
+            "annotation": true,
+            "start": 6725,
+            "end": 6737,
+            "label": "planning",
+            "text": "Let's see:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp90",
+            "annotation": true,
+            "start": 6737,
+            "end": 6779,
+            "label": "planning",
+            "text": "Multiply numerator and denominator by c:\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp91",
+            "annotation": true,
+            "start": 6779,
+            "end": 6809,
+            "label": "reasoning",
+            "text": "(\u03bc\u2080 q v c)/(4\u03c0 d (c - v\u00b7d\u0302)). ",
+            "source": "response"
+        },
+        {
+            "id": "resp92",
+            "annotation": true,
+            "start": 6809,
+            "end": 6851,
+            "label": "reasoning",
+            "text": "Which matches the expression in option A. ",
+            "source": "response"
+        },
+        {
+            "id": "resp93",
+            "annotation": true,
+            "start": 6851,
+            "end": 7013,
+            "label": "reasoning",
+            "text": "So yes, the units here would be correct because the standard expression has units of \u03bc\u2080 q v divided by (d (1 - v\u00b7d\u0302/c)), which would have the same units as here. ",
+            "source": "response"
+        },
+        {
+            "id": "resp94",
+            "annotation": true,
+            "start": 7013,
+            "end": 7038,
+            "label": "reflection",
+            "text": "So the units check out.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp95",
+            "annotation": true,
+            "start": 7038,
+            "end": 7098,
+            "label": "reasoning",
+            "text": "Therefore, both expressions in option A have correct units, ",
+            "source": "response"
+        },
+        {
+            "id": "resp96",
+            "annotation": true,
+            "start": 7098,
+            "end": 7153,
+            "label": "reasoning",
+            "text": "and their forms match the Li\u00e9nard-Wiechert potentials. ",
+            "source": "response"
+        },
+        {
+            "id": "resp97",
+            "annotation": true,
+            "start": 7153,
+            "end": 7178,
+            "label": "conclusion",
+            "text": "So option A is correct.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp98",
+            "annotation": true,
+            "start": 7178,
+            "end": 7290,
+            "label": "reasoning",
+            "text": "Options B and C use r instead of d, which is incorrect because r is the current position, not the retarded one. ",
+            "source": "response"
+        },
+        {
+            "id": "resp99",
+            "annotation": true,
+            "start": 7290,
+            "end": 7463,
+            "label": "reasoning",
+            "text": "Option D has a plus sign in the denominator, which would be incorrect because the correct term is 1 - v\u00b7d\u0302/c, so when expressed in terms of d c - d\u00b7v, it's minus, not plus. ",
+            "source": "response"
+        },
+        {
+            "id": "resp100",
+            "annotation": true,
+            "start": 7463,
+            "end": 7741,
+            "label": "conclusion",
+            "text": "Therefore, the answer is A.\n\n**Final Answer**\n\n\\boxed{A}\n</think>\n\nTo determine the scalar potential \\( V \\) and vector potential \\( \\vec{A} \\) at position \\( \\vec{r} \\) and time \\( t \\) due to a moving point charge \\( q \\), we need to consider the Li\u00e9nard-Wiechert potentials. ",
+            "source": "response"
+        },
+        {
+            "id": "resp101",
+            "annotation": true,
+            "start": 7741,
+            "end": 7805,
+            "label": "fact",
+            "text": "These potentials take into account the retarded time \\( t_r \\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp102",
+            "annotation": true,
+            "start": 7805,
+            "end": 7944,
+            "label": "fact",
+            "text": "which is the time when the electromagnetic field was emitted from the charge to reach the observation point \\( \\vec{r} \\) at time \\( t \\). ",
+            "source": "response"
+        },
+        {
+            "id": "resp103",
+            "annotation": true,
+            "start": 7944,
+            "end": 8039,
+            "label": "reasoning",
+            "text": "The retarded position and velocity of the charge are crucial in calculating these potentials.\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp104",
+            "annotation": true,
+            "start": 8039,
+            "end": 8587,
+            "label": "fact",
+            "text": "The Li\u00e9nard-Wiechert potentials are given by:\n\\[\nV(\\vec{r}, t) = \\frac{1}{4\\pi\\epsilon_0} \\left[ \\frac{q}{d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c})} \\right]\n\\]\n\\[\n\\vec{A}(\\vec{r}, t) = \\frac{\\mu_0}{4\\pi} \\left[ \\frac{q \\vec{v}}{d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c})} \\right]\n\\]\nwhere \\( d \\) is the magnitude of the vector \\( \\vec{d} \\) from the charge's position at \\( t_r \\) to the observation point \\( \\vec{r} \\), \\( \\vec{v} \\) is the velocity of the charge at \\( t_r \\), and \\( \\hat{d} \\) is the unit vector in the direction of \\( \\vec{d} \\).\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp105",
+            "annotation": true,
+            "start": 8587,
+            "end": 8796,
+            "label": "reasoning",
+            "text": "Rewriting the denominator \\( d (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c}) \\) in terms of \\( \\vec{d} \\) and \\( \\vec{v} \\), we get:\n\\[\nd (1 - \\frac{\\vec{v} \\cdot \\hat{d}}{c}) = d - \\frac{\\vec{v} \\cdot \\vec{d}}{c}\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp106",
+            "annotation": true,
+            "start": 8796,
+            "end": 8953,
+            "label": "reasoning",
+            "text": "Multiplying numerator and denominator by \\( c \\), the scalar potential becomes:\n\\[\nV(\\vec{r}, t) = \\frac{qc}{4\\pi\\epsilon_0 (dc - \\vec{d} \\cdot \\vec{v})}\n\\]\n",
+            "source": "response"
+        },
+        {
+            "id": "resp107",
+            "annotation": true,
+            "start": 8953,
+            "end": 9082,
+            "label": "reasoning",
+            "text": "Similarly, the vector potential becomes:\n\\[\n\\vec{A}(\\vec{r}, t) = \\frac{\\mu_0 qc \\vec{v}}{4\\pi (dc - \\vec{d} \\cdot \\vec{v})}\n\\]\n\n",
+            "source": "response"
+        },
+        {
+            "id": "resp108",
+            "annotation": true,
+            "start": 9082,
+            "end": 9130,
+            "label": "reasoning",
+            "text": "Options B and C use \\( r \\) instead of \\( d \\), ",
+            "source": "response"
+        },
+        {
+            "id": "resp109",
+            "annotation": true,
+            "start": 9130,
+            "end": 9230,
+            "label": "reasoning",
+            "text": "which is incorrect because \\( r \\) refers to the instantaneous distance, not the retarded distance. ",
+            "source": "response"
+        },
+        {
+            "id": "resp110",
+            "annotation": true,
+            "start": 9230,
+            "end": 9275,
+            "label": "reasoning",
+            "text": "Option D has a plus sign in the denominator, ",
+            "source": "response"
+        },
+        {
+            "id": "resp111",
+            "annotation": true,
+            "start": 9275,
+            "end": 9337,
+            "label": "reasoning",
+            "text": "which is incorrect as the correct term involves a minus sign. ",
+            "source": "response"
+        },
+        {
+            "id": "resp112",
+            "annotation": true,
+            "start": 9337,
+            "end": 9381,
+            "label": "conclusion",
+            "text": "Therefore, the correct answer is:\n\n\\boxed{A}",
+            "source": "response"
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e1",
+            "source_node_id": "ctx3",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e2",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp1",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e3",
+            "source_node_id": "resp1",
+            "dest_node_id": "resp2",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e4",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp4",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e5",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp5",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e6",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp6",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e7",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp7",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e8",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e9",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp8",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e10",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e11",
+            "source_node_id": "resp5",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e12",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp9",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e13",
+            "source_node_id": "resp4",
+            "dest_node_id": "resp10",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e14",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp11",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e15",
+            "source_node_id": "resp11",
+            "dest_node_id": "resp12",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e16",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e17",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e18",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e19",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e20",
+            "source_node_id": "resp2",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e21",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e22",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp13",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e23",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp14",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e24",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp14",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e25",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp15",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e26",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp15",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e27",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e28",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e29",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e30",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp16",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e31",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp16",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e32",
+            "source_node_id": "resp16",
+            "dest_node_id": "resp17",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e33",
+            "source_node_id": "resp17",
+            "dest_node_id": "resp18",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e34",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp19",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e35",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp19",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e36",
+            "source_node_id": "resp18",
+            "dest_node_id": "resp20",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e37",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp20",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e38",
+            "source_node_id": "resp7",
+            "dest_node_id": "resp21",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e39",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp21",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e40",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e41",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp22",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e42",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp22",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e43",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp23",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e44",
+            "source_node_id": "resp19",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e45",
+            "source_node_id": "resp20",
+            "dest_node_id": "resp24",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e46",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp24",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e47",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e48",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e49",
+            "source_node_id": "resp22",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e50",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp25",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e51",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e52",
+            "source_node_id": "resp14",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e53",
+            "source_node_id": "resp24",
+            "dest_node_id": "resp26",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e54",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp26",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e55",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e56",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e57",
+            "source_node_id": "resp25",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e58",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp27",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e59",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e60",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp28",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e61",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e62",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e63",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp29",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e64",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e65",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e66",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e67",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e68",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp30",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e69",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp31",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e70",
+            "source_node_id": "resp12",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e71",
+            "source_node_id": "resp30",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e72",
+            "source_node_id": "resp31",
+            "dest_node_id": "resp32",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e73",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e74",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e75",
+            "source_node_id": "resp29",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e76",
+            "source_node_id": "resp32",
+            "dest_node_id": "resp33",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e77",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e78",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e79",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp34",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e80",
+            "source_node_id": "resp13",
+            "dest_node_id": "resp34",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e81",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp35",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e82",
+            "source_node_id": "resp6",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e83",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e84",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp36",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e85",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e86",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e87",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp37",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e88",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e89",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp38",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e90",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp39",
+            "label": "validate:support"
+        },
+        {
+            "id": "e91",
+            "source_node_id": "resp33",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e92",
+            "source_node_id": "resp38",
+            "dest_node_id": "resp39",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e93",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp40",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e94",
+            "source_node_id": "resp27",
+            "dest_node_id": "resp40",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e95",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp40",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e96",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp41",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e97",
+            "source_node_id": "ctx0",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e98",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e99",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp42",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e100",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp42",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e101",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e102",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp43",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e103",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp43",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e104",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e105",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e106",
+            "source_node_id": "ctx4",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e107",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp44",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e108",
+            "source_node_id": "resp43",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e109",
+            "source_node_id": "resp44",
+            "dest_node_id": "resp45",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e110",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e111",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp46",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e112",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e113",
+            "source_node_id": "resp42",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e114",
+            "source_node_id": "resp45",
+            "dest_node_id": "resp47",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e115",
+            "source_node_id": "resp46",
+            "dest_node_id": "resp47",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e116",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp48",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e117",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp48",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e118",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp49",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e119",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e120",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp50",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e121",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp51",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e122",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp52",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e123",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp53",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e124",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e125",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e126",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp54",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e127",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp55",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e128",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e129",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp56",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e130",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e131",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp57",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e132",
+            "source_node_id": "resp54",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e133",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp58",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e134",
+            "source_node_id": "resp58",
+            "dest_node_id": "resp59",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e135",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e136",
+            "source_node_id": "resp59",
+            "dest_node_id": "resp60",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e137",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp61",
+            "label": "plan:verify"
+        },
+        {
+            "id": "e138",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp61",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e139",
+            "source_node_id": "resp40",
+            "dest_node_id": "resp62",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e140",
+            "source_node_id": "resp49",
+            "dest_node_id": "resp62",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e141",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp63",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e142",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp64",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e143",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp64",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e144",
+            "source_node_id": "resp63",
+            "dest_node_id": "resp65",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e145",
+            "source_node_id": "resp64",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e146",
+            "source_node_id": "resp65",
+            "dest_node_id": "resp66",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e147",
+            "source_node_id": "resp47",
+            "dest_node_id": "resp67",
+            "label": "reflect:positive"
+        },
+        {
+            "id": "e148",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp68",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e149",
+            "source_node_id": "resp41",
+            "dest_node_id": "resp68",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e150",
+            "source_node_id": "resp55",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e151",
+            "source_node_id": "resp56",
+            "dest_node_id": "resp69",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e152",
+            "source_node_id": "resp57",
+            "dest_node_id": "resp69",
+            "label": "validate:support"
+        },
+        {
+            "id": "e153",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e154",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e155",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp70",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e156",
+            "source_node_id": "resp69",
+            "dest_node_id": "resp71",
+            "label": "validate:support"
+        },
+        {
+            "id": "e157",
+            "source_node_id": "resp70",
+            "dest_node_id": "resp71",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e158",
+            "source_node_id": "ctx1",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e159",
+            "source_node_id": "ctx2",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e160",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp72",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e161",
+            "source_node_id": "resp68",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e162",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e163",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp73",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e164",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e165",
+            "source_node_id": "resp52",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e166",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e167",
+            "source_node_id": "resp73",
+            "dest_node_id": "resp74",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e168",
+            "source_node_id": "resp50",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e169",
+            "source_node_id": "resp51",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e170",
+            "source_node_id": "resp53",
+            "dest_node_id": "resp75",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e171",
+            "source_node_id": "resp71",
+            "dest_node_id": "resp76",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e172",
+            "source_node_id": "resp72",
+            "dest_node_id": "resp76",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e173",
+            "source_node_id": "resp75",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e174",
+            "source_node_id": "resp76",
+            "dest_node_id": "resp77",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e175",
+            "source_node_id": "resp77",
+            "dest_node_id": "resp79",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e176",
+            "source_node_id": "resp78",
+            "dest_node_id": "resp79",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e177",
+            "source_node_id": "resp66",
+            "dest_node_id": "resp80",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e178",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp80",
+            "label": "reflect:uncertain"
+        },
+        {
+            "id": "e179",
+            "source_node_id": "resp79",
+            "dest_node_id": "resp81",
+            "label": "reflect:negative"
+        },
+        {
+            "id": "e180",
+            "source_node_id": "resp80",
+            "dest_node_id": "resp81",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e181",
+            "source_node_id": "resp61",
+            "dest_node_id": "resp82",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e182",
+            "source_node_id": "resp81",
+            "dest_node_id": "resp82",
+            "label": "plan:backtrack"
+        },
+        {
+            "id": "e183",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp83",
+            "label": "reason:restate"
+        },
+        {
+            "id": "e184",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp83",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e185",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp84",
+            "label": "plan:decompose"
+        },
+        {
+            "id": "e186",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp84",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e187",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e188",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp85",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e189",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp85",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e190",
+            "source_node_id": "resp21",
+            "dest_node_id": "resp86",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e191",
+            "source_node_id": "resp83",
+            "dest_node_id": "resp86",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e192",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp86",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e193",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e194",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp87",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e195",
+            "source_node_id": "resp86",
+            "dest_node_id": "resp87",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e196",
+            "source_node_id": "resp82",
+            "dest_node_id": "resp88",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e197",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp89",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e198",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp89",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e199",
+            "source_node_id": "resp84",
+            "dest_node_id": "resp90",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e200",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp90",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e201",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp90",
+            "label": "plan:proceed"
+        },
+        {
+            "id": "e202",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp91",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e203",
+            "source_node_id": "resp90",
+            "dest_node_id": "resp91",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e204",
+            "source_node_id": "resp87",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e205",
+            "source_node_id": "resp91",
+            "dest_node_id": "resp92",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e206",
+            "source_node_id": "resp88",
+            "dest_node_id": "resp93",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e207",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp93",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e208",
+            "source_node_id": "resp93",
+            "dest_node_id": "resp94",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e209",
+            "source_node_id": "resp48",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e210",
+            "source_node_id": "resp94",
+            "dest_node_id": "resp95",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e211",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e212",
+            "source_node_id": "resp26",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e213",
+            "source_node_id": "resp92",
+            "dest_node_id": "resp96",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e214",
+            "source_node_id": "ctx5",
+            "dest_node_id": "resp97",
+            "label": "validate:support"
+        },
+        {
+            "id": "e215",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp97",
+            "label": "validate:support"
+        },
+        {
+            "id": "e216",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp97",
+            "label": "validate:support"
+        },
+        {
+            "id": "e217",
+            "source_node_id": "resp95",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e218",
+            "source_node_id": "resp96",
+            "dest_node_id": "resp97",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e219",
+            "source_node_id": "resp34",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e220",
+            "source_node_id": "resp35",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e221",
+            "source_node_id": "resp36",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e222",
+            "source_node_id": "resp37",
+            "dest_node_id": "resp98",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e223",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e224",
+            "source_node_id": "resp10",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e225",
+            "source_node_id": "resp15",
+            "dest_node_id": "resp99",
+            "label": "reason:execute"
+        },
+        {
+            "id": "e226",
+            "source_node_id": "resp23",
+            "dest_node_id": "resp99",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e227",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp100",
+            "label": "validate:support"
+        },
+        {
+            "id": "e228",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp100",
+            "label": "validate:support"
+        },
+        {
+            "id": "e229",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp100",
+            "label": "validate:support"
+        },
+        {
+            "id": "e230",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp101",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e231",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp102",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e232",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e233",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e234",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp103",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e235",
+            "source_node_id": "resp101",
+            "dest_node_id": "resp104",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e236",
+            "source_node_id": "resp102",
+            "dest_node_id": "resp104",
+            "label": "reason:elaborate-fact"
+        },
+        {
+            "id": "e237",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp105",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e238",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e239",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp106",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e240",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp107",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e241",
+            "source_node_id": "resp105",
+            "dest_node_id": "resp107",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e242",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp107",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e243",
+            "source_node_id": "ctx6",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e244",
+            "source_node_id": "ctx7",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e245",
+            "source_node_id": "resp98",
+            "dest_node_id": "resp108",
+            "label": "validate:support"
+        },
+        {
+            "id": "e246",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e247",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp108",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e248",
+            "source_node_id": "resp104",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e249",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp109",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e250",
+            "source_node_id": "ctx8",
+            "dest_node_id": "resp110",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e251",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e252",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e253",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp111",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e254",
+            "source_node_id": "resp28",
+            "dest_node_id": "resp112",
+            "label": "validate:support"
+        },
+        {
+            "id": "e255",
+            "source_node_id": "resp39",
+            "dest_node_id": "resp112",
+            "label": "validate:support"
+        },
+        {
+            "id": "e256",
+            "source_node_id": "resp97",
+            "dest_node_id": "resp112",
+            "label": "validate:support"
+        },
+        {
+            "id": "e257",
+            "source_node_id": "resp100",
+            "dest_node_id": "resp112",
+            "label": "validate:support"
+        },
+        {
+            "id": "e258",
+            "source_node_id": "resp106",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e259",
+            "source_node_id": "resp107",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e260",
+            "source_node_id": "resp108",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e261",
+            "source_node_id": "resp109",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e262",
+            "source_node_id": "resp110",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        },
+        {
+            "id": "e263",
+            "source_node_id": "resp111",
+            "dest_node_id": "resp112",
+            "label": "reason:infer"
+        }
+    ]
+}

@@ -1,8 +1,8 @@
 {
     "doc_id": "gpqa-diamond_5_gpt-oss-120b",
     "raw_text": {
-        "question": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,\u03b8): V (r, \u03b8) = 1/2 kr^2 + 3/2 kr^2 cos^2(\u03b8)\nFind the energy spectrum.\nA. E = (2n_x+3n_y+1/2) \u210f*sqrt(k/m))\nB. E = (n_x+3*n_y+3/2) \u210f*sqrt(k/m))\nC. E = (3n_x+2n_y+1/2) \u210f*sqrt(k/m))\nD. E = (2n_x+n_y+3/2)\u210f*sqrt(k/m)",
-        "response": "<think>We need to interpret the potential: V(r,\u03b8) = (1/2) k r^2 + (3/2) k r^2 cos^2 \u03b8.\n\nIn Cartesian coordinates: r^2 = x^2 + y^2, cos \u03b8 = x/r. So cos^2 \u03b8 = x^2 / r^2. Then V = (1/2) k (x^2 + y^2) + (3/2) k (x^2 + y^2) * (x^2 / (x^2 + y^2)) = (1/2) k (x^2 + y^2) + (3/2) k x^2.\n\nSimplify: V = (1/2)k y^2 + (1/2)k x^2 + (3/2)k x^2 = (1/2)k y^2 + (1/2+3/2)k x^2 = (1/2)k y^2 + 2k x^2.\n\nThus V = (1/2) k y^2 + 2 k x^2.\n\nSo it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m \u03c9_x^2 x^2 => \u03c9_x = sqrt(4k/m) = 2 sqrt(k/m). Wait: (1/2) m \u03c9^2 x^2 = 2k x^2 => \u03c9^2 = 4k/m => \u03c9 = 2 sqrt(k/m).\n\nAlong y: V_y = (1/2) k y^2 => (1/2) m \u03c9_y^2 y^2 = (1/2) k y^2 => \u03c9_y^2 = k/m => \u03c9_y = sqrt(k/m).\n\nThus energy eigenvalues: E = (n_x + 1/2) \u0127 \u03c9_x + (n_y + 1/2) \u0127 \u03c9_y = \u0127 [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = \u0127 sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? Wait compute: (n_x + 1/2)*2 = 2 n_x +1. (n_y + 1/2)*1 = n_y + 1/2. Sum = 2 n_x + n_y + 1 + 1/2 = 2 n_x + n_y + 3/2.\n\nThus E = (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). Compare options: D says (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). Yes matches.\n\nThus answer D.\n</think>\nFirst rewrite the potential in Cartesian coordinates.  \n\n\\[\n\\begin{aligned}\nV(r,\\theta) &= \\frac12 k r^{2}+ \\frac32 k r^{2}\\cos^{2}\\theta ,\\\\[4pt]\nr^{2}&=x^{2}+y^{2},\\qquad \n\\cos\\theta =\\frac{x}{r}\\;\\Longrightarrow\\; \\cos^{2}\\theta =\\frac{x^{2}}{r^{2}} .\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\n\\begin{aligned}\nV &=\\frac12 k (x^{2}+y^{2})+\\frac32 k (x^{2}+y^{2})\\frac{x^{2}}{x^{2}+y^{2}}\\\\\n  &=\\frac12 k (x^{2}+y^{2})+\\frac32 k x^{2}\\\\\n  &=\\frac12 k y^{2}+ \\Bigl(\\frac12 k+ \\frac32 k\\Bigr) x^{2}\\\\\n  &=\\frac12 k y^{2}+ 2k\\,x^{2}.\n\\end{aligned}\n\\]\n\nThus the Hamiltonian separates into two independent one\u2011dimensional harmonic oscillators:\n\n\\[\nH = \\frac{p_x^{2}}{2m}+2k\\,x^{2} \\;+\\; \\frac{p_y^{2}}{2m}+ \\frac12 k\\,y^{2}.\n\\]\n\nIdentify the oscillator frequencies from the standard form \\(\\frac12 m\\omega^{2}x^{2}\\):\n\n\\[\n\\frac12 m\\omega_x^{2}x^{2}=2k\\,x^{2}\\quad\\Longrightarrow\\quad \n\\omega_x =\\sqrt{\\frac{4k}{m}} = 2\\sqrt{\\frac{k}{m}},\n\\]\n\n\\[\n\\frac12 m\\omega_y^{2}y^{2}= \\frac12 k\\,y^{2}\\quad\\Longrightarrow\\quad \n\\omega_y =\\sqrt{\\frac{k}{m}} .\n\\]\n\nFor a 1\u2011D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \nTherefore the total energy is the sum of the two independent contributions:\n\n\\[\n\\begin{aligned}\nE_{n_x,n_y} &= \\Bigl(n_x+\\tfrac12\\Bigr)\\hbar\\omega_x\n            + \\Bigl(n_y+\\tfrac12\\Bigr)\\hbar\\omega_y \\\\[4pt]\n            &= \\Bigl(n_x+\\tfrac12\\Bigr) \\,2\\hbar\\sqrt{\\frac{k}{m}}\n            + \\Bigl(n_y+\\tfrac12\\Bigr) \\,\\hbar\\sqrt{\\frac{k}{m}} \\\\[4pt]\n            &= \\hbar\\sqrt{\\frac{k}{m}}\\,\n               \\bigl(2n_x + n_y + \\tfrac32\\bigr).\n\\end{aligned}\n\\]\n\nThus the energy spectrum is  \n\n\\[\n\\boxed{E_{n_x,n_y}= \\bigl(2n_x + n_y + \\tfrac32\\bigr)\\,\n       \\hbar\\sqrt{\\frac{k}{m}} } .\n\\]\n\nThis corresponds to option **D**."
+        "question": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,θ): V (r, θ) = 1/2 kr^2 + 3/2 kr^2 cos^2(θ)\nFind the energy spectrum.\nA. E = (2n_x+3n_y+1/2) ℏ*sqrt(k/m))\nB. E = (n_x+3*n_y+3/2) ℏ*sqrt(k/m))\nC. E = (3n_x+2n_y+1/2) ℏ*sqrt(k/m))\nD. E = (2n_x+n_y+3/2)ℏ*sqrt(k/m)",
+        "response": "<think>We need to interpret the potential: V(r,θ) = (1/2) k r^2 + (3/2) k r^2 cos^2 θ.\n\nIn Cartesian coordinates: r^2 = x^2 + y^2, cos θ = x/r. So cos^2 θ = x^2 / r^2. Then V = (1/2) k (x^2 + y^2) + (3/2) k (x^2 + y^2) * (x^2 / (x^2 + y^2)) = (1/2) k (x^2 + y^2) + (3/2) k x^2.\n\nSimplify: V = (1/2)k y^2 + (1/2)k x^2 + (3/2)k x^2 = (1/2)k y^2 + (1/2+3/2)k x^2 = (1/2)k y^2 + 2k x^2.\n\nThus V = (1/2) k y^2 + 2 k x^2.\n\nSo it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m ω_x^2 x^2 => ω_x = sqrt(4k/m) = 2 sqrt(k/m). Wait: (1/2) m ω^2 x^2 = 2k x^2 => ω^2 = 4k/m => ω = 2 sqrt(k/m).\n\nAlong y: V_y = (1/2) k y^2 => (1/2) m ω_y^2 y^2 = (1/2) k y^2 => ω_y^2 = k/m => ω_y = sqrt(k/m).\n\nThus energy eigenvalues: E = (n_x + 1/2) ħ ω_x + (n_y + 1/2) ħ ω_y = ħ [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = ħ sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? Wait compute: (n_x + 1/2)*2 = 2 n_x +1. (n_y + 1/2)*1 = n_y + 1/2. Sum = 2 n_x + n_y + 1 + 1/2 = 2 n_x + n_y + 3/2.\n\nThus E = (2 n_x + n_y + 3/2) ħ sqrt(k/m). Compare options: D says (2 n_x + n_y + 3/2) ħ sqrt(k/m). Yes matches.\n\nThus answer D.\n</think>\nFirst rewrite the potential in Cartesian coordinates.  \n\n\\[\n\\begin{aligned}\nV(r,\\theta) &= \\frac12 k r^{2}+ \\frac32 k r^{2}\\cos^{2}\\theta ,\\\\[4pt]\nr^{2}&=x^{2}+y^{2},\\qquad \n\\cos\\theta =\\frac{x}{r}\\;\\Longrightarrow\\; \\cos^{2}\\theta =\\frac{x^{2}}{r^{2}} .\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\n\\begin{aligned}\nV &=\\frac12 k (x^{2}+y^{2})+\\frac32 k (x^{2}+y^{2})\\frac{x^{2}}{x^{2}+y^{2}}\\\\\n  &=\\frac12 k (x^{2}+y^{2})+\\frac32 k x^{2}\\\\\n  &=\\frac12 k y^{2}+ \\Bigl(\\frac12 k+ \\frac32 k\\Bigr) x^{2}\\\\\n  &=\\frac12 k y^{2}+ 2k\\,x^{2}.\n\\end{aligned}\n\\]\n\nThus the Hamiltonian separates into two independent one‑dimensional harmonic oscillators:\n\n\\[\nH = \\frac{p_x^{2}}{2m}+2k\\,x^{2} \\;+\\; \\frac{p_y^{2}}{2m}+ \\frac12 k\\,y^{2}.\n\\]\n\nIdentify the oscillator frequencies from the standard form \\(\\frac12 m\\omega^{2}x^{2}\\):\n\n\\[\n\\frac12 m\\omega_x^{2}x^{2}=2k\\,x^{2}\\quad\\Longrightarrow\\quad \n\\omega_x =\\sqrt{\\frac{4k}{m}} = 2\\sqrt{\\frac{k}{m}},\n\\]\n\n\\[\n\\frac12 m\\omega_y^{2}y^{2}= \\frac12 k\\,y^{2}\\quad\\Longrightarrow\\quad \n\\omega_y =\\sqrt{\\frac{k}{m}} .\n\\]\n\nFor a 1‑D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \nTherefore the total energy is the sum of the two independent contributions:\n\n\\[\n\\begin{aligned}\nE_{n_x,n_y} &= \\Bigl(n_x+\\tfrac12\\Bigr)\\hbar\\omega_x\n            + \\Bigl(n_y+\\tfrac12\\Bigr)\\hbar\\omega_y \\\\[4pt]\n            &= \\Bigl(n_x+\\tfrac12\\Bigr) \\,2\\hbar\\sqrt{\\frac{k}{m}}\n            + \\Bigl(n_y+\\tfrac12\\Bigr) \\,\\hbar\\sqrt{\\frac{k}{m}} \\\\[4pt]\n            &= \\hbar\\sqrt{\\frac{k}{m}}\\,\n               \\bigl(2n_x + n_y + \\tfrac32\\bigr).\n\\end{aligned}\n\\]\n\nThus the energy spectrum is  \n\n\\[\n\\boxed{E_{n_x,n_y}= \\bigl(2n_x + n_y + \\tfrac32\\bigr)\\,\n       \\hbar\\sqrt{\\frac{k}{m}} } .\n\\]\n\nThis corresponds to option **D**."
     },
     "metadata": {
         "batch": 5,
@@ -22,7 +22,7 @@
             "start": 0,
             "end": 156,
             "label": "context",
-            "text": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,\u03b8): V (r, \u03b8) = 1/2 kr^2 + 3/2 kr^2 cos^2(\u03b8)\n",
+            "text": "A quantum mechanical particle of mass m moves in two dimensions in the following potential, as a function of (r,θ): V (r, θ) = 1/2 kr^2 + 3/2 kr^2 cos^2(θ)\n",
             "source": "question"
         },
         {
@@ -40,7 +40,7 @@
             "start": 182,
             "end": 218,
             "label": "context",
-            "text": "A. E = (2n_x+3n_y+1/2) \u210f*sqrt(k/m))\n",
+            "text": "A. E = (2n_x+3n_y+1/2) ℏ*sqrt(k/m))\n",
             "source": "question"
         },
         {
@@ -49,7 +49,7 @@
             "start": 218,
             "end": 254,
             "label": "context",
-            "text": "B. E = (n_x+3*n_y+3/2) \u210f*sqrt(k/m))\n",
+            "text": "B. E = (n_x+3*n_y+3/2) ℏ*sqrt(k/m))\n",
             "source": "question"
         },
         {
@@ -58,7 +58,7 @@
             "start": 254,
             "end": 290,
             "label": "context",
-            "text": "C. E = (3n_x+2n_y+1/2) \u210f*sqrt(k/m))\n",
+            "text": "C. E = (3n_x+2n_y+1/2) ℏ*sqrt(k/m))\n",
             "source": "question"
         },
         {
@@ -67,7 +67,7 @@
             "start": 290,
             "end": 322,
             "label": "context",
-            "text": "D. E = (2n_x+n_y+3/2)\u210f*sqrt(k/m)",
+            "text": "D. E = (2n_x+n_y+3/2)ℏ*sqrt(k/m)",
             "source": "question"
         },
         {
@@ -85,7 +85,7 @@
             "start": 7,
             "end": 88,
             "label": "planning",
-            "text": "We need to interpret the potential: V(r,\u03b8) = (1/2) k r^2 + (3/2) k r^2 cos^2 \u03b8.\n\n",
+            "text": "We need to interpret the potential: V(r,θ) = (1/2) k r^2 + (3/2) k r^2 cos^2 θ.\n\n",
             "source": "response"
         },
         {
@@ -94,7 +94,7 @@
             "start": 88,
             "end": 144,
             "label": "fact",
-            "text": "In Cartesian coordinates: r^2 = x^2 + y^2, cos \u03b8 = x/r. ",
+            "text": "In Cartesian coordinates: r^2 = x^2 + y^2, cos θ = x/r. ",
             "source": "response"
         },
         {
@@ -103,7 +103,7 @@
             "start": 144,
             "end": 168,
             "label": "reasoning",
-            "text": "So cos^2 \u03b8 = x^2 / r^2. ",
+            "text": "So cos^2 θ = x^2 / r^2. ",
             "source": "response"
         },
         {
@@ -139,7 +139,7 @@
             "start": 417,
             "end": 565,
             "label": "reasoning",
-            "text": "So it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m \u03c9_x^2 x^2 => \u03c9_x = sqrt(4k/m) = 2 sqrt(k/m). ",
+            "text": "So it's a separable 2D harmonic oscillator with different frequencies: along x: V_x = 2k x^2 = (1/2) m ω_x^2 x^2 => ω_x = sqrt(4k/m) = 2 sqrt(k/m). ",
             "source": "response"
         },
         {
@@ -148,7 +148,7 @@
             "start": 565,
             "end": 631,
             "label": "reasoning",
-            "text": "Wait: (1/2) m \u03c9^2 x^2 = 2k x^2 => \u03c9^2 = 4k/m => \u03c9 = 2 sqrt(k/m).\n\n",
+            "text": "Wait: (1/2) m ω^2 x^2 = 2k x^2 => ω^2 = 4k/m => ω = 2 sqrt(k/m).\n\n",
             "source": "response"
         },
         {
@@ -157,7 +157,7 @@
             "start": 631,
             "end": 729,
             "label": "reasoning",
-            "text": "Along y: V_y = (1/2) k y^2 => (1/2) m \u03c9_y^2 y^2 = (1/2) k y^2 => \u03c9_y^2 = k/m => \u03c9_y = sqrt(k/m).\n\n",
+            "text": "Along y: V_y = (1/2) k y^2 => (1/2) m ω_y^2 y^2 = (1/2) k y^2 => ω_y^2 = k/m => ω_y = sqrt(k/m).\n\n",
             "source": "response"
         },
         {
@@ -166,7 +166,7 @@
             "start": 729,
             "end": 893,
             "label": "reasoning",
-            "text": "Thus energy eigenvalues: E = (n_x + 1/2) \u0127 \u03c9_x + (n_y + 1/2) \u0127 \u03c9_y = \u0127 [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = \u0127 sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? ",
+            "text": "Thus energy eigenvalues: E = (n_x + 1/2) ħ ω_x + (n_y + 1/2) ħ ω_y = ħ [ (n_x + 1/2) 2 sqrt(k/m) + (n_y + 1/2) sqrt(k/m) ] = ħ sqrt(k/m) [ 2 n_x + 1 + n_y + 1/2 ]? ",
             "source": "response"
         },
         {
@@ -202,7 +202,7 @@
             "start": 1010,
             "end": 1052,
             "label": "conclusion",
-            "text": "Thus E = (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). ",
+            "text": "Thus E = (2 n_x + n_y + 3/2) ħ sqrt(k/m). ",
             "source": "response"
         },
         {
@@ -211,7 +211,7 @@
             "start": 1052,
             "end": 1109,
             "label": "reasoning",
-            "text": "Compare options: D says (2 n_x + n_y + 3/2) \u0127 sqrt(k/m). ",
+            "text": "Compare options: D says (2 n_x + n_y + 3/2) ħ sqrt(k/m). ",
             "source": "response"
         },
         {
@@ -283,7 +283,7 @@
             "start": 1685,
             "end": 1776,
             "label": "reasoning",
-            "text": "Thus the Hamiltonian separates into two independent one\u2011dimensional harmonic oscillators:\n\n",
+            "text": "Thus the Hamiltonian separates into two independent one‑dimensional harmonic oscillators:\n\n",
             "source": "response"
         },
         {
@@ -328,7 +328,7 @@
             "start": 2182,
             "end": 2265,
             "label": "fact",
-            "text": "For a 1\u2011D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \n",
+            "text": "For a 1‑D harmonic oscillator the eigenenergies are \\((n+\\tfrac12)\\hbar\\omega\\).  \n",
             "source": "response"
         },
         {

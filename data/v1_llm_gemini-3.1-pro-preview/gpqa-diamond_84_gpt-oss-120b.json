@@ -1,8 +1,8 @@
 {
     "doc_id": "gpqa-diamond_84_gpt-oss-120b",
     "raw_text": {
-        "question": "Two planets have been detected orbiting a star using both the transit and radial velocity (RV) methods. The star has a mass of 1.5 times that of the Sun, a radius 1.2 times that of the Sun, and an effective temperature (Teff) of 6300 K. Planet1 has a mass equivalent to 7 Earth masses and a radius 1.7 times that of Earth, while Planet2 has a mass equivalent to 5 Earth masses and a radius 1.3 times that of Earth. Interestingly, both planets are in circular orbits. Planet1 induces a periodic shift of up to 0.03 \u00c5 in the forbidden line [OI] at 6300 \u00c5, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 \u00c5. Assuming that both planets possess the same albedo, what is the ratio of the equilibrium temperatures between Planet1 and Planet2?\nA. ~ 0.53\nB. ~ 1.30\nC. ~ 1.05\nD. ~ 0.98",
-        "response": "<think>We need ratio of equilibrium temperatures. Need orbital distances? Not given directly. But we have radial velocity shifts? The shift in forbidden line [OI] at 6300 \u00c5 due to planet? That seems like star's line shift due to planet's gravitational influence? Actually the shift magnitude corresponds to radial velocity amplitude: \u0394\u03bb/\u03bb = v/c. So we can compute v = (\u0394\u03bb/\u03bb) * c. For Planet1 shift 0.03 \u00c5 at 6300 \u00c5 => \u0394\u03bb/\u03bb = 0.03/6300 = 4.7619e-6. v1 = 4.7619e-6 * c \u2248 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s \u2248 1.43 km/s. For Planet2 shift 0.04 \u00c5 => \u0394\u03bb/\u03bb = 0.04/6300 = 6.3492e-6. v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s \u2248 1.90 km/s.\n\nThese are the stellar reflex velocities due to each planet. For circular orbits, v_star = (M_planet / M_star) * v_orbital (planet). Actually star's orbital speed around barycenter: v_star = (M_planet / M_star) * v_planet. And v_planet = 2\u03c0 a / P. But we can also use v_star = (2\u03c0 a_star)/P, where a_star = (M_planet/M_star) a. But we need a (semi-major axis) to compute equilibrium temperature: Teq \u221d (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. Since albedo same, ratio Teq1/Teq2 = (a2 / a1)^{1/2}. So need ratio of orbital distances.\n\nWe can get a from v_star? Need also planet mass and star mass. Use v_star = (M_planet / M_star) * sqrt(G M_star / a). Actually v_planet = sqrt(G M_star / a) (circular). Then v_star = (M_planet / M_star) * v_planet = (M_planet / M_star) * sqrt(G M_star / a) = M_planet * sqrt(G) / sqrt(M_star a). So solve for a: a = (M_planet^2 G) / (v_star^2 M_star). Wait rearrange: v_star = (M_p / M_star) * sqrt(G M_star / a) = M_p * sqrt(G) / sqrt(M_star a). Square both sides: v_star^2 = M_p^2 G / (M_star a). So a = M_p^2 G / (M_star v_star^2).\n\nThus a \u221d M_p^2 / v_star^2 (since G and M_star constant). So ratio a1/a2 = (M1^2 / v1^2) / (M2^2 / v2^2) = (M1^2 v2^2) / (M2^2 v1^2).\n\nWe have masses in Earth masses: M1=7 M_E, M2=5 M_E. So compute.\n\nFirst compute v1=1.43 km/s, v2=1.90 km/s.\n\nCompute ratio:\n\nM1^2 = 49, M2^2 = 25.\n\nv2^2 = (1.90)^2 = 3.61 (km^2/s^2). v1^2 = (1.43)^2 = 2.0449.\n\nSo a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) \u2248 3.461.\n\nThus a1 \u2248 3.46 a2. So Planet1 farther out.\n\nEquilibrium temperature ratio Teq1/Teq2 = sqrt(a2/a1) = sqrt(1/3.461) = 1/ sqrt(3.461) = 1/1.860 = 0.537.\n\nThus ratio ~0.53. Option A.\n\nCheck if any other factors: star luminosity same for both, albedo same. So answer A.\n\nThus ratio ~0.53.\n</think>\nThe equilibrium temperature of a planet (ignoring greenhouse effects) is  \n\n\\[\nT_{\\rm eq}\\;=\\;\\left[\\frac{L_\\star (1-A)}{16\\pi\\sigma a^{2}}\\right]^{1/4}\n\\propto a^{-1/2}\n\\]\n\nbecause the stellar luminosity \\(L_\\star\\) and the albedo \\(A\\) are the same for the two worlds.  \nHence  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}}=\\sqrt{\\frac{a_2}{a_1}} .\n\\]\n\n---\n\n### 1.  Get the stellar reflex velocities from the line shifts  \n\n\\[\n\\frac{\\Delta\\lambda}{\\lambda}= \\frac{v}{c}\\;\\Longrightarrow\\;\nv = c\\frac{\\Delta\\lambda}{\\lambda}.\n\\]\n\n* Planet\u202f1: \\(\\Delta\\lambda =0.03\\;\\text{\u00c5}\\)  \n\n\\[\nv_1 = c\\frac{0.03}{6300}=c\\,(4.76\\times10^{-6})\\approx 1.43\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\n* Planet\u202f2: \\(\\Delta\\lambda =0.04\\;\\text{\u00c5}\\)  \n\n\\[\nv_2 = c\\frac{0.04}{6300}=c\\,(6.35\\times10^{-6})\\approx 1.90\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\nThese are the amplitudes of the star\u2019s reflex motion caused by each planet.\n\n---\n\n### 2.  Relate the reflex velocity to the orbital radius  \n\nFor a circular orbit  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\,v_p,\n\\qquad \nv_p = \\sqrt{\\frac{GM_\\star}{a}} .\n\\]\n\nThus  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\sqrt{\\frac{GM_\\star}{a}}\n          = \\frac{M_p\\sqrt{G}}{\\sqrt{M_\\star a}} .\n\\]\n\nSquaring and solving for \\(a\\):\n\n\\[\nv_{\\star}^{2}= \\frac{M_p^{2}G}{M_\\star a}\n\\quad\\Longrightarrow\\quad\na = \\frac{M_p^{2}G}{M_\\star v_{\\star}^{2}} .\n\\]\n\nSince \\(G\\) and \\(M_\\star\\) are the same for both planets,\n\n\\[\n\\frac{a_1}{a_2}= \\frac{M_1^{2}v_2^{2}}{M_2^{2}v_1^{2}} .\n\\]\n\nInsert the given masses (in Earth\u2011mass units) and the velocities (in km\u202fs\\(^{-1}\\)):\n\n\\[\n\\begin{aligned}\nM_1 &= 7\\,M_\\oplus,\\qquad M_2 = 5\\,M_\\oplus,\\\\\nv_1 &\\approx 1.43\\ {\\rm km\\,s^{-1}},\\qquad v_2 \\approx 1.90\\ {\\rm km\\,s^{-1}}.\n\\end{aligned}\n\\]\n\n\\[\n\\frac{a_1}{a_2}= \\frac{7^{2}\\,(1.90)^{2}}{5^{2}\\,(1.43)^{2}}\n               = \\frac{49 \\times 3.61}{25 \\times 2.045}\n               \\approx \\frac{176.9}{51.1}\n               \\approx 3.46 .\n\\]\n\nSo Planet\u202f1 orbits about **3.5 times farther** from the star than Planet\u202f2.\n\n---\n\n### 3.  Ratio of equilibrium temperatures  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}} = \\sqrt{\\frac{a_2}{a_1}}\n                                   = \\sqrt{\\frac{1}{3.46}}\n                                   \\approx 0.54 .\n\\]\n\nRounded to two significant figures, the ratio is **\u2248\u202f0.53**.\n\n---\n\n\\[\n\\boxed{\\text{A. } \\; \\sim 0.53}\n\\]"
+        "question": "Two planets have been detected orbiting a star using both the transit and radial velocity (RV) methods. The star has a mass of 1.5 times that of the Sun, a radius 1.2 times that of the Sun, and an effective temperature (Teff) of 6300 K. Planet1 has a mass equivalent to 7 Earth masses and a radius 1.7 times that of Earth, while Planet2 has a mass equivalent to 5 Earth masses and a radius 1.3 times that of Earth. Interestingly, both planets are in circular orbits. Planet1 induces a periodic shift of up to 0.03 Å in the forbidden line [OI] at 6300 Å, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 Å. Assuming that both planets possess the same albedo, what is the ratio of the equilibrium temperatures between Planet1 and Planet2?\nA. ~ 0.53\nB. ~ 1.30\nC. ~ 1.05\nD. ~ 0.98",
+        "response": "<think>We need ratio of equilibrium temperatures. Need orbital distances? Not given directly. But we have radial velocity shifts? The shift in forbidden line [OI] at 6300 Å due to planet? That seems like star's line shift due to planet's gravitational influence? Actually the shift magnitude corresponds to radial velocity amplitude: Δλ/λ = v/c. So we can compute v = (Δλ/λ) * c. For Planet1 shift 0.03 Å at 6300 Å => Δλ/λ = 0.03/6300 = 4.7619e-6. v1 = 4.7619e-6 * c ≈ 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s ≈ 1.43 km/s. For Planet2 shift 0.04 Å => Δλ/λ = 0.04/6300 = 6.3492e-6. v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s ≈ 1.90 km/s.\n\nThese are the stellar reflex velocities due to each planet. For circular orbits, v_star = (M_planet / M_star) * v_orbital (planet). Actually star's orbital speed around barycenter: v_star = (M_planet / M_star) * v_planet. And v_planet = 2π a / P. But we can also use v_star = (2π a_star)/P, where a_star = (M_planet/M_star) a. But we need a (semi-major axis) to compute equilibrium temperature: Teq ∝ (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. Since albedo same, ratio Teq1/Teq2 = (a2 / a1)^{1/2}. So need ratio of orbital distances.\n\nWe can get a from v_star? Need also planet mass and star mass. Use v_star = (M_planet / M_star) * sqrt(G M_star / a). Actually v_planet = sqrt(G M_star / a) (circular). Then v_star = (M_planet / M_star) * v_planet = (M_planet / M_star) * sqrt(G M_star / a) = M_planet * sqrt(G) / sqrt(M_star a). So solve for a: a = (M_planet^2 G) / (v_star^2 M_star). Wait rearrange: v_star = (M_p / M_star) * sqrt(G M_star / a) = M_p * sqrt(G) / sqrt(M_star a). Square both sides: v_star^2 = M_p^2 G / (M_star a). So a = M_p^2 G / (M_star v_star^2).\n\nThus a ∝ M_p^2 / v_star^2 (since G and M_star constant). So ratio a1/a2 = (M1^2 / v1^2) / (M2^2 / v2^2) = (M1^2 v2^2) / (M2^2 v1^2).\n\nWe have masses in Earth masses: M1=7 M_E, M2=5 M_E. So compute.\n\nFirst compute v1=1.43 km/s, v2=1.90 km/s.\n\nCompute ratio:\n\nM1^2 = 49, M2^2 = 25.\n\nv2^2 = (1.90)^2 = 3.61 (km^2/s^2). v1^2 = (1.43)^2 = 2.0449.\n\nSo a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) ≈ 3.461.\n\nThus a1 ≈ 3.46 a2. So Planet1 farther out.\n\nEquilibrium temperature ratio Teq1/Teq2 = sqrt(a2/a1) = sqrt(1/3.461) = 1/ sqrt(3.461) = 1/1.860 = 0.537.\n\nThus ratio ~0.53. Option A.\n\nCheck if any other factors: star luminosity same for both, albedo same. So answer A.\n\nThus ratio ~0.53.\n</think>\nThe equilibrium temperature of a planet (ignoring greenhouse effects) is  \n\n\\[\nT_{\\rm eq}\\;=\\;\\left[\\frac{L_\\star (1-A)}{16\\pi\\sigma a^{2}}\\right]^{1/4}\n\\propto a^{-1/2}\n\\]\n\nbecause the stellar luminosity \\(L_\\star\\) and the albedo \\(A\\) are the same for the two worlds.  \nHence  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}}=\\sqrt{\\frac{a_2}{a_1}} .\n\\]\n\n---\n\n### 1.  Get the stellar reflex velocities from the line shifts  \n\n\\[\n\\frac{\\Delta\\lambda}{\\lambda}= \\frac{v}{c}\\;\\Longrightarrow\\;\nv = c\\frac{\\Delta\\lambda}{\\lambda}.\n\\]\n\n* Planet 1: \\(\\Delta\\lambda =0.03\\;\\text{Å}\\)  \n\n\\[\nv_1 = c\\frac{0.03}{6300}=c\\,(4.76\\times10^{-6})\\approx 1.43\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\n* Planet 2: \\(\\Delta\\lambda =0.04\\;\\text{Å}\\)  \n\n\\[\nv_2 = c\\frac{0.04}{6300}=c\\,(6.35\\times10^{-6})\\approx 1.90\\times10^{3}\\ {\\rm m\\,s^{-1}}.\n\\]\n\nThese are the amplitudes of the star’s reflex motion caused by each planet.\n\n---\n\n### 2.  Relate the reflex velocity to the orbital radius  \n\nFor a circular orbit  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\,v_p,\n\\qquad \nv_p = \\sqrt{\\frac{GM_\\star}{a}} .\n\\]\n\nThus  \n\n\\[\nv_{\\star}= \\frac{M_p}{M_\\star}\\sqrt{\\frac{GM_\\star}{a}}\n          = \\frac{M_p\\sqrt{G}}{\\sqrt{M_\\star a}} .\n\\]\n\nSquaring and solving for \\(a\\):\n\n\\[\nv_{\\star}^{2}= \\frac{M_p^{2}G}{M_\\star a}\n\\quad\\Longrightarrow\\quad\na = \\frac{M_p^{2}G}{M_\\star v_{\\star}^{2}} .\n\\]\n\nSince \\(G\\) and \\(M_\\star\\) are the same for both planets,\n\n\\[\n\\frac{a_1}{a_2}= \\frac{M_1^{2}v_2^{2}}{M_2^{2}v_1^{2}} .\n\\]\n\nInsert the given masses (in Earth‑mass units) and the velocities (in km s\\(^{-1}\\)):\n\n\\[\n\\begin{aligned}\nM_1 &= 7\\,M_\\oplus,\\qquad M_2 = 5\\,M_\\oplus,\\\\\nv_1 &\\approx 1.43\\ {\\rm km\\,s^{-1}},\\qquad v_2 \\approx 1.90\\ {\\rm km\\,s^{-1}}.\n\\end{aligned}\n\\]\n\n\\[\n\\frac{a_1}{a_2}= \\frac{7^{2}\\,(1.90)^{2}}{5^{2}\\,(1.43)^{2}}\n               = \\frac{49 \\times 3.61}{25 \\times 2.045}\n               \\approx \\frac{176.9}{51.1}\n               \\approx 3.46 .\n\\]\n\nSo Planet 1 orbits about **3.5 times farther** from the star than Planet 2.\n\n---\n\n### 3.  Ratio of equilibrium temperatures  \n\n\\[\n\\frac{T_{\\rm eq,1}}{T_{\\rm eq,2}} = \\sqrt{\\frac{a_2}{a_1}}\n                                   = \\sqrt{\\frac{1}{3.46}}\n                                   \\approx 0.54 .\n\\]\n\nRounded to two significant figures, the ratio is **≈ 0.53**.\n\n---\n\n\\[\n\\boxed{\\text{A. } \\; \\sim 0.53}\n\\]"
     },
     "metadata": {
         "batch": 84,
@@ -58,7 +58,7 @@
             "start": 467,
             "end": 666,
             "label": "context",
-            "text": "Planet1 induces a periodic shift of up to 0.03 \u00c5 in the forbidden line [OI] at 6300 \u00c5, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 \u00c5. ",
+            "text": "Planet1 induces a periodic shift of up to 0.03 Å in the forbidden line [OI] at 6300 Å, while the gravitational impact of Planet2 on the same line results in a periodic Doppler shift of up to 0.04 Å. ",
             "source": "question"
         },
         {
@@ -130,7 +130,7 @@
             "start": 130,
             "end": 188,
             "label": "restatement",
-            "text": "The shift in forbidden line [OI] at 6300 \u00c5 due to planet? ",
+            "text": "The shift in forbidden line [OI] at 6300 Å due to planet? ",
             "source": "response"
         },
         {
@@ -148,7 +148,7 @@
             "start": 263,
             "end": 346,
             "label": "fact",
-            "text": "Actually the shift magnitude corresponds to radial velocity amplitude: \u0394\u03bb/\u03bb = v/c. ",
+            "text": "Actually the shift magnitude corresponds to radial velocity amplitude: Δλ/λ = v/c. ",
             "source": "response"
         },
         {
@@ -157,7 +157,7 @@
             "start": 346,
             "end": 380,
             "label": "reasoning",
-            "text": "So we can compute v = (\u0394\u03bb/\u03bb) * c. ",
+            "text": "So we can compute v = (Δλ/λ) * c. ",
             "source": "response"
         },
         {
@@ -166,7 +166,7 @@
             "start": 380,
             "end": 448,
             "label": "reasoning",
-            "text": "For Planet1 shift 0.03 \u00c5 at 6300 \u00c5 => \u0394\u03bb/\u03bb = 0.03/6300 = 4.7619e-6. ",
+            "text": "For Planet1 shift 0.03 Å at 6300 Å => Δλ/λ = 0.03/6300 = 4.7619e-6. ",
             "source": "response"
         },
         {
@@ -175,7 +175,7 @@
             "start": 448,
             "end": 517,
             "label": "reasoning",
-            "text": "v1 = 4.7619e-6 * c \u2248 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s \u2248 1.43 km/s. ",
+            "text": "v1 = 4.7619e-6 * c ≈ 4.7619e-6 * 3e8 m/s = 1.4286e3 m/s ≈ 1.43 km/s. ",
             "source": "response"
         },
         {
@@ -184,7 +184,7 @@
             "start": 517,
             "end": 575,
             "label": "reasoning",
-            "text": "For Planet2 shift 0.04 \u00c5 => \u0394\u03bb/\u03bb = 0.04/6300 = 6.3492e-6. ",
+            "text": "For Planet2 shift 0.04 Å => Δλ/λ = 0.04/6300 = 6.3492e-6. ",
             "source": "response"
         },
         {
@@ -193,7 +193,7 @@
             "start": 575,
             "end": 625,
             "label": "reasoning",
-            "text": "v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s \u2248 1.90 km/s.\n\n",
+            "text": "v2 = 6.3492e-6 * 3e8 = 1.9048e3 m/s ≈ 1.90 km/s.\n\n",
             "source": "response"
         },
         {
@@ -229,7 +229,7 @@
             "start": 847,
             "end": 872,
             "label": "fact",
-            "text": "And v_planet = 2\u03c0 a / P. ",
+            "text": "And v_planet = 2π a / P. ",
             "source": "response"
         },
         {
@@ -238,7 +238,7 @@
             "start": 872,
             "end": 952,
             "label": "reasoning",
-            "text": "But we can also use v_star = (2\u03c0 a_star)/P, where a_star = (M_planet/M_star) a. ",
+            "text": "But we can also use v_star = (2π a_star)/P, where a_star = (M_planet/M_star) a. ",
             "source": "response"
         },
         {
@@ -247,7 +247,7 @@
             "start": 952,
             "end": 1069,
             "label": "fact",
-            "text": "But we need a (semi-major axis) to compute equilibrium temperature: Teq \u221d (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. ",
+            "text": "But we need a (semi-major axis) to compute equilibrium temperature: Teq ∝ (L_star)^{1/4} * (1 - A)^{1/4} * a^{-1/2}. ",
             "source": "response"
         },
         {
@@ -364,7 +364,7 @@
             "start": 1696,
             "end": 1753,
             "label": "reasoning",
-            "text": "Thus a \u221d M_p^2 / v_star^2 (since G and M_star constant). ",
+            "text": "Thus a ∝ M_p^2 / v_star^2 (since G and M_star constant). ",
             "source": "response"
         },
         {
@@ -445,7 +445,7 @@
             "start": 2039,
             "end": 2111,
             "label": "reasoning",
-            "text": "So a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) \u2248 3.461.\n\n",
+            "text": "So a1/a2 = (49 * 3.61) / (25 * 2.0449) = (176.89) / (51.1225) ≈ 3.461.\n\n",
             "source": "response"
         },
         {
@@ -454,7 +454,7 @@
             "start": 2111,
             "end": 2130,
             "label": "reasoning",
-            "text": "Thus a1 \u2248 3.46 a2. ",
+            "text": "Thus a1 ≈ 3.46 a2. ",
             "source": "response"
         },
         {
@@ -571,7 +571,7 @@
             "start": 2928,
             "end": 2977,
             "label": "restatement",
-            "text": "* Planet\u202f1: \\(\\Delta\\lambda =0.03\\;\\text{\u00c5}\\)  \n\n",
+            "text": "* Planet 1: \\(\\Delta\\lambda =0.03\\;\\text{Å}\\)  \n\n",
             "source": "response"
         },
         {
@@ -589,7 +589,7 @@
             "start": 3074,
             "end": 3123,
             "label": "restatement",
-            "text": "* Planet\u202f2: \\(\\Delta\\lambda =0.04\\;\\text{\u00c5}\\)  \n\n",
+            "text": "* Planet 2: \\(\\Delta\\lambda =0.04\\;\\text{Å}\\)  \n\n",
             "source": "response"
         },
         {
@@ -607,7 +607,7 @@
             "start": 3220,
             "end": 3297,
             "label": "reasoning",
-            "text": "These are the amplitudes of the star\u2019s reflex motion caused by each planet.\n\n",
+            "text": "These are the amplitudes of the star’s reflex motion caused by each planet.\n\n",
             "source": "response"
         },
         {
@@ -688,7 +688,7 @@
             "start": 3871,
             "end": 3957,
             "label": "planning",
-            "text": "Insert the given masses (in Earth\u2011mass units) and the velocities (in km\u202fs\\(^{-1}\\)):\n\n",
+            "text": "Insert the given masses (in Earth‑mass units) and the velocities (in km s\\(^{-1}\\)):\n\n",
             "source": "response"
         },
         {
@@ -715,7 +715,7 @@
             "start": 4316,
             "end": 4393,
             "label": "reasoning",
-            "text": "So Planet\u202f1 orbits about **3.5 times farther** from the star than Planet\u202f2.\n\n",
+            "text": "So Planet 1 orbits about **3.5 times farther** from the star than Planet 2.\n\n",
             "source": "response"
         },
         {
@@ -751,7 +751,7 @@
             "start": 4618,
             "end": 4680,
             "label": "conclusion",
-            "text": "Rounded to two significant figures, the ratio is **\u2248\u202f0.53**.\n\n",
+            "text": "Rounded to two significant figures, the ratio is **≈ 0.53**.\n\n",
             "source": "response"
         },
         {

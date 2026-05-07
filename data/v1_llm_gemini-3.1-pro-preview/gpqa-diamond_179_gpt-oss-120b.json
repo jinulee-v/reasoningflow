@@ -2,7 +2,7 @@
     "doc_id": "gpqa-diamond_179_gpt-oss-120b",
     "raw_text": {
         "question": "Consider an isolated system of 13 identical particles each with charge 2e and negligible mass. 12 of these charges are\nconstrained to stay at 2 m from a point P. The 13th charge is fixed at P. What is the minimum energy (in Joules) of this system\ncorrect to three decimals?\nA. 5.645 x 10^-26\nB. 122.330\nC. 2.822 x 10^-26\nD. 7.056 x 10^-27",
-        "response": "<think>We need to compute electrostatic potential energy of system of 13 identical charges each with charge 2e (e = elementary charge = 1.602e-19 C). So each charge q = 2e = 3.204e-19 C.\n\nWe have 12 charges constrained to stay at distance 2 m from point P. The 13th charge is fixed at P (i.e., at the center). So we have a central charge and 12 charges on a sphere radius 2 m (presumably equally spaced? But they are constrained to stay at that distance, not necessarily fixed positions relative to each other. We need minimum energy configuration: the charges will arrange themselves on the sphere to minimize repulsion among themselves, while also repelling the central charge. Since central charge is fixed at P, the distances between central charge and each outer charge are 2 m. So those contributions are fixed: each pair central-outer contributes potential energy k q^2 / r = (1/(4\u03c0 \u03b50)) * q^2 / 2. There are 12 such pairs.\n\nThe outer-outer distances depend on arrangement. To minimize total energy, we need to maximize distances between outer charges (since repulsive). On a sphere, the configuration that maximizes minimal distance is the Thomson problem for N=12. The minimal energy arrangement for 12 points on a sphere is the vertices of a regular icosahedron? Actually 12 points correspond to vertices of an icosahedron (20 faces, 12 vertices). Yes, the Thomson problem solution for N=12 is the vertices of a regular icosahedron. So distances between any two vertices are equal? In an icosahedron, not all distances equal: there are edge length (adjacent vertices) and longer distances (nonadjacent). But the arrangement is symmetric.\n\nWe need total pairwise energy among outer charges: sum over all 12 choose 2 = 66 pairs of k q^2 / r_ij, where r_ij is distance between points on sphere radius R=2 m.\n\nWe need to compute sum of 1/r_ij for icosahedron vertices on sphere radius R.\n\nWe can compute using geometry: For a regular icosahedron inscribed in sphere radius R, edge length a = something: a = (4R)/\u221a(10+2\u221a5). Let's verify.\n\nFor a regular icosahedron circumscribed sphere radius R (distance from center to vertex), edge length a = (4R)/\u221a(10+2\u221a5). Yes.\n\nNow distances between vertices: there are three types: edge length a (adjacent), distance between vertices that are not adjacent but share a face? Actually each vertex has 5 neighbors (adjacent edges). The other distances: there are vertices opposite each other (antipodal?) In icosahedron, there are 6 pairs of opposite vertices (through center). Those distances are 2R = 4 m. The remaining distances are between vertices that are not adjacent and not opposite; they correspond to distance = \u03c6 a? Let's compute.\n\nThe icosahedron has 12 vertices, each vertex connects to 5 others (edges). So each vertex has 5 nearest neighbors at distance a. There are 12*5/2 = 30 edges (makes sense). So there are 30 pairs at distance a.\n\nNumber of opposite pairs: 6 pairs at distance 2R = 4 m.\n\nRemaining pairs: total pairs 66. Subtract 30 + 6 = 36, leaving 30 pairs at some intermediate distance, which is the distance between vertices that are not adjacent and not opposite (i.e., separated by two edges). Let's denote distance b.\n\nWe need to compute b.\n\nIn icosahedron geometry, the distance between two vertices that are not adjacent but not opposite is the distance between vertices that share a common neighbor? Actually there are two types of nonadjacent vertices: those that are separated by one edge (i.e., share a face but not edge?) Wait each face is triangle of three vertices all mutually adjacent (edges). So any two vertices of a face are adjacent (edge). So nonadjacent vertices are not part of same face. They could be opposite across the center (antipodal) or separated by two edges (i.e., distance across the pentagon). The distance b corresponds to vertices that are separated by two edges along the great circle? Let's compute using coordinates.\n\nCoordinates of icosahedron vertices (centered at origin) can be given as (0, \u00b11, \u00b1\u03c6), (\u00b11, \u00b1\u03c6, 0), (\u00b1\u03c6, 0, \u00b11) where \u03c6 = (1+\u221a5)/2 (golden ratio). Then we can scale to radius R.\n\nFirst compute unscaled coordinates: these have length sqrt(1+\u03c6^2) = sqrt(1+ (1+\u221a5)^2/4) = sqrt(1 + ( (1+2\u221a5+5)/4 )) = sqrt(1 + (6+2\u221a5)/4) = sqrt( (4 + 6 + 2\u221a5)/4 ) = sqrt( (10 + 2\u221a5)/4 ) = sqrt( (5 + \u221a5)/2 ). So radius r0 = sqrt( (5+\u221a5)/2 ). Then scaling factor s = R / r0.\n\nEdge length a0 between two vertices e.g., (0,1,\u03c6) and (0,-1,\u03c6)?? Actually those are not adjacent. Let's compute edge length between (0,1,\u03c6) and (1,\u03c6,0) maybe. Use known formula: edge length a = 2 / \u03c6 * r0? Not sure.\n\nBetter compute distances using known formulas: For unit circumscribed sphere (R=1), edge length a1 = 2 / \u221a(\u03c6+2)?? Let's compute directly.\n\nTake two vertices: v1 = (0, 1, \u03c6). v2 = (0, -1, \u03c6). Their difference = (0,2,0) => distance = 2. But are these vertices adjacent? Actually they differ only in y coordinate sign, same x and z. Are they connected by edge? In icosahedron, vertices (0, \u00b11, \u00b1\u03c6) have edges connecting those with opposite signs? Let's check adjacency: The icosahedron edges connect each vertex to five others: For (0,1,\u03c6), its neighbors are (\u00b11, \u03c6,0) and (\u00b1\u03c6,0,1) and (0,-1,\u03c6)? Not sure.\n\nBut distance between (0,1,\u03c6) and (0,-1,\u03c6) = 2, which is larger than edge length. So that's likely the intermediate distance b (or maybe opposite? Not opposite because opposite would be (0,1,\u03c6) and (0,-1,-\u03c6) maybe). Opposite vertices are (0,1,\u03c6) and (0,-1,-\u03c6) distance sqrt( (0)^2 + (2)^2 + (2\u03c6)^2 ) = sqrt(4 + 4\u03c6^2) = 2 sqrt(1+ \u03c6^2) = 2 r0, which equals 2R (makes sense). So opposite distance is 2R.\n\nThus distance between (0,1,\u03c6) and (0,-1,\u03c6) is 2 (in unscaled coordinates). Let's compute scaling factor s = R / r0. Then distance b = 2 * s.\n\nEdge length a: pick adjacent vertices: (0,1,\u03c6) and (1,\u03c6,0). Compute difference: ( -1, 1-\u03c6, \u03c6). Actually v1 = (0,1,\u03c6), v2 = (1,\u03c6,0). Difference = (-1, 1-\u03c6, \u03c6). Compute squared length: (-1)^2 + (1-\u03c6)^2 + \u03c6^2 = 1 + (1 - 2\u03c6 + \u03c6^2) + \u03c6^2 = 1 + 1 - 2\u03c6 + \u03c6^2 + \u03c6^2 = 2 - 2\u03c6 + 2 \u03c6^2 = 2(1 - \u03c6 + \u03c6^2). Since \u03c6^2 = \u03c6 +1. So 1 - \u03c6 + \u03c6^2 = 1 - \u03c6 + \u03c6 +1 = 2. So squared length = 2*2 =4. So distance = 2. So edge length also 2? Wait both distances gave 2. That suggests my adjacency assumption wrong. Let's compute again.\n\nMaybe (0,1,\u03c6) and (1,\u03c6,0) are not adjacent? Let's check known coordinates: The 12 vertices are permutations of (0, \u00b11, \u00b1\u03c6) etc. Edges connect vertices that differ in sign of two coordinates? Actually adjacency condition: dot product between unit vectors equals \u03c6/2? Not recall.\n\nLet's compute dot product between v1 and v2: v1\u00b7v2 = 0*1 + 1*\u03c6 + \u03c6*0 = \u03c6. The angle between them cos\u03b8 = (v1\u00b7v2)/(r0^2). r0^2 = 1+ \u03c6^2. So cos\u03b8 = \u03c6/(1+\u03c6^2). Since \u03c6\u22481.618, \u03c6^2\u22482.618, sum\u22483.618. So cos\u03b8\u22481.618/3.618\u22480.447. \u03b8\u224863.4\u00b0. Edge length corresponds to angle between adjacent vertices? For sphere radius R, chord length = 2R sin(\u03b8/2). For \u03b8\u224863.4\u00b0, chord = 2R sin(31.7\u00b0) \u2248 2R*0.526 = 1.052R. For R=2, edge \u22482.104 m. Not 2? Let's compute using scaling.\n\nBut we need actual distances after scaling to R=2. Let's compute r0 = sqrt( (5+\u221a5)/2 ). Compute numeric: \u221a5\u22482.23607, 5+\u221a5\u22487.23607, /2 =3.61803, sqrt =1.9021. So r0\u22481.9021. Good.\n\nScaling factor s = R / r0 = 2 / 1.9021 = 1.0515.\n\nNow compute distances:\n\nEdge length a = chord corresponding to angle between adjacent vertices. We need angle between adjacent vertices. For icosahedron, the angle between adjacent vertices (center to vertices) is arccos(\u03c6/ (1+\u03c6^2))? Actually dot product between adjacent vertices is \u03c6? Let's verify: For v1=(0,1,\u03c6) and v2=(1,\u03c6,0), dot = \u03c6. So cos\u03b8 = \u03c6 / r0^2 = \u03c6 / (1+\u03c6^2) = \u03c6 / (1+\u03c6+1)?? Wait \u03c6^2 = \u03c6+1, so 1+\u03c6^2 = 1+\u03c6+1 = \u03c6+2. So cos\u03b8 = \u03c6/(\u03c6+2). Compute numeric: \u03c6\u22481.618, \u03c6+2\u22483.618, ratio\u22480.4472. So \u03b8 = arccos(0.4472) \u2248 63.4349\u00b0. Good.\n\nThus chord length a = 2R sin(\u03b8/2) = 2*2*sin(31.7175\u00b0) = 4*0.526 = 2.104 m. Good.\n\nNow distance b (nonadjacent non-opposite). Let's pick vertices (0,1,\u03c6) and (0,-1,\u03c6) we computed earlier. Their dot product: (0)*(0)+(1)*(-1)+(\u03c6)*(\u03c6) = -1 + \u03c6^2 = -1 + (\u03c6+1) = \u03c6. So dot product also \u03c6! Wait same as before. So angle same? Let's compute: dot = \u03c6, same as before, so angle same 63.4349\u00b0, meaning those two vertices are also adjacent? But they are not connected by edge? Actually maybe they are also adjacent; maybe each vertex has 5 neighbors, includes both (0,-1,\u03c6) and (0,-1,-\u03c6)? Let's check adjacency list: For vertex (0,1,\u03c6), its 5 neighbors are (\u00b11, \u03c6,0) and (\u00b1\u03c6,0,1) and (0,-1,\u03c6)? That's 5. So indeed (0,-1,\u03c6) is adjacent. So my earlier assumption wrong; they are adjacent.\n\nThus the intermediate distance b corresponds to vertices that are not adjacent and not opposite. Let's pick (0,1,\u03c6) and (1,-\u03c6,0) maybe? Compute dot product: v1\u00b7v3 where v3 = (1,-\u03c6,0). Dot = 0*1 + 1*(-\u03c6) + \u03c6*0 = -\u03c6. So cos\u03b8 = -\u03c6/(r0^2) = -\u03c6/(\u03c6+2) = -0.4472. So angle = arccos(-0.4472) = 116.565\u00b0. Chord length = 2R sin(\u03b8/2) = 4 * sin(58.2825\u00b0) = 4 * 0.852 = 3.408 m. That's the intermediate distance b.\n\nThus we have three distances: a = 2R sin(\u03b81/2) where \u03b81 = arccos(\u03c6/(\u03c6+2)) \u224863.435\u00b0, a\u22482.104 m. Opposite distance = 2R = 4 m. b = 2R sin(\u03b82/2) where \u03b82 = arccos(-\u03c6/(\u03c6+2)) = 180\u00b0-\u03b81 = 116.565\u00b0, b\u22483.408 m.\n\nNow count pairs: 30 edges at distance a, 30 pairs at distance b, 6 opposite pairs at distance 4 m.\n\nNow compute total energy:\n\nU = k q^2 * [ sum over all pairs 1/r_ij ] + central-outer contributions.\n\nk = 1/(4\u03c0 \u03b50) = 8.987551787e9 N\u00b7m\u00b2/C\u00b2.\n\nq = 2e = 3.204e-19 C.\n\nCompute q^2 = (3.204e-19)^2 = 10.27e-38? Let's compute: 3.204^2 = 10.27, times 10^{-38}. So q^2 = 1.027e-37 C^2.\n\nNow central-outer: 12 pairs each distance 2 m. Contribution = 12 * k q^2 / 2 = 6 * k q^2.\n\nNow outer-outer sum: S = 30*(1/a) + 30*(1/b) + 6*(1/4).\n\nCompute a\u22482.104, b\u22483.408.\n\n1/a = 0.4755, 1/b = 0.2934, 1/4 = 0.25.\n\nNow compute contributions: 30*0.4755 = 14.265, 30*0.2934 = 8.802, 6*0.25 = 1.5. Sum S = 24.567.\n\nThus outer-outer energy = k q^2 * S.\n\nTotal U = k q^2 (6 + S) = k q^2 (6 + 24.567) = k q^2 * 30.567.\n\nNow compute k q^2: k = 8.987551787e9, q^2 = 1.027e-37 => product = 8.9875e9 * 1.027e-37 = 9.236e-28? Let's compute: 8.9875 *1.027 = 9.236, exponent 9+(-37)= -28. So k q^2 \u2248 9.236e-28 J\u00b7m.\n\nMultiply by 30.567 => U \u2248 9.236e-28 * 30.567 = 2.822e-26 J (since 9.236*30.567 \u2248 282.2). Indeed 9.236*30 = 277.1, plus .567*9.236\u22485.24, total \u2248282.3. Times 1e-28 => 2.823e-26 J.\n\nThus answer matches option C: 2.822 x 10^-26 J.\n\nThus correct answer C.\n</think>\nThe electrostatic potential energy of a set of point charges is  \n\n\\[\nU=\\frac{1}{4\\pi\\varepsilon_0}\\sum_{i<j}\\frac{q_iq_j}{r_{ij}}\n\\]\n\nAll 13 charges have the same magnitude  \n\n\\[\nq = 2e = 2(1.602\\times10^{-19}\\,\\text{C}) = 3.204\\times10^{-19}\\,\\text{C}\n\\]\n\n---\n\n### 1.  Central\u2013outer pairs  \n\nThe 13th charge is at the centre \\(P\\); each of the 12 outer charges is at a fixed distance  \n\n\\[\nr = 2\\ \\text{m}\n\\]\n\nHence the contribution of the 12 centre\u2011outer pairs is  \n\n\\[\nU_{c-o}=12\\frac{kq^{2}}{2}=6kq^{2},\n\\qquad k=\\frac{1}{4\\pi\\varepsilon_0}=8.9875\\times10^{9}\\,\\text{N\u00b7m}^{2}\\!/\\!\\text{C}^{2}\n\\]\n\n---\n\n### 2.  Outer\u2013outer pairs  \n\nThe 12 outer charges lie on a sphere of radius \\(R=2\\ \\text{m}\\).  \nTo minimise the repulsive energy they adopt the Thomson\u2011problem configuration for \\(N=12\\): the vertices of a regular icosahedron.\n\nFor a regular icosahedron inscribed in a sphere of radius \\(R\\) the distances between vertices are of three kinds  \n\n| type | number of pairs | distance \\(r\\) |\n|------|----------------|----------------|\n| adjacent (edge) | 30 | \\(a = 2R\\sin\\frac{\\theta}{2}\\) |\n| non\u2011adjacent, non\u2011opposite | 30 | \\(b = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}\\) |\n| opposite vertices | 6 | \\(2R\\) |\n\nwhere  \n\n\\[\n\\cos\\theta = \\frac{\\varphi}{\\varphi+2},\\qquad \n\\varphi=\\frac{1+\\sqrt5}{2}=1.618\\ldots\n\\]\n\nThus  \n\n\\[\n\\theta = 63.435^{\\circ},\\qquad \na = 2R\\sin\\frac{\\theta}{2}=2.104\\ \\text{m},\n\\]\n\\[\nb = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}=3.408\\ \\text{m},\n\\qquad 2R = 4\\ \\text{m}.\n\\]\n\nThe sum of the reciprocals of all outer\u2011outer separations is  \n\n\\[\n\\begin{aligned}\nS &=30\\left(\\frac1a\\right)+30\\left(\\frac1b\\right)+6\\left(\\frac1{2R}\\right)\\\\\n  &=30(0.4755)+30(0.2934)+6(0.25)\\\\\n  &=24.567 .\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\nU_{o-o}=kq^{2}S .\n\\]\n\n---\n\n### 3.  Total minimum energy  \n\n\\[\nU_{\\min}=U_{c-o}+U_{o-o}=kq^{2}\\bigl(6+S\\bigr)\n          =kq^{2}\\,(30.567).\n\\]\n\nNow  \n\n\\[\nq^{2}=(3.204\\times10^{-19}\\,\\text{C})^{2}=1.027\\times10^{-37}\\,\\text{C}^{2},\n\\]\n\\[\nkq^{2}=8.9875\\times10^{9}\\times1.027\\times10^{-37}=9.236\\times10^{-28}\\ \\text{J\u00b7m}.\n\\]\n\nFinally  \n\n\\[\nU_{\\min}=9.236\\times10^{-28}\\times30.567\n        =2.822\\times10^{-26}\\ \\text{J}.\n\\]\n\n---\n\n\\[\n\\boxed{U_{\\min}=2.822\\times10^{-26}\\ \\text{J}}\n\\]\n\nThus the correct choice is **C**."
+        "response": "<think>We need to compute electrostatic potential energy of system of 13 identical charges each with charge 2e (e = elementary charge = 1.602e-19 C). So each charge q = 2e = 3.204e-19 C.\n\nWe have 12 charges constrained to stay at distance 2 m from point P. The 13th charge is fixed at P (i.e., at the center). So we have a central charge and 12 charges on a sphere radius 2 m (presumably equally spaced? But they are constrained to stay at that distance, not necessarily fixed positions relative to each other. We need minimum energy configuration: the charges will arrange themselves on the sphere to minimize repulsion among themselves, while also repelling the central charge. Since central charge is fixed at P, the distances between central charge and each outer charge are 2 m. So those contributions are fixed: each pair central-outer contributes potential energy k q^2 / r = (1/(4π ε0)) * q^2 / 2. There are 12 such pairs.\n\nThe outer-outer distances depend on arrangement. To minimize total energy, we need to maximize distances between outer charges (since repulsive). On a sphere, the configuration that maximizes minimal distance is the Thomson problem for N=12. The minimal energy arrangement for 12 points on a sphere is the vertices of a regular icosahedron? Actually 12 points correspond to vertices of an icosahedron (20 faces, 12 vertices). Yes, the Thomson problem solution for N=12 is the vertices of a regular icosahedron. So distances between any two vertices are equal? In an icosahedron, not all distances equal: there are edge length (adjacent vertices) and longer distances (nonadjacent). But the arrangement is symmetric.\n\nWe need total pairwise energy among outer charges: sum over all 12 choose 2 = 66 pairs of k q^2 / r_ij, where r_ij is distance between points on sphere radius R=2 m.\n\nWe need to compute sum of 1/r_ij for icosahedron vertices on sphere radius R.\n\nWe can compute using geometry: For a regular icosahedron inscribed in sphere radius R, edge length a = something: a = (4R)/√(10+2√5). Let's verify.\n\nFor a regular icosahedron circumscribed sphere radius R (distance from center to vertex), edge length a = (4R)/√(10+2√5). Yes.\n\nNow distances between vertices: there are three types: edge length a (adjacent), distance between vertices that are not adjacent but share a face? Actually each vertex has 5 neighbors (adjacent edges). The other distances: there are vertices opposite each other (antipodal?) In icosahedron, there are 6 pairs of opposite vertices (through center). Those distances are 2R = 4 m. The remaining distances are between vertices that are not adjacent and not opposite; they correspond to distance = φ a? Let's compute.\n\nThe icosahedron has 12 vertices, each vertex connects to 5 others (edges). So each vertex has 5 nearest neighbors at distance a. There are 12*5/2 = 30 edges (makes sense). So there are 30 pairs at distance a.\n\nNumber of opposite pairs: 6 pairs at distance 2R = 4 m.\n\nRemaining pairs: total pairs 66. Subtract 30 + 6 = 36, leaving 30 pairs at some intermediate distance, which is the distance between vertices that are not adjacent and not opposite (i.e., separated by two edges). Let's denote distance b.\n\nWe need to compute b.\n\nIn icosahedron geometry, the distance between two vertices that are not adjacent but not opposite is the distance between vertices that share a common neighbor? Actually there are two types of nonadjacent vertices: those that are separated by one edge (i.e., share a face but not edge?) Wait each face is triangle of three vertices all mutually adjacent (edges). So any two vertices of a face are adjacent (edge). So nonadjacent vertices are not part of same face. They could be opposite across the center (antipodal) or separated by two edges (i.e., distance across the pentagon). The distance b corresponds to vertices that are separated by two edges along the great circle? Let's compute using coordinates.\n\nCoordinates of icosahedron vertices (centered at origin) can be given as (0, ±1, ±φ), (±1, ±φ, 0), (±φ, 0, ±1) where φ = (1+√5)/2 (golden ratio). Then we can scale to radius R.\n\nFirst compute unscaled coordinates: these have length sqrt(1+φ^2) = sqrt(1+ (1+√5)^2/4) = sqrt(1 + ( (1+2√5+5)/4 )) = sqrt(1 + (6+2√5)/4) = sqrt( (4 + 6 + 2√5)/4 ) = sqrt( (10 + 2√5)/4 ) = sqrt( (5 + √5)/2 ). So radius r0 = sqrt( (5+√5)/2 ). Then scaling factor s = R / r0.\n\nEdge length a0 between two vertices e.g., (0,1,φ) and (0,-1,φ)?? Actually those are not adjacent. Let's compute edge length between (0,1,φ) and (1,φ,0) maybe. Use known formula: edge length a = 2 / φ * r0? Not sure.\n\nBetter compute distances using known formulas: For unit circumscribed sphere (R=1), edge length a1 = 2 / √(φ+2)?? Let's compute directly.\n\nTake two vertices: v1 = (0, 1, φ). v2 = (0, -1, φ). Their difference = (0,2,0) => distance = 2. But are these vertices adjacent? Actually they differ only in y coordinate sign, same x and z. Are they connected by edge? In icosahedron, vertices (0, ±1, ±φ) have edges connecting those with opposite signs? Let's check adjacency: The icosahedron edges connect each vertex to five others: For (0,1,φ), its neighbors are (±1, φ,0) and (±φ,0,1) and (0,-1,φ)? Not sure.\n\nBut distance between (0,1,φ) and (0,-1,φ) = 2, which is larger than edge length. So that's likely the intermediate distance b (or maybe opposite? Not opposite because opposite would be (0,1,φ) and (0,-1,-φ) maybe). Opposite vertices are (0,1,φ) and (0,-1,-φ) distance sqrt( (0)^2 + (2)^2 + (2φ)^2 ) = sqrt(4 + 4φ^2) = 2 sqrt(1+ φ^2) = 2 r0, which equals 2R (makes sense). So opposite distance is 2R.\n\nThus distance between (0,1,φ) and (0,-1,φ) is 2 (in unscaled coordinates). Let's compute scaling factor s = R / r0. Then distance b = 2 * s.\n\nEdge length a: pick adjacent vertices: (0,1,φ) and (1,φ,0). Compute difference: ( -1, 1-φ, φ). Actually v1 = (0,1,φ), v2 = (1,φ,0). Difference = (-1, 1-φ, φ). Compute squared length: (-1)^2 + (1-φ)^2 + φ^2 = 1 + (1 - 2φ + φ^2) + φ^2 = 1 + 1 - 2φ + φ^2 + φ^2 = 2 - 2φ + 2 φ^2 = 2(1 - φ + φ^2). Since φ^2 = φ +1. So 1 - φ + φ^2 = 1 - φ + φ +1 = 2. So squared length = 2*2 =4. So distance = 2. So edge length also 2? Wait both distances gave 2. That suggests my adjacency assumption wrong. Let's compute again.\n\nMaybe (0,1,φ) and (1,φ,0) are not adjacent? Let's check known coordinates: The 12 vertices are permutations of (0, ±1, ±φ) etc. Edges connect vertices that differ in sign of two coordinates? Actually adjacency condition: dot product between unit vectors equals φ/2? Not recall.\n\nLet's compute dot product between v1 and v2: v1·v2 = 0*1 + 1*φ + φ*0 = φ. The angle between them cosθ = (v1·v2)/(r0^2). r0^2 = 1+ φ^2. So cosθ = φ/(1+φ^2). Since φ≈1.618, φ^2≈2.618, sum≈3.618. So cosθ≈1.618/3.618≈0.447. θ≈63.4°. Edge length corresponds to angle between adjacent vertices? For sphere radius R, chord length = 2R sin(θ/2). For θ≈63.4°, chord = 2R sin(31.7°) ≈ 2R*0.526 = 1.052R. For R=2, edge ≈2.104 m. Not 2? Let's compute using scaling.\n\nBut we need actual distances after scaling to R=2. Let's compute r0 = sqrt( (5+√5)/2 ). Compute numeric: √5≈2.23607, 5+√5≈7.23607, /2 =3.61803, sqrt =1.9021. So r0≈1.9021. Good.\n\nScaling factor s = R / r0 = 2 / 1.9021 = 1.0515.\n\nNow compute distances:\n\nEdge length a = chord corresponding to angle between adjacent vertices. We need angle between adjacent vertices. For icosahedron, the angle between adjacent vertices (center to vertices) is arccos(φ/ (1+φ^2))? Actually dot product between adjacent vertices is φ? Let's verify: For v1=(0,1,φ) and v2=(1,φ,0), dot = φ. So cosθ = φ / r0^2 = φ / (1+φ^2) = φ / (1+φ+1)?? Wait φ^2 = φ+1, so 1+φ^2 = 1+φ+1 = φ+2. So cosθ = φ/(φ+2). Compute numeric: φ≈1.618, φ+2≈3.618, ratio≈0.4472. So θ = arccos(0.4472) ≈ 63.4349°. Good.\n\nThus chord length a = 2R sin(θ/2) = 2*2*sin(31.7175°) = 4*0.526 = 2.104 m. Good.\n\nNow distance b (nonadjacent non-opposite). Let's pick vertices (0,1,φ) and (0,-1,φ) we computed earlier. Their dot product: (0)*(0)+(1)*(-1)+(φ)*(φ) = -1 + φ^2 = -1 + (φ+1) = φ. So dot product also φ! Wait same as before. So angle same? Let's compute: dot = φ, same as before, so angle same 63.4349°, meaning those two vertices are also adjacent? But they are not connected by edge? Actually maybe they are also adjacent; maybe each vertex has 5 neighbors, includes both (0,-1,φ) and (0,-1,-φ)? Let's check adjacency list: For vertex (0,1,φ), its 5 neighbors are (±1, φ,0) and (±φ,0,1) and (0,-1,φ)? That's 5. So indeed (0,-1,φ) is adjacent. So my earlier assumption wrong; they are adjacent.\n\nThus the intermediate distance b corresponds to vertices that are not adjacent and not opposite. Let's pick (0,1,φ) and (1,-φ,0) maybe? Compute dot product: v1·v3 where v3 = (1,-φ,0). Dot = 0*1 + 1*(-φ) + φ*0 = -φ. So cosθ = -φ/(r0^2) = -φ/(φ+2) = -0.4472. So angle = arccos(-0.4472) = 116.565°. Chord length = 2R sin(θ/2) = 4 * sin(58.2825°) = 4 * 0.852 = 3.408 m. That's the intermediate distance b.\n\nThus we have three distances: a = 2R sin(θ1/2) where θ1 = arccos(φ/(φ+2)) ≈63.435°, a≈2.104 m. Opposite distance = 2R = 4 m. b = 2R sin(θ2/2) where θ2 = arccos(-φ/(φ+2)) = 180°-θ1 = 116.565°, b≈3.408 m.\n\nNow count pairs: 30 edges at distance a, 30 pairs at distance b, 6 opposite pairs at distance 4 m.\n\nNow compute total energy:\n\nU = k q^2 * [ sum over all pairs 1/r_ij ] + central-outer contributions.\n\nk = 1/(4π ε0) = 8.987551787e9 N·m²/C².\n\nq = 2e = 3.204e-19 C.\n\nCompute q^2 = (3.204e-19)^2 = 10.27e-38? Let's compute: 3.204^2 = 10.27, times 10^{-38}. So q^2 = 1.027e-37 C^2.\n\nNow central-outer: 12 pairs each distance 2 m. Contribution = 12 * k q^2 / 2 = 6 * k q^2.\n\nNow outer-outer sum: S = 30*(1/a) + 30*(1/b) + 6*(1/4).\n\nCompute a≈2.104, b≈3.408.\n\n1/a = 0.4755, 1/b = 0.2934, 1/4 = 0.25.\n\nNow compute contributions: 30*0.4755 = 14.265, 30*0.2934 = 8.802, 6*0.25 = 1.5. Sum S = 24.567.\n\nThus outer-outer energy = k q^2 * S.\n\nTotal U = k q^2 (6 + S) = k q^2 (6 + 24.567) = k q^2 * 30.567.\n\nNow compute k q^2: k = 8.987551787e9, q^2 = 1.027e-37 => product = 8.9875e9 * 1.027e-37 = 9.236e-28? Let's compute: 8.9875 *1.027 = 9.236, exponent 9+(-37)= -28. So k q^2 ≈ 9.236e-28 J·m.\n\nMultiply by 30.567 => U ≈ 9.236e-28 * 30.567 = 2.822e-26 J (since 9.236*30.567 ≈ 282.2). Indeed 9.236*30 = 277.1, plus .567*9.236≈5.24, total ≈282.3. Times 1e-28 => 2.823e-26 J.\n\nThus answer matches option C: 2.822 x 10^-26 J.\n\nThus correct answer C.\n</think>\nThe electrostatic potential energy of a set of point charges is  \n\n\\[\nU=\\frac{1}{4\\pi\\varepsilon_0}\\sum_{i<j}\\frac{q_iq_j}{r_{ij}}\n\\]\n\nAll 13 charges have the same magnitude  \n\n\\[\nq = 2e = 2(1.602\\times10^{-19}\\,\\text{C}) = 3.204\\times10^{-19}\\,\\text{C}\n\\]\n\n---\n\n### 1.  Central–outer pairs  \n\nThe 13th charge is at the centre \\(P\\); each of the 12 outer charges is at a fixed distance  \n\n\\[\nr = 2\\ \\text{m}\n\\]\n\nHence the contribution of the 12 centre‑outer pairs is  \n\n\\[\nU_{c-o}=12\\frac{kq^{2}}{2}=6kq^{2},\n\\qquad k=\\frac{1}{4\\pi\\varepsilon_0}=8.9875\\times10^{9}\\,\\text{N·m}^{2}\\!/\\!\\text{C}^{2}\n\\]\n\n---\n\n### 2.  Outer–outer pairs  \n\nThe 12 outer charges lie on a sphere of radius \\(R=2\\ \\text{m}\\).  \nTo minimise the repulsive energy they adopt the Thomson‑problem configuration for \\(N=12\\): the vertices of a regular icosahedron.\n\nFor a regular icosahedron inscribed in a sphere of radius \\(R\\) the distances between vertices are of three kinds  \n\n| type | number of pairs | distance \\(r\\) |\n|------|----------------|----------------|\n| adjacent (edge) | 30 | \\(a = 2R\\sin\\frac{\\theta}{2}\\) |\n| non‑adjacent, non‑opposite | 30 | \\(b = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}\\) |\n| opposite vertices | 6 | \\(2R\\) |\n\nwhere  \n\n\\[\n\\cos\\theta = \\frac{\\varphi}{\\varphi+2},\\qquad \n\\varphi=\\frac{1+\\sqrt5}{2}=1.618\\ldots\n\\]\n\nThus  \n\n\\[\n\\theta = 63.435^{\\circ},\\qquad \na = 2R\\sin\\frac{\\theta}{2}=2.104\\ \\text{m},\n\\]\n\\[\nb = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}=3.408\\ \\text{m},\n\\qquad 2R = 4\\ \\text{m}.\n\\]\n\nThe sum of the reciprocals of all outer‑outer separations is  \n\n\\[\n\\begin{aligned}\nS &=30\\left(\\frac1a\\right)+30\\left(\\frac1b\\right)+6\\left(\\frac1{2R}\\right)\\\\\n  &=30(0.4755)+30(0.2934)+6(0.25)\\\\\n  &=24.567 .\n\\end{aligned}\n\\]\n\nHence  \n\n\\[\nU_{o-o}=kq^{2}S .\n\\]\n\n---\n\n### 3.  Total minimum energy  \n\n\\[\nU_{\\min}=U_{c-o}+U_{o-o}=kq^{2}\\bigl(6+S\\bigr)\n          =kq^{2}\\,(30.567).\n\\]\n\nNow  \n\n\\[\nq^{2}=(3.204\\times10^{-19}\\,\\text{C})^{2}=1.027\\times10^{-37}\\,\\text{C}^{2},\n\\]\n\\[\nkq^{2}=8.9875\\times10^{9}\\times1.027\\times10^{-37}=9.236\\times10^{-28}\\ \\text{J·m}.\n\\]\n\nFinally  \n\n\\[\nU_{\\min}=9.236\\times10^{-28}\\times30.567\n        =2.822\\times10^{-26}\\ \\text{J}.\n\\]\n\n---\n\n\\[\n\\boxed{U_{\\min}=2.822\\times10^{-26}\\ \\text{J}}\n\\]\n\nThus the correct choice is **C**."
     },
     "metadata": {
         "batch": 179,
@@ -184,7 +184,7 @@
             "start": 818,
             "end": 906,
             "label": "reasoning",
-            "text": "each pair central-outer contributes potential energy k q^2 / r = (1/(4\u03c0 \u03b50)) * q^2 / 2. ",
+            "text": "each pair central-outer contributes potential energy k q^2 / r = (1/(4π ε0)) * q^2 / 2. ",
             "source": "response"
         },
         {
@@ -319,7 +319,7 @@
             "start": 1926,
             "end": 2029,
             "label": "fact",
-            "text": "For a regular icosahedron inscribed in sphere radius R, edge length a = something: a = (4R)/\u221a(10+2\u221a5). ",
+            "text": "For a regular icosahedron inscribed in sphere radius R, edge length a = something: a = (4R)/√(10+2√5). ",
             "source": "response"
         },
         {
@@ -337,7 +337,7 @@
             "start": 2044,
             "end": 2166,
             "label": "fact",
-            "text": "For a regular icosahedron circumscribed sphere radius R (distance from center to vertex), edge length a = (4R)/\u221a(10+2\u221a5). ",
+            "text": "For a regular icosahedron circumscribed sphere radius R (distance from center to vertex), edge length a = (4R)/√(10+2√5). ",
             "source": "response"
         },
         {
@@ -400,7 +400,7 @@
             "start": 2550,
             "end": 2670,
             "label": "reasoning",
-            "text": "The remaining distances are between vertices that are not adjacent and not opposite; they correspond to distance = \u03c6 a? ",
+            "text": "The remaining distances are between vertices that are not adjacent and not opposite; they correspond to distance = φ a? ",
             "source": "response"
         },
         {
@@ -571,7 +571,7 @@
             "start": 3926,
             "end": 4072,
             "label": "fact",
-            "text": "Coordinates of icosahedron vertices (centered at origin) can be given as (0, \u00b11, \u00b1\u03c6), (\u00b11, \u00b1\u03c6, 0), (\u00b1\u03c6, 0, \u00b11) where \u03c6 = (1+\u221a5)/2 (golden ratio). ",
+            "text": "Coordinates of icosahedron vertices (centered at origin) can be given as (0, ±1, ±φ), (±1, ±φ, 0), (±φ, 0, ±1) where φ = (1+√5)/2 (golden ratio). ",
             "source": "response"
         },
         {
@@ -589,7 +589,7 @@
             "start": 4104,
             "end": 4313,
             "label": "reasoning",
-            "text": "First compute unscaled coordinates: these have length sqrt(1+\u03c6^2) = sqrt(1+ (1+\u221a5)^2/4) = sqrt(1 + ( (1+2\u221a5+5)/4 )) = sqrt(1 + (6+2\u221a5)/4) = sqrt( (4 + 6 + 2\u221a5)/4 ) = sqrt( (10 + 2\u221a5)/4 ) = sqrt( (5 + \u221a5)/2 ). ",
+            "text": "First compute unscaled coordinates: these have length sqrt(1+φ^2) = sqrt(1+ (1+√5)^2/4) = sqrt(1 + ( (1+2√5+5)/4 )) = sqrt(1 + (6+2√5)/4) = sqrt( (4 + 6 + 2√5)/4 ) = sqrt( (10 + 2√5)/4 ) = sqrt( (5 + √5)/2 ). ",
             "source": "response"
         },
         {
@@ -598,7 +598,7 @@
             "start": 4313,
             "end": 4346,
             "label": "reasoning",
-            "text": "So radius r0 = sqrt( (5+\u221a5)/2 ). ",
+            "text": "So radius r0 = sqrt( (5+√5)/2 ). ",
             "source": "response"
         },
         {
@@ -616,7 +616,7 @@
             "start": 4379,
             "end": 4444,
             "label": "example",
-            "text": "Edge length a0 between two vertices e.g., (0,1,\u03c6) and (0,-1,\u03c6)?? ",
+            "text": "Edge length a0 between two vertices e.g., (0,1,φ) and (0,-1,φ)?? ",
             "source": "response"
         },
         {
@@ -634,7 +634,7 @@
             "start": 4477,
             "end": 4538,
             "label": "example",
-            "text": "Let's compute edge length between (0,1,\u03c6) and (1,\u03c6,0) maybe. ",
+            "text": "Let's compute edge length between (0,1,φ) and (1,φ,0) maybe. ",
             "source": "response"
         },
         {
@@ -643,7 +643,7 @@
             "start": 4538,
             "end": 4585,
             "label": "reasoning",
-            "text": "Use known formula: edge length a = 2 / \u03c6 * r0? ",
+            "text": "Use known formula: edge length a = 2 / φ * r0? ",
             "source": "response"
         },
         {
@@ -670,7 +670,7 @@
             "start": 4643,
             "end": 4710,
             "label": "reasoning",
-            "text": "For unit circumscribed sphere (R=1), edge length a1 = 2 / \u221a(\u03c6+2)?? ",
+            "text": "For unit circumscribed sphere (R=1), edge length a1 = 2 / √(φ+2)?? ",
             "source": "response"
         },
         {
@@ -688,7 +688,7 @@
             "start": 4735,
             "end": 4787,
             "label": "example",
-            "text": "Take two vertices: v1 = (0, 1, \u03c6). v2 = (0, -1, \u03c6). ",
+            "text": "Take two vertices: v1 = (0, 1, φ). v2 = (0, -1, φ). ",
             "source": "response"
         },
         {
@@ -733,7 +733,7 @@
             "start": 4954,
             "end": 5040,
             "label": "reasoning",
-            "text": "In icosahedron, vertices (0, \u00b11, \u00b1\u03c6) have edges connecting those with opposite signs? ",
+            "text": "In icosahedron, vertices (0, ±1, ±φ) have edges connecting those with opposite signs? ",
             "source": "response"
         },
         {
@@ -742,7 +742,7 @@
             "start": 5040,
             "end": 5189,
             "label": "reasoning",
-            "text": "Let's check adjacency: The icosahedron edges connect each vertex to five others: For (0,1,\u03c6), its neighbors are (\u00b11, \u03c6,0) and (\u00b1\u03c6,0,1) and (0,-1,\u03c6)? ",
+            "text": "Let's check adjacency: The icosahedron edges connect each vertex to five others: For (0,1,φ), its neighbors are (±1, φ,0) and (±φ,0,1) and (0,-1,φ)? ",
             "source": "response"
         },
         {
@@ -760,7 +760,7 @@
             "start": 5200,
             "end": 5281,
             "label": "reasoning",
-            "text": "But distance between (0,1,\u03c6) and (0,-1,\u03c6) = 2, which is larger than edge length. ",
+            "text": "But distance between (0,1,φ) and (0,-1,φ) = 2, which is larger than edge length. ",
             "source": "response"
         },
         {
@@ -769,7 +769,7 @@
             "start": 5281,
             "end": 5415,
             "label": "reasoning",
-            "text": "So that's likely the intermediate distance b (or maybe opposite? Not opposite because opposite would be (0,1,\u03c6) and (0,-1,-\u03c6) maybe). ",
+            "text": "So that's likely the intermediate distance b (or maybe opposite? Not opposite because opposite would be (0,1,φ) and (0,-1,-φ) maybe). ",
             "source": "response"
         },
         {
@@ -778,7 +778,7 @@
             "start": 5415,
             "end": 5572,
             "label": "reasoning",
-            "text": "Opposite vertices are (0,1,\u03c6) and (0,-1,-\u03c6) distance sqrt( (0)^2 + (2)^2 + (2\u03c6)^2 ) = sqrt(4 + 4\u03c6^2) = 2 sqrt(1+ \u03c6^2) = 2 r0, which equals 2R (makes sense). ",
+            "text": "Opposite vertices are (0,1,φ) and (0,-1,-φ) distance sqrt( (0)^2 + (2)^2 + (2φ)^2 ) = sqrt(4 + 4φ^2) = 2 sqrt(1+ φ^2) = 2 r0, which equals 2R (makes sense). ",
             "source": "response"
         },
         {
@@ -796,7 +796,7 @@
             "start": 5601,
             "end": 5676,
             "label": "reasoning",
-            "text": "Thus distance between (0,1,\u03c6) and (0,-1,\u03c6) is 2 (in unscaled coordinates). ",
+            "text": "Thus distance between (0,1,φ) and (0,-1,φ) is 2 (in unscaled coordinates). ",
             "source": "response"
         },
         {
@@ -823,7 +823,7 @@
             "start": 5743,
             "end": 5803,
             "label": "example",
-            "text": "Edge length a: pick adjacent vertices: (0,1,\u03c6) and (1,\u03c6,0). ",
+            "text": "Edge length a: pick adjacent vertices: (0,1,φ) and (1,φ,0). ",
             "source": "response"
         },
         {
@@ -832,7 +832,7 @@
             "start": 5803,
             "end": 5838,
             "label": "reasoning",
-            "text": "Compute difference: ( -1, 1-\u03c6, \u03c6). ",
+            "text": "Compute difference: ( -1, 1-φ, φ). ",
             "source": "response"
         },
         {
@@ -841,7 +841,7 @@
             "start": 5838,
             "end": 5875,
             "label": "reasoning",
-            "text": "Actually v1 = (0,1,\u03c6), v2 = (1,\u03c6,0). ",
+            "text": "Actually v1 = (0,1,φ), v2 = (1,φ,0). ",
             "source": "response"
         },
         {
@@ -850,7 +850,7 @@
             "start": 5875,
             "end": 5902,
             "label": "reasoning",
-            "text": "Difference = (-1, 1-\u03c6, \u03c6). ",
+            "text": "Difference = (-1, 1-φ, φ). ",
             "source": "response"
         },
         {
@@ -859,7 +859,7 @@
             "start": 5902,
             "end": 6036,
             "label": "reasoning",
-            "text": "Compute squared length: (-1)^2 + (1-\u03c6)^2 + \u03c6^2 = 1 + (1 - 2\u03c6 + \u03c6^2) + \u03c6^2 = 1 + 1 - 2\u03c6 + \u03c6^2 + \u03c6^2 = 2 - 2\u03c6 + 2 \u03c6^2 = 2(1 - \u03c6 + \u03c6^2). ",
+            "text": "Compute squared length: (-1)^2 + (1-φ)^2 + φ^2 = 1 + (1 - 2φ + φ^2) + φ^2 = 1 + 1 - 2φ + φ^2 + φ^2 = 2 - 2φ + 2 φ^2 = 2(1 - φ + φ^2). ",
             "source": "response"
         },
         {
@@ -868,7 +868,7 @@
             "start": 6036,
             "end": 6054,
             "label": "fact",
-            "text": "Since \u03c6^2 = \u03c6 +1. ",
+            "text": "Since φ^2 = φ +1. ",
             "source": "response"
         },
         {
@@ -877,7 +877,7 @@
             "start": 6054,
             "end": 6089,
             "label": "reasoning",
-            "text": "So 1 - \u03c6 + \u03c6^2 = 1 - \u03c6 + \u03c6 +1 = 2. ",
+            "text": "So 1 - φ + φ^2 = 1 - φ + φ +1 = 2. ",
             "source": "response"
         },
         {
@@ -940,7 +940,7 @@
             "start": 6252,
             "end": 6296,
             "label": "reasoning",
-            "text": "Maybe (0,1,\u03c6) and (1,\u03c6,0) are not adjacent? ",
+            "text": "Maybe (0,1,φ) and (1,φ,0) are not adjacent? ",
             "source": "response"
         },
         {
@@ -949,7 +949,7 @@
             "start": 6296,
             "end": 6380,
             "label": "fact",
-            "text": "Let's check known coordinates: The 12 vertices are permutations of (0, \u00b11, \u00b1\u03c6) etc. ",
+            "text": "Let's check known coordinates: The 12 vertices are permutations of (0, ±1, ±φ) etc. ",
             "source": "response"
         },
         {
@@ -967,7 +967,7 @@
             "start": 6443,
             "end": 6518,
             "label": "reasoning",
-            "text": "Actually adjacency condition: dot product between unit vectors equals \u03c6/2? ",
+            "text": "Actually adjacency condition: dot product between unit vectors equals φ/2? ",
             "source": "response"
         },
         {
@@ -985,7 +985,7 @@
             "start": 6531,
             "end": 6605,
             "label": "reasoning",
-            "text": "Let's compute dot product between v1 and v2: v1\u00b7v2 = 0*1 + 1*\u03c6 + \u03c6*0 = \u03c6. ",
+            "text": "Let's compute dot product between v1 and v2: v1·v2 = 0*1 + 1*φ + φ*0 = φ. ",
             "source": "response"
         },
         {
@@ -994,7 +994,7 @@
             "start": 6605,
             "end": 6651,
             "label": "reasoning",
-            "text": "The angle between them cos\u03b8 = (v1\u00b7v2)/(r0^2). ",
+            "text": "The angle between them cosθ = (v1·v2)/(r0^2). ",
             "source": "response"
         },
         {
@@ -1003,7 +1003,7 @@
             "start": 6651,
             "end": 6666,
             "label": "reasoning",
-            "text": "r0^2 = 1+ \u03c6^2. ",
+            "text": "r0^2 = 1+ φ^2. ",
             "source": "response"
         },
         {
@@ -1012,7 +1012,7 @@
             "start": 6666,
             "end": 6687,
             "label": "reasoning",
-            "text": "So cos\u03b8 = \u03c6/(1+\u03c6^2). ",
+            "text": "So cosθ = φ/(1+φ^2). ",
             "source": "response"
         },
         {
@@ -1021,7 +1021,7 @@
             "start": 6687,
             "end": 6724,
             "label": "reasoning",
-            "text": "Since \u03c6\u22481.618, \u03c6^2\u22482.618, sum\u22483.618. ",
+            "text": "Since φ≈1.618, φ^2≈2.618, sum≈3.618. ",
             "source": "response"
         },
         {
@@ -1030,7 +1030,7 @@
             "start": 6724,
             "end": 6751,
             "label": "reasoning",
-            "text": "So cos\u03b8\u22481.618/3.618\u22480.447. ",
+            "text": "So cosθ≈1.618/3.618≈0.447. ",
             "source": "response"
         },
         {
@@ -1039,7 +1039,7 @@
             "start": 6751,
             "end": 6760,
             "label": "reasoning",
-            "text": "\u03b8\u224863.4\u00b0. ",
+            "text": "θ≈63.4°. ",
             "source": "response"
         },
         {
@@ -1057,7 +1057,7 @@
             "start": 6820,
             "end": 6869,
             "label": "fact",
-            "text": "For sphere radius R, chord length = 2R sin(\u03b8/2). ",
+            "text": "For sphere radius R, chord length = 2R sin(θ/2). ",
             "source": "response"
         },
         {
@@ -1066,7 +1066,7 @@
             "start": 6869,
             "end": 6925,
             "label": "reasoning",
-            "text": "For \u03b8\u224863.4\u00b0, chord = 2R sin(31.7\u00b0) \u2248 2R*0.526 = 1.052R. ",
+            "text": "For θ≈63.4°, chord = 2R sin(31.7°) ≈ 2R*0.526 = 1.052R. ",
             "source": "response"
         },
         {
@@ -1075,7 +1075,7 @@
             "start": 6925,
             "end": 6949,
             "label": "reasoning",
-            "text": "For R=2, edge \u22482.104 m. ",
+            "text": "For R=2, edge ≈2.104 m. ",
             "source": "response"
         },
         {
@@ -1111,7 +1111,7 @@
             "start": 7037,
             "end": 7074,
             "label": "reasoning",
-            "text": "Let's compute r0 = sqrt( (5+\u221a5)/2 ). ",
+            "text": "Let's compute r0 = sqrt( (5+√5)/2 ). ",
             "source": "response"
         },
         {
@@ -1120,7 +1120,7 @@
             "start": 7074,
             "end": 7144,
             "label": "reasoning",
-            "text": "Compute numeric: \u221a5\u22482.23607, 5+\u221a5\u22487.23607, /2 =3.61803, sqrt =1.9021. ",
+            "text": "Compute numeric: √5≈2.23607, 5+√5≈7.23607, /2 =3.61803, sqrt =1.9021. ",
             "source": "response"
         },
         {
@@ -1129,7 +1129,7 @@
             "start": 7144,
             "end": 7158,
             "label": "reasoning",
-            "text": "So r0\u22481.9021. ",
+            "text": "So r0≈1.9021. ",
             "source": "response"
         },
         {
@@ -1183,7 +1183,7 @@
             "start": 7352,
             "end": 7449,
             "label": "reasoning",
-            "text": "For icosahedron, the angle between adjacent vertices (center to vertices) is arccos(\u03c6/ (1+\u03c6^2))? ",
+            "text": "For icosahedron, the angle between adjacent vertices (center to vertices) is arccos(φ/ (1+φ^2))? ",
             "source": "response"
         },
         {
@@ -1192,7 +1192,7 @@
             "start": 7449,
             "end": 7502,
             "label": "reasoning",
-            "text": "Actually dot product between adjacent vertices is \u03c6? ",
+            "text": "Actually dot product between adjacent vertices is φ? ",
             "source": "response"
         },
         {
@@ -1201,7 +1201,7 @@
             "start": 7502,
             "end": 7556,
             "label": "reasoning",
-            "text": "Let's verify: For v1=(0,1,\u03c6) and v2=(1,\u03c6,0), dot = \u03c6. ",
+            "text": "Let's verify: For v1=(0,1,φ) and v2=(1,φ,0), dot = φ. ",
             "source": "response"
         },
         {
@@ -1210,7 +1210,7 @@
             "start": 7556,
             "end": 7605,
             "label": "reasoning",
-            "text": "So cos\u03b8 = \u03c6 / r0^2 = \u03c6 / (1+\u03c6^2) = \u03c6 / (1+\u03c6+1)?? ",
+            "text": "So cosθ = φ / r0^2 = φ / (1+φ^2) = φ / (1+φ+1)?? ",
             "source": "response"
         },
         {
@@ -1219,7 +1219,7 @@
             "start": 7605,
             "end": 7645,
             "label": "reasoning",
-            "text": "Wait \u03c6^2 = \u03c6+1, so 1+\u03c6^2 = 1+\u03c6+1 = \u03c6+2. ",
+            "text": "Wait φ^2 = φ+1, so 1+φ^2 = 1+φ+1 = φ+2. ",
             "source": "response"
         },
         {
@@ -1228,7 +1228,7 @@
             "start": 7645,
             "end": 7664,
             "label": "reasoning",
-            "text": "So cos\u03b8 = \u03c6/(\u03c6+2). ",
+            "text": "So cosθ = φ/(φ+2). ",
             "source": "response"
         },
         {
@@ -1237,7 +1237,7 @@
             "start": 7664,
             "end": 7715,
             "label": "reasoning",
-            "text": "Compute numeric: \u03c6\u22481.618, \u03c6+2\u22483.618, ratio\u22480.4472. ",
+            "text": "Compute numeric: φ≈1.618, φ+2≈3.618, ratio≈0.4472. ",
             "source": "response"
         },
         {
@@ -1246,7 +1246,7 @@
             "start": 7715,
             "end": 7749,
             "label": "reasoning",
-            "text": "So \u03b8 = arccos(0.4472) \u2248 63.4349\u00b0. ",
+            "text": "So θ = arccos(0.4472) ≈ 63.4349°. ",
             "source": "response"
         },
         {
@@ -1264,7 +1264,7 @@
             "start": 7756,
             "end": 7831,
             "label": "reasoning",
-            "text": "Thus chord length a = 2R sin(\u03b8/2) = 2*2*sin(31.7175\u00b0) = 4*0.526 = 2.104 m. ",
+            "text": "Thus chord length a = 2R sin(θ/2) = 2*2*sin(31.7175°) = 4*0.526 = 2.104 m. ",
             "source": "response"
         },
         {
@@ -1291,7 +1291,7 @@
             "start": 7881,
             "end": 7943,
             "label": "example",
-            "text": "Let's pick vertices (0,1,\u03c6) and (0,-1,\u03c6) we computed earlier. ",
+            "text": "Let's pick vertices (0,1,φ) and (0,-1,φ) we computed earlier. ",
             "source": "response"
         },
         {
@@ -1300,7 +1300,7 @@
             "start": 7943,
             "end": 8016,
             "label": "reasoning",
-            "text": "Their dot product: (0)*(0)+(1)*(-1)+(\u03c6)*(\u03c6) = -1 + \u03c6^2 = -1 + (\u03c6+1) = \u03c6. ",
+            "text": "Their dot product: (0)*(0)+(1)*(-1)+(φ)*(φ) = -1 + φ^2 = -1 + (φ+1) = φ. ",
             "source": "response"
         },
         {
@@ -1309,7 +1309,7 @@
             "start": 8016,
             "end": 8039,
             "label": "reasoning",
-            "text": "So dot product also \u03c6! ",
+            "text": "So dot product also φ! ",
             "source": "response"
         },
         {
@@ -1336,7 +1336,7 @@
             "start": 8075,
             "end": 8185,
             "label": "reasoning",
-            "text": "Let's compute: dot = \u03c6, same as before, so angle same 63.4349\u00b0, meaning those two vertices are also adjacent? ",
+            "text": "Let's compute: dot = φ, same as before, so angle same 63.4349°, meaning those two vertices are also adjacent? ",
             "source": "response"
         },
         {
@@ -1354,7 +1354,7 @@
             "start": 8221,
             "end": 8333,
             "label": "reasoning",
-            "text": "Actually maybe they are also adjacent; maybe each vertex has 5 neighbors, includes both (0,-1,\u03c6) and (0,-1,-\u03c6)? ",
+            "text": "Actually maybe they are also adjacent; maybe each vertex has 5 neighbors, includes both (0,-1,φ) and (0,-1,-φ)? ",
             "source": "response"
         },
         {
@@ -1363,7 +1363,7 @@
             "start": 8333,
             "end": 8438,
             "label": "reasoning",
-            "text": "Let's check adjacency list: For vertex (0,1,\u03c6), its 5 neighbors are (\u00b11, \u03c6,0) and (\u00b1\u03c6,0,1) and (0,-1,\u03c6)? ",
+            "text": "Let's check adjacency list: For vertex (0,1,φ), its 5 neighbors are (±1, φ,0) and (±φ,0,1) and (0,-1,φ)? ",
             "source": "response"
         },
         {
@@ -1381,7 +1381,7 @@
             "start": 8448,
             "end": 8480,
             "label": "reasoning",
-            "text": "So indeed (0,-1,\u03c6) is adjacent. ",
+            "text": "So indeed (0,-1,φ) is adjacent. ",
             "source": "response"
         },
         {
@@ -1408,7 +1408,7 @@
             "start": 8629,
             "end": 8668,
             "label": "example",
-            "text": "Let's pick (0,1,\u03c6) and (1,-\u03c6,0) maybe? ",
+            "text": "Let's pick (0,1,φ) and (1,-φ,0) maybe? ",
             "source": "response"
         },
         {
@@ -1417,7 +1417,7 @@
             "start": 8668,
             "end": 8716,
             "label": "reasoning",
-            "text": "Compute dot product: v1\u00b7v3 where v3 = (1,-\u03c6,0). ",
+            "text": "Compute dot product: v1·v3 where v3 = (1,-φ,0). ",
             "source": "response"
         },
         {
@@ -1426,7 +1426,7 @@
             "start": 8716,
             "end": 8747,
             "label": "reasoning",
-            "text": "Dot = 0*1 + 1*(-\u03c6) + \u03c6*0 = -\u03c6. ",
+            "text": "Dot = 0*1 + 1*(-φ) + φ*0 = -φ. ",
             "source": "response"
         },
         {
@@ -1435,7 +1435,7 @@
             "start": 8747,
             "end": 8789,
             "label": "reasoning",
-            "text": "So cos\u03b8 = -\u03c6/(r0^2) = -\u03c6/(\u03c6+2) = -0.4472. ",
+            "text": "So cosθ = -φ/(r0^2) = -φ/(φ+2) = -0.4472. ",
             "source": "response"
         },
         {
@@ -1444,7 +1444,7 @@
             "start": 8789,
             "end": 8828,
             "label": "reasoning",
-            "text": "So angle = arccos(-0.4472) = 116.565\u00b0. ",
+            "text": "So angle = arccos(-0.4472) = 116.565°. ",
             "source": "response"
         },
         {
@@ -1453,7 +1453,7 @@
             "start": 8828,
             "end": 8898,
             "label": "reasoning",
-            "text": "Chord length = 2R sin(\u03b8/2) = 4 * sin(58.2825\u00b0) = 4 * 0.852 = 3.408 m. ",
+            "text": "Chord length = 2R sin(θ/2) = 4 * sin(58.2825°) = 4 * 0.852 = 3.408 m. ",
             "source": "response"
         },
         {
@@ -1471,7 +1471,7 @@
             "start": 8935,
             "end": 9030,
             "label": "reasoning",
-            "text": "Thus we have three distances: a = 2R sin(\u03b81/2) where \u03b81 = arccos(\u03c6/(\u03c6+2)) \u224863.435\u00b0, a\u22482.104 m. ",
+            "text": "Thus we have three distances: a = 2R sin(θ1/2) where θ1 = arccos(φ/(φ+2)) ≈63.435°, a≈2.104 m. ",
             "source": "response"
         },
         {
@@ -1489,7 +1489,7 @@
             "start": 9060,
             "end": 9139,
             "label": "reasoning",
-            "text": "b = 2R sin(\u03b82/2) where \u03b82 = arccos(-\u03c6/(\u03c6+2)) = 180\u00b0-\u03b81 = 116.565\u00b0, b\u22483.408 m.\n\n",
+            "text": "b = 2R sin(θ2/2) where θ2 = arccos(-φ/(φ+2)) = 180°-θ1 = 116.565°, b≈3.408 m.\n\n",
             "source": "response"
         },
         {
@@ -1525,7 +1525,7 @@
             "start": 9340,
             "end": 9380,
             "label": "fact",
-            "text": "k = 1/(4\u03c0 \u03b50) = 8.987551787e9 N\u00b7m\u00b2/C\u00b2.\n\n",
+            "text": "k = 1/(4π ε0) = 8.987551787e9 N·m²/C².\n\n",
             "source": "response"
         },
         {
@@ -1597,7 +1597,7 @@
             "start": 9665,
             "end": 9692,
             "label": "reasoning",
-            "text": "Compute a\u22482.104, b\u22483.408.\n\n",
+            "text": "Compute a≈2.104, b≈3.408.\n\n",
             "source": "response"
         },
         {
@@ -1669,7 +1669,7 @@
             "start": 10094,
             "end": 10121,
             "label": "reasoning",
-            "text": "So k q^2 \u2248 9.236e-28 J\u00b7m.\n\n",
+            "text": "So k q^2 ≈ 9.236e-28 J·m.\n\n",
             "source": "response"
         },
         {
@@ -1678,7 +1678,7 @@
             "start": 10121,
             "end": 10210,
             "label": "reasoning",
-            "text": "Multiply by 30.567 => U \u2248 9.236e-28 * 30.567 = 2.822e-26 J (since 9.236*30.567 \u2248 282.2). ",
+            "text": "Multiply by 30.567 => U ≈ 9.236e-28 * 30.567 = 2.822e-26 J (since 9.236*30.567 ≈ 282.2). ",
             "source": "response"
         },
         {
@@ -1687,7 +1687,7 @@
             "start": 10210,
             "end": 10271,
             "label": "reasoning",
-            "text": "Indeed 9.236*30 = 277.1, plus .567*9.236\u22485.24, total \u2248282.3. ",
+            "text": "Indeed 9.236*30 = 277.1, plus .567*9.236≈5.24, total ≈282.3. ",
             "source": "response"
         },
         {
@@ -1750,7 +1750,7 @@
             "start": 10639,
             "end": 10675,
             "label": "planning",
-            "text": "---\n\n### 1.  Central\u2013outer pairs  \n\n",
+            "text": "---\n\n### 1.  Central–outer pairs  \n\n",
             "source": "response"
         },
         {
@@ -1777,7 +1777,7 @@
             "start": 10793,
             "end": 10983,
             "label": "reasoning",
-            "text": "Hence the contribution of the 12 centre\u2011outer pairs is  \n\n\\[\nU_{c-o}=12\\frac{kq^{2}}{2}=6kq^{2},\n\\qquad k=\\frac{1}{4\\pi\\varepsilon_0}=8.9875\\times10^{9}\\,\\text{N\u00b7m}^{2}\\!/\\!\\text{C}^{2}\n\\]\n\n",
+            "text": "Hence the contribution of the 12 centre‑outer pairs is  \n\n\\[\nU_{c-o}=12\\frac{kq^{2}}{2}=6kq^{2},\n\\qquad k=\\frac{1}{4\\pi\\varepsilon_0}=8.9875\\times10^{9}\\,\\text{N·m}^{2}\\!/\\!\\text{C}^{2}\n\\]\n\n",
             "source": "response"
         },
         {
@@ -1786,7 +1786,7 @@
             "start": 10983,
             "end": 11017,
             "label": "planning",
-            "text": "---\n\n### 2.  Outer\u2013outer pairs  \n\n",
+            "text": "---\n\n### 2.  Outer–outer pairs  \n\n",
             "source": "response"
         },
         {
@@ -1804,7 +1804,7 @@
             "start": 11085,
             "end": 11217,
             "label": "reasoning",
-            "text": "To minimise the repulsive energy they adopt the Thomson\u2011problem configuration for \\(N=12\\): the vertices of a regular icosahedron.\n\n",
+            "text": "To minimise the repulsive energy they adopt the Thomson‑problem configuration for \\(N=12\\): the vertices of a regular icosahedron.\n\n",
             "source": "response"
         },
         {
@@ -1822,7 +1822,7 @@
             "start": 11334,
             "end": 11596,
             "label": "reasoning",
-            "text": "| type | number of pairs | distance \\(r\\) |\n|------|----------------|----------------|\n| adjacent (edge) | 30 | \\(a = 2R\\sin\\frac{\\theta}{2}\\) |\n| non\u2011adjacent, non\u2011opposite | 30 | \\(b = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}\\) |\n| opposite vertices | 6 | \\(2R\\) |\n\n",
+            "text": "| type | number of pairs | distance \\(r\\) |\n|------|----------------|----------------|\n| adjacent (edge) | 30 | \\(a = 2R\\sin\\frac{\\theta}{2}\\) |\n| non‑adjacent, non‑opposite | 30 | \\(b = 2R\\sin\\frac{180^{\\circ}-\\theta}{2}\\) |\n| opposite vertices | 6 | \\(2R\\) |\n\n",
             "source": "response"
         },
         {
@@ -1849,7 +1849,7 @@
             "start": 11876,
             "end": 12103,
             "label": "reasoning",
-            "text": "The sum of the reciprocals of all outer\u2011outer separations is  \n\n\\[\n\\begin{aligned}\nS &=30\\left(\\frac1a\\right)+30\\left(\\frac1b\\right)+6\\left(\\frac1{2R}\\right)\\\\\n  &=30(0.4755)+30(0.2934)+6(0.25)\\\\\n  &=24.567 .\n\\end{aligned}\n\\]\n\n",
+            "text": "The sum of the reciprocals of all outer‑outer separations is  \n\n\\[\n\\begin{aligned}\nS &=30\\left(\\frac1a\\right)+30\\left(\\frac1b\\right)+6\\left(\\frac1{2R}\\right)\\\\\n  &=30(0.4755)+30(0.2934)+6(0.25)\\\\\n  &=24.567 .\n\\end{aligned}\n\\]\n\n",
             "source": "response"
         },
         {
@@ -1885,7 +1885,7 @@
             "start": 12257,
             "end": 12438,
             "label": "reasoning",
-            "text": "Now  \n\n\\[\nq^{2}=(3.204\\times10^{-19}\\,\\text{C})^{2}=1.027\\times10^{-37}\\,\\text{C}^{2},\n\\]\n\\[\nkq^{2}=8.9875\\times10^{9}\\times1.027\\times10^{-37}=9.236\\times10^{-28}\\ \\text{J\u00b7m}.\n\\]\n\n",
+            "text": "Now  \n\n\\[\nq^{2}=(3.204\\times10^{-19}\\,\\text{C})^{2}=1.027\\times10^{-37}\\,\\text{C}^{2},\n\\]\n\\[\nkq^{2}=8.9875\\times10^{9}\\times1.027\\times10^{-37}=9.236\\times10^{-28}\\ \\text{J·m}.\n\\]\n\n",
             "source": "response"
         },
         {
