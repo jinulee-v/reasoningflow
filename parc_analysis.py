@@ -26,6 +26,12 @@ import re
 import sys
 from collections import defaultdict, deque, Counter
 
+import numpy as np
+import matplotlib
+matplotlib.rcParams['svg.fonttype'] = 'none'
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
 DATA_DIR = "data/v1_llm_gemini-3.1-pro-preview"
 PARC_DIR = "parc_results"
 
@@ -618,7 +624,7 @@ def _node_idx(node_id):
     return int(m.group(1)) if m else None
 
 
-def sample_analysis_1_examples(records, n=5, seed=42):
+def sample_analysis_1_examples(records, n=10, seed=42):
     """Print n randomly sampled examples for Analysis 1 →conc ✓ and ⇏conc bins.
 
     For →conc ✓: prints all nodes by index between the erroneous node and the
@@ -630,9 +636,12 @@ def sample_analysis_1_examples(records, n=5, seed=42):
     rng = random.Random(seed)
 
     connects_correct_examples = []
+    connects_incorrect_examples = []
     no_connect_examples = []
 
     for rec in records:
+        if rec["model"] == "Qwen2.5-32B-Instruct":
+            continue
         graph = rec["graph"]
         parc_list = rec["parc"]
         answer = rec["correct_answer"]
@@ -704,6 +713,42 @@ def sample_analysis_1_examples(records, n=5, seed=42):
                     "span": best_span if best_span is not None else 1,
                 })
 
+            elif reached_concs and (reached_concs - conc_correct_ids):
+                # connects_incorrect: at least one reached conclusion is incorrect
+                best_conc_id = None
+                best_span = None
+                for cid in reached_concs - conc_correct_ids:
+                    cidx = _node_idx(cid)
+                    if err_idx is not None and cidx is not None:
+                        span = abs(cidx - err_idx) + 1
+                        if best_span is None or span < best_span:
+                            best_span = span
+                            best_conc_id = cid
+                if best_conc_id is None:
+                    best_span = 1
+
+                if err_idx is not None and best_conc_id is not None:
+                    conc_idx = _node_idx(best_conc_id)
+                    lo, hi = min(err_idx, conc_idx), max(err_idx, conc_idx)
+                    path_nodes = [
+                        nodes_by_idx[i] for i in range(lo, hi + 1)
+                        if i in nodes_by_idx
+                    ]
+                else:
+                    path_nodes = [err_node]
+
+                connects_incorrect_examples.append({
+                    "doc_id": rec["doc_id"],
+                    "model": rec["model"],
+                    "domain": rec["domain"],
+                    "answer": answer,
+                    "err_node_id": eid,
+                    "conc_node_id": best_conc_id,
+                    "path_nodes": path_nodes,
+                    "parc_map": parc_map,
+                    "span": best_span if best_span is not None else 1,
+                })
+
             elif not reached_concs:
                 if err_idx is not None:
                     path_nodes = [
@@ -761,9 +806,167 @@ def sample_analysis_1_examples(records, n=5, seed=42):
             print()
 
     aime_cc = [e for e in connects_correct_examples if e["domain"] == "AIME"]
+    aime_ci = [e for e in connects_incorrect_examples if e["domain"] == "AIME"]
     aime_nc = [e for e in no_connect_examples if e["domain"] == "AIME"]
+    gpqa_cc = [e for e in connects_correct_examples if e["domain"] == "GPQA"]
+    gpqa_ci = [e for e in connects_incorrect_examples if e["domain"] == "GPQA"]
+    gpqa_nc = [e for e in no_connect_examples if e["domain"] == "GPQA"]
     print_examples("→conc ✓  (erroneous node reaches only correct conclusions) [AIME]", aime_cc, n)
+    print_examples("→conc ✗  (erroneous node reaches an incorrect conclusion) [AIME]", aime_ci, n)
     print_examples("⇏conc    (erroneous node reaches no conclusion) [AIME]", aime_nc, n)
+    print_examples("→conc ✓  (erroneous node reaches only correct conclusions) [GPQA]", gpqa_cc, n)
+    print_examples("→conc ✗  (erroneous node reaches an incorrect conclusion) [GPQA]", gpqa_ci, n)
+    print_examples("⇏conc    (erroneous node reaches no conclusion) [GPQA]", gpqa_nc, n)
+
+
+# ── Plot palette & layout ─────────────────────────────────────────────────────
+
+C_CORRECT  = '#bcd373'
+C_PROP     = '#e7e5e5'
+C_ERROR    = '#e07070'
+
+C_CONN_CORRECT   = '#4e8c4a'
+C_CONN_INCORRECT = '#c45c5c'
+C_NO_CONNECT     = '#9aafb8'
+
+PLOT_DOMAINS = ['AIME', 'GPQA']
+ANA1_MODELS  = ['Qwen2.5-32B-Instruct', 'QwQ-32B', 'DeepSeek-V3', 'DeepSeek-R1', 'gpt-oss-120b']
+ANA3_MODELS  = ['QwQ-32B', 'DeepSeek-R1', 'gpt-oss-120b']
+
+MODEL_LABELS = {
+    'DeepSeek-V3':          'DeepSeek-V3',
+    'DeepSeek-R1':          'DeepSeek-R1',
+    'gpt-oss-120b':         'gpt-oss-120b',
+    'QwQ-32B':              'QwQ-32B',
+    'Qwen2.5-32B-Instruct': 'Qwen2.5-32B',
+}
+
+
+# ── Plots ─────────────────────────────────────────────────────────────────────
+
+def plot_analysis1(ana1, out_path):
+    outcomes = ['connects_correct', 'connects_incorrect', 'no_connect']
+    colors   = [C_CONN_CORRECT, C_CONN_INCORRECT, C_NO_CONNECT]
+
+    fig, axes = plt.subplots(2, 5, figsize=(18, 3.5), sharey='row')
+    fig.suptitle(
+        'Analysis 1 — Erroneous Node Connectivity to Conclusions',
+        fontsize=13, fontweight='bold', y=1.02
+    )
+
+    for ri, domain in enumerate(PLOT_DOMAINS):
+        for ci, model in enumerate(ANA1_MODELS):
+            ax = axes[ri][ci]
+            c  = aggregate(ana1, domain=domain, model=model)
+            total = sum(c[k] for k in outcomes)
+
+            if total == 0:
+                ax.text(0.5, 0.5, 'No data', ha='center', va='center',
+                        transform=ax.transAxes, fontsize=10, color='gray')
+            else:
+                pcts = [100.0 * c[k] / total for k in outcomes]
+                left = 0.0
+                y = 0
+                for pv, color in zip(pcts, colors):
+                    ax.barh(y, pv, left=left, color=color, height=0.5,
+                            edgecolor='white', linewidth=0.8)
+                    if pv >= 5:
+                        ax.text(left + pv / 2, y, f'{pv:.1f}%',
+                                ha='center', va='center', fontsize=9, color='#222')
+                    left += pv
+
+                ax.set_xlim(0, 100)
+                ax.set_xticks([0, 25, 50, 75, 100])
+                ax.set_xticklabels(['0', '25', '50', '75', '100'], fontsize=8)
+                ax.set_yticks([])
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.spines['left'].set_visible(False)
+
+            if ri == 0:
+                ax.set_title(MODEL_LABELS[model], fontsize=11, fontweight='bold', pad=6)
+            if ci == 0:
+                ax.set_ylabel(domain, fontsize=11, fontweight='bold', labelpad=8)
+            ax.set_xlabel('(%)', fontsize=8, labelpad=2)
+
+    legend_handles = [
+        mpatches.Patch(color=C_CONN_CORRECT,   label='→ Correct conclusion'),
+        mpatches.Patch(color=C_CONN_INCORRECT, label='→ Incorrect conclusion'),
+        mpatches.Patch(color=C_NO_CONNECT,     label='No conclusion reached'),
+    ]
+    fig.legend(handles=legend_handles, loc='lower center', ncol=3,
+               bbox_to_anchor=(0.5, -0.06), fontsize=10, frameon=False)
+    fig.tight_layout(rect=[0, 0.1, 1, 1])
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    fig.savefig(out_path, format='svg', bbox_inches='tight')
+    plt.close(fig)
+    print(f'Saved: {out_path}')
+
+
+def plot_analysis3(ana3, out_path):
+    reflect_types = ['positive', 'uncertain', 'negative']
+    x_labels      = ['Positive', 'Uncertain', 'Negative']
+    cs_order      = ['corr', 'prop', 'error']
+    seg_colors    = [C_CORRECT, C_PROP, C_ERROR]
+
+    fig, axes = plt.subplots(2, 3, figsize=(13, 6), sharey='row')
+    fig.suptitle(
+        'Analysis 3 — Reflect Edge Type vs. Node Correctness',
+        fontsize=13, fontweight='bold', y=1.01
+    )
+
+    x  = np.arange(len(reflect_types))
+    bw = 0.55
+
+    for ri, domain in enumerate(PLOT_DOMAINS):
+        for ci, model in enumerate(ANA3_MODELS):
+            ax = axes[ri][ci]
+            c  = aggregate(ana3, domain=domain, model=model)
+            totals = [sum(c[(rt, cs)] for cs in cs_order) for rt in reflect_types]
+
+            if max(totals, default=0) == 0:
+                ax.text(0.5, 0.5, 'No data', ha='center', va='center',
+                        transform=ax.transAxes, fontsize=10, color='gray')
+            else:
+                bottoms = np.zeros(len(reflect_types))
+                for cs, color in zip(cs_order, seg_colors):
+                    vals = np.array([
+                        100.0 * c[(rt, cs)] / totals[i] if totals[i] > 0 else 0.0
+                        for i, rt in enumerate(reflect_types)
+                    ])
+                    ax.bar(x, vals, bw, bottom=bottoms, color=color,
+                           edgecolor='white', linewidth=0.6)
+                    for xi, (v, b) in enumerate(zip(vals, bottoms)):
+                        if v >= 6:
+                            ax.text(xi, b + v / 2, f'{v:.0f}%',
+                                    ha='center', va='center', fontsize=8.5, color='#333')
+                    bottoms += vals
+
+                ax.set_ylim(0, 105)
+                ax.set_yticks([0, 25, 50, 75, 100])
+                ax.set_yticklabels(['0', '25', '50', '75', '100'], fontsize=8)
+                ax.set_xticks(x)
+                ax.set_xticklabels(x_labels, fontsize=9)
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+
+            if ri == 0:
+                ax.set_title(MODEL_LABELS[model], fontsize=11, fontweight='bold', pad=6)
+            if ci == 0:
+                ax.set_ylabel(domain + '\n(%)', fontsize=11, fontweight='bold', labelpad=6)
+
+    legend_handles = [
+        mpatches.Patch(color=C_CORRECT, label='Correct'),
+        mpatches.Patch(color=C_PROP,    label='Propagated (correct label, error-tainted)'),
+        mpatches.Patch(color=C_ERROR,   label='Error'),
+    ]
+    fig.legend(handles=legend_handles, loc='lower center', ncol=3,
+               bbox_to_anchor=(0.5, -0.04), fontsize=10, frameon=False)
+    fig.tight_layout(rect=[0, 0.07, 1, 1])
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    fig.savefig(out_path, format='svg', bbox_inches='tight')
+    plt.close(fig)
+    print(f'Saved: {out_path}')
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -795,7 +998,10 @@ def main():
     print_analysis_2(ana2, domains, models)
     print_analysis_3(ana3, domains, models)
     print_analysis_4(ana4, domains, models)
-    sample_analysis_1_examples(records, n=5)
+    sample_analysis_1_examples(records, n=10)
+
+    plot_analysis1(ana1, 'plots/parc_error_to_conc_connectivity.svg')
+    plot_analysis3(ana3, 'plots/parc_reflect_correctness.svg')
 
 
 if __name__ == "__main__":

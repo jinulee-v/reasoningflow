@@ -139,9 +139,9 @@ def main():
             print(f"Skip (exists): {output_path}")
             continue
         # if next output path exists, skip to avoid redundant work
-        if i < len(files) - 1 and os.path.exists(os.path.join(OUTPUT_DIR, os.path.relpath(files[i + 1], INPUT_DIR))):
-            print(f"Skip (next exists): {output_path}")
-            continue
+        # if i < len(files) - 1 and os.path.exists(os.path.join(OUTPUT_DIR, os.path.relpath(files[i + 1], INPUT_DIR))):
+        #     print(f"Skip (next exists): {output_path}")
+        #     continue
         try:
             process_file(input_path, output_path)
         except Exception as e:

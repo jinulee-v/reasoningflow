@@ -5,6 +5,8 @@ import re
 from matplotlib import pyplot as plt
 import yaml
 from sklearn.metrics import cohen_kappa_score
+import numpy as np
+plt.rcParams["svg.fonttype"] = "none"
 
 with open("schema/node_labels.yaml", "r") as f:
     NODE_LABELS = [node["name"] for node in yaml.safe_load(f)["nodes"]]
@@ -13,6 +15,8 @@ with open("schema/edge_labels.yaml", "r") as f:
     EDGE_DATA = yaml.safe_load(f)
     EDGE_LABELS = [edge["name"] for edge in EDGE_DATA["edges"]]
     print(EDGE_LABELS)
+
+JACCARD_THRESHOLD = 0.9
 
 node_segmentation_f1_scores = []
 node_classification_acc_scores = []
@@ -27,6 +31,11 @@ global_node_label_confusion_matrix = defaultdict(lambda: defaultdict(int))
 global_edge_label_confusion_matrix = defaultdict(lambda: defaultdict(int))
 global_edge_label_confusion_matrix_filtered = defaultdict(lambda: defaultdict(int))
 
+# Per-label TP/FP/FN for node classification and edge classification (no cascade)
+global_node_cls_tp = defaultdict(int)
+global_node_cls_fp = defaultdict(int)
+global_node_cls_fn = defaultdict(int)
+
 # Micro-averaged edge F1 by dest node type
 edge_by_nodetype_unlabeled = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0})
 edge_by_nodetype_labeled = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0})
@@ -38,14 +47,24 @@ edge_by_stepbin_labeled = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0})
 # Micro-averaged edge F1 by edge label (end-to-end: detection + classification)
 edge_by_edgetype = defaultdict(lambda: {"tp": 0, "fp": 0, "fn": 0})
 
-for file in sorted(os.listdir("data/v0_human_jinu_lee")):
+def node_word_tokens(text):
+    return set(re.findall(r'[a-zA-Z0-9]+', text.lower()))
+
+def jaccard_sim(set_a, set_b):
+    if not set_a and not set_b:
+        return 1.0
+    union = set_a | set_b
+    return len(set_a & set_b) / len(union) if union else 0.0
+
+for file in sorted(os.listdir("data/v1_human_D")):
     if not file.endswith(".json"):
         continue
     try:
-        with open(os.path.join("data/v0_human_jinu_lee", file), "r") as f:
+        # with open(os.path.join("data/v0_human_D", file), "r") as f:
+        with open(os.path.join("data/v1_human_D", file), "r") as f:
             datum_human = json.load(f)
         # with open(os.path.join("data/v0_llm_gemini-3-pro-preview", file), "r") as f:
-        with open(os.path.join("data/v0_human_A", file), "r") as f:
+        with open(os.path.join("data/v1_llm_gemini-3.1-pro-preview", file), "r") as f:
             datum_llm = json.load(f)
         assert datum_human["doc_id"] == datum_llm["doc_id"]
     except FileNotFoundError:
@@ -60,42 +79,66 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
     human_node_id_to_idx = {hn["id"]: i for i, hn in enumerate(datum_human["nodes"])}
     human_node_id_to_label = {hn["id"]: hn["label"] for hn in datum_human["nodes"]}
 
-    corresponding_nodes_h2l = {} # hn idx to ln
-    corresponding_nodes_l2h = {} # ln idx to hn
-    for hn in datum_human["nodes"]:
-        for ln in datum_llm["nodes"]:
-            if re.sub(r'[^a-zA-Z0-9]', '', hn["text"]) == re.sub(r'[^a-zA-Z0-9]', '', ln["text"]):
-                corresponding_nodes_h2l[hn["id"]] = ln
-                corresponding_nodes_l2h[ln["id"]] = hn
-            
-    # Node segmentation F1
-    tp, fp, fn = 0, 0, 0
-    for hn in datum_human["nodes"]:
-        if hn["id"] in corresponding_nodes_h2l:
-            tp += 1
-        else:
-            fn += 1
-    for ln in datum_llm["nodes"]:
-        if ln["id"] not in corresponding_nodes_l2h:
-            fp += 1
-    prec = tp / (tp + fp) if (tp + fp) > 0 else 0
-    rec = tp / (tp + fn) if (tp + fn) > 0 else 0
-    f1 = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0
-    # print("  node segmentation:", round(prec, 4), round(rec, 4), round(f1, 4))
-    node_segmentation_f1_scores.append(f1)
-    
-    # Node labels F1
+    # Node matching: order-preserving weighted LCS — jaccard > JACCARD_THRESHOLD pairs become hard correspondences.
+    h_nodes = datum_human["nodes"]
+    l_nodes = datum_llm["nodes"]
+    h_tok = [node_word_tokens(hn["text"]) for hn in h_nodes]
+    l_tok = [node_word_tokens(ln["text"]) for ln in l_nodes]
+    n_h, n_l = len(h_tok), len(l_tok)
+
+    corresponding_nodes_h2l = {}  # hn id -> ln node
+    corresponding_nodes_l2h = {}  # ln id -> hn node
+    if n_h > 0 and n_l > 0:
+        sim_mat = np.array([[jaccard_sim(ht, lt) for lt in l_tok] for ht in h_tok])
+
+        # Order-preserving matching via weighted LCS DP (no crossing matches).
+        dp = np.zeros((n_h + 1, n_l + 1))
+        for i in range(1, n_h + 1):
+            for j in range(1, n_l + 1):
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+                if sim_mat[i - 1][j - 1] > JACCARD_THRESHOLD:
+                    dp[i][j] = max(dp[i][j], dp[i - 1][j - 1] + sim_mat[i - 1][j - 1])
+
+        i, j = n_h, n_l
+        while i > 0 and j > 0:
+            s = sim_mat[i - 1][j - 1]
+            if s > JACCARD_THRESHOLD and dp[i - 1][j - 1] + s >= dp[i][j] - 1e-10:
+                corresponding_nodes_h2l[h_nodes[i - 1]["id"]] = l_nodes[j - 1]
+                corresponding_nodes_l2h[l_nodes[j - 1]["id"]] = h_nodes[i - 1]
+                i -= 1
+                j -= 1
+            elif dp[i - 1][j] >= dp[i][j - 1]:
+                i -= 1
+            else:
+                j -= 1
+
+    # Node segmentation F1: binary count of order-preserving LCS matches (jaccard > JACCARD_THRESHOLD) as true positives, rest as FP/FN. Macro-averaged per document.
+    n_matched = len(corresponding_nodes_h2l)
+    seg_prec = n_matched / n_l if n_l > 0 else 0.0
+    seg_rec = n_matched / n_h if n_h > 0 else 0.0
+    seg_f1 = 2 * seg_prec * seg_rec / (seg_prec + seg_rec) if (seg_prec + seg_rec) > 0 else 0.0
+    node_segmentation_f1_scores.append(seg_f1)
+    print(f"  node seg F1: {seg_f1:.4f} (P {seg_prec:.4f}, R {seg_rec:.4f})")
+
+    # Node classification (no cascade: count all nodes)
     node_acc_correct = 0
-    node_acc_total = 0
     for hn in datum_human["nodes"]:
         if hn["id"] in corresponding_nodes_h2l:
             ln = corresponding_nodes_h2l[hn["id"]]
             global_node_label_confusion_matrix[hn["label"]][ln["label"]] += 1
-            
-            node_acc_total += 1
             if hn["label"] == ln["label"]:
                 node_acc_correct += 1
-    node_acc = node_acc_correct / node_acc_total if node_acc_total > 0 else 0
+                global_node_cls_tp[hn["label"]] += 1
+            else:
+                global_node_cls_fn[hn["label"]] += 1
+        else:
+            global_node_cls_fn[hn["label"]] += 1
+    for ln in datum_llm["nodes"]:
+        if ln["id"] not in corresponding_nodes_l2h:
+            global_node_cls_fp[ln["label"]] += 1
+        elif corresponding_nodes_l2h[ln["id"]]["label"] != ln["label"]:
+            global_node_cls_fp[ln["label"]] += 1
+    node_acc = node_acc_correct / len(datum_human["nodes"]) if datum_human["nodes"] else 0
     node_classification_acc_scores.append(node_acc)
     
     # Find valid edges
@@ -112,18 +155,14 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
                     corresponding_edges_l2h[le["id"]] = he
                     break
     
-    # Edge unlabeled F1
+    # Edge unlabeled F1 (no cascade)
     tp, fp, fn = 0, 0, 0
     for he in datum_human["edges"]:
-        if not (he["source_node_id"] in corresponding_nodes_h2l and he["dest_node_id"] in corresponding_nodes_h2l):
-            continue
         if he["id"] in corresponding_edges_h2l:
             tp += 1
         else:
             fn += 1
     for le in datum_llm["edges"]:
-        if not (le["source_node_id"] in corresponding_nodes_l2h and le["dest_node_id"] in corresponding_nodes_l2h):
-            continue
         if le["id"] not in corresponding_edges_l2h:
             fp += 1
     prec = tp / (tp + fp) if (tp + fp) > 0 else 0
@@ -133,19 +172,15 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
     edge_detection_precision_scores.append(prec)
     edge_detection_recall_scores.append(rec)
     edge_detection_f1_scores.append(f1)
-    
-    # Edge labeled F1
+
+    # Edge labeled F1 (no cascade)
     tp, fp, fn = 0, 0, 0
     for he in datum_human["edges"]:
-        if not (he["source_node_id"] in corresponding_nodes_h2l and he["dest_node_id"] in corresponding_nodes_h2l):
-            continue
         if he["id"] in corresponding_edges_h2l and corresponding_edges_h2l[he["id"]]["label"] == he["label"]:
             tp += 1
         else:
             fn += 1
     for le in datum_llm["edges"]:
-        if not (le["source_node_id"] in corresponding_nodes_l2h and le["dest_node_id"] in corresponding_nodes_l2h):
-            continue
         if le["id"] not in corresponding_edges_l2h or corresponding_edges_l2h[le["id"]]["label"] != le["label"]:
             fp += 1
     prec = tp / (tp + fp) if (tp + fp) > 0 else 0
@@ -155,10 +190,8 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
     edge_detcls_recall_scores.append(rec)
     edge_detcls_f1_scores.append(f1)
     
-    # Global edge label confusion matrix
+    # Global edge label confusion matrix (no cascade)
     for he in datum_human["edges"]:
-        if he["source_node_id"] not in corresponding_nodes_h2l or he["dest_node_id"] not in corresponding_nodes_h2l:
-            continue
         if he["id"] in corresponding_edges_h2l:
             le = corresponding_edges_h2l[he["id"]]
             global_edge_label_confusion_matrix[he["label"]][le["label"]] += 1
@@ -179,10 +212,8 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
             # global_edge_label_confusion_matrix[he["label"]]["no_edge"] += 1
             # global_edge_label_confusion_matrix_filtered[he["label"]]["no_edge"] += 1
 
-    # Accumulate edge stats by dest node type and step index bin
+    # Accumulate edge stats by dest node type and step index bin (no cascade on human side)
     for he in datum_human["edges"]:
-        if not (he["source_node_id"] in corresponding_nodes_h2l and he["dest_node_id"] in corresponding_nodes_h2l):
-            continue
         dest_label = human_node_id_to_label[he["dest_node_id"]]
         dest_idx = human_node_id_to_idx[he["dest_node_id"]]
         step_bin = (dest_idx // 10) * 10  # 0-9 -> 0, 10-19 -> 10, etc.
@@ -203,8 +234,8 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
             edge_by_stepbin_labeled[step_bin]["fn"] += 1
 
     for le in datum_llm["edges"]:
-        if not (le["source_node_id"] in corresponding_nodes_l2h and le["dest_node_id"] in corresponding_nodes_l2h):
-            continue
+        if le["dest_node_id"] not in corresponding_nodes_l2h:
+            continue  # can't attribute to a dest-node bin without human correspondence
         h_dest = corresponding_nodes_l2h[le["dest_node_id"]]
         dest_label = h_dest["label"]
         dest_idx = human_node_id_to_idx[h_dest["id"]]
@@ -219,69 +250,73 @@ for file in sorted(os.listdir("data/v0_human_jinu_lee")):
             edge_by_nodetype_labeled[dest_label]["fp"] += 1
             edge_by_stepbin_labeled[step_bin]["fp"] += 1
 
-    # Accumulate edge stats by edge label (end-to-end per label)
+    # Accumulate edge stats by edge label (end-to-end per label, no cascade)
     for he in datum_human["edges"]:
-        if not (he["source_node_id"] in corresponding_nodes_h2l and he["dest_node_id"] in corresponding_nodes_h2l):
-            continue
         label = he["label"]
         if he["id"] in corresponding_edges_h2l and corresponding_edges_h2l[he["id"]]["label"] == label:
-        # if he["id"] in corresponding_edges_h2l:
             edge_by_edgetype[label]["tp"] += 1
         else:
             edge_by_edgetype[label]["fn"] += 1
 
     for le in datum_llm["edges"]:
-        if not (le["source_node_id"] in corresponding_nodes_l2h and le["dest_node_id"] in corresponding_nodes_l2h):
-            continue
         label = le["label"]
         if le["id"] not in corresponding_edges_l2h or corresponding_edges_l2h[le["id"]]["label"] != label:
-        # if le["id"] not in corresponding_edges_l2h:
             edge_by_edgetype[label]["fp"] += 1
 
 node_classification_prec_scores = []
 node_classification_rec_scores = []
 node_classification_f1_scores = []
 for label in NODE_LABELS:
-    tp = global_node_label_confusion_matrix[label][label]
-    fp = sum(global_node_label_confusion_matrix[other][label] for other in NODE_LABELS if other != label)
-    fn = sum(global_node_label_confusion_matrix[label][other] for other in NODE_LABELS if other != label)
+    tp = global_node_cls_tp[label]
+    fp = global_node_cls_fp[label]
+    fn = global_node_cls_fn[label]
     prec = tp / (tp + fp) if (tp + fp) > 0 else 0
     rec = tp / (tp + fn) if (tp + fn) > 0 else 0
     f1 = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0
     node_classification_prec_scores.append(prec)
     node_classification_rec_scores.append(rec)
     node_classification_f1_scores.append(f1)
-    # print(f"    Edge label {label}: Precision={prec:.4f}, Recall={rec:.4f}, F1={f1:.4f}")
+node_cls_tp_total = sum(global_node_cls_tp[l] for l in NODE_LABELS)
+node_cls_fp_total = sum(global_node_cls_fp[l] for l in NODE_LABELS)
+node_cls_fn_total = sum(global_node_cls_fn[l] for l in NODE_LABELS)
+node_cls_micro_prec = node_cls_tp_total / (node_cls_tp_total + node_cls_fp_total) if (node_cls_tp_total + node_cls_fp_total) > 0 else 0
+node_cls_micro_rec  = node_cls_tp_total / (node_cls_tp_total + node_cls_fn_total) if (node_cls_tp_total + node_cls_fn_total) > 0 else 0
+node_cls_micro_f1   = 2 * node_cls_micro_prec * node_cls_micro_rec / (node_cls_micro_prec + node_cls_micro_rec) if (node_cls_micro_prec + node_cls_micro_rec) > 0 else 0
 
 
 edge_classification_prec_scores = []
 edge_classification_rec_scores = []
 edge_classification_f1_scores = []
 for label in EDGE_LABELS:
-    tp = global_edge_label_confusion_matrix[label][label]
-    fp = sum(global_edge_label_confusion_matrix[other][label] for other in EDGE_LABELS if other != label)
-    fn = sum(global_edge_label_confusion_matrix[label][other] for other in EDGE_LABELS if other != label)
+    tp = edge_by_edgetype[label]["tp"]
+    fp = edge_by_edgetype[label]["fp"]
+    fn = edge_by_edgetype[label]["fn"]
     prec = tp / (tp + fp) if (tp + fp) > 0 else 0
     rec = tp / (tp + fn) if (tp + fn) > 0 else 0
     f1 = 2 * prec * rec / (prec + rec) if (prec + rec) > 0 else 0
     edge_classification_prec_scores.append(prec)
     edge_classification_rec_scores.append(rec)
     edge_classification_f1_scores.append(f1)
-    # print(f"    Edge label {label}: Precision={prec:.4f}, Recall={rec:.4f}, F1={f1:.4f}")
+edge_cls_tp_total = sum(edge_by_edgetype[l]["tp"] for l in EDGE_LABELS)
+edge_cls_fp_total = sum(edge_by_edgetype[l]["fp"] for l in EDGE_LABELS)
+edge_cls_fn_total = sum(edge_by_edgetype[l]["fn"] for l in EDGE_LABELS)
+edge_cls_micro_prec = edge_cls_tp_total / (edge_cls_tp_total + edge_cls_fp_total) if (edge_cls_tp_total + edge_cls_fp_total) > 0 else 0
+edge_cls_micro_rec  = edge_cls_tp_total / (edge_cls_tp_total + edge_cls_fn_total) if (edge_cls_tp_total + edge_cls_fn_total) > 0 else 0
+edge_cls_micro_f1   = 2 * edge_cls_micro_prec * edge_cls_micro_rec / (edge_cls_micro_prec + edge_cls_micro_rec) if (edge_cls_micro_prec + edge_cls_micro_rec) > 0 else 0
 
 print("---------------------------------------")
 
 print(f"Average Node Segmentation F1:    {sum(node_segmentation_f1_scores) / len(node_segmentation_f1_scores):.4f}")
-print( "cf. Macro-averaged per document")
+print( f"cf. Order-preserving weighted LCS matching (jaccard > {JACCARD_THRESHOLD}), Macro-averaged per document")
 print("")
 
 print(f"Average Node Classification Acc: {sum(node_classification_acc_scores) / len(node_classification_acc_scores):.4f}")
-print( "cf. Among correctly segmented nodes, Macro-averaged per document")
+print( "cf. End-to-end (no cascade), Macro-averaged per document")
 
-print(f"Average Node Classification F1:  {sum(node_classification_f1_scores) / len(node_classification_f1_scores):.4f}")
+print(f"Node Classification F1 (micro):  {node_cls_micro_f1:.4f} (P {node_cls_micro_prec:.4f}, R {node_cls_micro_rec:.4f})")
 for label, f1, prec, rec in zip(NODE_LABELS, node_classification_f1_scores, node_classification_prec_scores, node_classification_rec_scores):
     print(f"  {label}: F1 {f1:.4f} (P {prec:.4f}, R {rec:.4f})")
-print( "cf. Among correctly segmented nodes, Macro-averaged per label, Micro-averaged per document")
+print( "cf. End-to-end (no cascade), Micro-averaged per label")
 print("")
 print(f"Average Unlabeled Edge F1:          {sum(edge_detection_f1_scores) / len(edge_detection_f1_scores):.4f}")
 print(f"- Average Unlabeled Edge Precision: {sum(edge_detection_precision_scores) / len(edge_detection_precision_scores):.4f}")
@@ -289,13 +324,15 @@ print(f"- Average Unlabeled Edge Recall:    {sum(edge_detection_recall_scores) /
 print(f"Average Labeled Edge F1:            {sum(edge_detcls_f1_scores) / len(edge_detcls_f1_scores):.4f}")
 print(f"- Average Labeled Edge Precision:   {sum(edge_detcls_precision_scores) / len(edge_detcls_precision_scores):.4f}")
 print(f"- Average Labeled Edge Recall:      {sum(edge_detcls_recall_scores) / len(edge_detcls_recall_scores):.4f}")
-print( "cf. Among correctly segmented nodes, Macro-averaged per label, Macro-averaged per document")
+print( "cf. End-to-end (no cascade), Macro-averaged per document")
 print("")
 
-print(f"Average Edge Classification F1: {sum(edge_classification_f1_scores) / len(edge_classification_f1_scores):.4f}")
+print(f"Edge Classification F1 (micro):  {edge_cls_micro_f1:.4f} (P {edge_cls_micro_prec:.4f}, R {edge_cls_micro_rec:.4f})")
 for label, f1, prec, rec in zip(EDGE_LABELS, edge_classification_f1_scores, edge_classification_prec_scores, edge_classification_rec_scores):
-    print(f"  {label}: F1 {f1:.4f} (P {prec:.4f}, R {rec:.4f}), gt_n={sum(global_edge_label_confusion_matrix[label].values())}")
-print( "cf. Among correctly identified edges, Macro-averaged per label, Micro-averaged per document")
+    tp = edge_by_edgetype[label]["tp"]
+    fn = edge_by_edgetype[label]["fn"]
+    print(f"  {label}: F1 {f1:.4f} (P {prec:.4f}, R {rec:.4f}), gt_n={tp + fn}")
+print( "cf. End-to-end (no cascade), Micro-averaged per label")
 
 # Helper to compute P/R/F1 from a TP/FP/FN dict
 def compute_prf(counts):

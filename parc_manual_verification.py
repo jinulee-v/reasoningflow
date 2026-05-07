@@ -124,7 +124,44 @@ def save_result(result: dict, session_id: str):
     print(f"  Saved -> {out_path}")
 
 
+def print_stats():
+    if not ANNOT_DIR.exists():
+        print(f"No annotations directory found at {ANNOT_DIR}/")
+        sys.exit(1)
+
+    files = sorted(ANNOT_DIR.glob("*.json"))
+    if not files:
+        print(f"No annotation files found in {ANNOT_DIR}/")
+        sys.exit(1)
+
+    total_flagged = 0
+    total_confirmed = 0
+    total_partial = 0
+
+    for path in files:
+        with open(path) as f:
+            result = json.load(f)
+        total_flagged += result["total_errors_flagged"]
+        total_confirmed += result["confirmed_errors"]
+        total_partial += result["partial_errors"]
+
+    print("=" * 70)
+    print(f"Stats from {ANNOT_DIR}/  ({len(files)} files)")
+    print("=" * 70)
+    print(f"  Files annotated  : {len(files)}")
+    print(f"  Errors flagged   : {total_flagged}")
+    print(f"  Errors confirmed : {total_confirmed}")
+    print(f"  Errors somewhat  : {total_partial}")
+    if total_flagged:
+        precision = (total_confirmed + total_partial) / total_flagged
+        print(f"  Precision (Y+S)  : {precision:.1%}")
+
+
 def main():
+    if "--stats" in sys.argv:
+        print_stats()
+        return
+
     print("PARC Annotation Tool")
     print(f"Selecting {TARGET_FILES} files with 0 < errors <= {MAX_ERRORS}...\n")
 
