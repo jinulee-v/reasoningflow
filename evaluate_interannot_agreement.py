@@ -61,8 +61,8 @@ def align_nodes_monotone(ref_nodes, other_nodes):
 # Load all annotations grouped by doc_id and annotator
 # ============================================================
 
-# DIRECTORIES = ["data/v0_human_D", "data/v0_human_A", "data/v0_human_B", "data/v0_human_C"]
-DIRECTORIES = ["data/v0_human_D", "data/v0_llm_gpt-5.1-2025-11-13_groundseg"]
+# DIRECTORIES = ["data/v0_human_1", "data/v0_human_2"]
+DIRECTORIES = ["data/v0_human_1", "data/v0_llm_gpt-5.1-2025-11-13_groundseg"]
 
 all_annotations = {}  # {doc_id: {annotator: datum}}
 

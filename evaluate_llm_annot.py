@@ -56,15 +56,13 @@ def jaccard_sim(set_a, set_b):
     union = set_a | set_b
     return len(set_a & set_b) / len(union) if union else 0.0
 
-for file in sorted(os.listdir("data/v1_human_D")):
+for file in sorted(os.listdir("data/v0_human_1")):
     if not file.endswith(".json"):
         continue
     try:
-        # with open(os.path.join("data/v0_human_D", file), "r") as f:
-        with open(os.path.join("data/v1_human_D", file), "r") as f:
+        with open(os.path.join("data/v0_human_1", file), "r") as f:
             datum_human = json.load(f)
-        # with open(os.path.join("data/v0_llm_gemini-3-pro-preview", file), "r") as f:
-        with open(os.path.join("data/v1_llm_gemini-3.1-pro-preview", file), "r") as f:
+        with open(os.path.join("data/v0_llm_gemini-3.1-pro-preview", file), "r") as f:
             datum_llm = json.load(f)
         assert datum_human["doc_id"] == datum_llm["doc_id"]
     except FileNotFoundError:
