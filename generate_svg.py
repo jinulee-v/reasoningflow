@@ -2,6 +2,7 @@ import json
 import yaml
 import io
 import re
+from collections import defaultdict, deque
 
 import matplotlib
 matplotlib.use('Agg')
@@ -305,6 +306,312 @@ def draw_graph(data: dict, output_path: str = "graph.svg"):
         bulge = max(30, int(abs(y1 - y0) * BULGE_RATIO))
 
         mid_x = int(attach_x + 0.75 * bulge)
+        mid_y = int((y0 + y1) / 2)
+        lw    = len(short) * 5 + 8
+
+        parts.append('<g>')
+        parts.append(
+            f'  <rect x="{mid_x - lw // 2}" y="{mid_y - 7}" '
+            f'width="{lw}" height="13" fill="{color}" rx="3"/>'
+        )
+        parts.append(
+            f'  <text x="{mid_x}" y="{mid_y + 1}" '
+            f'font-family="sans-serif" font-size="9" '
+            f'fill="#111111" text-anchor="middle" dominant-baseline="middle">'
+            f'{short}</text>'
+        )
+        parts.append('</g>')
+
+    parts.append('</svg>')
+
+    svg_content = '\n'.join(parts)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(svg_content)
+    print(f"Saved → {output_path}")
+
+
+# ── 2D hierarchical draw function ─────────────────────────────────────────────
+def _compute_dag_depths(node_ids: set, edges: list) -> dict:
+    """Assign each node a depth that minimises total edge span.
+
+    Two passes:
+      Forward  — earliest feasible depth (longest path from sources).
+      Backward — latest feasible depth: each non-sink is pushed as deep as
+                 possible while staying one step before all its successors.
+                 Sinks keep their earliest depth so their incoming edges
+                 stay short.
+
+    The backward pass eliminates the long edges that appear when source-like
+    nodes are naively pinned to column 0 far from their only successors.
+    """
+    node_ids = set(node_ids)
+    in_deg   = {nid: 0 for nid in node_ids}
+    out_deg  = {nid: 0 for nid in node_ids}
+    children = defaultdict(list)   # src  → [dst, ...]
+    parents  = defaultdict(list)   # dst  → [src, ...]
+    for e in edges:
+        src = e.get("source_node_id")
+        dst = e.get("dest_node_id")
+        if src in node_ids and dst in node_ids:
+            in_deg[dst]  += 1
+            out_deg[src] += 1
+            children[src].append(dst)
+            parents[dst].append(src)
+
+    # ── Forward pass: earliest depth ─────────────────────────────────────────
+    earliest = {nid: 0 for nid in node_ids}
+    rem_in   = dict(in_deg)
+    queue    = deque(nid for nid in node_ids if in_deg[nid] == 0)
+    while queue:
+        nid = queue.popleft()
+        for child in children[nid]:
+            if earliest[child] < earliest[nid] + 1:
+                earliest[child] = earliest[nid] + 1
+            rem_in[child] -= 1
+            if rem_in[child] == 0:
+                queue.append(child)
+
+    # ── Backward pass: latest depth ──────────────────────────────────────────
+    # Sinks are anchored at earliest; everything else is pulled toward sinks.
+    INF     = float("inf")
+    latest  = {nid: (earliest[nid] if out_deg[nid] == 0 else INF)
+               for nid in node_ids}
+    rem_out = dict(out_deg)
+    queue   = deque(nid for nid in node_ids if out_deg[nid] == 0)
+    while queue:
+        nid = queue.popleft()
+        for pred in parents[nid]:
+            candidate = latest[nid] - 1
+            if latest[pred] > candidate:
+                latest[pred] = candidate
+            rem_out[pred] -= 1
+            if rem_out[pred] == 0:
+                queue.append(pred)
+
+    # Clamp: latest must be >= earliest (holds for valid DAGs; guard for safety)
+    return {
+        nid: max(earliest[nid], latest[nid] if latest[nid] != INF else earliest[nid])
+        for nid in node_ids
+    }
+
+
+def draw_graph_2d(data: dict, output_path: str = "graph.svg"):
+    """Render a DAG as a 2D hierarchical SVG.
+
+    Nodes are grouped into columns by DAG depth (longest path from sources,
+    which sit in the leftmost column; sinks in the rightmost).
+    Edge crossings are minimized with iterative barycenter sweeps.
+    Gravity pulls nodes toward their neighbors to reduce whitespace.
+    No structural assumptions are made beyond the graph being a DAG.
+    """
+    nodes = data["nodes"]
+    edges = data["edges"]
+
+    if not nodes:
+        print(f"  [draw_graph_2d] no nodes — skipping {output_path}")
+        return
+
+    node_ids    = {n["id"] for n in nodes}
+    valid_edges = [
+        e for e in edges
+        if e.get("source_node_id") in node_ids and e.get("dest_node_id") in node_ids
+    ]
+
+    depths = _compute_dag_depths(node_ids, valid_edges)
+
+    # ── Group by depth column ────────────────────────────────────────────────
+    depth_groups: dict = defaultdict(list)
+    for node in nodes:
+        depth_groups[depths[node["id"]]].append(node)
+    for d in depth_groups:
+        depth_groups[d].sort(key=lambda n: n["id"])   # deterministic initial order
+
+    max_depth = max(depth_groups.keys(), default=0)
+    COL_GAP   = 80
+
+    # ── Render node SVGs ─────────────────────────────────────────────────────
+    node_info: dict      = {}
+    all_defs_parts: list = []
+
+    for idx, node in enumerate(nodes):
+        nid   = node["id"]
+        label = node.get("label", "")
+        text  = node.get("text", "")
+        bg    = node_color_map.get(label, "#EEEEEE")
+        raw   = to_mathtext(f"{nid}: {text.replace(chr(10), ' ')}")
+        lines = wrap_latex_aware(raw)
+        prefix = f"n{idx}"
+        defs_str, figure_str, vb_w, vb_h, h_px = render_node_svg(lines, bg, prefix)
+        all_defs_parts.append(defs_str)
+        d = depths[nid]
+        x = d * (NODE_W + COL_GAP)
+        node_info[nid] = {
+            "depth":       d,
+            "h":           h_px,
+            "x":           x,
+            "y":           0,
+            "center_y":    0,
+            "figure_str":  figure_str,
+            "vb_w":        vb_w,
+            "vb_h":        vb_h,
+            "bg":          bg,
+        }
+
+    # Undirected neighbor map for barycenter and gravity
+    neighbors: dict = defaultdict(set)
+    for e in valid_edges:
+        src, dst = e["source_node_id"], e["dest_node_id"]
+        neighbors[src].add(dst)
+        neighbors[dst].add(src)
+
+    # ── Initial y stacking ───────────────────────────────────────────────────
+    def stack_col(col_nodes):
+        y = 0
+        for node in col_nodes:
+            nid = node["id"]
+            h   = node_info[nid]["h"]
+            node_info[nid]["y"]        = y
+            node_info[nid]["center_y"] = y + h // 2
+            y += h + NODE_MARGIN
+
+    for d in range(max_depth + 1):
+        stack_col(depth_groups.get(d, []))
+
+    # ── Barycenter crossing minimization (alternating sweeps) ────────────────
+    for _ in range(6):
+        for sweep in (range(max_depth + 1), range(max_depth, -1, -1)):
+            for d in sweep:
+                col = depth_groups.get(d, [])
+                if not col:
+                    continue
+                scored = []
+                for node in col:
+                    nid = node["id"]
+                    ys  = [
+                        node_info[nb]["center_y"]
+                        for nb in neighbors[nid]
+                        if nb in node_info and node_info[nb]["depth"] != d
+                    ]
+                    bc = sum(ys) / len(ys) if ys else node_info[nid]["center_y"]
+                    scored.append((bc, node))
+                depth_groups[d] = [n for _, n in sorted(scored, key=lambda x: x[0])]
+                stack_col(depth_groups[d])
+
+    # ── Gravity: pull nodes toward neighbor centroids, resolve overlaps ───────
+    GRAVITY_ITERS    = 50
+    GRAVITY_STRENGTH = 0.3
+
+    for _ in range(GRAVITY_ITERS):
+        new_cy: dict = {}
+        for nid in node_info:
+            nb_ys = [node_info[nb]["center_y"] for nb in neighbors[nid] if nb in node_info]
+            if nb_ys:
+                target      = sum(nb_ys) / len(nb_ys)
+                new_cy[nid] = (node_info[nid]["center_y"]
+                               + GRAVITY_STRENGTH * (target - node_info[nid]["center_y"]))
+            else:
+                new_cy[nid] = node_info[nid]["center_y"]
+
+        for nid, cy in new_cy.items():
+            h = node_info[nid]["h"]
+            node_info[nid]["center_y"] = cy
+            node_info[nid]["y"]        = cy - h // 2
+
+        for d in range(max_depth + 1):
+            col = depth_groups.get(d, [])
+            if not col:
+                continue
+            prev_bottom = 0
+            for node in sorted(col, key=lambda n: node_info[n["id"]]["center_y"]):
+                nid = node["id"]
+                h   = node_info[nid]["h"]
+                y   = max(node_info[nid]["y"], prev_bottom)
+                node_info[nid]["y"]        = y
+                node_info[nid]["center_y"] = y + h // 2
+                prev_bottom = y + h + NODE_MARGIN
+
+    # ── Canvas dimensions ────────────────────────────────────────────────────
+    total_w = (max_depth + 1) * (NODE_W + COL_GAP) - COL_GAP + 10
+    total_h = max(info["y"] + info["h"] for info in node_info.values()) + 10
+
+    # ── Build SVG ────────────────────────────────────────────────────────────
+    parts = []
+    parts.append(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+        f'width="{total_w}" height="{total_h}">'
+    )
+
+    parts.append('<defs>')
+    for defs_str in all_defs_parts:
+        parts.append(defs_str)
+    parts.append('</defs>')
+
+    # Node boxes
+    for node in nodes:
+        nid        = node["id"]
+        info       = node_info[nid]
+        x_n        = info["x"]
+        y_n        = info["y"]
+        h_n        = info["h"]
+        bg         = info["bg"]
+        vb_w       = info["vb_w"]
+        vb_h       = info["vb_h"]
+        figure_str = info["figure_str"]
+
+        parts.append(f'<rect x="{x_n}" y="{y_n}" width="{NODE_W}" height="{h_n}" fill="{bg}"/>')
+        parts.append(
+            f'<svg x="{x_n}" y="{y_n}" width="{NODE_W}" height="{h_n}" '
+            f'viewBox="0 0 {vb_w:.4f} {vb_h:.4f}" overflow="hidden">'
+        )
+        parts.append(figure_str)
+        parts.append('</svg>')
+        parts.append(
+            f'<rect x="{x_n}" y="{y_n}" width="{NODE_W}" height="{h_n}" '
+            f'fill="none" stroke="#999999" stroke-width="1" rx="6" ry="6"/>'
+        )
+
+    # Edges — Pass 1: cubic Bezier paths (source right-edge → dest left-edge)
+    for edge in valid_edges:
+        src_id  = edge["source_node_id"]
+        dst_id  = edge["dest_node_id"]
+        e_label = edge.get("label", "")
+        color   = edge_color_map.get(e_label, "#888888")
+        cid     = color_to_id(color)
+
+        x0 = node_info[src_id]["x"] + NODE_W
+        y0 = node_info[src_id]["center_y"]
+        x1 = node_info[dst_id]["x"]
+        y1 = node_info[dst_id]["center_y"]
+        mid_x = (x0 + x1) / 2
+        path  = f"M{x0},{y0} C{mid_x},{y0} {mid_x},{y1} {x1},{y1}"
+
+        parts.append('<g>')
+        parts.append(
+            f'  <defs><marker id="arr2d-{cid}" markerWidth="8" markerHeight="6" '
+            f'refX="7" refY="3" orient="auto">'
+            f'<path d="M0,0 L0,6 L8,3 z" fill="{color}"/></marker></defs>'
+        )
+        parts.append(
+            f'  <path d="{path}" fill="none" stroke="{color}" stroke-width="2" '
+            f'marker-end="url(#arr2d-{cid})"/>'
+        )
+        parts.append('</g>')
+
+    # Edges — Pass 2: labels on top
+    for edge in valid_edges:
+        src_id  = edge["source_node_id"]
+        dst_id  = edge["dest_node_id"]
+        e_label = edge.get("label", "")
+        color   = edge_color_map.get(e_label, "#888888")
+        short   = xml_escape(e_label.split(":")[-1])
+
+        x0 = node_info[src_id]["x"] + NODE_W
+        y0 = node_info[src_id]["center_y"]
+        x1 = node_info[dst_id]["x"]
+        y1 = node_info[dst_id]["center_y"]
+        mid_x = int((x0 + x1) / 2)
         mid_y = int((y0 + y1) / 2)
         lw    = len(short) * 5 + 8
 

@@ -16,3 +16,6 @@ python parser/cleanse_scripts/cleanse_common_errors.py --pattern 2
 
 # Reorder nodes and edges
 python parser/cleanse_scripts/cleanse_reorder_nodes.py
+
+# Extract final answer
+python parser/cleanse_scripts/update_final_answer.py
