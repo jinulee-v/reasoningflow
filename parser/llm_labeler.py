@@ -12,10 +12,10 @@ from random import shuffle
 
 from pydantic import BaseModel
 
-# from utils.gemini import LLM_MODEL_NAME, call_llm, get_metadata
-# from utils.openai import LLM_MODEL_NAME, call_llm, get_metadata
-from utils.vertexai import LLM_MODEL_NAME, call_llm, get_metadata
-# from utils.vllm import LLM_MODEL_NAME, call_llm, get_metadata
+# from utils.gemini import call_llm, get_metadata
+# from utils.openai import call_llm, get_metadata
+from utils.vertexai import call_llm, get_metadata
+# from utils.vllm import call_llm, get_metadata
 
 
 # =============================================================================
@@ -439,14 +439,14 @@ def _extract_node_summary(node):
     return {"id": node["id"], "text": node["text"], "label": node["label"]}
 
 
-def node_segmentation(text):
+def node_segmentation(text, llm_model_name):
     """Call LLM to perform sentence tokenization."""
     prompt = PROMPTS["node_segmentation"].replace("<<text>>", text)
-    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=SentenceList, thinking_level="minimal")
+    response = call_llm(prompt, llm_model_name=llm_model_name, schema=SentenceList, thinking_level="minimal")
     return response["units"]
 
 
-def node_classification(nodes, question):
+def node_classification(nodes, question, llm_model_name):
     """Labels all sentences using LLM."""
     input_data = {"nodes": nodes, "previous_steps": question}
     prompt = _build_prompt_with_examples(
@@ -455,11 +455,11 @@ def node_classification(nodes, question):
         format_node_label_prompt,
         input_data
     )
-    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=NodeLabelResponseList, thinking_level="minimal")
+    response = call_llm(prompt, llm_model_name=llm_model_name, schema=NodeLabelResponseList, thinking_level="minimal")
     return response
 
 
-def edge_detection_and_classification(node_idx, nodes):
+def edge_detection_and_classification(node_idx, nodes, llm_model_name):
     """Annotate edges for a single node using LLM."""
     node = nodes[node_idx]
     if node["source"] != "response":
@@ -501,7 +501,7 @@ def edge_detection_and_classification(node_idx, nodes):
     )
     # print(prompt); exit()
 
-    response = call_llm(prompt, llm_model_name=LLM_MODEL_NAME, schema=EdgeResponseList, thinking_level="high")
+    response = call_llm(prompt, llm_model_name=llm_model_name, schema=EdgeResponseList, thinking_level="high")
 
     return [
         {
@@ -523,7 +523,7 @@ def chunk_by_paragraphs(text):
     return [(positions[i], positions[i + 1]) for i in range(len(positions) - 1)]
 
 
-def tokenize_and_align(text):
+def tokenize_and_align(text, llm_model_name):
     """Chunk text, call LLM per chunk in parallel, apply DP alignment per chunk.
 
     Returns (segments, char_boundaries) where char_boundaries has length
@@ -533,8 +533,9 @@ def tokenize_and_align(text):
     chunk_ranges = chunk_by_paragraphs(text)
     chunk_texts = [text[s:e] for s, e in chunk_ranges]
 
+    _segment = partial(node_segmentation, llm_model_name=llm_model_name)
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        chunk_sentences = list(tqdm(executor.map(node_segmentation, chunk_texts), total=len(chunk_texts), desc="segmenting chunks"))
+        chunk_sentences = list(tqdm(executor.map(_segment, chunk_texts), total=len(chunk_texts), desc="segmenting chunks"))
 
     all_segments = []
     all_boundaries = [0]
@@ -589,7 +590,7 @@ def _create_response_node(index, start, end, label, text):
 MAX_WORKERS = 16
 
 
-def main_predict(data, output_dir=""):
+def main_predict(data, llm_model_name, output_dir=""):
     """Main prediction function to annotate nodes and edges."""
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
@@ -600,7 +601,7 @@ def main_predict(data, output_dir=""):
 
             # Process question sentences into context nodes
             question_text = datum["raw_text"]["question"]
-            question_sentences, indices = tokenize_and_align(question_text)
+            question_sentences, indices = tokenize_and_align(question_text, llm_model_name)
             indices[0] = 0
 
             nodes = [
@@ -610,7 +611,7 @@ def main_predict(data, output_dir=""):
 
             # Process response sentences
             response_text = datum["raw_text"]["response"]
-            response_sentences, response_indices = tokenize_and_align(response_text)
+            response_sentences, response_indices = tokenize_and_align(response_text, llm_model_name)
             response_indices[0] = 0
 
             # Validation
@@ -634,7 +635,7 @@ def main_predict(data, output_dir=""):
             nodes = [node for node in nodes if node["text"].strip()]
 
             # annotate node labels together
-            node_to_labels_list = node_classification(nodes, question=question_text)
+            node_to_labels_list = node_classification(nodes, question=question_text, llm_model_name=llm_model_name)
             node_to_labels = {item['node_id']: item['label'] for item in node_to_labels_list['responses']}
             for node in nodes:
                 if node['id'] in node_to_labels and node['source'] == 'response':
@@ -644,7 +645,7 @@ def main_predict(data, output_dir=""):
             
             # Post-hoc update of conclusion nodes
             conclusion_prompt = PROMPTS["update_conclusion"].replace("<<input>>", format_conclusion_prompt(datum))
-            conclusion_response = call_llm(conclusion_prompt, llm_model_name=LLM_MODEL_NAME, schema=ConclusionNodeList, thinking_level="high")
+            conclusion_response = call_llm(conclusion_prompt, llm_model_name=llm_model_name, schema=ConclusionNodeList, thinking_level="high")
             conclusion_node_ids = set(conclusion_response["conclusion_node_ids"])
             for node in datum["nodes"]:
                 if node["id"] in conclusion_node_ids:
@@ -653,7 +654,7 @@ def main_predict(data, output_dir=""):
             print("Reach here: node count", len(nodes))
 
             # Annotate edges in parallel
-            edge_func = partial(edge_detection_and_classification, nodes=nodes)
+            edge_func = partial(edge_detection_and_classification, nodes=nodes, llm_model_name=llm_model_name)
             non_context_indices = [i for i, node in enumerate(nodes) if node["label"] != "context"]
             # shuffle non_context_indices to improve load balancing across threads (some nodes may take much longer to annotate edges than others)
             shuffle(non_context_indices)
@@ -674,7 +675,7 @@ def main_predict(data, output_dir=""):
             datum["edges"] = edge_results
             
             # Update annotator info
-            datum["metadata"]["annotator"] = f"{LLM_MODEL_NAME}"
+            datum["metadata"]["annotator"] = f"{llm_model_name}"
             datum["metadata"]["is_human_annotated"] = False
 
             # Save output
@@ -706,12 +707,12 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default=None, help="Directory containing ground-truth segmentation JSON files.")
     
     args = parser.parse_args()
-    
-    LLM_MODEL_NAME = args.model_name
+
+    llm_model_name = args.model_name
     if args.output_dir is not None:
         output_dir = args.output_dir
     else:
-        output_dir = f"data/v1_llm_{LLM_MODEL_NAME}"
+        output_dir = f"data/v1_llm_{llm_model_name}"
 
     print("<Load data...>")
     data = []
@@ -734,4 +735,4 @@ if __name__ == "__main__":
                 data.append(datum)
 
     print(f"Loaded {len(data)} data samples.")
-    main_predict(data, output_dir=output_dir)
+    main_predict(data, llm_model_name=llm_model_name, output_dir=output_dir)
