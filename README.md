@@ -20,16 +20,22 @@ pip install -r requirements.txt
 
 ## Perform automatic annotation
 
-1. Enter your Google AI Studio API key in `.env` file for Gemini.
+1. To use VertexAI, add the GCP configuration JSON file in `.env` file. To use other frameworks like Gemini studio, OpenAI, or DeepInfra, (1) open parser/llm_labeler.py and import appropriate package; (2) add the corresponding env key (GOOGLE_API_KEY, OPENAI_API_KEY, DEEPINFRA_API_KEY) to the `.env` file.
 
 ```
 # .env
-GOOGLE_API_KEY=AIzaS...NQ
+GOOGLE_APPLICATION_CREDENTIALS="gcp-config.json"
 ```
 
 
 2. Run this code:
 
 ```bash
-python parser/llm_labeler.py # Ongoing updates
+python parser/llm_labeler.py --model gemini-3-flash-preview --raw_data data/v1_raw_data --output_dir OUTPUT_DIR # e.g., data/v1_llm_gemini-3-flash-preview
+```
+
+3. After running everything, run this script for cleansing the data:
+
+```bash
+./cleanse.sh OUTPUT_DIR # from above script
 ```
