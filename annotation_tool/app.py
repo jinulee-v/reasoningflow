@@ -98,7 +98,7 @@ def get_node_labels():
 @app.route('/load_file_list', methods=['GET'])
 def load_file_list():
     result = []
-    directories = os.listdir(DATA_DIR)
+    directories = sorted(os.listdir(DATA_DIR))
     if not directories:
         return jsonify({"error": "No directories found in data directory"}), 500
 
@@ -110,21 +110,26 @@ def load_file_list():
             continue
         files = [f for f in os.listdir(dir_path) if f.endswith('.json')]
         if not files:
-            return jsonify({"error": f"No JSON files found in directory '{directory}'"}), 500
-        # files: chemistry_0.json, chemistry_1.json, ...
-        # sort by domain -> numbers in the filename
-        def sort_key(file_name):
-            match = re.match(r'(\D+)(\d+)', file_name)
-            if match:
-                return (match.group(1), int(match.group(2)))
-            return (file_name, 0)
-        files.sort(key=sort_key)
-        files = [{"filename": f} for f in files]
+            continue
+
+        # Parse {dataset}_{index}_{generator}.json into nested structure
+        datasets = {}
+        for fname in files:
+            match = re.match(r'^(.+?)_(\d+)_(.+)\.json$', fname)
+            if not match:
+                continue
+            dataset, index, generator = match.group(1), int(match.group(2)), match.group(3)
+            datasets.setdefault(dataset, {}).setdefault(generator, []).append(index)
+
+        for ds in datasets:
+            for gen in datasets[ds]:
+                datasets[ds][gen].sort()
+
         result.append({
             "directory": directory,
-            "files": files
+            "datasets": datasets
         })
-        
+
     return jsonify(result)
 
 ###############################################################################

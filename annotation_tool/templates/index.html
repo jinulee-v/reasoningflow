@@ -139,31 +139,106 @@
             margin-bottom: 15px;
             color: #2c3e50;
         }
-        .nav-file-item {
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 6px;
+        .nav-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .nav-select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .nav-select-group label {
+            font-size: 0.78em;
+            font-weight: 600;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-select-group select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 0.85em;
+            background: #f8f9fa;
             color: #2c3e50;
-            word-wrap: break-word;
         }
-        .nav-file-item:hover {
-            background: #e9ecef;
-            transform: translateX(-3px);
+        .nav-select-group select:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
-        .nav-file-item.active {
-            background: #3498db;
-            color: white;
+        .nav-select-group select:not(:disabled):hover {
+            border-color: #3498db;
+        }
+        .nav-select-group input[type="number"] {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.85em;
+            background: #f8f9fa;
+            color: #2c3e50;
+            box-sizing: border-box;
+        }
+        .nav-select-group input[type="number"]:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        .nav-select-group input[type="number"]:not(:disabled):hover {
+            border-color: #3498db;
+        }
+        .nav-select-group input[type="number"]:not(:disabled):focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .nav-index-range {
+            font-size: 0.78em;
+            color: #95a5a6;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        #nav-load-btn {
+            width: 100%;
+            margin-top: 4px;
+        }
+        #nav-load-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
 <body class="with-nav">
     <div class="floating-nav" id="floating-nav">
         <h2>Documents</h2>
-        <div id="file-list" class="nav-list"></div>
+        <div class="nav-selector">
+            <div class="nav-select-group">
+                <label for="nav-directory">Directory</label>
+                <select id="nav-directory">
+                    <option value="">Select directory...</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-generator">Generator</label>
+                <select id="nav-generator" disabled>
+                    <option value="">—</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-dataset">Dataset</label>
+                <select id="nav-dataset" disabled>
+                    <option value="">—</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-index">Problem # <span id="nav-index-range" class="nav-index-range"></span></label>
+                <input type="number" id="nav-index" min="0" step="1" disabled placeholder="—">
+            </div>
+            <button id="nav-load-btn" class="btn" disabled>Load Document</button>
+        </div>
     </div>
 
     <div class="container">
@@ -184,14 +259,31 @@
         let currentDirectory = '';
         let currentFilename = '';
         let currentDoc = null;
-        let nodeLabels = null; // Example labels
-        let edgeLabels = null; // Example edge labels
+        let nodeLabels = null;
+        let edgeLabels = null;
         let nodeColors = null;
+        let fileStructure = [];
+
+        // Debounce utility: delays save until 800ms after the last change event
+        function debounce(fn, delay) {
+            let timer;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+        const debouncedSaveAnnotation = debounce(() => saveAnnotation(), 800);
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
             loadFileList();
             document.getElementById('save-btn').addEventListener('click', saveAnnotation);
+            document.getElementById('nav-directory').addEventListener('change', onDirectoryChange);
+            document.getElementById('nav-generator').addEventListener('change', onGeneratorChange);
+            document.getElementById('nav-dataset').addEventListener('change', onDatasetChange);
+            document.getElementById('nav-index').addEventListener('input', checkLoadButton);
+            document.getElementById('nav-index').addEventListener('change', checkLoadButton);
+            document.getElementById('nav-load-btn').addEventListener('click', onNavLoad);
 
             // Update nodeLabels and edgeLabels dynamically
             fetch('/get_labels')
@@ -212,64 +304,134 @@
             }
         });
 
-        // Load list of JSON files
+        // Load file structure and populate the directory dropdown
         function loadFileList() {
             fetch('/load_file_list')
                 .then(response => response.json())
-                .then(directories => {
-                    const fileListElement = document.getElementById('file-list');
-
-                    const html = directories.map((dir, dirIndex) => `
-                        <div class="nav-directory">
-                            <div class="nav-directory-title monospace" style="cursor: pointer; display: flex; align-items: center; gap: 8px;" data-dir-index="${dirIndex}">
-                                <span class="dir-toggle" style="display: inline-block; width: 16px;">▶</span>
-                                ${dir.directory}
-                            </div>
-                            <div class="nav-directory-files" data-dir-index="${dirIndex}" style="display: none;">
-                                ${dir.files.map(file => `
-                                    <div
-                                        class="nav-file-item"
-                                        data-directory="${dir.directory}"
-                                        data-filename="${file.filename}"
-                                    >
-                                        ${file.filename.replace(".json", "")}
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `).join('');
-                    
-                    fileListElement.innerHTML = html;
-                    
-                    // Add collapse/expand toggle handlers
-                    fileListElement.querySelectorAll('.nav-directory-title').forEach(title => {
-                        title.addEventListener('click', () => {
-                            const dirIndex = title.dataset.dirIndex;
-                            const filesDiv = fileListElement.querySelector(`.nav-directory-files[data-dir-index="${dirIndex}"]`);
-                            const toggle = title.querySelector('.dir-toggle');
-                            
-                            const isHidden = filesDiv.style.display === 'none';
-                            filesDiv.style.display = isHidden ? 'block' : 'none';
-                            toggle.textContent = isHidden ? '▼' : '▶';
-                        });
-                    });
-
-                    // Attach click handlers after rendering
-                    fileListElement.querySelectorAll('.nav-file-item').forEach(item => {
-                        item.addEventListener('click', () => {
-                            document
-                                .querySelectorAll('.nav-file-item')
-                                .forEach(el => el.classList.remove('active'));
-
-                            item.classList.add('active');
-
-                            const directory = item.dataset.directory;
-                            const filename = item.dataset.filename;
-                            loadDocument(directory, filename);
-                        });
+                .then(data => {
+                    fileStructure = data;
+                    const dirSelect = document.getElementById('nav-directory');
+                    dirSelect.innerHTML = '<option value="">Select directory...</option>';
+                    data.forEach(dir => {
+                        const opt = document.createElement('option');
+                        opt.value = dir.directory;
+                        opt.textContent = dir.directory;
+                        dirSelect.appendChild(opt);
                     });
                 })
                 .catch(error => console.error('Error loading file list:', error));
+        }
+
+        // Build inverted map: generators[generator][dataset] = [indices]
+        function buildGeneratorsMap(dirData) {
+            const generators = {};
+            Object.entries(dirData.datasets).forEach(([dataset, genMap]) => {
+                Object.entries(genMap).forEach(([generator, indices]) => {
+                    if (!generators[generator]) generators[generator] = {};
+                    generators[generator][dataset] = indices;
+                });
+            });
+            return generators;
+        }
+
+        function onDirectoryChange() {
+            const dirName = document.getElementById('nav-directory').value;
+            const generatorSelect = document.getElementById('nav-generator');
+            const datasetSelect = document.getElementById('nav-dataset');
+            const indexInput = document.getElementById('nav-index');
+
+            generatorSelect.innerHTML = '<option value="">Select generator...</option>';
+            datasetSelect.innerHTML = '<option value="">—</option>';
+            indexInput.value = '';
+            document.getElementById('nav-index-range').textContent = '';
+            generatorSelect.disabled = !dirName;
+            datasetSelect.disabled = true;
+            indexInput.disabled = true;
+            document.getElementById('nav-load-btn').disabled = true;
+
+            if (!dirName) return;
+            const dirData = fileStructure.find(d => d.directory === dirName);
+            if (!dirData) return;
+            const generators = buildGeneratorsMap(dirData);
+            Object.keys(generators).sort().forEach(generator => {
+                const opt = document.createElement('option');
+                opt.value = generator;
+                opt.textContent = generator;
+                generatorSelect.appendChild(opt);
+            });
+        }
+
+        function onGeneratorChange() {
+            const dirName = document.getElementById('nav-directory').value;
+            const generator = document.getElementById('nav-generator').value;
+            const datasetSelect = document.getElementById('nav-dataset');
+            const indexInput = document.getElementById('nav-index');
+
+            datasetSelect.innerHTML = '<option value="">Select dataset...</option>';
+            indexInput.value = '';
+            document.getElementById('nav-index-range').textContent = '';
+            datasetSelect.disabled = !generator;
+            indexInput.disabled = true;
+            document.getElementById('nav-load-btn').disabled = true;
+
+            if (!generator) return;
+            const dirData = fileStructure.find(d => d.directory === dirName);
+            if (!dirData) return;
+            const generators = buildGeneratorsMap(dirData);
+            if (!generators[generator]) return;
+            Object.keys(generators[generator]).sort().forEach(dataset => {
+                const opt = document.createElement('option');
+                opt.value = dataset;
+                opt.textContent = dataset;
+                datasetSelect.appendChild(opt);
+            });
+        }
+
+        function onDatasetChange() {
+            const dirName = document.getElementById('nav-directory').value;
+            const generator = document.getElementById('nav-generator').value;
+            const dataset = document.getElementById('nav-dataset').value;
+            const indexInput = document.getElementById('nav-index');
+            const rangeSpan = document.getElementById('nav-index-range');
+
+            indexInput.value = '';
+            rangeSpan.textContent = '';
+            indexInput.disabled = !dataset;
+            document.getElementById('nav-load-btn').disabled = true;
+
+            if (!dataset) return;
+            const dirData = fileStructure.find(d => d.directory === dirName);
+            if (!dirData) return;
+            const generators = buildGeneratorsMap(dirData);
+            const indices = generators[generator] && generators[generator][dataset];
+            if (!indices || !indices.length) return;
+
+            const lo = Math.min(...indices);
+            const hi = Math.max(...indices);
+            rangeSpan.textContent = `(${lo}–${hi})`;
+            indexInput.min = lo;
+            indexInput.max = hi;
+        }
+
+        function checkLoadButton() {
+            const dirName = document.getElementById('nav-directory').value;
+            const generator = document.getElementById('nav-generator').value;
+            const dataset = document.getElementById('nav-dataset').value;
+            const indexVal = document.getElementById('nav-index').value;
+            const index = parseInt(indexVal, 10);
+            const ready = dirName && generator && dataset && indexVal !== '' && !isNaN(index) && index >= 0;
+            document.getElementById('nav-load-btn').disabled = !ready;
+        }
+
+        function onNavLoad() {
+            const dirName = document.getElementById('nav-directory').value;
+            const dataset = document.getElementById('nav-dataset').value;
+            const generator = document.getElementById('nav-generator').value;
+            const index = parseInt(document.getElementById('nav-index').value, 10);
+            if (dirName && dataset && generator && !isNaN(index)) {
+                const filename = `${dataset}_${index}_${generator}.json`;
+                loadDocument(dirName, filename);
+            }
         }
 
 
@@ -309,6 +471,15 @@
             if (!doc.edges) {
                 doc.edges = [];
             }
+
+            // Pre-compute O(1) lookup maps to avoid repeated O(n) array scans
+            const nodeIndexById = {};
+            doc.nodes.forEach((n, i) => { nodeIndexById[n.id] = i; });
+            const edgesByDestId = {};
+            doc.edges.forEach(e => {
+                if (!edgesByDestId[e.dest_node_id]) edgesByDestId[e.dest_node_id] = [];
+                edgesByDestId[e.dest_node_id].push(e);
+            });
 
             // Use DocumentFragment for batch DOM insertion (reduces reflows)
             const fragment = document.createDocumentFragment();
@@ -361,13 +532,13 @@
                 
                 // Add event listener for label change
                 labelSelect.addEventListener('change', (e) => {
-                    const nodeIndex = doc.nodes.findIndex(n => n.id === node.id);
-                    if (nodeIndex !== -1) {
-                        doc.nodes[nodeIndex].label = e.target.value;
+                    const idx = nodeIndexById[node.id];
+                    if (idx !== undefined) {
+                        doc.nodes[idx].label = e.target.value;
                     }
                 });
                 labelSelect.addEventListener('change', () => handleNodeSelection(node.id));
-                labelSelect.addEventListener('change', saveAnnotation);
+                labelSelect.addEventListener('change', debouncedSaveAnnotation);
                 
                 // Add node details to the main node element
                 nodeElement.appendChild(nodeDetailsElement);
@@ -382,13 +553,13 @@
                     edgesHeader.textContent = 'Incoming Edges';
                     edgesContainer.appendChild(edgesHeader);
                     
-                    // Get edges where this node is the target
-                    const nodeEdges = doc.edges.filter(edge => edge.dest_node_id === node.id);
+                    // Get edges where this node is the target (O(1) map lookup)
+                    const nodeEdges = edgesByDestId[node.id] || [];
 
                     // Render existing edges
                     nodeEdges.forEach(edge => {
                         try {
-                            const edgeElement = createEdgeElementForNode(edge, node.id);
+                            const edgeElement = createEdgeElementForNode(edge, node.id, nodeIndexById);
                             edgesContainer.appendChild(edgeElement);
                         } catch (error) {
                             console.error('Error creating edge element:', error);
@@ -413,7 +584,7 @@
                             label: ''
                         };
                         doc.edges.push(newEdge);
-                        const edgeElement = createEdgeElementForNode(newEdge, node.id);
+                        const edgeElement = createEdgeElementForNode(newEdge, node.id, nodeIndexById);
                         edgesContainer.insertBefore(edgeElement, edgeButtonsContainer);
                     });
                     edgeButtonsContainer.appendChild(addEdgeBtn);
@@ -501,15 +672,18 @@
                 // Add edges container to the main node element
                 nodeElement.appendChild(edgesContainer);
 
+                // Apply node color inline during construction (avoids a separate O(n) DOM pass)
+                if (node.label && nodeColors[node.label]) {
+                    nodeElement.style.backgroundColor = nodeColors[node.label];
+                    nodeElement.style.borderLeftColor = nodeColors[node.label];
+                }
+
                 // Add the complete node element to the fragment
                 fragment.appendChild(nodeElement);
             });
 
             // Batch insert all nodes at once (single reflow)
             nodesSection.appendChild(fragment);
-
-            // Trigger handleNodeSelection after DOM is updated
-            doc.nodes.forEach(node => handleNodeSelection(node.id));
         }
         
         // event handler function for node selection
@@ -530,7 +704,7 @@
         }
 
         // Create edge element for a specific node
-        function createEdgeElementForNode(edge, toNodeId) {
+        function createEdgeElementForNode(edge, toNodeId, nodeIndexMap) {
             const edgeElement = document.createElement('div');
             edgeElement.className = 'edge-item';
             edgeElement.id = `edge-${edge.id}`;
@@ -548,19 +722,50 @@
             emptyFromOption.textContent = 'Select node';
             fromNodeSelect.appendChild(emptyFromOption);
             
-            // Find the target node index
-            const toNodeIndex = currentDoc.nodes.findIndex(n => n.id === toNodeId);
+            // Resolve target node index via O(1) map lookup (fall back to O(n) scan if map absent)
+            const toNodeIndex = nodeIndexMap != null
+                ? (nodeIndexMap[toNodeId] ?? currentDoc.nodes.findIndex(n => n.id === toNodeId))
+                : currentDoc.nodes.findIndex(n => n.id === toNodeId);
 
-            // Add only preceding nodes as options (avoid creating slice array)
-            for (let i = 0; i < toNodeIndex; i++) {
-                const node = currentDoc.nodes[i];
-                const option = document.createElement('option');
-                option.value = node.id;
-                // Truncate text to reduce memory for long texts
-                option.textContent = `${node.id}: ${node.text.length > 97 ? node.text.substring(0, 97) + '...' : node.text}`;
-                option.selected = edge.source_node_id === node.id;
-                fromNodeSelect.appendChild(option);
+            // Lazy-load preceding node options: only the currently selected node is added
+            // upfront so the dropdown shows the right value; all other options are populated
+            // on first user interaction (mousedown/focus).  This avoids creating O(n²) option
+            // elements when a document with hundreds of nodes is loaded.
+            if (edge.source_node_id) {
+                const srcIdx = nodeIndexMap != null ? nodeIndexMap[edge.source_node_id] : -1;
+                const srcNode = srcIdx >= 0 ? currentDoc.nodes[srcIdx]
+                    : currentDoc.nodes.find(n => n.id === edge.source_node_id);
+                if (srcNode) {
+                    const selectedOpt = document.createElement('option');
+                    selectedOpt.value = srcNode.id;
+                    selectedOpt.textContent = `${srcNode.id}: ${srcNode.text.length > 97 ? srcNode.text.substring(0, 97) + '...' : srcNode.text}`;
+                    selectedOpt.selected = true;
+                    fromNodeSelect.appendChild(selectedOpt);
+                }
             }
+
+            function loadAllFromOptions() {
+                if (fromNodeSelect.dataset.fullyLoaded === 'true') return;
+                fromNodeSelect.dataset.fullyLoaded = 'true';
+                const currentValue = fromNodeSelect.value;
+                while (fromNodeSelect.firstChild) fromNodeSelect.removeChild(fromNodeSelect.firstChild);
+                const emptyOpt = document.createElement('option');
+                emptyOpt.value = '';
+                emptyOpt.textContent = 'Select node';
+                fromNodeSelect.appendChild(emptyOpt);
+                for (let i = 0; i < toNodeIndex; i++) {
+                    const n = currentDoc.nodes[i];
+                    const opt = document.createElement('option');
+                    opt.value = n.id;
+                    opt.textContent = `${n.id}: ${n.text.length > 97 ? n.text.substring(0, 97) + '...' : n.text}`;
+                    if (currentValue === n.id) opt.selected = true;
+                    fromNodeSelect.appendChild(opt);
+                }
+            }
+            fromNodeSelect.dataset.fullyLoaded = 'false';
+            fromNodeSelect.addEventListener('mousedown', loadAllFromOptions);
+            fromNodeSelect.addEventListener('focus', loadAllFromOptions);
+            fromNodeSelect.addEventListener('keydown', loadAllFromOptions);
 
             // make select fit within the box, considering the fromNodeContainer's children <label>'s width
             fromNodeSelect.style.width = `calc(100% - 100px)`;
@@ -616,15 +821,15 @@
                     currentDoc.edges[edgeIndex].source_node_id = e.target.value;
                 }
             });
-            fromNodeSelect.addEventListener('change', saveAnnotation);
-            
+            fromNodeSelect.addEventListener('change', debouncedSaveAnnotation);
+
             labelSelect.addEventListener('change', (e) => {
                 const edgeIndex = currentDoc.edges.findIndex(ed => ed.id === edge.id);
                 if (edgeIndex !== -1) {
                     currentDoc.edges[edgeIndex].label = e.target.value;
                 }
             });
-            labelSelect.addEventListener('change', saveAnnotation);
+            labelSelect.addEventListener('change', debouncedSaveAnnotation);
             
             return edgeElement;
         }
