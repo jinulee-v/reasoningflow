@@ -337,13 +337,13 @@ def _print_pattern3(match, idx=None, total=None):
 
 # ── main logic ────────────────────────────────────────────────────────────────
 
-def _run_pattern(files, find_fn, print_fn, apply_fn, dry_run, max_examples):
+def _run_pattern(files, find_fn, print_fn, apply_fn, dry_run, max_examples, data_dir):
     total_matches = 0
     total_files = 0
     shown = 0
 
     for fname in files:
-        path = os.path.join(DATA_DIR, fname)
+        path = os.path.join(data_dir, fname)
         with open(path) as f:
             doc = json.load(f)
 
@@ -373,23 +373,23 @@ def _run_pattern(files, find_fn, print_fn, apply_fn, dry_run, max_examples):
     return total_matches, total_files
 
 
-def run(dry_run: bool, pattern: int, max_examples: int | None = None):
-    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
+def run(dry_run: bool, pattern: int, max_examples: int | None = None, data_dir: str = DATA_DIR):
+    files = sorted(f for f in os.listdir(data_dir) if f.endswith(".json"))
 
     if pattern == 1:
         total, nfiles = _run_pattern(
             files, _find_pattern1, _print_pattern, _apply_pattern1,
-            dry_run, max_examples,
+            dry_run, max_examples, data_dir,
         )
     elif pattern == 2:
         total, nfiles = _run_pattern(
             files, _find_pattern2, _print_pattern2, _apply_pattern2,
-            dry_run, max_examples,
+            dry_run, max_examples, data_dir,
         )
     elif pattern == 3:
         total, nfiles = _run_pattern(
             files, _find_pattern3, _print_pattern3, _apply_pattern3,
-            dry_run, max_examples,
+            dry_run, max_examples, data_dir,
         )
     else:
         raise ValueError(f"Unknown pattern: {pattern}")
@@ -417,12 +417,16 @@ def main():
         "--max-examples", type=int, default=None, metavar="N",
         help="With --dry-run, stop after showing N examples.",
     )
+    parser.add_argument(
+        "--data-dir", default=DATA_DIR, metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
+    )
     args = parser.parse_args()
 
     if args.max_examples is not None and not args.dry_run:
         parser.error("--max-examples only makes sense with --dry-run")
 
-    run(dry_run=args.dry_run, pattern=args.pattern, max_examples=args.max_examples)
+    run(dry_run=args.dry_run, pattern=args.pattern, max_examples=args.max_examples, data_dir=args.data_dir)
 
 
 if __name__ == "__main__":

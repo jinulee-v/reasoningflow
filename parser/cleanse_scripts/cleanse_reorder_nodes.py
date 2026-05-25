@@ -206,7 +206,17 @@ def update_argumentation_results(path: str, remap: dict) -> None:
 
 
 def main():
-    data_files = sorted(glob.glob(os.path.join(DATA_DIR, "*.json")))
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="Reindex nodes/edges and propagate changes to result directories."
+    )
+    parser.add_argument(
+        "--data-dir", default=DATA_DIR, metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
+    )
+    args = parser.parse_args()
+
+    data_files = sorted(glob.glob(os.path.join(args.data_dir, "*.json")))
     total_files = 0
     total_empty = 0
 

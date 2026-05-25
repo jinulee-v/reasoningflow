@@ -33,14 +33,14 @@ def load_schema_labels():
 
 # ── scan ──────────────────────────────────────────────────────────────────────
 
-def scan_data(valid_nodes, valid_edges):
+def scan_data(valid_nodes, valid_edges, data_dir=DATA_DIR):
     invalid_node_labels = defaultdict(list)
     invalid_edge_labels = defaultdict(list)
     node_set = set(valid_nodes)
     edge_set = set(valid_edges)
-    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
+    files = sorted(f for f in os.listdir(data_dir) if f.endswith(".json"))
     for fname in files:
-        path = os.path.join(DATA_DIR, fname)
+        path = os.path.join(data_dir, fname)
         with open(path) as f:
             doc = json.load(f)
         for node in doc.get("nodes", []):
@@ -59,7 +59,7 @@ def cmd_scan(args):
     print(f"Schema node labels ({len(valid_nodes)}): {valid_nodes}")
     print(f"Schema edge labels ({len(valid_edges)}): {valid_edges}")
     print()
-    invalid_node_labels, invalid_edge_labels = scan_data(valid_nodes, valid_edges)
+    invalid_node_labels, invalid_edge_labels = scan_data(valid_nodes, valid_edges, data_dir=args.data_dir)
 
     print("=== Invalid node labels ===")
     if invalid_node_labels:
@@ -190,14 +190,14 @@ def _prompt_label(valid_labels, current_label, kind):
 
 # ── edit command ──────────────────────────────────────────────────────────────
 
-def _collect_issues(valid_nodes, valid_edges, fix_nodes, fix_edges, only_missing):
+def _collect_issues(valid_nodes, valid_edges, fix_nodes, fix_edges, only_missing, data_dir=DATA_DIR):
     """Return list of (fname, path, doc, issues_in_file) grouped by file."""
     node_set = set(valid_nodes)
     edge_set = set(valid_edges)
-    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
+    files = sorted(f for f in os.listdir(data_dir) if f.endswith(".json"))
     result = []
     for fname in files:
-        path = os.path.join(DATA_DIR, fname)
+        path = os.path.join(data_dir, fname)
         with open(path) as f:
             doc = json.load(f)
 
@@ -234,7 +234,7 @@ def cmd_edit(args):
     fix_edges = not args.nodes_only
     only_missing = args.missing_only
 
-    file_groups = _collect_issues(valid_nodes, valid_edges, fix_nodes, fix_edges, only_missing)
+    file_groups = _collect_issues(valid_nodes, valid_edges, fix_nodes, fix_edges, only_missing, data_dir=args.data_dir)
 
     total_issues = sum(len(iss) for _, _, _, iss in file_groups)
     if total_issues == 0:
@@ -300,6 +300,10 @@ def _save(path, doc):
 def main():
     parser = argparse.ArgumentParser(
         description="Scan and edit node/edge labels against schema/*.yaml"
+    )
+    parser.add_argument(
+        "--data-dir", default=DATA_DIR, metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
     )
     sub = parser.add_subparsers(dest="cmd")
 

@@ -9,6 +9,7 @@ Strategy: extract the model's answer from the last contiguous run of
     last standalone integer in the bulb.
 """
 
+import argparse
 import json
 import re
 import glob
@@ -74,83 +75,98 @@ EXTRACTORS = {
 
 TARGET_DOMAINS = set(EXTRACTORS)
 
-# ── Collect results ──────────────────────────────────────────────────────────
 
-# stats[domain][generator] = {"correct": int, "wrong": int, "no_bulb": int}
-stats: dict[str, dict[str, dict[str, int]]] = defaultdict(
-    lambda: defaultdict(lambda: {"correct": 0, "wrong": 0, "no_bulb": 0})
-)
+def main():
+    parser = argparse.ArgumentParser(
+        description="Update correctness metadata and report model accuracy."
+    )
+    parser.add_argument(
+        "--data-dir", default=str(DATA_DIR), metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
+    )
+    args = parser.parse_args()
 
-for path in sorted(DATA_DIR.glob("*.json")):
-    with open(path) as f:
-        datum = json.load(f)
+    data_dir = Path(args.data_dir)
 
-    meta = datum["metadata"]
-    domain = meta.get("domain", "")
+    # stats[domain][generator] = {"correct": int, "wrong": int, "no_bulb": int}
+    stats: dict[str, dict[str, dict[str, int]]] = defaultdict(
+        lambda: defaultdict(lambda: {"correct": 0, "wrong": 0, "no_bulb": 0})
+    )
 
-    # Extract numeric index from filename (e.g. "gpqa-diamond_42_Model.json" → 42)
-    name_parts = path.stem.split("_")
-    try:
-        file_idx = int(name_parts[1])
-    except (IndexError, ValueError):
-        file_idx = None
+    for path in sorted(data_dir.glob("*.json")):
+        with open(path) as f:
+            datum = json.load(f)
 
-    meta["topic"] = get_topic(domain, file_idx)
+        meta = datum["metadata"]
+        domain = meta.get("domain", "")
 
-    if "aime2024" not in path.name and "gpqa-diamond" not in path.name:
-        meta["correctness"] = None
+        # Extract numeric index from filename (e.g. "gpqa-diamond_42_Model.json" → 42)
+        name_parts = path.stem.split("_")
+        try:
+            file_idx = int(name_parts[1])
+        except (IndexError, ValueError):
+            file_idx = None
+
+        meta["topic"] = get_topic(domain, file_idx)
+
+        if "aime2024" not in path.name and "gpqa-diamond" not in path.name:
+            meta["correctness"] = None
+            with open(path, "w") as f:
+                json.dump(datum, f, ensure_ascii=False, indent=4)
+            continue
+        # if domain not in TARGET_DOMAINS:
+        #     continue
+
+        generator = meta.get("generator", "unknown")
+        correct_answer = meta.get("correct_answer")
+        if not correct_answer:
+            continue
+
+        nodes = datum.get("nodes", [])
+        bulb = get_last_conclusion_bulb(nodes)
+        if bulb:
+            bulb_text = " ".join(n["text"] for n in bulb)
+        else:
+            # Last 100 characters of the full text
+            bulb_text = datum["raw_text"]["response"][-100:]
+
+        predicted = EXTRACTORS[domain](bulb_text)
+
+        is_correct = predicted == correct_answer
+        meta["correctness"] = is_correct
+
         with open(path, "w") as f:
             json.dump(datum, f, ensure_ascii=False, indent=4)
-        continue
-    # if domain not in TARGET_DOMAINS:
-    #     continue
 
-    generator = meta.get("generator", "unknown")
-    correct_answer = meta.get("correct_answer")
-    if not correct_answer:
-        continue
+        if is_correct:
+            stats[domain][generator]["correct"] += 1
+        else:
+            stats[domain][generator]["wrong"] += 1
 
-    nodes = datum.get("nodes", [])
-    bulb = get_last_conclusion_bulb(nodes)
-    if bulb:
-        bulb_text = " ".join(n["text"] for n in bulb)
-    else:
-        # Last 100 characters of the full text
-        bulb_text = datum["raw_text"]["response"][-100:]
-        
-    predicted = EXTRACTORS[domain](bulb_text)
+    # ── Report ───────────────────────────────────────────────────────────────────
 
-    is_correct = predicted == correct_answer
-    meta["correctness"] = is_correct
+    for domain in sorted(TARGET_DOMAINS):
+        print(f"\n{'='*60}")
+        print(f"Domain: {domain}")
+        print(f"{'='*60}")
+        print(f"{'Generator':<30} {'Correct':>7} {'Total':>7} {'Accuracy':>9} {'No-bulb':>8}")
+        print(f"{'-'*30} {'-'*7} {'-'*7} {'-'*9} {'-'*8}")
 
-    with open(path, "w") as f:
-        json.dump(datum, f, ensure_ascii=False, indent=4)
+        domain_correct = domain_total = domain_no_bulb = 0
+        for generator in sorted(stats[domain]):
+            s = stats[domain][generator]
+            correct = s["correct"]
+            total = s["correct"] + s["wrong"]
+            no_bulb = s["no_bulb"]
+            acc = f"{correct / total:.1%}" if total else "N/A"
+            print(f"{generator:<30} {correct:>7} {total:>7} {acc:>9} {no_bulb:>8}")
+            domain_correct += correct
+            domain_total += total
+            domain_no_bulb += no_bulb
 
-    if is_correct:
-        stats[domain][generator]["correct"] += 1
-    else:
-        stats[domain][generator]["wrong"] += 1
+        total_acc = f"{domain_correct / domain_total:.1%}" if domain_total else "N/A"
+        print(f"{'TOTAL':<30} {domain_correct:>7} {domain_total:>7} {total_acc:>9} {domain_no_bulb:>8}")
 
-# ── Report ───────────────────────────────────────────────────────────────────
 
-for domain in sorted(TARGET_DOMAINS):
-    print(f"\n{'='*60}")
-    print(f"Domain: {domain}")
-    print(f"{'='*60}")
-    print(f"{'Generator':<30} {'Correct':>7} {'Total':>7} {'Accuracy':>9} {'No-bulb':>8}")
-    print(f"{'-'*30} {'-'*7} {'-'*7} {'-'*9} {'-'*8}")
-
-    domain_correct = domain_total = domain_no_bulb = 0
-    for generator in sorted(stats[domain]):
-        s = stats[domain][generator]
-        correct = s["correct"]
-        total = s["correct"] + s["wrong"]
-        no_bulb = s["no_bulb"]
-        acc = f"{correct / total:.1%}" if total else "N/A"
-        print(f"{generator:<30} {correct:>7} {total:>7} {acc:>9} {no_bulb:>8}")
-        domain_correct += correct
-        domain_total += total
-        domain_no_bulb += no_bulb
-
-    total_acc = f"{domain_correct / domain_total:.1%}" if domain_total else "N/A"
-    print(f"{'TOTAL':<30} {domain_correct:>7} {domain_total:>7} {total_acc:>9} {domain_no_bulb:>8}")
+if __name__ == "__main__":
+    main()

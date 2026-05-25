@@ -166,15 +166,15 @@ def _apply_match(doc, match):
     doc["nodes"] = new_node_list
 
 
-def run(dry_run: bool, max_examples: int | None = None):
-    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
+def run(dry_run: bool, max_examples: int | None = None, data_dir: str = DATA_DIR):
+    files = sorted(f for f in os.listdir(data_dir) if f.endswith(".json"))
 
     total_matches = 0
     total_files = 0
     shown = 0
 
     for fname in files:
-        path = os.path.join(DATA_DIR, fname)
+        path = os.path.join(data_dir, fname)
         with open(path) as f:
             doc = json.load(f)
 
@@ -235,12 +235,16 @@ def main():
         "--max-examples", type=int, default=None, metavar="N",
         help="With --dry-run, stop after showing N examples.",
     )
+    parser.add_argument(
+        "--data-dir", default=DATA_DIR, metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
+    )
     args = parser.parse_args()
 
     if args.max_examples is not None and not args.dry_run:
         parser.error("--max-examples only makes sense with --dry-run")
 
-    run(dry_run=args.dry_run, max_examples=args.max_examples)
+    run(dry_run=args.dry_run, max_examples=args.max_examples, data_dir=args.data_dir)
 
 
 if __name__ == "__main__":

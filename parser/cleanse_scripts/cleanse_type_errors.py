@@ -51,7 +51,7 @@ def _trunc(text, width=80):
     return text if len(text) <= width else text[: width - 1] + "…"
 
 
-def _collect_violations(files):
+def _collect_violations(files, data_dir=DATA_DIR):
     """
     Scan all files and return a dict:
       key   -> list of violation dicts
@@ -64,7 +64,7 @@ def _collect_violations(files):
     buckets = defaultdict(list)
 
     for fname in files:
-        path = os.path.join(DATA_DIR, fname)
+        path = os.path.join(data_dir, fname)
         with open(path) as f:
             doc = json.load(f)
 
@@ -121,9 +121,9 @@ def _print_violation(v, idx, total):
     print(f"  {BOLD}dst{R} [{v['dst_label']}]  {DIM}{_trunc(v['dst_text'])}{R}")
 
 
-def run(max_examples: int = 15):
-    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
-    buckets = _collect_violations(files)
+def run(max_examples: int = 15, data_dir: str = DATA_DIR):
+    files = sorted(f for f in os.listdir(data_dir) if f.endswith(".json"))
+    buckets = _collect_violations(files, data_dir=data_dir)
 
     total_violations = sum(len(vs) for vs in buckets.values())
     print(f"{BOLD}Total violations: {total_violations}  |  Violation classes: {len(buckets)}{R}\n")
@@ -148,5 +148,9 @@ if __name__ == "__main__":
         "--max-examples", type=int, default=15, metavar="N",
         help="Examples to show per violation class (default: 15).",
     )
+    parser.add_argument(
+        "--data-dir", default=DATA_DIR, metavar="DIR",
+        help=f"Directory of JSON files to process (default: {DATA_DIR}).",
+    )
     args = parser.parse_args()
-    run(max_examples=args.max_examples)
+    run(max_examples=args.max_examples, data_dir=args.data_dir)
