@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReasoningFlow Data Viewer</title>
+    <style>
+        /* ── Base styles (from annotation_tool/static/style.css) ─────────────── */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                         Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        body.with-nav { padding-right: 280px; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-size: 2.5em; margin-bottom: 10px; color: #2c3e50; }
+        h2 {
+            font-size: 2em; margin-top: 40px; margin-bottom: 20px;
+            color: #2c3e50; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px;
+        }
+        h3 { font-size: 1.4em; margin-top: 25px; margin-bottom: 15px; color: #34495e; }
+
+        .subtitle { color: #7f7f7f; margin-bottom: 40px; font-size: 1.1em; line-height: 1.8; }
+
+        .error {
+            background: #fee; border: 1px solid #fcc;
+            padding: 20px; border-radius: 6px; color: #c33; margin: 20px 0;
+        }
+
+        /* ── Floating navigation ─────────────────────────────────────────────── */
+        .floating-nav {
+            position: fixed;
+            right: 20px; top: 20px;
+            width: 250px;
+            max-height: calc(100vh - 40px);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .floating-nav h2 {
+            margin-top: 0; margin-bottom: 15px;
+            color: #2c3e50; font-size: 1.3em;
+            border-bottom: 2px solid #e0e0e0; padding-bottom: 10px;
+        }
+
+        /* ── Nav selector (from annotation_tool/templates/index.html) ────────── */
+        .nav-selector { display: flex; flex-direction: column; gap: 10px; }
+
+        .nav-select-group { display: flex; flex-direction: column; gap: 4px; }
+
+        .nav-select-group label {
+            font-size: 0.78em; font-weight: 600;
+            color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .nav-select-group select {
+            width: 100%; padding: 6px 8px;
+            border: 1px solid #ddd; border-radius: 4px;
+            font-size: 0.85em; background: #f8f9fa; color: #2c3e50;
+        }
+
+        .nav-select-group select:disabled { opacity: 0.45; cursor: not-allowed; }
+        .nav-select-group select:not(:disabled):hover { border-color: #3498db; }
+
+        .nav-select-group input[type="number"] {
+            width: 100%; padding: 6px 8px;
+            border: 1px solid #ddd; border-radius: 4px;
+            font-size: 0.85em; background: #f8f9fa; color: #2c3e50;
+            box-sizing: border-box;
+        }
+
+        .nav-select-group input[type="number"]:disabled { opacity: 0.45; cursor: not-allowed; }
+        .nav-select-group input[type="number"]:not(:disabled):hover { border-color: #3498db; }
+        .nav-select-group input[type="number"]:not(:disabled):focus {
+            outline: none; border-color: #3498db;
+        }
+
+        .nav-index-range {
+            font-size: 0.78em; color: #95a5a6;
+            font-weight: 400; text-transform: none; letter-spacing: 0;
+        }
+
+        #nav-load-btn { width: 100%; margin-top: 4px; }
+        #nav-load-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+        .btn {
+            display: inline-block; padding: 6px 12px;
+            background: #3498db; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+            font-size: 0.85em; font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn:hover { background: #2980b9; transform: translateY(-1px); }
+
+        /* ── DAG container ───────────────────────────────────────────────────── */
+        #dag-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 10px;
+            background: #fafafa;
+        }
+
+        /* ── Responsive ──────────────────────────────────────────────────────── */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            body.with-nav { padding-right: 10px; }
+            .container { padding: 15px; }
+            h1 { font-size: 1.8em; }
+            .floating-nav { right: 10px; top: 10px; width: 200px; padding: 15px; }
+            .floating-nav h2 { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body class="with-nav">
+
+    <!-- ── Right-anchored nav (same structure as annotation_tool/templates/index.html) ── -->
+    <div class="floating-nav" id="floating-nav">
+        <h2>Documents</h2>
+        <div class="nav-selector">
+            <div class="nav-select-group">
+                <label for="nav-directory">Directory</label>
+                <select id="nav-directory">
+                    <option value="">Select directory...</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-generator">Generator</label>
+                <select id="nav-generator" disabled>
+                    <option value="">—</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-dataset">Dataset</label>
+                <select id="nav-dataset" disabled>
+                    <option value="">—</option>
+                </select>
+            </div>
+            <div class="nav-select-group">
+                <label for="nav-index">
+                    Problem # <span id="nav-index-range" class="nav-index-range"></span>
+                </label>
+                <input type="number" id="nav-index" min="0" step="1" disabled placeholder="—">
+            </div>
+            <button id="nav-load-btn" class="btn" disabled>Load Document</button>
+        </div>
+    </div>
+
+    <!-- ── Main content ───────────────────────────────────────────────────────── -->
+    <div class="container">
+        <h1>ReasoningFlow Data Viewer</h1>
+        <div id="doc-content">
+            <p class="subtitle">No document selected. Please choose a document from the list.</p>
+        </div>
+    </div>
+
+    <script>
+    // ── Hardcoded file structure ───────────────────────────────────────────────
+    // Format: { directory, path, datasets: { dataset: { generator: [indices] } } }
+    // directory name is the display label; path is relative to this HTML file.
+    // data/v0_human_1  →  displayed as "v0_human"
+    // data/v1_llm_gemini-3.1-pro-preview  →  displayed as "v1_llm"
+
+    function range(start, end) {
+        return Array.from({ length: end - start }, (_, i) => i + start);
+    }
+
+    // gpqa-diamond indices with gaps per generator
+    const GPQA_DEEPSEEK_R1  = range(0, 32).concat(range(33, 166)).concat(range(167, 198)); // missing 32, 166
+    const GPQA_DEEPSEEK_V3  = range(0, 198);
+    const GPQA_QWQ_32B      = range(0, 48).concat(range(49, 59)).concat(range(60, 104)).concat(range(105, 178)).concat(range(179, 198)); // missing 48, 59, 104, 178
+    const GPQA_QWEN25       = range(0, 198);
+    const GPQA_GPT_OSS      = range(0, 198);
+
+    const FILE_STRUCTURE = [
+        {
+            directory: 'v0_human',
+            path: '../data/v0_human_1',
+            datasets: {
+                chemistry: { 'QwQ-32B-Preview': range(0, 8) },
+                math:      { 'QwQ-32B-Preview': range(0, 16) },
+                physics:   { 'QwQ-32B-Preview': range(0, 7) }
+            }
+        },
+        {
+            directory: 'v1_llm',
+            path: '../data/v1_llm_gemini-3.1-pro-preview',
+            datasets: {
+                aime2024: {
+                    'DeepSeek-R1':          range(0, 30),
+                    'DeepSeek-V3':          range(0, 30),
+                    'QwQ-32B':              range(0, 30),
+                    'Qwen2.5-32B-Instruct': range(0, 30),
+                    'gpt-oss-120b':         range(0, 30)
+                },
+                argkp: {
+                    'DeepSeek-R1':          range(0, 24),
+                    'DeepSeek-V3':          range(0, 24),
+                    'QwQ-32B':              range(0, 24),
+                    'Qwen2.5-32B-Instruct': range(0, 24),
+                    'gpt-oss-120b':         range(0, 24)
+                },
+                'gpqa-diamond': {
+                    'DeepSeek-R1':          GPQA_DEEPSEEK_R1,
+                    'DeepSeek-V3':          GPQA_DEEPSEEK_V3,
+                    'QwQ-32B':              GPQA_QWQ_32B,
+                    'Qwen2.5-32B-Instruct': GPQA_QWEN25,
+                    'gpt-oss-120b':         GPQA_GPT_OSS
+                }
+            }
+        }
+    ];
+
+    // ── Nav logic (mirrors annotation_tool/templates/index.html) ─────────────
+
+    document.addEventListener('DOMContentLoaded', () => {
+        populateDirectories();
+        document.getElementById('nav-directory').addEventListener('change', onDirectoryChange);
+        document.getElementById('nav-generator').addEventListener('change', onGeneratorChange);
+        document.getElementById('nav-dataset').addEventListener('change', onDatasetChange);
+        document.getElementById('nav-index').addEventListener('input', checkLoadButton);
+        document.getElementById('nav-index').addEventListener('change', checkLoadButton);
+        document.getElementById('nav-load-btn').addEventListener('click', onNavLoad);
+    });
+
+    function populateDirectories() {
+        const sel = document.getElementById('nav-directory');
+        FILE_STRUCTURE.forEach(dir => {
+            const opt = document.createElement('option');
+            opt.value = dir.directory;
+            opt.textContent = dir.directory;
+            sel.appendChild(opt);
+        });
+    }
+
+    // Inverts datasets: { dataset: { generator: [indices] } }
+    //         → generators: { generator: { dataset: [indices] } }
+    function buildGeneratorsMap(dirData) {
+        const generators = {};
+        Object.entries(dirData.datasets).forEach(([dataset, genMap]) => {
+            Object.entries(genMap).forEach(([generator, indices]) => {
+                if (!generators[generator]) generators[generator] = {};
+                generators[generator][dataset] = indices;
+            });
+        });
+        return generators;
+    }
+
+    function onDirectoryChange() {
+        const dirName = document.getElementById('nav-directory').value;
+        const genSel  = document.getElementById('nav-generator');
+        const dsSel   = document.getElementById('nav-dataset');
+        const idxIn   = document.getElementById('nav-index');
+
+        genSel.innerHTML = '<option value="">Select generator...</option>';
+        dsSel.innerHTML  = '<option value="">—</option>';
+        idxIn.value = '';
+        document.getElementById('nav-index-range').textContent = '';
+        genSel.disabled = !dirName;
+        dsSel.disabled  = true;
+        idxIn.disabled  = true;
+        document.getElementById('nav-load-btn').disabled = true;
+
+        if (!dirName) return;
+        const dirData = FILE_STRUCTURE.find(d => d.directory === dirName);
+        if (!dirData) return;
+        Object.keys(buildGeneratorsMap(dirData)).sort().forEach(gen => {
+            const opt = document.createElement('option');
+            opt.value = gen; opt.textContent = gen;
+            genSel.appendChild(opt);
+        });
+    }
+
+    function onGeneratorChange() {
+        const dirName = document.getElementById('nav-directory').value;
+        const gen     = document.getElementById('nav-generator').value;
+        const dsSel   = document.getElementById('nav-dataset');
+        const idxIn   = document.getElementById('nav-index');
+
+        dsSel.innerHTML = '<option value="">Select dataset...</option>';
+        idxIn.value = '';
+        document.getElementById('nav-index-range').textContent = '';
+        dsSel.disabled = !gen;
+        idxIn.disabled = true;
+        document.getElementById('nav-load-btn').disabled = true;
+
+        if (!gen) return;
+        const dirData = FILE_STRUCTURE.find(d => d.directory === dirName);
+        if (!dirData) return;
+        const generators = buildGeneratorsMap(dirData);
+        if (!generators[gen]) return;
+        Object.keys(generators[gen]).sort().forEach(dataset => {
+            const opt = document.createElement('option');
+            opt.value = dataset; opt.textContent = dataset;
+            dsSel.appendChild(opt);
+        });
+    }
+
+    function onDatasetChange() {
+        const dirName   = document.getElementById('nav-directory').value;
+        const gen       = document.getElementById('nav-generator').value;
+        const dataset   = document.getElementById('nav-dataset').value;
+        const idxIn     = document.getElementById('nav-index');
+        const rangeSpan = document.getElementById('nav-index-range');
+
+        idxIn.value = '';
+        rangeSpan.textContent = '';
+        idxIn.disabled = !dataset;
+        document.getElementById('nav-load-btn').disabled = true;
+
+        if (!dataset) return;
+        const dirData = FILE_STRUCTURE.find(d => d.directory === dirName);
+        if (!dirData) return;
+        const generators = buildGeneratorsMap(dirData);
+        const indices = generators[gen] && generators[gen][dataset];
+        if (!indices || !indices.length) return;
+
+        const lo = Math.min(...indices);
+        const hi = Math.max(...indices);
+        rangeSpan.textContent = `(${lo}–${hi})`;
+        idxIn.min = lo;
+        idxIn.max = hi;
+    }
+
+    function checkLoadButton() {
+        const dirName = document.getElementById('nav-directory').value;
+        const gen     = document.getElementById('nav-generator').value;
+        const dataset = document.getElementById('nav-dataset').value;
+        const idxVal  = document.getElementById('nav-index').value;
+        const index   = parseInt(idxVal, 10);
+        const ready   = dirName && gen && dataset && idxVal !== '' && !isNaN(index) && index >= 0;
+        document.getElementById('nav-load-btn').disabled = !ready;
+    }
+
+    function onNavLoad() {
+        const dirName = document.getElementById('nav-directory').value;
+        const gen     = document.getElementById('nav-generator').value;
+        const dataset = document.getElementById('nav-dataset').value;
+        const index   = parseInt(document.getElementById('nav-index').value, 10);
+        if (!dirName || !gen || !dataset || isNaN(index)) return;
+
+        const dirData  = FILE_STRUCTURE.find(d => d.directory === dirName);
+        const filename = `${dataset}_${index}_${gen}.json`;
+        loadDocument(dirData.path, filename);
+    }
+
+    // ── Document loading & rendering ──────────────────────────────────────────
+
+    function loadDocument(path, filename) {
+        const content = document.getElementById('doc-content');
+        content.innerHTML = '<p class="subtitle">Loading…</p>';
+        fetch(`${path}/${filename}`)
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                return r.json();
+            })
+            .then(data => renderDocument(data))
+            .catch(err => {
+                content.innerHTML = `<div class="error">Error loading ${filename}: ${err.message}</div>`;
+            });
+    }
+
+    function renderDocument(doc) {
+        const content = document.getElementById('doc-content');
+        content.innerHTML = '';
+
+        const title = document.createElement('h3');
+        title.textContent = `Document: ${doc.doc_id}`;
+        content.appendChild(title);
+
+        const meta = document.createElement('p');
+        meta.style.cssText = 'color:#7f8c8d;font-size:0.9em;margin-bottom:16px';
+        meta.textContent = `${doc.nodes.length} nodes · ${(doc.edges || []).length} edges`;
+        content.appendChild(meta);
+
+        const wrap = document.createElement('div');
+        wrap.id = 'dag-container';
+        wrap.innerHTML = drawGraph(doc);
+        content.appendChild(wrap);
+    }
+
+    // ── DAG rendering (JS port of generate_svg.py :: draw_graph) ─────────────
+
+    const NODE_COLOR_MAP = {
+        context:     '#E0E0E0',
+        planning:    '#FFADAD',
+        fact:        '#FFD6A5',
+        reasoning:   '#FDFFB6',
+        restatement: '#CAFFBF',
+        assumption:  '#bdfbdf',
+        example:     '#9bf6ff',
+        reflection:  '#a0c4ff',
+        conclusion:  '#c3b1e1'
+    };
+
+    const EDGE_COLOR_MAP = {
+        'reason:infer':          '#E0E0E0',
+        'reason:execute':        '#D8D8D8',
+        'reason:restate':        '#D0D0D0',
+        'reason:elaborate-fact': '#C8C8C8',
+        'reason:exemplify':      '#C0C0C0',
+        'plan:proceed':          '#FFCDCD',
+        'plan:verify':           '#FFC4C4',
+        'plan:decompose':        '#FFB9B9',
+        'plan:backtrack':        '#FFADAD',
+        'reflect:positive':      '#D0E4FF',
+        'reflect:uncertain':     '#C8DBFF',
+        'reflect:negative':      '#C0D4FF',
+        'validate:support':      '#FFE5C5',
+        'validate:attack':       '#FFCD8E'
+    };
+
+    // Layout constants (matching generate_svg.py)
+    const NODE_W      = 320;
+    const NODE_MARGIN = 15;
+    const FONT_SIZE   = 8;
+    const LINE_H      = 13;
+    const TEXT_PAD    = 5;
+    const WRAP_CHARS  = 55;
+    const ATTACH_X    = NODE_W + 4;
+    const BULGE_RATIO = 0.45;
+    const LABEL_MARGIN = 60;
+
+    function xmlEsc(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function wrapText(text, maxChars = WRAP_CHARS) {
+        const words = text.split(/\s+/).filter(Boolean);
+        const lines = [];
+        let cur = '';
+        for (const w of words) {
+            if (!cur) {
+                cur = w;
+            } else if (cur.length + 1 + w.length <= maxChars) {
+                cur += ' ' + w;
+            } else {
+                lines.push(cur);
+                cur = w;
+            }
+        }
+        if (cur) lines.push(cur);
+        return lines.length ? lines : [''];
+    }
+
+    function drawGraph(data) {
+        const nodes = data.nodes || [];
+        const edges = data.edges || [];
+
+        if (!nodes.length) return '<p class="subtitle">No nodes.</p>';
+
+        // ── 1. Layout: stack nodes vertically, compute heights ────────────────
+        const nodeInfo = {};
+        let currentY = 0;
+
+        for (const node of nodes) {
+            const raw   = `${node.id}: ${node.text.replace(/\n/g, ' ')}`;
+            const lines = wrapText(raw);
+            const hPx   = Math.max(lines.length * LINE_H + 2 * TEXT_PAD, LINE_H + 2 * TEXT_PAD);
+            nodeInfo[node.id] = {
+                y:       currentY,
+                h:       hPx,
+                centerY: currentY + Math.floor(hPx / 2),
+                lines,
+                bg:      NODE_COLOR_MAP[node.label] || '#EEEEEE'
+            };
+            currentY += hPx + NODE_MARGIN;
+        }
+
+        const totalH = currentY;
+
+        // ── 2. Compute maximum bulge from valid edges ─────────────────────────
+        const validEdges = edges.filter(
+            e => nodeInfo[e.source_node_id] && nodeInfo[e.dest_node_id]
+        );
+
+        let maxBulge = 30;
+        for (const e of validEdges) {
+            const dy = Math.abs(
+                nodeInfo[e.source_node_id].centerY - nodeInfo[e.dest_node_id].centerY
+            );
+            maxBulge = Math.max(maxBulge, Math.max(30, Math.floor(dy * BULGE_RATIO)));
+        }
+
+        const svgW = ATTACH_X + maxBulge + LABEL_MARGIN;
+
+        // ── 3. Build SVG string ───────────────────────────────────────────────
+        const parts = [];
+        parts.push(
+            `<svg xmlns="http://www.w3.org/2000/svg"` +
+            ` width="${svgW}" height="${totalH}" style="display:block">`
+        );
+
+        // Node boxes: background rect → text lines → border rect
+        for (const node of nodes) {
+            const info = nodeInfo[node.id];
+            if (!info) continue;
+
+            parts.push(
+                `<rect x="0" y="${info.y}" width="${NODE_W}" height="${info.h}"` +
+                ` fill="${info.bg}"/>`
+            );
+
+            for (let i = 0; i < info.lines.length; i++) {
+                const ty = info.y + TEXT_PAD + (i + 1) * LINE_H;
+                parts.push(
+                    `<text x="${TEXT_PAD}" y="${ty}"` +
+                    ` font-family="monospace" font-size="${FONT_SIZE}"` +
+                    ` fill="#111111">${xmlEsc(info.lines[i])}</text>`
+                );
+            }
+
+            parts.push(
+                `<rect x="0" y="${info.y}" width="${NODE_W}" height="${info.h}"` +
+                ` fill="none" stroke="#999999" stroke-width="1" rx="6" ry="6"/>`
+            );
+        }
+
+        // Edges – pass 1: Bezier paths with arrowheads (matching generate_svg.py)
+        for (const edge of validEdges) {
+            const color = EDGE_COLOR_MAP[edge.label] || '#888888';
+            const cid   = 'c' + color.replace('#', '');
+            const y0    = nodeInfo[edge.source_node_id].centerY;
+            const y1    = nodeInfo[edge.dest_node_id].centerY;
+            const bulge = Math.max(30, Math.floor(Math.abs(y1 - y0) * BULGE_RATIO));
+            const cx    = ATTACH_X + bulge;
+            const path  = `M${ATTACH_X},${y0} C${cx},${y0} ${cx},${y1} ${ATTACH_X},${y1}`;
+
+            parts.push('<g>');
+            parts.push(
+                `  <defs><marker id="arr-${cid}" markerWidth="8" markerHeight="6"` +
+                ` refX="7" refY="3" orient="auto">` +
+                `<path d="M0,0 L0,6 L8,3 z" fill="${color}"/></marker></defs>`
+            );
+            parts.push(
+                `  <path d="${path}" fill="none" stroke="${color}" stroke-width="2"` +
+                ` marker-end="url(#arr-${cid})"/>`
+            );
+            parts.push('</g>');
+        }
+
+        // Edges – pass 2: labels on top of paths
+        for (const edge of validEdges) {
+            const color = EDGE_COLOR_MAP[edge.label] || '#888888';
+            const short = xmlEsc((edge.label || '').split(':').pop());
+            const y0    = nodeInfo[edge.source_node_id].centerY;
+            const y1    = nodeInfo[edge.dest_node_id].centerY;
+            const bulge = Math.max(30, Math.floor(Math.abs(y1 - y0) * BULGE_RATIO));
+            const midX  = Math.floor(ATTACH_X + 0.75 * bulge);
+            const midY  = Math.floor((y0 + y1) / 2);
+            const lw    = short.length * 5 + 8;
+
+            parts.push('<g>');
+            parts.push(
+                `  <rect x="${midX - Math.floor(lw / 2)}" y="${midY - 7}"` +
+                ` width="${lw}" height="13" fill="${color}" rx="3"/>`
+            );
+            parts.push(
+                `  <text x="${midX}" y="${midY + 1}"` +
+                ` font-family="sans-serif" font-size="9" fill="#111111"` +
+                ` text-anchor="middle" dominant-baseline="middle">${short}</text>`
+            );
+            parts.push('</g>');
+        }
+
+        parts.push('</svg>');
+        return parts.join('\n');
+    }
+    </script>
+</body>
+</html>
