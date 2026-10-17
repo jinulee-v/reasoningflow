@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#ffffff">
     <title>ReasoningFlow — Discourse Structures for Understanding LLM Reasoning Traces</title>
     <link rel="stylesheet" href="assets/home.css">
+    <script src="assets/figure-viewer.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -24,7 +25,7 @@
 
     <main id="content" class="grid">
         <section class="hero frame" id="top">
-            <p class="venue">('25.10) EMNLP 2025 Main Conference</p>
+            <p class="venue">('26.10) EMNLP 2026 Main Conference</p>
             <h1>ReasoningFlow</h1>
             <p class="subtitle">Discourse Structures for Understanding LLM Reasoning Traces</p>
             <p class="authors">
@@ -48,11 +49,20 @@
             </div>
         </section>
 
-        <figure class="wide-frame main-figure">
-            <div class="figure-window">
-                <img src="assets/main_example.png" alt="A reasoning trace decomposed into semantic nodes and labeled relationships">
+        <figure class="wide-frame main-figure" data-figure-viewer>
+            <div class="figure-toolbar" aria-label="Figure controls">
+                <span>Figure 1</span>
+                <div>
+                    <button type="button" data-zoom-out aria-label="Zoom out">−</button>
+                    <button type="button" data-reset>Reset</button>
+                    <button type="button" data-zoom-in aria-label="Zoom in">+</button>
+                </div>
             </div>
-            <figcaption><span>Figure 1.</span> A reasoning trace represented with ReasoningFlow node and edge labels. <a href="annotation_guide/nodes.html">View the annotation schema</a>.</figcaption>
+            <div class="figure-viewport" tabindex="0" aria-label="Interactive ReasoningFlow graph. Drag to pan, scroll or use the controls to zoom.">
+                <img src="assets/paper/figure-1-reasoningflow.svg" alt="A ReasoningFlow graph showing a reasoning trace segmented into nodes with labeled edges" draggable="false">
+            </div>
+            <div class="figure-help">Drag to pan · scroll to zoom · arrow keys to move</div>
+            <figcaption><span>Figure 1.</span> Example of a ReasoningFlow graph. ReasoningFlow segments the reasoning trace into nodes, and annotates the relations between the nodes as edges. This example shows deductive reasoning (resp16–20) and self-reflection/verification (resp20–23) behaviors. <a href="annotation_guide/nodes.html">View the annotation schema</a>.</figcaption>
         </figure>
 
         <section class="frame ruled" id="talk">
@@ -71,52 +81,93 @@
                 <p>Four observations enabled by the graph representation.</p>
             </div>
 
-            <article class="finding">
-                <div class="finding-index">01</div>
-                <div class="finding-copy">
-                    <h3>Local verification</h3>
-                    <p>ReasoningFlow can characterize many fine-grained behaviors, such as local verification, self-reflection, and assumptions, which can be used to monitor and evaluate complex reasoning traces.</p>
+            <details class="finding">
+                <summary>
+                    <span class="finding-index">01</span>
+                    <span class="finding-copy">
+                        <span class="finding-title" role="heading" aria-level="3">Local verification</span>
+                        <span class="finding-abstract">Local verification is universal across different LRMs and datasets, and happens more frequently than global verification of the final answer (19.1 times/trace vs. 6.1 times/trace).</span>
+                    </span>
+                    <span class="finding-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="finding-panel">
+                    <div class="finding-explanation">
+                        <p>Local verification is when the model detects a potential error mid-reasoning and corrects it within the next few steps. It is universal across different LRMs and datasets, and happens more frequently than global verification of the final answer.</p>
+                        <p>Corrections with an <code>attack</code> edge are more likely to be correct reasoning steps, and are significantly more likely to be used to derive the correct final answer than their original statements. This observation shows that local verifications directly steer the following reasoning process towards the correct answer.</p>
+                        <a class="paper-source" href="https://arxiv.org/html/2606.05402v2#S6.SS1" target="_blank" rel="noreferrer">Paper §6.1 ↗</a>
+                    </div>
+                    <figure class="finding-figure">
+                        <img src="assets/paper/figure-5-local-verification.svg" alt="Sankey plots showing correctness before and after local correction and whether original or corrected steps lead to a correct answer" loading="lazy">
+                        <figcaption><span>Figure 5.</span> Sankey plot showing how local verification with explicit correction (<code>attack</code>) affects subsequent reasoning. (a) Local verification, when used, corrects step-level errors (64% → 84%). (b) Corrected steps are more likely to be used to derive the correct final answer than original steps (20% vs. 5%).</figcaption>
+                    </figure>
                 </div>
-                <figure class="finding-figure">
-                    <img src="plots/localverify_grouped_bar.svg" alt="Local and global verification frequency across AIME and GPQA traces">
-                </figure>
-            </article>
+            </details>
 
-            <article class="finding">
-                <div class="finding-index">02</div>
-                <div class="finding-copy">
-                    <h3>Self-reflection</h3>
-                    <p>Subjective opinion on a previous node (uncertainty, error signal, satisfaction)</p>
+            <details class="finding">
+                <summary>
+                    <span class="finding-index">02</span>
+                    <span class="finding-copy">
+                        <span class="finding-title" role="heading" aria-level="3">Self-reflection</span>
+                        <span class="finding-abstract">Positive reflection nodes are 78.1% correct; step correctness decreases to 66.2% for uncertain reflection and 45.6% for negative reflection.</span>
+                    </span>
+                    <span class="finding-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="finding-panel">
+                    <div class="finding-explanation">
+                        <p>Self-reflection consists of meta-evaluation of previous nodes (“Looks good”) or emotions/impressions (“but I am not sure.”). Three edge labels in ReasoningFlow—<code>positive</code>, <code>uncertain</code>, and <code>negative</code>—capture this behavior along with the reflection sentiment.</p>
+                        <p>Similar trends are observed in argumentation quality: positive reflections are associated with stronger arguments, while uncertain/negative reflections indicate weaker arguments. Overall, this indicates that self-reflection phrases are not just fillers but reflect the node quality, opening up a new possibility for monitoring internal beliefs of LRMs.</p>
+                        <a class="paper-source" href="https://arxiv.org/html/2606.05402v2#S6.SS2" target="_blank" rel="noreferrer">Paper §6.2 ↗</a>
+                    </div>
+                    <figure class="finding-figure">
+                        <img src="assets/paper/figure-6-self-reflection.svg" alt="Charts relating positive, uncertain, and negative self-reflection sentiment to correctness and argument quality" loading="lazy">
+                        <figcaption><span>Figure 6.</span> Self-reflection sentiment correlates with node quality (correctness, argument quality). For step correctness, green/gray/red corresponds to correct nodes, propagated errors, and direct errors, respectively.</figcaption>
+                    </figure>
                 </div>
-                <div class="reflection-summary" aria-label="Positive, uncertain, and negative reflection signals">
-                    <span><i class="positive"></i> positive</span>
-                    <span><i class="uncertain"></i> uncertain</span>
-                    <span><i class="negative"></i> negative</span>
-                </div>
-            </article>
+            </details>
 
-            <article class="finding">
-                <div class="finding-index">03</div>
-                <div class="finding-copy">
-                    <h3>Answer connectivity</h3>
-                    <p>Most errors do not derive incorrect final answers: only 14.4% of erroneous nodes causally propagate to incorrect final answers.</p>
+            <details class="finding">
+                <summary>
+                    <span class="finding-index">03</span>
+                    <span class="finding-copy">
+                        <span class="finding-title" role="heading" aria-level="3">Answer connectivity</span>
+                        <span class="finding-abstract">Only 14.4% of erroneous nodes propagate to incorrect final answers; 79.6% do not connect to the final answer, and 6.0% lead to a correct final answer.</span>
+                    </span>
+                    <span class="finding-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="finding-panel">
+                    <div class="finding-explanation">
+                        <p>Since ReasoningFlow tracks the premises of every step, we can determine whether a given step contributed to the final answer. The error may play no role in any subsequent conclusion (<em>Unused</em>), be used as a premise of a correct answer (<em>Neglected</em>), or propagate to produce an incorrect answer (<em>Faithful</em>).</p>
+                        <p>These unused and neglected errors together prove that the logical link between reasoning errors and incorrect final answers is often weak, highlighting the unfaithfulness of LRMs in handling errors. Stepwise evaluation can be improved by incorporating the discourse structure of traces to track how errors propagate downstream.</p>
+                        <a class="paper-source" href="https://arxiv.org/html/2606.05402v2#S7" target="_blank" rel="noreferrer">Paper §7 ↗</a>
+                    </div>
+                    <figure class="finding-figure">
+                        <img src="assets/paper/figure-7-answer-connectivity.svg" alt="Examples of unused, neglected, and faithfully propagated errors in reasoning traces" loading="lazy">
+                        <figcaption><span>Figure 7.</span> Examples of three types of error handling in LRMs (unused, neglected, and faithful error propagation).</figcaption>
+                    </figure>
                 </div>
-                <div class="connectivity-summary" aria-label="An abandoned error and an error connected to an answer">
-                    <div><span>error</span><i class="dashed"></i><span class="muted">dead end</span></div>
-                    <div><span>error</span><i></i><span>reason</span><i></i><span class="answer">answer</span></div>
-                </div>
-            </article>
+            </details>
 
-            <article class="finding">
-                <div class="finding-index">04</div>
-                <div class="finding-copy">
-                    <h3>Mechanistic interpretability</h3>
-                    <p>Discourse structures and mechanistic structures misalign: mechanistic causal dependencies (Thought Anchors; Bogdan et al., 2025) do not align with text-level discourse structure as captured by ReasoningFlow.</p>
+            <details class="finding">
+                <summary>
+                    <span class="finding-index">04</span>
+                    <span class="finding-copy">
+                        <span class="finding-title" role="heading" aria-level="3">Mechanistic interpretability</span>
+                        <span class="finding-abstract">Thought Anchors outperform the random baseline, but are not significantly better than greedily choosing the closest K nodes.</span>
+                    </span>
+                    <span class="finding-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="finding-panel">
+                    <div class="finding-explanation">
+                        <p>Thought Anchors proposes measuring the causal dependency between reasoning steps by masking attentions. It recomputes token probabilities after masking all tokens in an earlier step, and defines the causal dependency score as the average log KL-divergence between the probability distributions.</p>
+                        <p>Thought Anchors outperform the random baseline, but are not significantly better compared to greedily choosing the closest K nodes. This indicates that the distance between two nodes is the primary driver of the positive correlation. Comparing Thought Anchors and ReasoningFlow reveals the discrepancy between text-level structures and their mechanistic interpretation.</p>
+                        <a class="paper-source" href="https://arxiv.org/html/2606.05402v2#S8" target="_blank" rel="noreferrer">Paper §8 ↗</a>
+                    </div>
+                    <figure class="finding-figure">
+                        <img src="assets/paper/figure-8-thought-anchors.svg" alt="Precision-recall curve comparing Thought Anchors scores with nearest-node and random baselines" loading="lazy">
+                        <figcaption><span>Figure 8.</span> Precision-Recall curve of using Thought Anchors’ scores to predict ReasoningFlow edges.</figcaption>
+                    </figure>
                 </div>
-                <figure class="finding-figure small">
-                    <img src="figures/auc_aime2024.svg" alt="AUC comparison of influence-based dependency scores on AIME 2024">
-                </figure>
-            </article>
+            </details>
         </section>
 
         <section class="frame ruled" id="resources">
