@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ReasoningFlow maps long language-model reasoning traces into interpretable semantic graphs.">
+    <meta name="description" content="ReasoningFlow: Discourse Structures for Understanding LLM Reasoning Traces.">
     <meta name="theme-color" content="#ffffff">
-    <title>ReasoningFlow — Semantic Structure of Complex Reasoning Traces</title>
+    <title>ReasoningFlow — Discourse Structures for Understanding LLM Reasoning Traces</title>
     <link rel="stylesheet" href="assets/home.css">
 </head>
 <body>
@@ -26,14 +26,14 @@
         <section class="hero frame" id="top">
             <p class="venue">('25.10) EMNLP 2025 Main Conference</p>
             <h1>ReasoningFlow</h1>
-            <p class="subtitle">Semantic Structure of Complex Reasoning Traces</p>
+            <p class="subtitle">Discourse Structures for Understanding LLM Reasoning Traces</p>
             <p class="authors">
                 <a href="https://jinulee-v.github.io">Jinu Lee</a>,
-                Sagnik Mukherjee, Dilek Hakkani-Tur, and Julia Hockenmaier
+                Shivam Agarwal, Amruta Parulekar, Siddarth Madala, Dilek Hakkani-Tur, and Julia Hockenmaier
             </p>
-            <p class="lead">A unified schema that represents long, nonlinear reasoning traces as labeled directed acyclic graphs, making planning, verification, reflection, and backtracking explicit.</p>
+            <p class="lead">ReasoningFlow is a dataset of LLM reasoning traces annotated as fine-grained directed acyclic graphs (DAGs), capturing the discourse structure of non-linear reasoning behaviors such as backtracking, self-correction, local verification, and assumption-scoping.</p>
             <div class="primary-links">
-                <a href="https://arxiv.org/abs/2506.02532" target="_blank" rel="noreferrer">Paper</a>
+                <a href="https://arxiv.org/abs/2606.05402" target="_blank" rel="noreferrer">Paper</a>
                 <a href="https://github.com/jinulee-v/reasoningflow" target="_blank" rel="noreferrer">Code</a>
                 <a href="https://huggingface.co/datasets/jinulee-v/reasoningflow/" target="_blank" rel="noreferrer">Dataset</a>
                 <a href="#talk">Talk</a>
@@ -43,8 +43,8 @@
         <section class="frame ruled" id="overview">
             <h2>Overview</h2>
             <div class="prose">
-                <p>Reasoning models rarely proceed as simple chains. They introduce plans, reuse earlier facts, inspect intermediate results, abandon branches, and revise conclusions.</p>
-                <p>ReasoningFlow segments a trace into semantic units and connects them with labeled relations. The resulting graph supports structural queries over the reasoning process and separates the order in which text was written from the dependencies between steps.</p>
+                <p>Large reasoning models (LRMs) produce long reasoning traces with rich internal structure that is difficult to evaluate or monitor at the sub-sentence level.</p>
+                <p>ReasoningFlow addresses this by converting raw reasoning traces into structured DAGs, where each node is an elementary reasoning step and each edge encodes a semantic relationship between steps.</p>
             </div>
         </section>
 
@@ -75,7 +75,7 @@
                 <div class="finding-index">01</div>
                 <div class="finding-copy">
                     <h3>Local verification</h3>
-                    <p>Reasoning models check intermediate facts, restatements, and deductions much more often than they re-evaluate a complete final answer. The graph exposes this fine-grained error-control process.</p>
+                    <p>ReasoningFlow can characterize many fine-grained behaviors, such as local verification, self-reflection, and assumptions, which can be used to monitor and evaluate complex reasoning traces.</p>
                 </div>
                 <figure class="finding-figure">
                     <img src="plots/localverify_grouped_bar.svg" alt="Local and global verification frequency across AIME and GPQA traces">
@@ -86,7 +86,7 @@
                 <div class="finding-index">02</div>
                 <div class="finding-copy">
                     <h3>Self-reflection</h3>
-                    <p>Positive reflections are most often associated with valid reasoning, while uncertain and negative reflections are increasingly enriched around errors. These signals are useful, but not perfectly calibrated.</p>
+                    <p>Subjective opinion on a previous node (uncertainty, error signal, satisfaction)</p>
                 </div>
                 <div class="reflection-summary" aria-label="Positive, uncertain, and negative reflection signals">
                     <span><i class="positive"></i> positive</span>
@@ -99,7 +99,7 @@
                 <div class="finding-index">03</div>
                 <div class="finding-copy">
                     <h3>Answer connectivity</h3>
-                    <p>An erroneous step does not necessarily corrupt the final answer. Reachability in the DAG distinguishes errors on abandoned branches from errors that remain connected to a conclusion.</p>
+                    <p>Most errors do not derive incorrect final answers: only 14.4% of erroneous nodes causally propagate to incorrect final answers.</p>
                 </div>
                 <div class="connectivity-summary" aria-label="An abandoned error and an error connected to an answer">
                     <div><span>error</span><i class="dashed"></i><span class="muted">dead end</span></div>
@@ -111,7 +111,7 @@
                 <div class="finding-index">04</div>
                 <div class="finding-copy">
                     <h3>Mechanistic interpretability</h3>
-                    <p>Black-box influence signals recover some annotated dependencies above chance. The alignment is modest, but connects human-interpretable graph edges to relationships detectable from model behavior.</p>
+                    <p>Discourse structures and mechanistic structures misalign: mechanistic causal dependencies (Thought Anchors; Bogdan et al., 2025) do not align with text-level discourse structure as captured by ReasoningFlow.</p>
                 </div>
                 <figure class="finding-figure small">
                     <img src="figures/auc_aime2024.svg" alt="AUC comparison of influence-based dependency scores on AIME 2024">
@@ -122,7 +122,7 @@
         <section class="frame ruled" id="resources">
             <h2>Resources</h2>
             <div class="resource-list">
-                <a href="https://arxiv.org/abs/2506.02532" target="_blank" rel="noreferrer"><span>Paper</span><strong>ReasoningFlow: Semantic Structure of Complex Reasoning Traces</strong><b>↗</b></a>
+                <a href="https://arxiv.org/abs/2606.05402" target="_blank" rel="noreferrer"><span>Paper</span><strong>ReasoningFlow: Discourse Structures for Understanding LLM Reasoning Traces</strong><b>↗</b></a>
                 <a href="https://github.com/jinulee-v/reasoningflow" target="_blank" rel="noreferrer"><span>Code</span><strong>GitHub repository</strong><b>↗</b></a>
                 <a href="https://huggingface.co/datasets/jinulee-v/reasoningflow/" target="_blank" rel="noreferrer"><span>Data</span><strong>ReasoningFlow dataset</strong><b>↗</b></a>
                 <a href="annotation_guide/nodes.html"><span>Guide</span><strong>Node and edge definitions</strong><b>→</b></a>
